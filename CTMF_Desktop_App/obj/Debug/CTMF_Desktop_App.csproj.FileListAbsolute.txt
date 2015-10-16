@@ -1,0 +1,12 @@
+D:\fia\CTMF\CTMF_Desktop_App\bin\Debug\CTMF_Desktop_App.exe.config
+D:\fia\CTMF\CTMF_Desktop_App\bin\Debug\CTMF_Desktop_App.exe
+D:\fia\CTMF\CTMF_Desktop_App\bin\Debug\CTMF_Desktop_App.pdb
+D:\fia\CTMF\CTMF_Desktop_App\obj\Debug\CTMF_Desktop_App.csprojResolveAssemblyReference.cache
+D:\fia\CTMF\CTMF_Desktop_App\obj\Debug\CTMF_Desktop_App.Properties.Resources.resources
+D:\fia\CTMF\CTMF_Desktop_App\obj\Debug\CTMF_Desktop_App.csproj.GenerateResource.Cache
+D:\fia\CTMF\CTMF_Desktop_App\obj\Debug\CTMF_Desktop_App.exe
+D:\fia\CTMF\CTMF_Desktop_App\obj\Debug\CTMF_Desktop_App.pdb
+D:\fia\CTMF\CTMF_Desktop_App\obj\Debug\CTMF_Desktop_App.Forms.MainForm.resources
+D:\fia\CTMF\CTMF_Desktop_App\obj\Debug\CTMF_Desktop_App.Forms.Modal.AddDevice.resources
+D:\fia\CTMF\CTMF_Desktop_App\obj\Debug\CTMF_Desktop_App.Login.resources
+D:\fia\CTMF\CTMF_Desktop_App\obj\Debug\CTMF_Desktop_App.StringResources.resources
