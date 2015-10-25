@@ -24,7 +24,7 @@ namespace CTMF_Website.Controllers
 			DishTableAdapter adapter = new DishTableAdapter();
 			DataTable dt = adapter.GetData();
 
-			return View();
+			return View(dt);
 		}
 
 	}
