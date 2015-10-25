@@ -20,10 +20,8 @@
 					<div class="pull-right">
 						<button id="btn-login" class="btn btn-default" data-toggle="modal" data-target="#login"> <span class="glyphicon glyphicon-log-in"></span> Đăng nhập</button>
 						<button id="btn-signup" class="btn btn-default"> <span class="glyphicon glyphicon-user"></span> Đăng ký</button>
-						<!-- Modal -->
 						<div id="login" class="modal fade" role="dialog">
 							<div class="modal-dialog" style="width:400px">
-								<!-- Modal content-->
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -83,7 +81,7 @@
 					<div class="collapse navbar-collapse" id="MainNavbar">
 						<ul id="main-menu" class="nav navbar-nav">
 							<li>
-								<a>Trang chủ</a>
+								@Html.ActionLink("Trang chủ", "HomePage", "Home")
 							</li>
 							<li>
 								<a>Giới thiệu</a>
@@ -96,6 +94,7 @@
 							</li>
 							<li>
 								<a>Tin tức</a>
+								@Html.ActionLink("Tin tức", "ViewAnnounce", "Announce")
 							</li>
 						</ul>
 					</div>
