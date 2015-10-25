@@ -1,0 +1,60 @@
+﻿@model CTMF_Website.Models.DishViewModel
+@{
+	ViewBag.Title = "ViewDish";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2></h2>
+<div id="banner" style="width:100%; height:200px;background-color:#f5f5f5">
+
+</div>
+<div id="sub-menu">
+	<nav id="sub-navbar" class="navbar navbar-inverse">
+		<div class="container">
+			<div id="search" class="pull-left">
+				<div class="input-group">
+					<span class="input-group-btn">
+						<button class="btn" type="button"><span class="glyphicon glyphicon-search"></span></button>
+					</span>
+					<input type="text" class="form-control" placeholder="Tìm kiếm" style="min-width:300px;">
+				</div>
+			</div>
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#SubNavbar" style="color:#888;">MENU</button>
+			</div>
+			<div class="collapse navbar-collapse" id="SubNavbar">
+				<ul id="sub-menu" class="nav navbar-nav navbar-right">
+					<li>
+						<a title="Món chính">Món chính</a>
+					</li>
+					<li>
+						<a title="Món rau">Món rau</a>
+					</li>
+					<li>
+						<a title="Tráng miệng">Tráng miệng</a>
+					</li>
+					<li>
+						<a title="Món đặc biệt">Món đặc biệt</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</div>
+
+<div id="list-dish" class="container text-center">
+		@for (int i = 0; i < 12; i++)
+		{
+			<div class="dish">
+				<div id="dish-name" class="text-center">Dish-name</div>
+				<a href="#@i" data-toggle="collapse">
+					<img src="~/Images/no-image.jpg" class="dish-img">
+				</a>
+				<div id="@i" class="collapse dish-description">
+					<p>AAAAAAAAAAAAAAAAA</p>
+					<p>AAAAAAAAAAAAAAAAAAA</p>
+					<p>AAAAAAAAAAAAA</p>
+				</div>
+			</div>
+		}
+</div>
