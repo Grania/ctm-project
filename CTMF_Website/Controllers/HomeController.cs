@@ -14,5 +14,10 @@ namespace CTMF_Website.Controllers
 			return View();
 		}
 
+		[AllowAnonymous]
+		public ActionResult HomePage()
+		{
+			return View();
+		}
 	}
 }
