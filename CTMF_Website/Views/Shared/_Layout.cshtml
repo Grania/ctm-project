@@ -19,7 +19,7 @@
 					</div>
 					<div class="pull-right">
 						<button id="btn-login" class="btn btn-default" data-toggle="modal" data-target="#login"> <span class="glyphicon glyphicon-log-in"></span> Đăng nhập</button>
-						<button id="btn-signup" class="btn btn-default"> <span class="glyphicon glyphicon-user"></span> Đăng ký</button>
+						<a href="~/Account/Register" id="btn-signup" class="btn btn-default"> <span class="glyphicon glyphicon-user"></span> Đăng ký</a>
 						<div id="login" class="modal fade" role="dialog">
 							<div class="modal-dialog" style="width:400px">
 								<div class="modal-content">
@@ -93,7 +93,6 @@
 								<a>Biểu lịch</a>
 							</li>
 							<li>
-								<a>Tin tức</a>
 								@Html.ActionLink("Tin tức", "ViewAnnounce", "Announce")
 							</li>
 						</ul>
