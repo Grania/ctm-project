@@ -1,0 +1,423 @@
+﻿@{
+	ViewBag.Title = "Schedule";
+}
+<link rel="stylesheet" href="~/CSS/Schedule.css" />
+<script type="text/javascript">
+	$(document).ready(function () {
+		initCalendar();
+	});
+
+	var $divDateMap;
+	var minDate;
+	var maxDate;
+	var curDate;
+
+	function initCalendar() {
+		var $div = $('#calendar');
+		var $divContainer = $div.parent();
+
+		$div.css({
+			"position": "absolute",
+			overflow: 'hidden'
+		});
+		$divContainer.css({
+			"position": "absolute",
+			overflow: 'hidden'
+		});
+
+		var parentWidth = $divContainer.width();
+		var parentHeight = $divContainer.height();
+
+		if (parentWidth * 10 > parentHeight * 16) {
+			$div.height(parentHeight);
+			$div.width(parentHeight * 1.6);
+
+			$div.css({
+				top: 0,
+				left: ($divContainer.width() - parentHeight * 1.6) / 2,
+				'border-top-width': '0px',
+				'border-bottom-width': '0px'
+			});
+		}
+		else {
+			$div.width(parentWidth);
+			$div.height(parentWidth / 16 * 10);
+
+			$div.css({
+				top: ($divContainer.height() - (parentWidth / 16 * 10)) / 2,
+				left: 0,
+				'border-left-width': '0px',
+				'border-right-width': '0px'
+			});
+		}
+
+		//init for calendar content
+		var $divContent = $div.find('#calendar-content');
+		var divContentHeight = $div.height();
+		var divContentWidth = divContentHeight * 1.1;
+		$divContent.css({
+			top: 0,
+			left: 0,
+			width: divContentWidth,
+			height: divContentHeight,
+			position: 'absolute',
+			'border-right': '1px solid black'
+		});
+
+		var contentChildWidth = divContentWidth / 7;
+		var contentChildHeight = divContentHeight / 7;
+
+		$('.ctmf-cal-header').css({
+			width: contentChildWidth,
+			height: contentChildHeight
+		});
+
+		var divsHeader = $('#calendar-content').children();
+		for (i = 0; i < divsHeader.length; i++) {
+			(function () {
+				$(divsHeader[i]).css({
+					'font-size': contentChildHeight * 0.8,
+					top: 0,
+					left: i * contentChildWidth
+				});
+			}());
+		}
+
+		$(divsHeader[0]).append('T2');
+		$(divsHeader[1]).append('T3');
+		$(divsHeader[2]).append('T4');
+		$(divsHeader[3]).append('T5');
+		$(divsHeader[4]).append('T6');
+		$(divsHeader[5]).append('T7');
+		$(divsHeader[6]).append('CN');
+
+		$divDateMap = new Array(7);
+		for (i = 0; i < 7; i++) {
+			$divDateMap[i] = new Array(6);
+		}
+
+		for (i = 1; i <= 6; i++) {
+			for (j = 0; j < 7; j++) {
+				(function () {
+					var $divDate = $('<div>', {
+						id: 'ctmf-cal-date-' + j + (i - 1),
+						'class': 'ctmf-cal-date'
+					});
+
+					$divDate.css({
+						'font-size': contentChildHeight - 8,
+						position: 'absolute',
+						width: contentChildWidth,
+						height: contentChildHeight,
+						top: i * contentChildHeight,
+						left: j * contentChildWidth
+					});
+
+					$divContent.append($divDate);
+
+					$divDateMap[j][i - 1] = $divDate;
+				}())
+			}
+		}
+
+		//init for month picker
+		var $divMonthPicker = $div.find('#calendar-month-picker');
+		var $ddlMonth = $divMonthPicker.find('#calendar-month-picker-month');
+		var $ddlYear = $divMonthPicker.find('#calendar-month-picker-year');
+
+		var divMonthPickerHeight = divContentHeight * 0.2;
+		var divMonthPickerWidth = $div.width() - divContentWidth;
+		$divMonthPicker.css({
+			position: 'absolute',
+			top: 0,
+			left: divContentWidth,
+			'border-bottom': '1px solid black',
+			'text-align': 'center',
+			'font-size': divMonthPickerHeight * 0.35,
+			width: divMonthPickerWidth,
+			height: divMonthPickerHeight
+		});
+
+		$ddlMonth.css({
+			'font-size': divMonthPickerHeight * 0.18,
+			height: divMonthPickerHeight * 0.35
+		});
+		$ddlYear.css({
+			'font-size': divMonthPickerHeight * 0.18,
+			height: divMonthPickerHeight * 0.35
+		});
+
+		$ddlMonth.change(function () {
+			var selectedYear = parseInt($ddlYear.val().toString());
+			var selectedMonth = parseInt($ddlMonth.val().toString());
+
+			setCalendarDate(selectedMonth, selectedYear);
+			$.ajax({
+				url: '/Schedule/GetScheduleData',
+				data: { selectedMonth: selectedMonth, selectedYear: selectedYear },
+				traditional: true,
+				success: function (result) {
+					var scheduleStr = result.value;
+					setScheduleColor(scheduleStr, selectedMonth, selectedYear);
+
+					enableCalendar();
+				}
+			});
+		});
+
+		$ddlYear.change(function () {
+			var selectedYear = parseInt($ddlYear.val().toString());
+
+			var splitMinDate = minDate.split('-');
+			var minDateYear = parseInt(splitMinDate[0]);
+			var minDateMonth = parseInt(splitMinDate[1]);
+
+			var splitMaxDate = maxDate.split('-');
+			var maxDateYear = parseInt(splitMaxDate[0]);
+			var maxDateMonth = parseInt(splitMaxDate[1]);
+
+			var splitCurDate = curDate.split('-');
+			var curDateYear = parseInt(splitCurDate[0]);
+			var curDateMonth = parseInt(splitCurDate[1]);
+
+			$ddlMonth.empty();
+			if (minDateYear == maxDateYear) {
+				for (i = minDateMonth; i <= maxDateMonth; i++) {
+					$ddlMonth.append('<option value="' + i + '">Tháng ' + i + '</option>');
+				}
+			}
+			else if (selectedYear == minDateYear) {
+				for (i = minDateMonth; i <= 12; i++) {
+					$ddlMonth.append('<option value="' + i + '">Tháng ' + i + '</option>');
+				}
+			}
+			else if (selectedYear == maxDateYear) {
+				for (i = 1; i < maxDateMonth; i++) {
+					$ddlMonth.append('<option value="' + i + '">Tháng ' + i + '</option>');
+				}
+			}
+
+			$ddlMonth.change();
+		});
+
+		$.ajax({
+			url: '/Schedule/GetDateRange',
+			success: function (data) {
+				if (data.length != 3) {
+					disableCalendar('Có lỗi xảy ra.');
+					return false;
+				}
+
+				minDate = data[0];
+				maxDate = data[1];
+				curDate = data[2];
+
+				var splitMinDate = minDate.split('-');
+				var minDateYear = parseInt(splitMinDate[0]);
+				var minDateMonth = parseInt(splitMinDate[1]);
+
+				var splitMaxDate = maxDate.split('-');
+				var maxDateYear = parseInt(splitMaxDate[0]);
+				var maxDateMonth = parseInt(splitMaxDate[1]);
+
+				var splitCurDate = curDate.split('-');
+				var curDateYear = parseInt(splitCurDate[0]);
+				var curDateMonth = parseInt(splitCurDate[1]);
+
+				$ddlYear.empty();
+				for (i = minDateYear; i <= maxDateYear; i++) {
+					$ddlYear.append('<option value="' + i + '">' + i + '</option>');
+				}
+
+				var selectedMonth, selectedYear;
+				if (curDateYear < minDateYear || curDateYear > maxDateYear) {
+					selectedMonth = minDateMonth;
+					selectedYear = minDateYear;
+				}
+				else if (curDateYear == minDateYear && curDateMonth < minDateMonth) {
+					selectedMonth = minDateMonth;
+					selectedYear = minDateYear;
+				}
+				else if (curDateYear == maxDateYear && curDateMonth > maxDateMonth) {
+					selectedMonth = maxDateMonth;
+					selectedYear = maxDateYear;
+				}
+				else {
+					selectedMonth = curDateMonth;
+					selectedYear = curDateYear;
+				}
+
+				$ddlMonth.empty();
+				if (minDateYear == maxDateYear) {
+					for (i = minDateMonth; i <= maxDateMonth; i++) {
+						$ddlMonth.append('<option value="' + i + '">Tháng ' + i + '</option>');
+					}
+				}
+				else if (selectedYear == minDateYear) {
+					for (i = minDateMonth; i <= 12; i++) {
+						$ddlMonth.append('<option value="' + i + '">Tháng ' + i + '</option>');
+					}
+				}
+				else if (selectedYear == maxDateYear) {
+					for (i = 1; i < maxDateMonth; i++) {
+						$ddlMonth.append('<option value="' + i + '">Tháng ' + i + '</option>');
+					}
+				}
+
+				$ddlMonth.val(selectedMonth);
+				$ddlYear.val(selectedYear);
+				setCalendarDate(selectedMonth, selectedYear);
+
+				disableCalendar('Đang tại dữ liệu ...<img src="/Image/Calendar/ajax-loader.gif"'
+					+ 'style="width: ' + ($div.height() * 0.1) + 'px; height: ' + ($div.height() * 0.1) + 'px"/>');
+
+				$ddlMonth.change();
+			}
+		});
+	}
+
+	function setCalendarDate(selectedMonth, selectedYear) {
+		var date = new Date(selectedYear + '-' + (selectedMonth) + '-01');
+		var firstDayCoorX = getCoorXFromDay(date.getDay());
+
+		setNumber(1, firstDayCoorX, 0);
+
+		date.setDate(date.getDate() + 1);
+
+		for (i = 0; i < firstDayCoorX; i++) {
+			setEmpty(i, 0);
+			setBGColor('#CFCFD7', i, 0); //the day outside month
+		}
+
+		for (i = firstDayCoorX + 1; i < 7; i++) {
+			setNumber(date.getDate(), i, 0);
+			date.setDate(date.getDate() + 1);
+		}
+
+		for (i = 1; i < 6; i++) {
+			for (j = 0; j < 7; j++) {
+				if ((date.getMonth() + 1) == selectedMonth) {
+					setNumber(date.getDate(), j, i);
+					date.setDate(date.getDate() + 1);
+				}
+				else {
+					setEmpty(j, i);
+					setBGColor('#CFCFD7', j, i);//the day outside month
+				}
+			}
+		}
+	}
+
+	function setNumber(value, coorX, coorY) {
+		if (typeof (value) == 'number') {
+			if (value < 10)
+				value = '0' + value;
+		}
+		$divDateMap[coorX][coorY].empty();
+		$divDateMap[coorX][coorY].append(value);
+	}
+
+	function setBGColor(color, coorX, coorY) {
+		$divDateMap[coorX][coorY].css('background-color', color);
+	}
+
+	function setEmpty(coorX, coorY) {
+		$divDateMap[coorX][coorY].empty();
+	}
+
+	function setScheduleColor(scheduleStr, month, year) {
+		var date = new Date(year + '-' + month + '-01');
+		var firstDayCoorX = getCoorXFromDay(date.getDay());
+
+		var strIndex = 0;
+
+		for (i = firstDayCoorX; i < 7; i++) {
+			setBGColor(getColorFromChar(scheduleStr.charAt(strIndex)), i, 0);
+			strIndex++;
+		}
+
+		for (i = 1; i < 6; i++) {
+			for (j = 0; j < 7; j++) {
+				var ch = scheduleStr.charAt(strIndex);
+				setBGColor(getColorFromChar(ch), j, i);
+
+				strIndex++;
+				if (strIndex >= scheduleStr.length) {
+					break;
+				}
+			}
+			if (strIndex >= scheduleStr.length) {
+				break;
+			}
+		}
+	}
+
+	function setToolTop(scheduleStr) {
+
+	}
+
+	function getColorFromChar(ch) {
+		if (ch == 'X') {
+			return '#751947'; //day off color
+		}
+		else if (ch == 'N') {
+			return '#FFFFFF'; //not have in schedule
+		}
+		else if (ch == '0') {
+			return '#FFFFCC'; //didn't eat date color
+		}
+		else {
+			return '#FFB5B5'; ////eated date color
+		}
+	}
+
+	function getCoorXFromDay(day) {
+		if (day == 0)
+			return 6;
+		return day - 1;
+	}
+
+	function disableCalendar(msg) {
+		$('.ctmf-calendar-transbox').remove();
+
+		var $divTransbox = $('<div>', {
+			class: 'ctmf-calendar-transbox'
+		});
+
+		$divTransbox.append(msg);
+
+		$divTransbox.css({
+			'font-size': $('#calendar').height() * 0.1,
+			'line-height': $('#calendar').height() + 'px',
+			position: 'absolute',
+			width: $('#calendar').width(),
+			height: $('#calendar').height()
+		});
+		$('#calendar').append($divTransbox);
+	}
+
+	function enableCalendar() {
+		$('.ctmf-calendar-transbox').remove();
+	}
+</script>
+<div id="container" style="width: 100%; height: 400px; top: 200px; border: 1px solid black;">
+	<div id="calendar" class="ctmf-cal">
+		<div id="calendar-content">
+			<div id="header-2" class="ctmf-cal-header"></div>
+			<div id="header-3" class="ctmf-cal-header"></div>
+			<div id="header-4" class="ctmf-cal-header"></div>
+			<div id="header-5" class="ctmf-cal-header"></div>
+			<div id="header-6" class="ctmf-cal-header"></div>
+			<div id="header-7" class="ctmf-cal-header"></div>
+			<div id="header-cn" class="ctmf-cal-header"></div>
+		</div>
+		<div id="calendar-month-picker">
+			Chọn tháng, năm
+			<br />
+			<select id="calendar-month-picker-month" class="ctmf-cal-month-picker-ddl"></select>
+			<select id="calendar-month-picker-year" class="ctmf-cal-month-picker-ddl"></select>
+		</div>
+
+	</div>
+
+</div>
