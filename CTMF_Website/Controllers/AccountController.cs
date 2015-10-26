@@ -36,7 +36,7 @@ namespace CTMF_Website.Controllers
 			string username = model.Username;
 			string password = model.Password;
 
-			ACCOUNTTableAdapter adapter = new ACCOUNTTableAdapter();
+			AccountTableAdapter adapter = new AccountTableAdapter();
 			DataTable dt = adapter.GetDataBy(username);
 
 			if (dt.Rows.Count != 1)
