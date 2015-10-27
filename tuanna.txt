@@ -1,317 +1,525 @@
 USE [CTMF]
 GO
-/****** Object:  Table [dbo].[USER_INFO]    Script Date: 10/16/2015 21:00:35 ******/
+/****** Object:  Table [dbo].[ServingTime]    Script Date: 10/25/2015 20:17:01 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[USER_INFO](
-	[USERNAME] [nvarchar](20) NOT NULL,
-	[NAME] [nvarchar](50) NULL,
-	[TYPE_SHORT_NAME] [nvarchar](3) NULL,
-	[AMOUNT_OF_MONEY] [int] NOT NULL,
-	[LAST_UPDATE_MONEY] [datetime] NOT NULL,
-	[FINGERPRINT_IMG] [image] NULL,
-	[FINGER_POSITION] [int] NULL,
-	[IS_CAFETERIA_STAFF] [bit] NOT NULL,
-	[IS_ACTIVE] [bit] NOT NULL,
-	[INSERT_DATE] [datetime] NOT NULL,
-	[UPDATE_BY] [nvarchar](20) NOT NULL,
-	[LAST_UPDATE] [datetime] NOT NULL,
+CREATE TABLE [dbo].[ServingTime](
+	[ServingTimeID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[StartTime] [time](0) NOT NULL,
+	[EndTime] [time](0) NULL,
+	[InsertedDate] [datetime] NOT NULL,
+	[LastUpdated] [datetime] NOT NULL,
+ CONSTRAINT [PK_EATING_TIME] PRIMARY KEY CLUSTERED 
+(
+	[ServingTimeID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[ServingTime] ON
+INSERT [dbo].[ServingTime] ([ServingTimeID], [Name], [StartTime], [EndTime], [InsertedDate], [LastUpdated]) VALUES (1, N'B?a sáng', CAST(0x0078690000000000 AS Time), CAST(0x0098850000000000 AS Time), CAST(0x0000A53700217FA4 AS DateTime), CAST(0x0000A53700217FA4 AS DateTime))
+INSERT [dbo].[ServingTime] ([ServingTimeID], [Name], [StartTime], [EndTime], [InsertedDate], [LastUpdated]) VALUES (2, N'B?a trua', CAST(0x00B09A0000000000 AS Time), CAST(0x00D0B60000000000 AS Time), CAST(0x0000A53700217FA4 AS DateTime), CAST(0x0000A53700217FA4 AS DateTime))
+INSERT [dbo].[ServingTime] ([ServingTimeID], [Name], [StartTime], [EndTime], [InsertedDate], [LastUpdated]) VALUES (3, N'B?a t?i', CAST(0x0010EF0000000000 AS Time), CAST(0x00300B0100000000 AS Time), CAST(0x0000A53700217FA4 AS DateTime), CAST(0x0000A53700217FA4 AS DateTime))
+SET IDENTITY_INSERT [dbo].[ServingTime] OFF
+/****** Object:  Table [dbo].[TransactionType]    Script Date: 10/25/2015 20:17:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TransactionType](
+	[TransactionTypeID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[InsertedDate] [datetime] NOT NULL,
+	[LastUpdated] [datetime] NOT NULL,
+ CONSTRAINT [PK_TransactionType] PRIMARY KEY CLUSTERED 
+(
+	[TransactionTypeID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[TransactionType] ON
+INSERT [dbo].[TransactionType] ([TransactionTypeID], [Name], [InsertedDate], [LastUpdated]) VALUES (1, N'An', CAST(0x0000A53700217FA4 AS DateTime), CAST(0x0000A53700217FA7 AS DateTime))
+INSERT [dbo].[TransactionType] ([TransactionTypeID], [Name], [InsertedDate], [LastUpdated]) VALUES (2, N'N?p ti?n', CAST(0x0000A53700217FA4 AS DateTime), CAST(0x0000A53700217F8F AS DateTime))
+INSERT [dbo].[TransactionType] ([TransactionTypeID], [Name], [InsertedDate], [LastUpdated]) VALUES (3, N'Rút ti?n th?a', CAST(0x0000A53700217FA4 AS DateTime), CAST(0x0000A53700217F8C AS DateTime))
+SET IDENTITY_INSERT [dbo].[TransactionType] OFF
+/****** Object:  Table [dbo].[DishType]    Script Date: 10/25/2015 20:17:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DishType](
+	[DishTypeID] [int] IDENTITY(1,1) NOT NULL,
+	[TypeName] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_DishType] PRIMARY KEY CLUSTERED 
+(
+	[DishTypeID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[DishType] ON
+INSERT [dbo].[DishType] ([DishTypeID], [TypeName]) VALUES (1, N'Món m?n')
+INSERT [dbo].[DishType] ([DishTypeID], [TypeName]) VALUES (2, N'Món rau')
+INSERT [dbo].[DishType] ([DishTypeID], [TypeName]) VALUES (3, N'Canh')
+INSERT [dbo].[DishType] ([DishTypeID], [TypeName]) VALUES (4, N'Món chính')
+SET IDENTITY_INSERT [dbo].[DishType] OFF
+/****** Object:  Table [dbo].[UserType]    Script Date: 10/25/2015 20:17:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserType](
+	[TypeShortName] [nvarchar](3) NOT NULL,
+	[TypeName] [nvarchar](50) NOT NULL,
+	[MealValue] [int] NOT NULL,
+	[MoreMealValue] [int] NULL,
+	[Description] [nvarchar](500) NULL,
+	[CanDebt] [int] NOT NULL,
+	[CanEatMore] [bit] NOT NULL,
+	[InsertedDate] [datetime] NOT NULL,
+	[UpdatedBy] [nvarchar](254) NULL,
+	[LastUpdated] [datetime] NOT NULL,
+ CONSTRAINT [PK_USER_TYPES] PRIMARY KEY CLUSTERED 
+(
+	[TypeShortName] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+INSERT [dbo].[UserType] ([TypeShortName], [TypeName], [MealValue], [MoreMealValue], [Description], [CanDebt], [CanEatMore], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (N'SV', N'Sinh Viên', 20000, 5, N'Sinh viên Ð?i H?c FPT', 2, 1, CAST(0x0000A5200084D04B AS DateTime), NULL, CAST(0x0000A5200084D04B AS DateTime))
+/****** Object:  Table [dbo].[UserInfo]    Script Date: 10/25/2015 20:17:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserInfo](
+	[Username] [nvarchar](254) NOT NULL,
+	[Name] [nvarchar](50) NULL,
+	[TypeShortName] [nvarchar](3) NULL,
+	[AmountOfMoney] [int] NOT NULL,
+	[LastUpdateMoney] [datetime] NOT NULL,
+	[FingerPrintIMG] [image] NULL,
+	[FingerPosition] [int] NULL,
+	[IsCafeteriaStaff] [bit] NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[InsertedDate] [datetime] NOT NULL,
+	[UpdatedBy] [nvarchar](254) NOT NULL,
+	[LastUpdated] [datetime] NOT NULL,
  CONSTRAINT [PK_USER_INFO] PRIMARY KEY CLUSTERED 
 (
-	[USERNAME] ASC
+	[Username] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MEAL_SET]    Script Date: 10/16/2015 21:00:35 ******/
+INSERT [dbo].[UserInfo] ([Username], [Name], [TypeShortName], [AmountOfMoney], [LastUpdateMoney], [FingerPrintIMG], [FingerPosition], [IsCafeteriaStaff], [IsActive], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (N'dungnmse02767', N'Nguy?n M?nh Dung', N'SV', 0, CAST(0x0000A5200082BC1D AS DateTime), NULL, NULL, 0, 1, CAST(0x0000A5200082BC1D AS DateTime), N'dungnmse02767', CAST(0x0000A5200082BC1D AS DateTime))
+/****** Object:  Table [dbo].[MealSet]    Script Date: 10/25/2015 20:17:01 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[MEAL_SET](
-	[MEAL_SET_ID] [int] NOT NULL,
-	[NAME] [nvarchar](50) NOT NULL,
-	[IMAGE] [nvarchar](50) NULL,
-	[DESCRIPTION] [nvarchar](500) NULL,
-	[USED_TIME] [int] NOT NULL,
-	[CAN_EAT_MORE] [bit] NOT NULL,
-	[INSERT_DATE] [datetime] NOT NULL,
-	[UPDATE_BY] [nvarchar](20) NOT NULL,
-	[LAST_UPDATE] [datetime] NOT NULL,
+CREATE TABLE [dbo].[MealSet](
+	[MealSetID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[Image] [nvarchar](50) NULL,
+	[Description] [nvarchar](500) NULL,
+	[UsedTime] [int] NOT NULL,
+	[CanEatMore] [bit] NOT NULL,
+	[InsertedDate] [datetime] NOT NULL,
+	[UpdatedBy] [nvarchar](254) NOT NULL,
+	[LastUpdated] [datetime] NOT NULL,
  CONSTRAINT [PK_MEAL] PRIMARY KEY CLUSTERED 
 (
-	[MEAL_SET_ID] ASC
+	[MealSetID] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SERVING_TIME]    Script Date: 10/16/2015 21:00:35 ******/
+SET IDENTITY_INSERT [dbo].[MealSet] ON
+INSERT [dbo].[MealSet] ([MealSetID], [Name], [Image], [Description], [UsedTime], [CanEatMore], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (1, N'Món an Vi?t Nam', NULL, N'Combo ngon ', 0, 1, CAST(0x0000A537001CE21E AS DateTime), N'dungnmse02767', CAST(0x0000A537001CE21E AS DateTime))
+SET IDENTITY_INSERT [dbo].[MealSet] OFF
+/****** Object:  Table [dbo].[Feedback]    Script Date: 10/25/2015 20:17:01 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[SERVING_TIME](
-	[SERVING_TIME_ID] [int] IDENTITY(1,1) NOT NULL,
-	[NAME] [nvarchar](50) NOT NULL,
-	[START_TIME] [time](0) NOT NULL,
-	[END_TIME] [time](0) NULL,
- CONSTRAINT [PK_EATING_TIME] PRIMARY KEY CLUSTERED 
-(
-	[SERVING_TIME_ID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[SCHEDULE]    Script Date: 10/16/2015 21:00:35 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[SCHEDULE](
-	[SCHEDULE_ID] [int] IDENTITY(1,1) NOT NULL,
-	[DATE] [datetime] NOT NULL,
-	[SERVING_TIME_ID] [int] NOT NULL,
-	[IS_DAY_OFF] [bit] NOT NULL,
-	[INSERT_DATE] [datetime] NOT NULL,
-	[UPDATE_BY] [nvarchar](20) NOT NULL,
-	[LAST_UPDATE] [datetime] NOT NULL,
- CONSTRAINT [PK_EATING_DATE] PRIMARY KEY CLUSTERED 
-(
-	[SCHEDULE_ID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[SCHEDULE_MEAL_SET]    Script Date: 10/16/2015 21:00:35 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[SCHEDULE_MEAL_SET](
-	[SCHEDULE_MEAL_SET_ID] [int] IDENTITY(1,1) NOT NULL,
-	[MEAL_SET_ID] [int] NOT NULL,
-	[SCHEDULE_ID] [int] NOT NULL,
-	[NAME] [nvarchar](1) NOT NULL,
- CONSTRAINT [PK_SCHEDULE_MEAL_SET] PRIMARY KEY CLUSTERED 
-(
-	[SCHEDULE_MEAL_SET_ID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[DISH]    Script Date: 10/16/2015 21:00:35 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[DISH](
-	[DISH_ID] [int] IDENTITY(1,1) NOT NULL,
-	[NAME] [nvarchar](50) NOT NULL,
-	[DESCRIPTION] [nvarchar](500) NULL,
-	[IMAGE] [nvarchar](50) NULL,
-	[INSERT_DATE] [datetime] NOT NULL,
-	[UPDATE_BY] [nvarchar](20) NOT NULL,
-	[LAST_UPDATE] [datetime] NOT NULL,
- CONSTRAINT [PK_DISH] PRIMARY KEY CLUSTERED 
-(
-	[DISH_ID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[MEAL_SET_DISH]    Script Date: 10/16/2015 21:00:35 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[MEAL_SET_DISH](
-	[MEAL_SET_DISH_ID] [int] IDENTITY(1,1) NOT NULL,
-	[MEAL_SET_ID] [int] NOT NULL,
-	[DISH_ID] [int] NOT NULL,
- CONSTRAINT [PK_MEAL_DISH] PRIMARY KEY CLUSTERED 
-(
-	[MEAL_SET_DISH_ID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[USER_TYPES]    Script Date: 10/16/2015 21:00:35 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[USER_TYPES](
-	[TYPE_SHORT_NAME] [nvarchar](3) NOT NULL,
-	[TYPE_NAME] [nvarchar](50) NOT NULL,
-	[MEAL_VALUE] [int] NOT NULL,
-	[MORE_MEAL_VALUE] [int] NULL,
-	[DESCRIPTION] [nvarchar](500) NULL,
-	[PAYMENT_METHOD] [int] NOT NULL,
-	[CAN_EAT_MORE] [bit] NOT NULL,
-	[INSERT_DATE] [datetime] NOT NULL,
-	[UPDATE_BY] [nvarchar](20) NOT NULL,
-	[LAST_UPDATE] [datetime] NOT NULL,
- CONSTRAINT [PK_USER_TYPES] PRIMARY KEY CLUSTERED 
-(
-	[TYPE_SHORT_NAME] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[FEEDBACK]    Script Date: 10/16/2015 21:00:35 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[FEEDBACK](
-	[FEEDBACK_ID] [int] IDENTITY(1,1) NOT NULL,
-	[TYPE] [int] NOT NULL,
-	[COMMENT] [nvarchar](500) NOT NULL,
-	[INSERT_DATE] [datetime] NOT NULL,
-	[UPDATE_BY] [nvarchar](20) NOT NULL,
+CREATE TABLE [dbo].[Feedback](
+	[FeedbackID] [int] IDENTITY(1,1) NOT NULL,
+	[Type] [int] NOT NULL,
+	[Comment] [nvarchar](500) NOT NULL,
+	[InsertedDate] [datetime] NOT NULL,
+	[UpdatedBy] [nvarchar](254) NOT NULL,
  CONSTRAINT [PK_FEEDBACK] PRIMARY KEY CLUSTERED 
 (
-	[FEEDBACK_ID] ASC
+	[FeedbackID] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ANNOUNCEMENT]    Script Date: 10/16/2015 21:00:35 ******/
+/****** Object:  Table [dbo].[Dish]    Script Date: 10/25/2015 20:17:01 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[ANNOUNCEMENT](
-	[ANNOUNCEMENT_ID] [int] IDENTITY(1,1) NOT NULL,
-	[TITLE] [nvarchar](50) NOT NULL,
-	[SUBJECT] [nvarchar](500) NOT NULL,
-	[IS_AUTO] [bit] NOT NULL,
-	[INSERT_DATE] [datetime] NOT NULL,
-	[UPDATE_BY] [nvarchar](20) NULL,
-	[LAST_UPDATE] [datetime] NOT NULL,
+CREATE TABLE [dbo].[Dish](
+	[DishID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[DishTypeID] [int] NOT NULL,
+	[Description] [nvarchar](500) NULL,
+	[Image] [nvarchar](50) NULL,
+	[InsertedDate] [datetime] NOT NULL,
+	[UpdatedBy] [nvarchar](254) NOT NULL,
+	[LastUpdated] [datetime] NOT NULL,
+ CONSTRAINT [PK_DISH] PRIMARY KEY CLUSTERED 
+(
+	[DishID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Dish] ON
+INSERT [dbo].[Dish] ([DishID], [Name], [DishTypeID], [Description], [Image], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (1, N'Th?t chó', 1, N'Ngon', NULL, CAST(0x0000A53700217FA4 AS DateTime), N'dungnmse02767', CAST(0x0000A53700217FA4 AS DateTime))
+INSERT [dbo].[Dish] ([DishID], [Name], [DishTypeID], [Description], [Image], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (2, N'Ti?t canh', 3, N'Cung ngon', NULL, CAST(0x0000A53700219746 AS DateTime), N'dungnmse02767', CAST(0x0000A53700219746 AS DateTime))
+INSERT [dbo].[Dish] ([DishID], [Name], [DishTypeID], [Description], [Image], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (3, N'Tr?ng v?t l?n', 1, N'R?t ngon', NULL, CAST(0x0000A5370021B2E7 AS DateTime), N'dungnmse02767', CAST(0x0000A5370021B2E7 AS DateTime))
+SET IDENTITY_INSERT [dbo].[Dish] OFF
+/****** Object:  Table [dbo].[Announcement]    Script Date: 10/25/2015 20:17:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Announcement](
+	[AnnouncementID] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](50) NOT NULL,
+	[Subject] [nvarchar](500) NOT NULL,
+	[IsAuto] [bit] NOT NULL,
+	[InsertedDate] [datetime] NOT NULL,
+	[UpdatedBy] [nvarchar](254) NULL,
+	[LastUpdated] [datetime] NOT NULL,
  CONSTRAINT [PK_ANNOUNCEMENT] PRIMARY KEY CLUSTERED 
 (
-	[ANNOUNCEMENT_ID] ASC
+	[AnnouncementID] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ACCOUNT]    Script Date: 10/16/2015 21:00:35 ******/
+/****** Object:  Table [dbo].[Account]    Script Date: 10/25/2015 20:17:01 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[ACCOUNT](
-	[USERNAME] [nvarchar](20) NOT NULL,
-	[PASSWORD] [nvarchar](20) NOT NULL,
-	[EMAIL] [nvarchar](50) NULL,
-	[ROLE] [int] NOT NULL,
-	[STATUS] [bit] NOT NULL,
+CREATE TABLE [dbo].[Account](
+	[Username] [nvarchar](254) NOT NULL,
+	[Password] [nvarchar](20) NOT NULL,
+	[Email] [nvarchar](50) NULL,
+	[Role] [int] NOT NULL,
+	[IsActive] [bit] NOT NULL,
  CONSTRAINT [PK_ACCOUNT] PRIMARY KEY CLUSTERED 
 (
-	[USERNAME] ASC
+	[Username] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TRANSACTION_HISTORY]    Script Date: 10/16/2015 21:00:35 ******/
+INSERT [dbo].[Account] ([Username], [Password], [Email], [Role], [IsActive]) VALUES (N'dungnmse02767', N'123456', N'dungnmse02767@fpt.edu.vn', 4, 1)
+/****** Object:  Table [dbo].[Schedule]    Script Date: 10/25/2015 20:17:01 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[TRANSACTION_HISTORY](
-	[TRANSACTION_HISTORY_ID] [int] NOT NULL,
-	[TRANSACTION_TYPE] [int] NOT NULL,
-	[VALUE] [int] NOT NULL,
-	[TRANSACTION_CONTENT] [nvarchar](500) NOT NULL,
-	[SCHEDULE_MEAL_SET_ID] [int] NULL,
-	[IS_BY_SYSTEM] [bit] NOT NULL,
-	[INSERT_DATE] [datetime] NOT NULL,
-	[UPDATE_BY] [nvarchar](20) NOT NULL,
- CONSTRAINT [PK_TRANSACTION_HISTORY] PRIMARY KEY CLUSTERED 
+CREATE TABLE [dbo].[Schedule](
+	[ScheduleID] [int] IDENTITY(1,1) NOT NULL,
+	[Date] [datetime] NOT NULL,
+	[ServingTimeID] [int] NOT NULL,
+	[IsDayOn] [bit] NOT NULL,
+	[InsertedDate] [datetime] NOT NULL,
+	[UpdatedBy] [nvarchar](254) NOT NULL,
+	[LastUpdated] [datetime] NOT NULL,
+ CONSTRAINT [PK_EATING_DATE] PRIMARY KEY CLUSTERED 
 (
-	[TRANSACTION_HISTORY_ID] ASC
+	[ScheduleID] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  ForeignKey [FK_ACCOUNT_USER_INFO]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[ACCOUNT]  WITH CHECK ADD  CONSTRAINT [FK_ACCOUNT_USER_INFO] FOREIGN KEY([USERNAME])
-REFERENCES [dbo].[USER_INFO] ([USERNAME])
+SET IDENTITY_INSERT [dbo].[Schedule] ON
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (1, CAST(0x0000A52400000000 AS DateTime), 1, 1, CAST(0x0000A537001CE21E AS DateTime), N'dungnmse02767', CAST(0x0000A537001CE21E AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (2, CAST(0x0000A52400000000 AS DateTime), 2, 1, CAST(0x0000A537001D52E6 AS DateTime), N'dungnmse02767', CAST(0x0000A537001D52E6 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (3, CAST(0x0000A52400000000 AS DateTime), 3, 1, CAST(0x0000A537001D570C AS DateTime), N'dungnmse02767', CAST(0x0000A537001D570C AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (4, CAST(0x0000A52500000000 AS DateTime), 1, 0, CAST(0x0000A537001D6A97 AS DateTime), N'dungnmse02767', CAST(0x0000A537001D6A97 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (5, CAST(0x0000A52500000000 AS DateTime), 2, 0, CAST(0x0000A537001D6D8D AS DateTime), N'dungnmse02767', CAST(0x0000A537001D6D8D AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (6, CAST(0x0000A52500000000 AS DateTime), 3, 0, CAST(0x0000A537001D70C7 AS DateTime), N'dungnmse02767', CAST(0x0000A537001D70C7 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (7, CAST(0x0000A52600000000 AS DateTime), 1, 1, CAST(0x0000A537001DB24B AS DateTime), N'dungnmse02767', CAST(0x0000A537001DB24B AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (8, CAST(0x0000A52600000000 AS DateTime), 2, 1, CAST(0x0000A537001DD976 AS DateTime), N'dungnmse02767', CAST(0x0000A537001DD976 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (9, CAST(0x0000A52600000000 AS DateTime), 3, 1, CAST(0x0000A537001DDB1A AS DateTime), N'dungnmse02767', CAST(0x0000A537001DDB1A AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (11, CAST(0x0000A52700000000 AS DateTime), 1, 1, CAST(0x0000A537001DE55E AS DateTime), N'dungnmse02767', CAST(0x0000A537001DE55E AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (12, CAST(0x0000A52700000000 AS DateTime), 2, 1, CAST(0x0000A537001DE884 AS DateTime), N'dungnmse02767', CAST(0x0000A537001DE884 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (13, CAST(0x0000A52700000000 AS DateTime), 3, 1, CAST(0x0000A537001DEEA1 AS DateTime), N'dungnmse02767', CAST(0x0000A537001DEEA1 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (14, CAST(0x0000A52800000000 AS DateTime), 1, 1, CAST(0x0000A537001E7B69 AS DateTime), N'dungnmse02767', CAST(0x0000A537001E7B69 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (15, CAST(0x0000A52800000000 AS DateTime), 2, 1, CAST(0x0000A537001E8A70 AS DateTime), N'dungnmse02767', CAST(0x0000A537001E8A70 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (16, CAST(0x0000A52800000000 AS DateTime), 3, 1, CAST(0x0000A537001E91AE AS DateTime), N'dungnmse02767', CAST(0x0000A537001E91AE AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (17, CAST(0x0000A52900000000 AS DateTime), 1, 1, CAST(0x0000A537001EC384 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EC384 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (18, CAST(0x0000A52900000000 AS DateTime), 2, 1, CAST(0x0000A537001EC389 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EC389 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (19, CAST(0x0000A52900000000 AS DateTime), 3, 1, CAST(0x0000A537001EC38D AS DateTime), N'dungnmse02767', CAST(0x0000A537001EC38D AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (20, CAST(0x0000A52A00000000 AS DateTime), 1, 1, CAST(0x0000A537001EC8B4 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EC8B4 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (21, CAST(0x0000A52A00000000 AS DateTime), 2, 1, CAST(0x0000A537001EC8B4 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EC8B4 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (22, CAST(0x0000A52A00000000 AS DateTime), 3, 1, CAST(0x0000A537001EC8B4 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EC8B4 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (23, CAST(0x0000A52B00000000 AS DateTime), 1, 1, CAST(0x0000A537001ECB17 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ECB17 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (24, CAST(0x0000A52B00000000 AS DateTime), 2, 1, CAST(0x0000A537001ECB17 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ECB17 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (25, CAST(0x0000A52B00000000 AS DateTime), 3, 1, CAST(0x0000A537001ECB17 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ECB17 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (26, CAST(0x0000A52C00000000 AS DateTime), 1, 1, CAST(0x0000A537001ECD15 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ECD15 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (27, CAST(0x0000A52C00000000 AS DateTime), 2, 1, CAST(0x0000A537001ECD15 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ECD15 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (28, CAST(0x0000A52C00000000 AS DateTime), 3, 1, CAST(0x0000A537001ECD15 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ECD15 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (29, CAST(0x0000A52D00000000 AS DateTime), 1, 1, CAST(0x0000A537001ECF62 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ECF62 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (30, CAST(0x0000A52D00000000 AS DateTime), 2, 1, CAST(0x0000A537001ECF62 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ECF62 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (31, CAST(0x0000A52D00000000 AS DateTime), 3, 1, CAST(0x0000A537001ECF62 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ECF62 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (32, CAST(0x0000A52E00000000 AS DateTime), 1, 1, CAST(0x0000A537001ED1B1 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ED1B1 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (33, CAST(0x0000A52E00000000 AS DateTime), 2, 1, CAST(0x0000A537001ED1B1 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ED1B1 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (34, CAST(0x0000A52E00000000 AS DateTime), 3, 1, CAST(0x0000A537001ED1B1 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ED1B1 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (35, CAST(0x0000A52F00000000 AS DateTime), 1, 1, CAST(0x0000A537001ED42C AS DateTime), N'dungnmse02767', CAST(0x0000A537001ED42C AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (36, CAST(0x0000A52F00000000 AS DateTime), 2, 1, CAST(0x0000A537001ED42C AS DateTime), N'dungnmse02767', CAST(0x0000A537001ED42C AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (37, CAST(0x0000A52F00000000 AS DateTime), 3, 1, CAST(0x0000A537001ED42C AS DateTime), N'dungnmse02767', CAST(0x0000A537001ED42C AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (38, CAST(0x0000A53000000000 AS DateTime), 1, 1, CAST(0x0000A537001ED5F2 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ED5F2 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (39, CAST(0x0000A53000000000 AS DateTime), 2, 1, CAST(0x0000A537001ED5F2 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ED5F2 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (40, CAST(0x0000A53000000000 AS DateTime), 3, 1, CAST(0x0000A537001ED5F2 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ED5F2 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (41, CAST(0x0000A53100000000 AS DateTime), 1, 1, CAST(0x0000A537001ED7C4 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ED7C4 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (42, CAST(0x0000A53100000000 AS DateTime), 2, 1, CAST(0x0000A537001ED7C4 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ED7C4 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (43, CAST(0x0000A53100000000 AS DateTime), 3, 1, CAST(0x0000A537001ED7C4 AS DateTime), N'dungnmse02767', CAST(0x0000A537001ED7C4 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (47, CAST(0x0000A53200000000 AS DateTime), 1, 1, CAST(0x0000A537001EF01C AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF01C AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (48, CAST(0x0000A53200000000 AS DateTime), 2, 1, CAST(0x0000A537001EF01C AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF01C AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (49, CAST(0x0000A53200000000 AS DateTime), 3, 1, CAST(0x0000A537001EF01C AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF01C AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (50, CAST(0x0000A53300000000 AS DateTime), 1, 1, CAST(0x0000A537001EF219 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF219 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (51, CAST(0x0000A53300000000 AS DateTime), 2, 1, CAST(0x0000A537001EF219 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF219 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (52, CAST(0x0000A53300000000 AS DateTime), 3, 1, CAST(0x0000A537001EF219 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF219 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (53, CAST(0x0000A53400000000 AS DateTime), 1, 1, CAST(0x0000A537001EF3B3 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF3B3 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (54, CAST(0x0000A53400000000 AS DateTime), 2, 1, CAST(0x0000A537001EF3B3 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF3B3 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (55, CAST(0x0000A53400000000 AS DateTime), 3, 1, CAST(0x0000A537001EF3B3 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF3B3 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (56, CAST(0x0000A53500000000 AS DateTime), 1, 1, CAST(0x0000A537001EF532 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF532 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (57, CAST(0x0000A53500000000 AS DateTime), 2, 1, CAST(0x0000A537001EF532 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF532 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (58, CAST(0x0000A53500000000 AS DateTime), 3, 1, CAST(0x0000A537001EF532 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF532 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (59, CAST(0x0000A53600000000 AS DateTime), 1, 1, CAST(0x0000A537001EF6C8 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF6C8 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (60, CAST(0x0000A53600000000 AS DateTime), 2, 1, CAST(0x0000A537001EF6C8 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF6C8 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (61, CAST(0x0000A53600000000 AS DateTime), 3, 1, CAST(0x0000A537001EF6C8 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF6C8 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (62, CAST(0x0000A53700000000 AS DateTime), 1, 1, CAST(0x0000A537001EF8FD AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF8FD AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (63, CAST(0x0000A53700000000 AS DateTime), 2, 1, CAST(0x0000A537001EF8FD AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF8FD AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (64, CAST(0x0000A53700000000 AS DateTime), 3, 1, CAST(0x0000A537001EF8FD AS DateTime), N'dungnmse02767', CAST(0x0000A537001EF8FD AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (65, CAST(0x0000A53800000000 AS DateTime), 1, 1, CAST(0x0000A537001EFB2E AS DateTime), N'dungnmse02767', CAST(0x0000A537001EFB2E AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (66, CAST(0x0000A53800000000 AS DateTime), 2, 1, CAST(0x0000A537001EFB33 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EFB33 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (67, CAST(0x0000A53800000000 AS DateTime), 3, 1, CAST(0x0000A537001EFB33 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EFB33 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (68, CAST(0x0000A53900000000 AS DateTime), 1, 1, CAST(0x0000A537001EFD3C AS DateTime), N'dungnmse02767', CAST(0x0000A537001EFD3C AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (69, CAST(0x0000A53900000000 AS DateTime), 2, 1, CAST(0x0000A537001EFD3C AS DateTime), N'dungnmse02767', CAST(0x0000A537001EFD3C AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (70, CAST(0x0000A53900000000 AS DateTime), 3, 1, CAST(0x0000A537001EFD3C AS DateTime), N'dungnmse02767', CAST(0x0000A537001EFD3C AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (71, CAST(0x0000A53A00000000 AS DateTime), 1, 1, CAST(0x0000A537001EFEE2 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EFEE2 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (72, CAST(0x0000A53A00000000 AS DateTime), 2, 1, CAST(0x0000A537001EFEE2 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EFEE2 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (73, CAST(0x0000A53A00000000 AS DateTime), 3, 1, CAST(0x0000A537001EFEE2 AS DateTime), N'dungnmse02767', CAST(0x0000A537001EFEE2 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (74, CAST(0x0000A53B00000000 AS DateTime), 1, 1, CAST(0x0000A537001F00AD AS DateTime), N'dungnmse02767', CAST(0x0000A537001F00AD AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (75, CAST(0x0000A53B00000000 AS DateTime), 2, 1, CAST(0x0000A537001F00AD AS DateTime), N'dungnmse02767', CAST(0x0000A537001F00AD AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (76, CAST(0x0000A53B00000000 AS DateTime), 3, 1, CAST(0x0000A537001F00AD AS DateTime), N'dungnmse02767', CAST(0x0000A537001F00AD AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (77, CAST(0x0000A53C00000000 AS DateTime), 1, 1, CAST(0x0000A537001F02B8 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F02B8 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (78, CAST(0x0000A53C00000000 AS DateTime), 2, 1, CAST(0x0000A537001F02B8 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F02B8 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (79, CAST(0x0000A53C00000000 AS DateTime), 3, 1, CAST(0x0000A537001F02B8 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F02B8 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (80, CAST(0x0000A53D00000000 AS DateTime), 1, 1, CAST(0x0000A537001F046C AS DateTime), N'dungnmse02767', CAST(0x0000A537001F046C AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (81, CAST(0x0000A53D00000000 AS DateTime), 2, 1, CAST(0x0000A537001F0471 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F0471 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (82, CAST(0x0000A53D00000000 AS DateTime), 3, 1, CAST(0x0000A537001F0471 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F0471 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (83, CAST(0x0000A53E00000000 AS DateTime), 1, 1, CAST(0x0000A537001F0637 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F0637 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (84, CAST(0x0000A53E00000000 AS DateTime), 2, 1, CAST(0x0000A537001F0637 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F0637 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (85, CAST(0x0000A53E00000000 AS DateTime), 3, 1, CAST(0x0000A537001F0637 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F0637 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (86, CAST(0x0000A53F00000000 AS DateTime), 1, 1, CAST(0x0000A537001F07CF AS DateTime), N'dungnmse02767', CAST(0x0000A537001F07CF AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (87, CAST(0x0000A53F00000000 AS DateTime), 2, 1, CAST(0x0000A537001F07CF AS DateTime), N'dungnmse02767', CAST(0x0000A537001F07CF AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (88, CAST(0x0000A53F00000000 AS DateTime), 3, 1, CAST(0x0000A537001F07CF AS DateTime), N'dungnmse02767', CAST(0x0000A537001F07CF AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (89, CAST(0x0000A54000000000 AS DateTime), 1, 1, CAST(0x0000A537001F0962 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F0962 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (90, CAST(0x0000A54000000000 AS DateTime), 2, 1, CAST(0x0000A537001F0962 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F0962 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (91, CAST(0x0000A54000000000 AS DateTime), 3, 1, CAST(0x0000A537001F0962 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F0962 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (95, CAST(0x0000A54200000000 AS DateTime), 1, 1, CAST(0x0000A537001F0D93 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F0D93 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (96, CAST(0x0000A54200000000 AS DateTime), 2, 1, CAST(0x0000A537001F0D93 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F0D93 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (97, CAST(0x0000A54200000000 AS DateTime), 3, 1, CAST(0x0000A537001F0D93 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F0D93 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (101, CAST(0x0000A54300000000 AS DateTime), 1, 1, CAST(0x0000A537001F65D2 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F65D2 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (102, CAST(0x0000A54300000000 AS DateTime), 2, 1, CAST(0x0000A537001F65D2 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F65D2 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (103, CAST(0x0000A54300000000 AS DateTime), 3, 1, CAST(0x0000A537001F65D2 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F65D2 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (104, CAST(0x0000A54400000000 AS DateTime), 1, 1, CAST(0x0000A537001F67EF AS DateTime), N'dungnmse02767', CAST(0x0000A537001F67EF AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (105, CAST(0x0000A54400000000 AS DateTime), 2, 1, CAST(0x0000A537001F67EF AS DateTime), N'dungnmse02767', CAST(0x0000A537001F67EF AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (106, CAST(0x0000A54400000000 AS DateTime), 3, 1, CAST(0x0000A537001F67EF AS DateTime), N'dungnmse02767', CAST(0x0000A537001F67EF AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (107, CAST(0x0000A54500000000 AS DateTime), 1, 1, CAST(0x0000A537001F6955 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F6955 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (108, CAST(0x0000A54500000000 AS DateTime), 2, 1, CAST(0x0000A537001F6955 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F6955 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (109, CAST(0x0000A54500000000 AS DateTime), 3, 1, CAST(0x0000A537001F6955 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F6955 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (110, CAST(0x0000A54600000000 AS DateTime), 1, 1, CAST(0x0000A537001F6AD0 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F6AD0 AS DateTime))
 GO
-ALTER TABLE [dbo].[ACCOUNT] CHECK CONSTRAINT [FK_ACCOUNT_USER_INFO]
+print 'Processed 100 total records'
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (111, CAST(0x0000A54600000000 AS DateTime), 2, 1, CAST(0x0000A537001F6AD0 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F6AD0 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (112, CAST(0x0000A54600000000 AS DateTime), 3, 1, CAST(0x0000A537001F6AD0 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F6AD0 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (114, CAST(0x0000A54700000000 AS DateTime), 1, 1, CAST(0x0000A537001F6E29 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F6E29 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (115, CAST(0x0000A54700000000 AS DateTime), 2, 1, CAST(0x0000A537001F6E29 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F6E29 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (116, CAST(0x0000A54700000000 AS DateTime), 3, 1, CAST(0x0000A537001F6E29 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F6E29 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (117, CAST(0x0000A54800000000 AS DateTime), 1, 1, CAST(0x0000A537001F6F9D AS DateTime), N'dungnmse02767', CAST(0x0000A537001F6F9D AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (118, CAST(0x0000A54800000000 AS DateTime), 2, 1, CAST(0x0000A537001F6F9D AS DateTime), N'dungnmse02767', CAST(0x0000A537001F6F9D AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (119, CAST(0x0000A54800000000 AS DateTime), 3, 1, CAST(0x0000A537001F6F9D AS DateTime), N'dungnmse02767', CAST(0x0000A537001F6F9D AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (120, CAST(0x0000A54900000000 AS DateTime), 1, 1, CAST(0x0000A537001F711E AS DateTime), N'dungnmse02767', CAST(0x0000A537001F711E AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (121, CAST(0x0000A54900000000 AS DateTime), 2, 1, CAST(0x0000A537001F711E AS DateTime), N'dungnmse02767', CAST(0x0000A537001F711E AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (122, CAST(0x0000A54900000000 AS DateTime), 3, 1, CAST(0x0000A537001F711E AS DateTime), N'dungnmse02767', CAST(0x0000A537001F711E AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (123, CAST(0x0000A54A00000000 AS DateTime), 1, 1, CAST(0x0000A537001F72B3 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F72B3 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (124, CAST(0x0000A54A00000000 AS DateTime), 2, 1, CAST(0x0000A537001F72B8 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F72B8 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (125, CAST(0x0000A54A00000000 AS DateTime), 3, 1, CAST(0x0000A537001F72B8 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F72B8 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (126, CAST(0x0000A54B00000000 AS DateTime), 1, 1, CAST(0x0000A537001F7428 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F7428 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (127, CAST(0x0000A54B00000000 AS DateTime), 2, 1, CAST(0x0000A537001F7428 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F7428 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (128, CAST(0x0000A54B00000000 AS DateTime), 3, 1, CAST(0x0000A537001F7428 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F7428 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (129, CAST(0x0000A54C00000000 AS DateTime), 1, 1, CAST(0x0000A537001F7611 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F7611 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (130, CAST(0x0000A54C00000000 AS DateTime), 2, 1, CAST(0x0000A537001F7611 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F7611 AS DateTime))
+INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (131, CAST(0x0000A54C00000000 AS DateTime), 3, 1, CAST(0x0000A537001F7611 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F7611 AS DateTime))
+SET IDENTITY_INSERT [dbo].[Schedule] OFF
+/****** Object:  Table [dbo].[ScheduleMealSetDetail]    Script Date: 10/25/2015 20:17:01 ******/
+SET ANSI_NULLS ON
 GO
-/****** Object:  ForeignKey [FK_ANNOUNCEMENT_USER_INFO]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[ANNOUNCEMENT]  WITH CHECK ADD  CONSTRAINT [FK_ANNOUNCEMENT_USER_INFO] FOREIGN KEY([UPDATE_BY])
-REFERENCES [dbo].[USER_INFO] ([USERNAME])
+SET QUOTED_IDENTIFIER ON
 GO
-ALTER TABLE [dbo].[ANNOUNCEMENT] CHECK CONSTRAINT [FK_ANNOUNCEMENT_USER_INFO]
+CREATE TABLE [dbo].[ScheduleMealSetDetail](
+	[ScheduleMealSetDetailID] [int] IDENTITY(1,1) NOT NULL,
+	[MealSetID] [int] NOT NULL,
+	[ScheduleID] [int] NOT NULL,
+	[Name] [nvarchar](1) NOT NULL,
+	[InsertedDate] [datetime] NOT NULL,
+	[LastUpdated] [datetime] NOT NULL,
+ CONSTRAINT [PK_SCHEDULE_MEAL_SET] PRIMARY KEY CLUSTERED 
+(
+	[ScheduleMealSetDetailID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
 GO
-/****** Object:  ForeignKey [FK_DISH_USER_INFO]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[DISH]  WITH CHECK ADD  CONSTRAINT [FK_DISH_USER_INFO] FOREIGN KEY([UPDATE_BY])
-REFERENCES [dbo].[USER_INFO] ([USERNAME])
+SET IDENTITY_INSERT [dbo].[ScheduleMealSetDetail] ON
+INSERT [dbo].[ScheduleMealSetDetail] ([ScheduleMealSetDetailID], [MealSetID], [ScheduleID], [Name], [InsertedDate], [LastUpdated]) VALUES (1, 1, 1, N'A', CAST(0x0000A5200082BC1D AS DateTime), CAST(0x0000A5200082BC1D AS DateTime))
+INSERT [dbo].[ScheduleMealSetDetail] ([ScheduleMealSetDetailID], [MealSetID], [ScheduleID], [Name], [InsertedDate], [LastUpdated]) VALUES (2, 1, 2, N'B', CAST(0x0000A5200082BC1D AS DateTime), CAST(0x0000A5200082BC1D AS DateTime))
+INSERT [dbo].[ScheduleMealSetDetail] ([ScheduleMealSetDetailID], [MealSetID], [ScheduleID], [Name], [InsertedDate], [LastUpdated]) VALUES (3, 1, 3, N'C', CAST(0x0000A5200082BC1D AS DateTime), CAST(0x0000A5200082BC1D AS DateTime))
+SET IDENTITY_INSERT [dbo].[ScheduleMealSetDetail] OFF
+/****** Object:  Table [dbo].[MealSetDishDetail]    Script Date: 10/25/2015 20:17:01 ******/
+SET ANSI_NULLS ON
 GO
-ALTER TABLE [dbo].[DISH] CHECK CONSTRAINT [FK_DISH_USER_INFO]
+SET QUOTED_IDENTIFIER ON
 GO
-/****** Object:  ForeignKey [FK_FEEDBACK_USER_INFO]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[FEEDBACK]  WITH CHECK ADD  CONSTRAINT [FK_FEEDBACK_USER_INFO] FOREIGN KEY([UPDATE_BY])
-REFERENCES [dbo].[USER_INFO] ([USERNAME])
+CREATE TABLE [dbo].[MealSetDishDetail](
+	[MealSetDishDetalID] [int] IDENTITY(1,1) NOT NULL,
+	[MeatSetID] [int] NOT NULL,
+	[DishID] [int] NOT NULL,
+ CONSTRAINT [PK_MEAL_DISH] PRIMARY KEY CLUSTERED 
+(
+	[MealSetDishDetalID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[FEEDBACK] CHECK CONSTRAINT [FK_FEEDBACK_USER_INFO]
+/****** Object:  Table [dbo].[TransactionHistory]    Script Date: 10/25/2015 20:17:01 ******/
+SET ANSI_NULLS ON
 GO
-/****** Object:  ForeignKey [FK_MEAL_USER_INFO]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[MEAL_SET]  WITH CHECK ADD  CONSTRAINT [FK_MEAL_USER_INFO] FOREIGN KEY([UPDATE_BY])
-REFERENCES [dbo].[USER_INFO] ([USERNAME])
+SET QUOTED_IDENTIFIER ON
 GO
-ALTER TABLE [dbo].[MEAL_SET] CHECK CONSTRAINT [FK_MEAL_USER_INFO]
+CREATE TABLE [dbo].[TransactionHistory](
+	[TransactionHistoryID] [int] IDENTITY(1,1) NOT NULL,
+	[Username] [nvarchar](254) NOT NULL,
+	[TransactionTypeID] [int] NOT NULL,
+	[Value] [int] NOT NULL,
+	[TransactionContent] [nvarchar](500) NOT NULL,
+	[ScheduleMealSetDetailID] [int] NULL,
+	[IsAuto] [bit] NOT NULL,
+	[InsertedDate] [datetime] NOT NULL,
+	[UpdatedBy] [nvarchar](254) NOT NULL,
+	[LastUpdated] [datetime] NOT NULL,
+ CONSTRAINT [PK_TRANSACTION_HISTORY] PRIMARY KEY CLUSTERED 
+(
+	[TransactionHistoryID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
 GO
-/****** Object:  ForeignKey [FK_MEAL_DISH_DISH]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[MEAL_SET_DISH]  WITH CHECK ADD  CONSTRAINT [FK_MEAL_DISH_DISH] FOREIGN KEY([DISH_ID])
-REFERENCES [dbo].[DISH] ([DISH_ID])
+SET IDENTITY_INSERT [dbo].[TransactionHistory] ON
+INSERT [dbo].[TransactionHistory] ([TransactionHistoryID], [Username], [TransactionTypeID], [Value], [TransactionContent], [ScheduleMealSetDetailID], [IsAuto], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (2, N'dungnmse02767', 1, 20000, N'An ', 1, 1, CAST(0x0000A53700217FA4 AS DateTime), N'dungnmse02767', CAST(0x0000A53700217FA4 AS DateTime))
+SET IDENTITY_INSERT [dbo].[TransactionHistory] OFF
+/****** Object:  ForeignKey [FK_ACCOUNT_USER_INFO]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_ACCOUNT_USER_INFO] FOREIGN KEY([Username])
+REFERENCES [dbo].[UserInfo] ([Username])
 GO
-ALTER TABLE [dbo].[MEAL_SET_DISH] CHECK CONSTRAINT [FK_MEAL_DISH_DISH]
+ALTER TABLE [dbo].[Account] CHECK CONSTRAINT [FK_ACCOUNT_USER_INFO]
 GO
-/****** Object:  ForeignKey [FK_MEAL_DISH_MEAL]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[MEAL_SET_DISH]  WITH CHECK ADD  CONSTRAINT [FK_MEAL_DISH_MEAL] FOREIGN KEY([MEAL_SET_ID])
-REFERENCES [dbo].[MEAL_SET] ([MEAL_SET_ID])
+/****** Object:  ForeignKey [FK_ANNOUNCEMENT_USER_INFO]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[Announcement]  WITH CHECK ADD  CONSTRAINT [FK_ANNOUNCEMENT_USER_INFO] FOREIGN KEY([UpdatedBy])
+REFERENCES [dbo].[UserInfo] ([Username])
 GO
-ALTER TABLE [dbo].[MEAL_SET_DISH] CHECK CONSTRAINT [FK_MEAL_DISH_MEAL]
+ALTER TABLE [dbo].[Announcement] CHECK CONSTRAINT [FK_ANNOUNCEMENT_USER_INFO]
 GO
-/****** Object:  ForeignKey [FK_EATING_DATE_USER_INFO]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[SCHEDULE]  WITH CHECK ADD  CONSTRAINT [FK_EATING_DATE_USER_INFO] FOREIGN KEY([UPDATE_BY])
-REFERENCES [dbo].[USER_INFO] ([USERNAME])
+/****** Object:  ForeignKey [FK_Dish_DishType]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[Dish]  WITH CHECK ADD  CONSTRAINT [FK_Dish_DishType] FOREIGN KEY([DishTypeID])
+REFERENCES [dbo].[DishType] ([DishTypeID])
 GO
-ALTER TABLE [dbo].[SCHEDULE] CHECK CONSTRAINT [FK_EATING_DATE_USER_INFO]
+ALTER TABLE [dbo].[Dish] CHECK CONSTRAINT [FK_Dish_DishType]
 GO
-/****** Object:  ForeignKey [FK_SCHEDULE_SERVING_TIME]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[SCHEDULE]  WITH CHECK ADD  CONSTRAINT [FK_SCHEDULE_SERVING_TIME] FOREIGN KEY([SERVING_TIME_ID])
-REFERENCES [dbo].[SERVING_TIME] ([SERVING_TIME_ID])
+/****** Object:  ForeignKey [FK_DISH_USER_INFO]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[Dish]  WITH CHECK ADD  CONSTRAINT [FK_DISH_USER_INFO] FOREIGN KEY([UpdatedBy])
+REFERENCES [dbo].[UserInfo] ([Username])
 GO
-ALTER TABLE [dbo].[SCHEDULE] CHECK CONSTRAINT [FK_SCHEDULE_SERVING_TIME]
+ALTER TABLE [dbo].[Dish] CHECK CONSTRAINT [FK_DISH_USER_INFO]
 GO
-/****** Object:  ForeignKey [FK_SCHEDULE_MEAL_SET_MEAL_SET]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[SCHEDULE_MEAL_SET]  WITH CHECK ADD  CONSTRAINT [FK_SCHEDULE_MEAL_SET_MEAL_SET] FOREIGN KEY([MEAL_SET_ID])
-REFERENCES [dbo].[MEAL_SET] ([MEAL_SET_ID])
+/****** Object:  ForeignKey [FK_FEEDBACK_USER_INFO]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[Feedback]  WITH CHECK ADD  CONSTRAINT [FK_FEEDBACK_USER_INFO] FOREIGN KEY([UpdatedBy])
+REFERENCES [dbo].[UserInfo] ([Username])
 GO
-ALTER TABLE [dbo].[SCHEDULE_MEAL_SET] CHECK CONSTRAINT [FK_SCHEDULE_MEAL_SET_MEAL_SET]
+ALTER TABLE [dbo].[Feedback] CHECK CONSTRAINT [FK_FEEDBACK_USER_INFO]
 GO
-/****** Object:  ForeignKey [FK_SCHEDULE_MEAL_SET_SCHEDULE]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[SCHEDULE_MEAL_SET]  WITH CHECK ADD  CONSTRAINT [FK_SCHEDULE_MEAL_SET_SCHEDULE] FOREIGN KEY([SCHEDULE_ID])
-REFERENCES [dbo].[SCHEDULE] ([SCHEDULE_ID])
+/****** Object:  ForeignKey [FK_MEAL_USER_INFO]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[MealSet]  WITH CHECK ADD  CONSTRAINT [FK_MEAL_USER_INFO] FOREIGN KEY([UpdatedBy])
+REFERENCES [dbo].[UserInfo] ([Username])
 GO
-ALTER TABLE [dbo].[SCHEDULE_MEAL_SET] CHECK CONSTRAINT [FK_SCHEDULE_MEAL_SET_SCHEDULE]
+ALTER TABLE [dbo].[MealSet] CHECK CONSTRAINT [FK_MEAL_USER_INFO]
 GO
-/****** Object:  ForeignKey [FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[TRANSACTION_HISTORY]  WITH CHECK ADD  CONSTRAINT [FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET] FOREIGN KEY([SCHEDULE_MEAL_SET_ID])
-REFERENCES [dbo].[SCHEDULE_MEAL_SET] ([SCHEDULE_MEAL_SET_ID])
+/****** Object:  ForeignKey [FK_MEAL_DISH_DISH]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[MealSetDishDetail]  WITH CHECK ADD  CONSTRAINT [FK_MEAL_DISH_DISH] FOREIGN KEY([DishID])
+REFERENCES [dbo].[Dish] ([DishID])
 GO
-ALTER TABLE [dbo].[TRANSACTION_HISTORY] CHECK CONSTRAINT [FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET]
+ALTER TABLE [dbo].[MealSetDishDetail] CHECK CONSTRAINT [FK_MEAL_DISH_DISH]
 GO
-/****** Object:  ForeignKey [FK_TRANSACTION_HISTORY_USER_INFO2]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[TRANSACTION_HISTORY]  WITH CHECK ADD  CONSTRAINT [FK_TRANSACTION_HISTORY_USER_INFO2] FOREIGN KEY([UPDATE_BY])
-REFERENCES [dbo].[USER_INFO] ([USERNAME])
+/****** Object:  ForeignKey [FK_MEAL_DISH_MEAL]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[MealSetDishDetail]  WITH CHECK ADD  CONSTRAINT [FK_MEAL_DISH_MEAL] FOREIGN KEY([MeatSetID])
+REFERENCES [dbo].[MealSet] ([MealSetID])
 GO
-ALTER TABLE [dbo].[TRANSACTION_HISTORY] CHECK CONSTRAINT [FK_TRANSACTION_HISTORY_USER_INFO2]
+ALTER TABLE [dbo].[MealSetDishDetail] CHECK CONSTRAINT [FK_MEAL_DISH_MEAL]
 GO
-/****** Object:  ForeignKey [FK_USER_INFO_USER_TYPES]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[USER_INFO]  WITH CHECK ADD  CONSTRAINT [FK_USER_INFO_USER_TYPES] FOREIGN KEY([TYPE_SHORT_NAME])
-REFERENCES [dbo].[USER_TYPES] ([TYPE_SHORT_NAME])
+/****** Object:  ForeignKey [FK_EATING_DATE_USER_INFO]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[Schedule]  WITH CHECK ADD  CONSTRAINT [FK_EATING_DATE_USER_INFO] FOREIGN KEY([UpdatedBy])
+REFERENCES [dbo].[UserInfo] ([Username])
 GO
-ALTER TABLE [dbo].[USER_INFO] CHECK CONSTRAINT [FK_USER_INFO_USER_TYPES]
+ALTER TABLE [dbo].[Schedule] CHECK CONSTRAINT [FK_EATING_DATE_USER_INFO]
 GO
-/****** Object:  ForeignKey [FK_USER_TYPES_USER_INFO]    Script Date: 10/16/2015 21:00:35 ******/
-ALTER TABLE [dbo].[USER_TYPES]  WITH CHECK ADD  CONSTRAINT [FK_USER_TYPES_USER_INFO] FOREIGN KEY([UPDATE_BY])
-REFERENCES [dbo].[USER_INFO] ([USERNAME])
+/****** Object:  ForeignKey [FK_SCHEDULE_SERVING_TIME]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[Schedule]  WITH CHECK ADD  CONSTRAINT [FK_SCHEDULE_SERVING_TIME] FOREIGN KEY([ServingTimeID])
+REFERENCES [dbo].[ServingTime] ([ServingTimeID])
 GO
-ALTER TABLE [dbo].[USER_TYPES] CHECK CONSTRAINT [FK_USER_TYPES_USER_INFO]
+ALTER TABLE [dbo].[Schedule] CHECK CONSTRAINT [FK_SCHEDULE_SERVING_TIME]
+GO
+/****** Object:  ForeignKey [FK_SCHEDULE_MEAL_SET_MEAL_SET]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[ScheduleMealSetDetail]  WITH CHECK ADD  CONSTRAINT [FK_SCHEDULE_MEAL_SET_MEAL_SET] FOREIGN KEY([MealSetID])
+REFERENCES [dbo].[MealSet] ([MealSetID])
+GO
+ALTER TABLE [dbo].[ScheduleMealSetDetail] CHECK CONSTRAINT [FK_SCHEDULE_MEAL_SET_MEAL_SET]
+GO
+/****** Object:  ForeignKey [FK_SCHEDULE_MEAL_SET_SCHEDULE]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[ScheduleMealSetDetail]  WITH CHECK ADD  CONSTRAINT [FK_SCHEDULE_MEAL_SET_SCHEDULE] FOREIGN KEY([ScheduleID])
+REFERENCES [dbo].[Schedule] ([ScheduleID])
+GO
+ALTER TABLE [dbo].[ScheduleMealSetDetail] CHECK CONSTRAINT [FK_SCHEDULE_MEAL_SET_SCHEDULE]
+GO
+/****** Object:  ForeignKey [FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[TransactionHistory]  WITH CHECK ADD  CONSTRAINT [FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET] FOREIGN KEY([ScheduleMealSetDetailID])
+REFERENCES [dbo].[ScheduleMealSetDetail] ([ScheduleMealSetDetailID])
+GO
+ALTER TABLE [dbo].[TransactionHistory] CHECK CONSTRAINT [FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET]
+GO
+/****** Object:  ForeignKey [FK_TRANSACTION_HISTORY_USER_INFO2]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[TransactionHistory]  WITH CHECK ADD  CONSTRAINT [FK_TRANSACTION_HISTORY_USER_INFO2] FOREIGN KEY([UpdatedBy])
+REFERENCES [dbo].[UserInfo] ([Username])
+GO
+ALTER TABLE [dbo].[TransactionHistory] CHECK CONSTRAINT [FK_TRANSACTION_HISTORY_USER_INFO2]
+GO
+/****** Object:  ForeignKey [FK_TransactionHistory_TransactionType]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[TransactionHistory]  WITH CHECK ADD  CONSTRAINT [FK_TransactionHistory_TransactionType] FOREIGN KEY([TransactionTypeID])
+REFERENCES [dbo].[TransactionType] ([TransactionTypeID])
+GO
+ALTER TABLE [dbo].[TransactionHistory] CHECK CONSTRAINT [FK_TransactionHistory_TransactionType]
+GO
+/****** Object:  ForeignKey [FK_TransactionHistory_UserInfo]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[TransactionHistory]  WITH CHECK ADD  CONSTRAINT [FK_TransactionHistory_UserInfo] FOREIGN KEY([Username])
+REFERENCES [dbo].[UserInfo] ([Username])
+GO
+ALTER TABLE [dbo].[TransactionHistory] CHECK CONSTRAINT [FK_TransactionHistory_UserInfo]
+GO
+/****** Object:  ForeignKey [FK_USER_INFO_USER_TYPES]    Script Date: 10/25/2015 20:17:01 ******/
+ALTER TABLE [dbo].[UserInfo]  WITH CHECK ADD  CONSTRAINT [FK_USER_INFO_USER_TYPES] FOREIGN KEY([TypeShortName])
+REFERENCES [dbo].[UserType] ([TypeShortName])
+GO
+ALTER TABLE [dbo].[UserInfo] CHECK CONSTRAINT [FK_USER_INFO_USER_TYPES]
 GO
