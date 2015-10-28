@@ -52,8 +52,8 @@ namespace CTMF_Website.Webservice
 				return null;
 			}
 
-			ACCOUNTTableAdapter adapter = new ACCOUNTTableAdapter();
-			return adapter.GetDataBy(username);
+			AccountTableAdapter adapter = new AccountTableAdapter();
+			return adapter.GetDataByUsrename(username);
 		}
 	}
 }
