@@ -1,4 +1,5 @@
 ﻿using CTMF_Website.DataAccessTableAdapters;
+using CTMF_Website.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,8 +24,9 @@ namespace CTMF_Website.Controllers
 		{
 			DishTableAdapter adapter = new DishTableAdapter();
 			DataTable dt = adapter.GetData();
-
-			return View(dt);
+			BigViewModel BigViewModel = new BigViewModel();
+			BigViewModel.DataTableModel = dt;
+			return View(BigViewModel);
 		}
 
 	}
