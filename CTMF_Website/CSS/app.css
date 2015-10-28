@@ -1,4 +1,5 @@
 ﻿body {
+	background: #F0EBE4 url("http://gdj.gdj.netdna-cdn.com/wp-content/uploads/2014/05/0052+background+pattern+designs.jpg") repeat scroll 0% 0%;
 }
 
 #main-menu > li > a {
@@ -7,7 +8,6 @@
 	font-weight: bold;
 	font-family: Arial;
 	text-align: right;
-	/*border-radius: 4px 4px 0px 0px;*/
 	border-radius: 0px;
 	white-space: nowrap;
 	color: #fff;
@@ -19,7 +19,6 @@
 	font-weight: bold;
 	font-family: Arial;
 	text-align: right;
-	/*border-radius: 4px 4px 0px 0px;*/
 	border-radius: 0px;
 	white-space: nowrap;
 	color: #fff;
@@ -38,14 +37,44 @@
 	transition: all 400ms;
 }
 
-.carousel-inner img {
-	width: 100%;
+#myCarousel {
+	width: 1245px;
 	margin: auto;
+	box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-fade .carousel-inner .item {
+	-webkit-transition-property: opacity;
+	transition-property: opacity;
+}
+
+.carousel-fade .carousel-inner .item,
+.carousel-fade .carousel-inner .active.left,
+.carousel-fade .carousel-inner .active.right {
+	opacity: 0;
+}
+
+.carousel-fade .carousel-inner .active,
+.carousel-fade .carousel-inner .next.left,
+.carousel-fade .carousel-inner .prev.right {
+	opacity: 1;
+}
+
+	.carousel-fade .carousel-inner .next,
+	.carousel-fade .carousel-inner .prev,
+	.carousel-fade .carousel-inner .active.left,
+	.carousel-fade .carousel-inner .active.right {
+		left: 0;
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+	}
+
+.carousel-fade .carousel-control {
+	z-index: 2;
 }
 
 .navbar.navbar-default {
 	background-color: #D11920;
-	margin-bottom: 0;
 	border-radius: 0px;
 	border: 0;
 	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2) inset;
@@ -54,7 +83,6 @@
 
 .navbar.navbar-inverse {
 	background-color: #464646;
-	/*margin-top: 50px;*/
 	margin-bottom: 40px;
 	border-radius: 0px;
 	border: 0;
@@ -94,15 +122,28 @@
 	margin-bottom: 25px;
 	width: 80%;
 	height: 80%;
-	opacity: 0.7;
+	/*opacity: 0.7;*/
 }
 
 	.dish-img:hover {
 		border-color: #f1f1f1;
 	}
 
-.dish {
-	display: inline-block;
-	margin-bottom: 20px;
-	width: 25%;
+#register-form {
+	width: 60%;
+	margin: auto;
+	margin-top: 50px;
+	box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+	border-radius: 10px;
+	background-color: #fff;
+	/*opacity: 0.9;*/
+}
+
+#register-title {
+	padding: 10px 30px 10px;
+	color: #C41230;
+	font-size: 28px;
+	font-family: "Roboto Condensed";
+	font-weight: bold;
+	text-transform: uppercase;
 }
