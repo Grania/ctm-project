@@ -1,20 +1,4 @@
-﻿@model CTMF_Website.Models.LoginViewModel
+﻿@model CTMF_Website.Models.BigViewModel
 @{
 	ViewBag.Title = "Login";
-}
-
-<h2>Login</h2>
-
-@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { role = "form" }))
-{
-	@Html.AntiForgeryToken()
-	@Html.ValidationSummary()
-
-	@Html.LabelFor(a => a.Username)
-	@Html.TextBoxFor(a => a.Username)
-	<br />
-	@Html.LabelFor(a => a.Password)
-	@Html.TextBoxFor(a => a.Password)
-	<br />
-	<input type="submit" value="Đăng nhập" />
 }
