@@ -16,4 +16,10 @@ namespace CTMF_Website.Models
 		public DateTime Lastupdated { get; set; }
 
 	}
+
+	public class BigViewModel
+	{
+		public LoginViewModel LoginViewModel { get; set; }
+		public System.Data.DataTable DataTableModel { get; set; }
+	}
 }
