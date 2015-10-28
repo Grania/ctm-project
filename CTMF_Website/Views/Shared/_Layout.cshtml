@@ -15,57 +15,16 @@
 			<div id="top-header" style="background-color: #9E1325; ">
 				<div class="container">
 					<div>
-						<a class="navbar-brand" href=""><img class="logo-com" src="" alt="logo"></a>
+						<a class="navbar-brand" href="~/Home/HomePage"><img class="logo-com" src="" alt="logo"></a>
 					</div>
 					<div class="pull-right">
-						<button id="btn-login" class="btn btn-default" data-toggle="modal" data-target="#login"> <span class="glyphicon glyphicon-log-in"></span> Đăng nhập</button>
-						<a href="~/Account/Register" id="btn-signup" class="btn btn-default"> <span class="glyphicon glyphicon-user"></span> Đăng ký</a>
-						<div id="login" class="modal fade" role="dialog">
-							<div class="modal-dialog" style="width:400px">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal">&times;</button>
-										<h4 class="modal-title" style="text-align: center; font-weight: bold; font-size: 1.4em; text-transform: uppercase; color: #B00622">Đăng Nhập</h4>
-									</div>
-									<div class="modal-body">
-										<form method="post" role="form">
-											<div style="width:300px;margin:0px auto">
-												<div class="row" style="margin-bottom:10px">
-													<div>
-														<label>Tên đăng nhập:</label>
-													</div>
-													<div>
-														<input class="form-control input-md" id="lg_login_name" name="lg_login_name" placeholder="Tên đăng nhập" type="text">
-													</div>
-												</div>
-												<div class="row" style="margin-bottom:10px">
-													<div>
-														<label>Mật khẩu:</label>
-													</div>
-													<div>
-														<input id="lg_password" name="lg_password" class="form-control input-md" placeholder="Mật khẩu" autocomplete="off" type="password">
-													</div>
-												</div>
-												<div class="row" style="margin-bottom:10px">
-													<div class="col-sm-6">
-														<label><input type="checkbox"> Nhớ tài khoản</label>
-													</div>
-													<div class="col-sm-6 radio-right">
-														<p>
-															<a href="" title="Quên mật khẩu">Quên mật khẩu</a>
-														</p>
-													</div>
-												</div>
-												<div class="row">
-													<input class="btn btn-primary" value="Đăng nhập" type="submit">
-													<button type="button" class="btn btn-danger">Google+</button>
-												</div>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
+						@if (Request.IsAuthenticated)
+						{
+						}
+						else
+						{
+							@Html.Partial("_LoginPartial")
+						}
 					</div>
 				</div>
 			</div>
@@ -82,9 +41,6 @@
 						<ul id="main-menu" class="nav navbar-nav">
 							<li>
 								@Html.ActionLink("Trang chủ", "HomePage", "Home")
-							</li>
-							<li>
-								<a>Giới thiệu</a>
 							</li>
 							<li>
 								@Html.ActionLink("Thực đơn", "ViewDish", "Dish")
