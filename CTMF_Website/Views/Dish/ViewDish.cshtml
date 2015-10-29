@@ -3,7 +3,11 @@
 	ViewBag.Title = "ViewDish";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script>
+	$(document).ready(function () {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+</script>
 <div id="banner" style="width:100%; height:200px;background-color:#f5f5f5">
 
 </div>
@@ -15,7 +19,7 @@
 					<span class="input-group-btn">
 						<button class="btn" type="button"><span class="glyphicon glyphicon-search"></span></button>
 					</span>
-					<input type="text" class="form-control" placeholder="Tìm kiếm" style="min-width:300px;">
+					<input type="text" class="form-control" id="strSearch" placeholder="Tìm kiếm" style="min-width:300px;">
 				</div>
 			</div>
 			<div class="navbar-header">
@@ -24,16 +28,52 @@
 			<div class="collapse navbar-collapse" id="SubNavbar">
 				<ul id="sub-menu" class="nav navbar-nav navbar-right">
 					<li>
-						<a title="Món chính">Món chính</a>
+						@Html.ActionLink(
+									linkText: "Món chính",
+									actionName: "ViewDish",
+									controllerName: "Dish",
+									routeValues: new
+									{
+										blogPostId = 1,
+									},
+									htmlAttributes: null
+								)
 					</li>
 					<li>
-						<a title="Món rau">Món rau</a>
+						@Html.ActionLink(
+									linkText: "Món rau",
+									actionName: "ViewDish",
+									controllerName: "Dish",
+									routeValues: new
+									{
+										blogPostId = 2,
+									},
+									htmlAttributes: null
+								)
 					</li>
 					<li>
-						<a title="Tráng miệng">Tráng miệng</a>
+						@Html.ActionLink(
+									linkText: "Tráng miệng",
+									actionName: "ViewDish",
+									controllerName: "Dish",
+									routeValues: new
+									{
+										blogPostId = 3,
+									},
+									htmlAttributes: null
+								)
 					</li>
 					<li>
-						<a title="Món đặc biệt">Món đặc biệt</a>
+						@Html.ActionLink(
+									linkText: "Đặc biệt",
+									actionName: "ViewDish",
+									controllerName: "Dish",
+									routeValues: new
+									{
+										blogPostId = 4,
+									},
+									htmlAttributes: null
+								)
 					</li>
 				</ul>
 			</div>
@@ -41,20 +81,20 @@
 	</nav>
 </div>
 <div class="container text-center">
-	<div id="list-dish" style="width:80%;margin:auto">
+	<div id="list-dish" style="width: 80%; margin: auto; background-color: #fff; opacity: 0.9; box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
 		<div class="row">
 			@foreach (System.Data.DataRow row in Model.DataTableModel.Rows)
 			{
 				<div class="col-sm-4 dish">
-					<div id="dish-name" class="text-center">@row["Name"]</div>
-					<a href="#@row["DishID"]" data-toggle="collapse">
+					<div id="dish-name" class="text-center" style="font-size:25px"><strong>@row["Name"]</strong></div>
+					<a @*href="#@row["DishID"]"*@ data-toggle="tooltip" data-placement="bottom" title="@row["Description"]">
 						<img src="~/Images/no-image.jpg" class="dish-img">
 					</a>
-					<div id="@row["DishID"]" class="collapse dish-description">
+					@*<div id="@row["DishID"]" class="collapse dish-description">
 						<p>@row["Description"]</p>
 						<p>@row["Description"]</p>
 						<p>@row["Description"]</p>
-					</div>
+					</div>*@
 				</div>
 			}
 		</div>
