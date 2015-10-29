@@ -13,13 +13,13 @@ namespace CTMF_Website.Controllers
 	public class ScheduleController : Controller
 	{
 
-		[AllowAnonymous]
+		//[AllowAnonymous]
 		public ActionResult Schedule()
 		{
 			return View();
 		}
 
-		[AllowAnonymous]
+		//[AllowAnonymous]
 		public JsonResult GetDateRange()
 		{
 			ScheduleTableAdapter scheduleAdapter = new ScheduleTableAdapter();
@@ -45,7 +45,7 @@ namespace CTMF_Website.Controllers
 			return Json(dateMinMax, JsonRequestBehavior.AllowGet);
 		}
 
-		[AllowAnonymous]
+		//[AllowAnonymous]
 		public JsonResult GetScheduleData(int selectedMonth, int selectedYear)
 		{
 			ScheduleMonthForUserTableAdapter adapter = new ScheduleMonthForUserTableAdapter();
