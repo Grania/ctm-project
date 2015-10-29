@@ -147,3 +147,14 @@
 	font-weight: bold;
 	text-transform: uppercase;
 }
+
+.tooltip > .tooltip-inner {
+	text-transform: uppercase;
+	font-weight: bold;
+	font-family: Arial;
+	background-color: #D11920;
+	color: #FFFFFF;
+	border: 1px solid #D11920;
+	padding: 15px;
+	font-size: 20px;
+}
