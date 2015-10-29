@@ -31,6 +31,12 @@ namespace CTMF_Website.Controllers
 		}
 
 		[AllowAnonymous]
+		public ActionResult UserInfo()
+		{
+			return View();
+		}
+
+		[AllowAnonymous]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Login(BigViewModel model)
@@ -70,6 +76,26 @@ namespace CTMF_Website.Controllers
 			string cookieName = FormsAuthentication.FormsCookieName;
 			string cookieValue = FormsAuthentication.Encrypt(ticket);
 			HttpContext.Response.Cookies.Set(new HttpCookie(cookieName, cookieValue));
+
+			return RedirectToAction("HomePage", "Home");
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+
+		public ActionResult Logout()
+		{
+			string username = AccountInfo.GetUserName(Request);
+
+			FormsAuthentication.SignOut();
+			HttpCookie c = Request.Cookies[FormsAuthentication.FormsCookieName];
+			c.Expires = DateTime.Now.AddDays(-1);
+
+			// Update the amended cookie!
+			Response.Cookies.Set(c);
+
+			Session.Clear();
 
 			return RedirectToAction("HomePage", "Home");
 		}
