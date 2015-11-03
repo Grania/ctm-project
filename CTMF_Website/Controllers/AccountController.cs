@@ -19,8 +19,9 @@ namespace CTMF_Website.Controllers
 		}
 
 		[AllowAnonymous]
-		public ActionResult Login()
+		public ActionResult Login(string returnUrl)
 		{
+			ViewBag.ReturnUrl = returnUrl;
 			return View();
 		}
 
@@ -39,18 +40,18 @@ namespace CTMF_Website.Controllers
 		[AllowAnonymous]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Login(BigViewModel model)
+		public ActionResult Login(LoginViewModel model, string returnUrl)
 		{
 			if (!ModelState.IsValid)
 			{
 				return View();
 			}
 
-			string username = model.LoginViewModel.Username;
-			string password = model.LoginViewModel.Password;
+			string username = model.Username;
+			string password = model.Password;
 
 			AccountTableAdapter adapter = new AccountTableAdapter();
-			DataTable dt = adapter.GetDataByUsrename(username);
+			DataTable dt = adapter.GetDataByUsername(username);
 
 			if (dt.Rows.Count != 1)
 			{
@@ -77,7 +78,20 @@ namespace CTMF_Website.Controllers
 			string cookieValue = FormsAuthentication.Encrypt(ticket);
 			HttpContext.Response.Cookies.Set(new HttpCookie(cookieName, cookieValue));
 
-			return RedirectToAction("HomePage", "Home");
+			//return RedirectToAction("HomePage", "Home");
+			return RedirectToLocal(returnUrl);
+		}
+
+		private ActionResult RedirectToLocal(string returnUrl)
+		{
+			if (Url.IsLocalUrl(returnUrl))
+			{
+				return Redirect(returnUrl);
+			}
+			else
+			{
+				return RedirectToAction("HomePage", "Home");
+			}
 		}
 
 		[AllowAnonymous]
@@ -155,7 +169,7 @@ namespace CTMF_Website.Controllers
 					AccountTableAdapter AccountAdapter = new AccountTableAdapter();
 					AccountAdapter.InsertAccount(username, password, email, 1, false);
 				}
-				catch(Exception ex)
+				catch (Exception ex)
 				{
 					Log.ErrorLog(ex.Message);
 				}
