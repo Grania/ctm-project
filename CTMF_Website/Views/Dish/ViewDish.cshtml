@@ -1,4 +1,6 @@
-﻿@model CTMF_Website.Models.BigViewModel
+﻿@*@model CTMF_Website.Models.BigViewModel*@
+@using CTMF_Website.Models
+@model System.Data.DataTable
 @{
 	ViewBag.Title = "ViewDish";
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -83,7 +85,7 @@
 <div class="container text-center">
 	<div id="list-dish" style="width: 80%; margin: auto; background-color: #fff; opacity: 0.9; box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
 		<div class="row">
-			@foreach (System.Data.DataRow row in Model.DataTableModel.Rows)
+			@foreach (System.Data.DataRow row in Model.Rows)
 			{
 				<div class="col-sm-4 dish">
 					<div id="dish-name" class="text-center" style="font-size:25px"><strong>@row["Name"]</strong></div>
