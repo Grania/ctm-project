@@ -1,5 +1,4 @@
-﻿@*@model CTMF_Website.Models.LoginViewModel*@
-@model CTMF_Website.Models.BigViewModel
+﻿@model CTMF_Website.Models.LoginViewModel
 
 <button id="btn-login" class="btn btn-default" data-toggle="modal" data-target="#login"> <span class="glyphicon glyphicon-log-in"></span> Đăng nhập</button>
 <a href="~/Account/Register" id="btn-signup" class="btn btn-default"> <span class="glyphicon glyphicon-user"></span> Đăng ký</a>
@@ -11,31 +10,31 @@
 				<h4 class="modal-title" style="text-align: center; font-weight: bold; font-size: 1.4em; text-transform: uppercase; color: #B00622">Đăng Nhập</h4>
 			</div>
 			<div class="modal-body">
-				@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { role = "form" }))
+				@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { ReturnUrl = ViewBag.ReturnUrl }))
 				{
 					@Html.AntiForgeryToken()
 					@Html.ValidationSummary(true)
 					<div style="width:300px;margin:0px auto">
 						<div class="row" style="margin-bottom:10px">
 							<div>
-								@Html.LabelFor(m => m.LoginViewModel.Username)
+								@Html.LabelFor(m => m.Username)
 							</div>
 							<div>
-								@Html.TextBoxFor(m => m.LoginViewModel.Username, new { @class = "form-control", @placeholder = "Tên đăng nhập" })
+								@Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "Tên đăng nhập" })
 							</div>
 							<div>
-								@Html.ValidationMessageFor(m => m.LoginViewModel.Username, String.Empty, new { @style = "color:red" })
+								@Html.ValidationMessageFor(m => m.Username, String.Empty, new { @style = "color:red" })
 							</div>
 						</div>
 						<div class="row" style="margin-bottom:10px">
 							<div>
-								@Html.LabelFor(m => m.LoginViewModel.Password)
+								@Html.LabelFor(m => m.Password)
 							</div>
 							<div>
-								@Html.PasswordFor(m => m.LoginViewModel.Password, new { @class = "form-control", @placeholder = "Mật khẩu" })
+								@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Mật khẩu" })
 							</div>
 							<div>
-								@Html.ValidationMessageFor(m => m.LoginViewModel.Password, String.Empty, new { @style = "color:red" })
+								@Html.ValidationMessageFor(m => m.Password, String.Empty, new { @style = "color:red" })
 							</div>
 						</div>
 						<div class="row" style="margin-bottom:10px">
