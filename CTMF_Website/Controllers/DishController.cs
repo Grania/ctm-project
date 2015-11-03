@@ -44,7 +44,7 @@ namespace CTMF_Website.Controllers
 				dt = adapter.GetData();
 			}
 			BigViewModel.DataTableModel = dt;
-			return View(BigViewModel);
+			return View(dt);
 		}
 	}
 }
