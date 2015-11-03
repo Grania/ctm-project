@@ -390,12 +390,12 @@ WHERE            Username = @Username</CommandText>
               <DbSource ConnectionRef="CTMFConnectionString (Web.config)" DbObjectType="Unknown" GenerateMethods="Get" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="GetData">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT        UI.Username, UI.Name, UI.TypeShortName, UI.AmountOfMoney, UI.LastUpdatedMoney, UI.FingerPrintIMG, UI.LastUpdatedFingerPrint, UI.FingerPosition, 
-                         UI.IsCafeteriaStaff, UI.InsertedDate, UI.UpdatedBy, UI.LastUpdated, ACC.Email, ACC.Role, UT.TypeName, UT.MealValue, UT.MoreMealValue, UT.Description, 
-                         UT.CanDebt, UT.CanEatMore
-FROM            UserInfo AS UI INNER JOIN
-                         Account AS ACC ON UI.Username = ACC.Username INNER JOIN
-                         UserType AS UT ON UI.TypeShortName = UT.TypeShortName</CommandText>
+                    <CommandText>SELECT        UserInfo.Username, UserInfo.Name, UserInfo.TypeShortName, UserInfo.AmountOfMoney, UserInfo.LastUpdatedMoney, UserInfo.FingerPosition, 
+                         UserInfo.IsCafeteriaStaff, UserInfo.InsertedDate, UserInfo.UpdatedBy, UserInfo.LastUpdated, Account.Email, Account.Role, UserType.TypeName, 
+                         UserType.MealValue, UserType.MoreMealValue, UserType.CanDebt, UserType.CanEatMore, UserInfo.IsActive
+FROM            UserInfo INNER JOIN
+                         Account ON UserInfo.Username = Account.Username INNER JOIN
+                         UserType ON UserInfo.TypeShortName = UserType.TypeShortName</CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -407,8 +407,6 @@ FROM            UserInfo AS UI INNER JOIN
               <Mapping SourceColumn="TypeShortName" DataSetColumn="TypeShortName" />
               <Mapping SourceColumn="AmountOfMoney" DataSetColumn="AmountOfMoney" />
               <Mapping SourceColumn="LastUpdatedMoney" DataSetColumn="LastUpdatedMoney" />
-              <Mapping SourceColumn="FingerPrintIMG" DataSetColumn="FingerPrintIMG" />
-              <Mapping SourceColumn="LastUpdatedFingerPrint" DataSetColumn="LastUpdatedFingerPrint" />
               <Mapping SourceColumn="FingerPosition" DataSetColumn="FingerPosition" />
               <Mapping SourceColumn="IsCafeteriaStaff" DataSetColumn="IsCafeteriaStaff" />
               <Mapping SourceColumn="InsertedDate" DataSetColumn="InsertedDate" />
@@ -419,21 +417,21 @@ FROM            UserInfo AS UI INNER JOIN
               <Mapping SourceColumn="TypeName" DataSetColumn="TypeName" />
               <Mapping SourceColumn="MealValue" DataSetColumn="MealValue" />
               <Mapping SourceColumn="MoreMealValue" DataSetColumn="MoreMealValue" />
-              <Mapping SourceColumn="Description" DataSetColumn="Description" />
               <Mapping SourceColumn="CanDebt" DataSetColumn="CanDebt" />
               <Mapping SourceColumn="CanEatMore" DataSetColumn="CanEatMore" />
+              <Mapping SourceColumn="IsActive" DataSetColumn="IsActive" />
             </Mappings>
             <Sources>
-              <DbSource ConnectionRef="CTMFConnectionString (Web.config)" DbObjectType="Unknown" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetDataBy" GetMethodModifier="Public" GetMethodName="GetDataBy" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="GetDataBy">
+              <DbSource ConnectionRef="CTMFConnectionString (Web.config)" DbObjectType="Unknown" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByUsername" GetMethodModifier="Public" GetMethodName="GetDataByUsername" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByUsername" UserSourceName="GetDataByUsername">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT        UI.Username, UI.Name, UI.TypeShortName, UI.AmountOfMoney, UI.LastUpdatedMoney, UI.FingerPrintIMG, UI.LastUpdatedFingerPrint, UI.FingerPosition, 
-                         UI.IsCafeteriaStaff, UI.InsertedDate, UI.UpdatedBy, UI.LastUpdated, ACC.Email, ACC.Role, UT.TypeName, UT.MealValue, UT.MoreMealValue, UT.Description, 
-                         UT.CanDebt, UT.CanEatMore
-FROM            UserInfo AS UI INNER JOIN
-                         Account AS ACC ON UI.Username = ACC.Username INNER JOIN
-                         UserType AS UT ON UI.TypeShortName = UT.TypeShortName
-WHERE        (UI.Username = @Username)</CommandText>
+                    <CommandText>SELECT        UserInfo.Username, UserInfo.Name, UserInfo.TypeShortName, UserInfo.AmountOfMoney, UserInfo.LastUpdatedMoney, UserInfo.FingerPosition, 
+                         UserInfo.IsCafeteriaStaff, UserInfo.InsertedDate, UserInfo.UpdatedBy, UserInfo.LastUpdated, Account.Email, Account.Role, UserType.TypeName, 
+                         UserType.MealValue, UserType.MoreMealValue, UserType.CanDebt, UserType.CanEatMore, UserInfo.IsActive
+FROM            UserInfo INNER JOIN
+                         Account ON UserInfo.Username = Account.Username INNER JOIN
+                         UserType ON UserInfo.TypeShortName = UserType.TypeShortName
+WHERE        (UserInfo.Username = @Username)</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="Username" ColumnName="Username" DataSourceName="CTMF.dbo.UserInfo" DataTypeServer="nvarchar(254)" DbType="String" Direction="Input" ParameterName="@Username" Precision="0" ProviderType="NVarChar" Scale="0" Size="254" SourceColumn="Username" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
@@ -614,8 +612,6 @@ WHERE        (UI.Username = @Username)</CommandText>
               </xs:element>
               <xs:element name="AmountOfMoney" msprop:Generator_ColumnVarNameInTable="columnAmountOfMoney" msprop:Generator_ColumnPropNameInRow="AmountOfMoney" msprop:Generator_ColumnPropNameInTable="AmountOfMoneyColumn" msprop:Generator_UserColumnName="AmountOfMoney" type="xs:int" />
               <xs:element name="LastUpdatedMoney" msprop:Generator_ColumnVarNameInTable="columnLastUpdatedMoney" msprop:Generator_ColumnPropNameInRow="LastUpdatedMoney" msprop:Generator_ColumnPropNameInTable="LastUpdatedMoneyColumn" msprop:Generator_UserColumnName="LastUpdatedMoney" type="xs:dateTime" />
-              <xs:element name="FingerPrintIMG" msprop:Generator_ColumnVarNameInTable="columnFingerPrintIMG" msprop:Generator_ColumnPropNameInRow="FingerPrintIMG" msprop:Generator_ColumnPropNameInTable="FingerPrintIMGColumn" msprop:Generator_UserColumnName="FingerPrintIMG" type="xs:base64Binary" minOccurs="0" />
-              <xs:element name="LastUpdatedFingerPrint" msprop:Generator_ColumnVarNameInTable="columnLastUpdatedFingerPrint" msprop:Generator_ColumnPropNameInRow="LastUpdatedFingerPrint" msprop:Generator_ColumnPropNameInTable="LastUpdatedFingerPrintColumn" msprop:Generator_UserColumnName="LastUpdatedFingerPrint" type="xs:dateTime" minOccurs="0" />
               <xs:element name="FingerPosition" msprop:Generator_ColumnVarNameInTable="columnFingerPosition" msprop:Generator_ColumnPropNameInRow="FingerPosition" msprop:Generator_ColumnPropNameInTable="FingerPositionColumn" msprop:Generator_UserColumnName="FingerPosition" type="xs:int" minOccurs="0" />
               <xs:element name="IsCafeteriaStaff" msprop:Generator_ColumnVarNameInTable="columnIsCafeteriaStaff" msprop:Generator_ColumnPropNameInRow="IsCafeteriaStaff" msprop:Generator_ColumnPropNameInTable="IsCafeteriaStaffColumn" msprop:Generator_UserColumnName="IsCafeteriaStaff" type="xs:boolean" />
               <xs:element name="InsertedDate" msprop:Generator_ColumnVarNameInTable="columnInsertedDate" msprop:Generator_ColumnPropNameInRow="InsertedDate" msprop:Generator_ColumnPropNameInTable="InsertedDateColumn" msprop:Generator_UserColumnName="InsertedDate" type="xs:dateTime" />
@@ -644,15 +640,9 @@ WHERE        (UI.Username = @Username)</CommandText>
               </xs:element>
               <xs:element name="MealValue" msprop:Generator_ColumnVarNameInTable="columnMealValue" msprop:Generator_ColumnPropNameInRow="MealValue" msprop:Generator_ColumnPropNameInTable="MealValueColumn" msprop:Generator_UserColumnName="MealValue" type="xs:int" />
               <xs:element name="MoreMealValue" msprop:Generator_ColumnVarNameInTable="columnMoreMealValue" msprop:Generator_ColumnPropNameInRow="MoreMealValue" msprop:Generator_ColumnPropNameInTable="MoreMealValueColumn" msprop:Generator_UserColumnName="MoreMealValue" type="xs:int" minOccurs="0" />
-              <xs:element name="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" msprop:Generator_UserColumnName="Description" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="500" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
               <xs:element name="CanDebt" msprop:Generator_ColumnVarNameInTable="columnCanDebt" msprop:Generator_ColumnPropNameInRow="CanDebt" msprop:Generator_ColumnPropNameInTable="CanDebtColumn" msprop:Generator_UserColumnName="CanDebt" type="xs:boolean" />
               <xs:element name="CanEatMore" msprop:Generator_ColumnVarNameInTable="columnCanEatMore" msprop:Generator_ColumnPropNameInRow="CanEatMore" msprop:Generator_ColumnPropNameInTable="CanEatMoreColumn" msprop:Generator_UserColumnName="CanEatMore" type="xs:boolean" />
+              <xs:element name="IsActive" msprop:Generator_ColumnVarNameInTable="columnIsActive" msprop:Generator_ColumnPropNameInRow="IsActive" msprop:Generator_ColumnPropNameInTable="IsActiveColumn" msprop:Generator_UserColumnName="IsActive" type="xs:boolean" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
