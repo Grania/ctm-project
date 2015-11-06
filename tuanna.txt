@@ -1,6 +1,26 @@
 USE [CTMF]
 GO
-/****** Object:  Table [dbo].[ServingTime]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  Table [dbo].[DishType]    Script Date: 10/29/2015 16:16:32 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DishType](
+	[DishTypeID] [int] IDENTITY(1,1) NOT NULL,
+	[TypeName] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_DishType] PRIMARY KEY CLUSTERED 
+(
+	[DishTypeID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[DishType] ON
+INSERT [dbo].[DishType] ([DishTypeID], [TypeName]) VALUES (1, N'Món m?n')
+INSERT [dbo].[DishType] ([DishTypeID], [TypeName]) VALUES (2, N'Món rau')
+INSERT [dbo].[DishType] ([DishTypeID], [TypeName]) VALUES (3, N'Canh')
+INSERT [dbo].[DishType] ([DishTypeID], [TypeName]) VALUES (4, N'Món chính')
+SET IDENTITY_INSERT [dbo].[DishType] OFF
+/****** Object:  Table [dbo].[ServingTime]    Script Date: 10/29/2015 16:16:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15,7 +35,10 @@ CREATE TABLE [dbo].[ServingTime](
  CONSTRAINT [PK_EATING_TIME] PRIMARY KEY CLUSTERED 
 (
 	[ServingTimeID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON,
+
+
+ ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 SET IDENTITY_INSERT [dbo].[ServingTime] ON
@@ -23,7 +46,7 @@ INSERT [dbo].[ServingTime] ([ServingTimeID], [Name], [StartTime], [EndTime], [In
 INSERT [dbo].[ServingTime] ([ServingTimeID], [Name], [StartTime], [EndTime], [InsertedDate], [LastUpdated]) VALUES (2, N'B?a trua', CAST(0x00B09A0000000000 AS Time), CAST(0x00D0B60000000000 AS Time), CAST(0x0000A53700217FA4 AS DateTime), CAST(0x0000A53700217FA4 AS DateTime))
 INSERT [dbo].[ServingTime] ([ServingTimeID], [Name], [StartTime], [EndTime], [InsertedDate], [LastUpdated]) VALUES (3, N'B?a t?i', CAST(0x0010EF0000000000 AS Time), CAST(0x00300B0100000000 AS Time), CAST(0x0000A53700217FA4 AS DateTime), CAST(0x0000A53700217FA4 AS DateTime))
 SET IDENTITY_INSERT [dbo].[ServingTime] OFF
-/****** Object:  Table [dbo].[TransactionType]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  Table [dbo].[TransactionType]    Script Date: 10/29/2015 16:16:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -44,27 +67,7 @@ INSERT [dbo].[TransactionType] ([TransactionTypeID], [Name], [InsertedDate], [La
 INSERT [dbo].[TransactionType] ([TransactionTypeID], [Name], [InsertedDate], [LastUpdated]) VALUES (2, N'N?p ti?n', CAST(0x0000A53700217FA4 AS DateTime), CAST(0x0000A53700217F8F AS DateTime))
 INSERT [dbo].[TransactionType] ([TransactionTypeID], [Name], [InsertedDate], [LastUpdated]) VALUES (3, N'Rút ti?n th?a', CAST(0x0000A53700217FA4 AS DateTime), CAST(0x0000A53700217F8C AS DateTime))
 SET IDENTITY_INSERT [dbo].[TransactionType] OFF
-/****** Object:  Table [dbo].[DishType]    Script Date: 10/25/2015 20:17:01 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[DishType](
-	[DishTypeID] [int] IDENTITY(1,1) NOT NULL,
-	[TypeName] [nvarchar](50) NOT NULL,
- CONSTRAINT [PK_DishType] PRIMARY KEY CLUSTERED 
-(
-	[DishTypeID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-SET IDENTITY_INSERT [dbo].[DishType] ON
-INSERT [dbo].[DishType] ([DishTypeID], [TypeName]) VALUES (1, N'Món m?n')
-INSERT [dbo].[DishType] ([DishTypeID], [TypeName]) VALUES (2, N'Món rau')
-INSERT [dbo].[DishType] ([DishTypeID], [TypeName]) VALUES (3, N'Canh')
-INSERT [dbo].[DishType] ([DishTypeID], [TypeName]) VALUES (4, N'Món chính')
-SET IDENTITY_INSERT [dbo].[DishType] OFF
-/****** Object:  Table [dbo].[UserType]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  Table [dbo].[UserType]    Script Date: 10/29/2015 16:16:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -75,7 +78,7 @@ CREATE TABLE [dbo].[UserType](
 	[MealValue] [int] NOT NULL,
 	[MoreMealValue] [int] NULL,
 	[Description] [nvarchar](500) NULL,
-	[CanDebt] [int] NOT NULL,
+	[CanDebt] [bit] NOT NULL,
 	[CanEatMore] [bit] NOT NULL,
 	[InsertedDate] [datetime] NOT NULL,
 	[UpdatedBy] [nvarchar](254) NULL,
@@ -86,8 +89,8 @@ CREATE TABLE [dbo].[UserType](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-INSERT [dbo].[UserType] ([TypeShortName], [TypeName], [MealValue], [MoreMealValue], [Description], [CanDebt], [CanEatMore], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (N'SV', N'Sinh Viên', 20000, 5, N'Sinh viên Ð?i H?c FPT', 2, 1, CAST(0x0000A5200084D04B AS DateTime), NULL, CAST(0x0000A5200084D04B AS DateTime))
-/****** Object:  Table [dbo].[UserInfo]    Script Date: 10/25/2015 20:17:01 ******/
+INSERT [dbo].[UserType] ([TypeShortName], [TypeName], [MealValue], [MoreMealValue], [Description], [CanDebt], [CanEatMore], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (N'SV', N'Sinh Viên', 20000, 5, N'Sinh viên Ð?i H?c FPT', 1, 1, CAST(0x0000A5200084D04B AS DateTime), NULL, CAST(0x0000A5200084D04B AS DateTime))
+/****** Object:  Table [dbo].[UserInfo]    Script Date: 10/29/2015 16:16:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -97,13 +100,14 @@ CREATE TABLE [dbo].[UserInfo](
 	[Name] [nvarchar](50) NULL,
 	[TypeShortName] [nvarchar](3) NULL,
 	[AmountOfMoney] [int] NOT NULL,
-	[LastUpdateMoney] [datetime] NOT NULL,
+	[LastUpdatedMoney] [datetime] NOT NULL,
 	[FingerPrintIMG] [image] NULL,
+	[LastUpdatedFingerPrint] [datetime] NULL,
 	[FingerPosition] [int] NULL,
 	[IsCafeteriaStaff] [bit] NOT NULL,
 	[IsActive] [bit] NOT NULL,
 	[InsertedDate] [datetime] NOT NULL,
-	[UpdatedBy] [nvarchar](254) NOT NULL,
+	[UpdatedBy] [nvarchar](254) NULL,
 	[LastUpdated] [datetime] NOT NULL,
  CONSTRAINT [PK_USER_INFO] PRIMARY KEY CLUSTERED 
 (
@@ -111,8 +115,8 @@ CREATE TABLE [dbo].[UserInfo](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-INSERT [dbo].[UserInfo] ([Username], [Name], [TypeShortName], [AmountOfMoney], [LastUpdateMoney], [FingerPrintIMG], [FingerPosition], [IsCafeteriaStaff], [IsActive], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (N'dungnmse02767', N'Nguy?n M?nh Dung', N'SV', 0, CAST(0x0000A5200082BC1D AS DateTime), NULL, NULL, 0, 1, CAST(0x0000A5200082BC1D AS DateTime), N'dungnmse02767', CAST(0x0000A5200082BC1D AS DateTime))
-/****** Object:  Table [dbo].[MealSet]    Script Date: 10/25/2015 20:17:01 ******/
+INSERT [dbo].[UserInfo] ([Username], [Name], [TypeShortName], [AmountOfMoney], [LastUpdatedMoney], [FingerPrintIMG], [LastUpdatedFingerPrint], [FingerPosition], [IsCafeteriaStaff], [IsActive], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (N'dungnmse02767', N'Nguy?n M?nh Dung', N'SV', 0, CAST(0x0000A5200082BC1D AS DateTime), NULL, NULL, NULL, 0, 1, CAST(0x0000A5200082BC1D AS DateTime), N'dungnmse02767', CAST(0x0000A5200082BC1D AS DateTime))
+/****** Object:  Table [dbo].[MealSet]    Script Date: 10/29/2015 16:16:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -125,7 +129,7 @@ CREATE TABLE [dbo].[MealSet](
 	[UsedTime] [int] NOT NULL,
 	[CanEatMore] [bit] NOT NULL,
 	[InsertedDate] [datetime] NOT NULL,
-	[UpdatedBy] [nvarchar](254) NOT NULL,
+	[UpdatedBy] [nvarchar](254) NULL,
 	[LastUpdated] [datetime] NOT NULL,
  CONSTRAINT [PK_MEAL] PRIMARY KEY CLUSTERED 
 (
@@ -136,7 +140,7 @@ GO
 SET IDENTITY_INSERT [dbo].[MealSet] ON
 INSERT [dbo].[MealSet] ([MealSetID], [Name], [Image], [Description], [UsedTime], [CanEatMore], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (1, N'Món an Vi?t Nam', NULL, N'Combo ngon ', 0, 1, CAST(0x0000A537001CE21E AS DateTime), N'dungnmse02767', CAST(0x0000A537001CE21E AS DateTime))
 SET IDENTITY_INSERT [dbo].[MealSet] OFF
-/****** Object:  Table [dbo].[Feedback]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  Table [dbo].[Feedback]    Script Date: 10/29/2015 16:16:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -153,7 +157,11 @@ CREATE TABLE [dbo].[Feedback](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Dish]    Script Date: 10/25/2015 20:17:01 ******/
+SET IDENTITY_INSERT [dbo].[Feedback] ON
+INSERT [dbo].[Feedback] ([FeedbackID], [Type], [Comment], [InsertedDate], [UpdatedBy]) VALUES (3, 1, N'awewef', CAST(0x0000A53E0034069E AS DateTime), N'dungnmse02767')
+INSERT [dbo].[Feedback] ([FeedbackID], [Type], [Comment], [InsertedDate], [UpdatedBy]) VALUES (4, 1, N'awewef', CAST(0x0000A53E0034069E AS DateTime), N'dungnmse02767')
+SET IDENTITY_INSERT [dbo].[Feedback] OFF
+/****** Object:  Table [dbo].[Dish]    Script Date: 10/29/2015 16:16:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -165,7 +173,7 @@ CREATE TABLE [dbo].[Dish](
 	[Description] [nvarchar](500) NULL,
 	[Image] [nvarchar](50) NULL,
 	[InsertedDate] [datetime] NOT NULL,
-	[UpdatedBy] [nvarchar](254) NOT NULL,
+	[UpdatedBy] [nvarchar](254) NULL,
 	[LastUpdated] [datetime] NOT NULL,
  CONSTRAINT [PK_DISH] PRIMARY KEY CLUSTERED 
 (
@@ -178,7 +186,7 @@ INSERT [dbo].[Dish] ([DishID], [Name], [DishTypeID], [Description], [Image], [In
 INSERT [dbo].[Dish] ([DishID], [Name], [DishTypeID], [Description], [Image], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (2, N'Ti?t canh', 3, N'Cung ngon', NULL, CAST(0x0000A53700219746 AS DateTime), N'dungnmse02767', CAST(0x0000A53700219746 AS DateTime))
 INSERT [dbo].[Dish] ([DishID], [Name], [DishTypeID], [Description], [Image], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (3, N'Tr?ng v?t l?n', 1, N'R?t ngon', NULL, CAST(0x0000A5370021B2E7 AS DateTime), N'dungnmse02767', CAST(0x0000A5370021B2E7 AS DateTime))
 SET IDENTITY_INSERT [dbo].[Dish] OFF
-/****** Object:  Table [dbo].[Announcement]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  Table [dbo].[Announcement]    Script Date: 10/29/2015 16:16:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -197,7 +205,7 @@ CREATE TABLE [dbo].[Announcement](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Account]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  Table [dbo].[Account]    Script Date: 10/29/2015 16:16:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -215,7 +223,7 @@ CREATE TABLE [dbo].[Account](
 ) ON [PRIMARY]
 GO
 INSERT [dbo].[Account] ([Username], [Password], [Email], [Role], [IsActive]) VALUES (N'dungnmse02767', N'123456', N'dungnmse02767@fpt.edu.vn', 4, 1)
-/****** Object:  Table [dbo].[Schedule]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  Table [dbo].[Schedule]    Script Date: 10/29/2015 16:16:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -226,7 +234,7 @@ CREATE TABLE [dbo].[Schedule](
 	[ServingTimeID] [int] NOT NULL,
 	[IsDayOn] [bit] NOT NULL,
 	[InsertedDate] [datetime] NOT NULL,
-	[UpdatedBy] [nvarchar](254) NOT NULL,
+	[UpdatedBy] [nvarchar](254) NULL,
 	[LastUpdated] [datetime] NOT NULL,
  CONSTRAINT [PK_EATING_DATE] PRIMARY KEY CLUSTERED 
 (
@@ -358,7 +366,7 @@ INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [Inse
 INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (130, CAST(0x0000A54C00000000 AS DateTime), 2, 1, CAST(0x0000A537001F7611 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F7611 AS DateTime))
 INSERT [dbo].[Schedule] ([ScheduleID], [Date], [ServingTimeID], [IsDayOn], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (131, CAST(0x0000A54C00000000 AS DateTime), 3, 1, CAST(0x0000A537001F7611 AS DateTime), N'dungnmse02767', CAST(0x0000A537001F7611 AS DateTime))
 SET IDENTITY_INSERT [dbo].[Schedule] OFF
-/****** Object:  Table [dbo].[ScheduleMealSetDetail]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  Table [dbo].[ScheduleMealSetDetail]    Script Date: 10/29/2015 16:16:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -381,7 +389,7 @@ INSERT [dbo].[ScheduleMealSetDetail] ([ScheduleMealSetDetailID], [MealSetID], [S
 INSERT [dbo].[ScheduleMealSetDetail] ([ScheduleMealSetDetailID], [MealSetID], [ScheduleID], [Name], [InsertedDate], [LastUpdated]) VALUES (2, 1, 2, N'B', CAST(0x0000A5200082BC1D AS DateTime), CAST(0x0000A5200082BC1D AS DateTime))
 INSERT [dbo].[ScheduleMealSetDetail] ([ScheduleMealSetDetailID], [MealSetID], [ScheduleID], [Name], [InsertedDate], [LastUpdated]) VALUES (3, 1, 3, N'C', CAST(0x0000A5200082BC1D AS DateTime), CAST(0x0000A5200082BC1D AS DateTime))
 SET IDENTITY_INSERT [dbo].[ScheduleMealSetDetail] OFF
-/****** Object:  Table [dbo].[MealSetDishDetail]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  Table [dbo].[MealSetDishDetail]    Script Date: 10/29/2015 16:16:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -396,7 +404,7 @@ CREATE TABLE [dbo].[MealSetDishDetail](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TransactionHistory]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  Table [dbo].[TransactionHistory]    Script Date: 10/29/2015 16:16:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -410,7 +418,7 @@ CREATE TABLE [dbo].[TransactionHistory](
 	[ScheduleMealSetDetailID] [int] NULL,
 	[IsAuto] [bit] NOT NULL,
 	[InsertedDate] [datetime] NOT NULL,
-	[UpdatedBy] [nvarchar](254) NOT NULL,
+	[UpdatedBy] [nvarchar](254) NULL,
 	[LastUpdated] [datetime] NOT NULL,
  CONSTRAINT [PK_TRANSACTION_HISTORY] PRIMARY KEY CLUSTERED 
 (
@@ -421,103 +429,103 @@ GO
 SET IDENTITY_INSERT [dbo].[TransactionHistory] ON
 INSERT [dbo].[TransactionHistory] ([TransactionHistoryID], [Username], [TransactionTypeID], [Value], [TransactionContent], [ScheduleMealSetDetailID], [IsAuto], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (2, N'dungnmse02767', 1, 20000, N'An ', 1, 1, CAST(0x0000A53700217FA4 AS DateTime), N'dungnmse02767', CAST(0x0000A53700217FA4 AS DateTime))
 SET IDENTITY_INSERT [dbo].[TransactionHistory] OFF
-/****** Object:  ForeignKey [FK_ACCOUNT_USER_INFO]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_ACCOUNT_USER_INFO]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_ACCOUNT_USER_INFO] FOREIGN KEY([Username])
 REFERENCES [dbo].[UserInfo] ([Username])
 GO
 ALTER TABLE [dbo].[Account] CHECK CONSTRAINT [FK_ACCOUNT_USER_INFO]
 GO
-/****** Object:  ForeignKey [FK_ANNOUNCEMENT_USER_INFO]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_ANNOUNCEMENT_USER_INFO]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[Announcement]  WITH CHECK ADD  CONSTRAINT [FK_ANNOUNCEMENT_USER_INFO] FOREIGN KEY([UpdatedBy])
 REFERENCES [dbo].[UserInfo] ([Username])
 GO
 ALTER TABLE [dbo].[Announcement] CHECK CONSTRAINT [FK_ANNOUNCEMENT_USER_INFO]
 GO
-/****** Object:  ForeignKey [FK_Dish_DishType]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_Dish_DishType]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[Dish]  WITH CHECK ADD  CONSTRAINT [FK_Dish_DishType] FOREIGN KEY([DishTypeID])
 REFERENCES [dbo].[DishType] ([DishTypeID])
 GO
 ALTER TABLE [dbo].[Dish] CHECK CONSTRAINT [FK_Dish_DishType]
 GO
-/****** Object:  ForeignKey [FK_DISH_USER_INFO]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_DISH_USER_INFO]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[Dish]  WITH CHECK ADD  CONSTRAINT [FK_DISH_USER_INFO] FOREIGN KEY([UpdatedBy])
 REFERENCES [dbo].[UserInfo] ([Username])
 GO
 ALTER TABLE [dbo].[Dish] CHECK CONSTRAINT [FK_DISH_USER_INFO]
 GO
-/****** Object:  ForeignKey [FK_FEEDBACK_USER_INFO]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_FEEDBACK_USER_INFO]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[Feedback]  WITH CHECK ADD  CONSTRAINT [FK_FEEDBACK_USER_INFO] FOREIGN KEY([UpdatedBy])
 REFERENCES [dbo].[UserInfo] ([Username])
 GO
 ALTER TABLE [dbo].[Feedback] CHECK CONSTRAINT [FK_FEEDBACK_USER_INFO]
 GO
-/****** Object:  ForeignKey [FK_MEAL_USER_INFO]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_MEAL_USER_INFO]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[MealSet]  WITH CHECK ADD  CONSTRAINT [FK_MEAL_USER_INFO] FOREIGN KEY([UpdatedBy])
 REFERENCES [dbo].[UserInfo] ([Username])
 GO
 ALTER TABLE [dbo].[MealSet] CHECK CONSTRAINT [FK_MEAL_USER_INFO]
 GO
-/****** Object:  ForeignKey [FK_MEAL_DISH_DISH]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_MEAL_DISH_DISH]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[MealSetDishDetail]  WITH CHECK ADD  CONSTRAINT [FK_MEAL_DISH_DISH] FOREIGN KEY([DishID])
 REFERENCES [dbo].[Dish] ([DishID])
 GO
 ALTER TABLE [dbo].[MealSetDishDetail] CHECK CONSTRAINT [FK_MEAL_DISH_DISH]
 GO
-/****** Object:  ForeignKey [FK_MEAL_DISH_MEAL]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_MEAL_DISH_MEAL]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[MealSetDishDetail]  WITH CHECK ADD  CONSTRAINT [FK_MEAL_DISH_MEAL] FOREIGN KEY([MeatSetID])
 REFERENCES [dbo].[MealSet] ([MealSetID])
 GO
 ALTER TABLE [dbo].[MealSetDishDetail] CHECK CONSTRAINT [FK_MEAL_DISH_MEAL]
 GO
-/****** Object:  ForeignKey [FK_EATING_DATE_USER_INFO]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_EATING_DATE_USER_INFO]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[Schedule]  WITH CHECK ADD  CONSTRAINT [FK_EATING_DATE_USER_INFO] FOREIGN KEY([UpdatedBy])
 REFERENCES [dbo].[UserInfo] ([Username])
 GO
 ALTER TABLE [dbo].[Schedule] CHECK CONSTRAINT [FK_EATING_DATE_USER_INFO]
 GO
-/****** Object:  ForeignKey [FK_SCHEDULE_SERVING_TIME]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_SCHEDULE_SERVING_TIME]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[Schedule]  WITH CHECK ADD  CONSTRAINT [FK_SCHEDULE_SERVING_TIME] FOREIGN KEY([ServingTimeID])
 REFERENCES [dbo].[ServingTime] ([ServingTimeID])
 GO
 ALTER TABLE [dbo].[Schedule] CHECK CONSTRAINT [FK_SCHEDULE_SERVING_TIME]
 GO
-/****** Object:  ForeignKey [FK_SCHEDULE_MEAL_SET_MEAL_SET]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_SCHEDULE_MEAL_SET_MEAL_SET]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[ScheduleMealSetDetail]  WITH CHECK ADD  CONSTRAINT [FK_SCHEDULE_MEAL_SET_MEAL_SET] FOREIGN KEY([MealSetID])
 REFERENCES [dbo].[MealSet] ([MealSetID])
 GO
 ALTER TABLE [dbo].[ScheduleMealSetDetail] CHECK CONSTRAINT [FK_SCHEDULE_MEAL_SET_MEAL_SET]
 GO
-/****** Object:  ForeignKey [FK_SCHEDULE_MEAL_SET_SCHEDULE]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_SCHEDULE_MEAL_SET_SCHEDULE]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[ScheduleMealSetDetail]  WITH CHECK ADD  CONSTRAINT [FK_SCHEDULE_MEAL_SET_SCHEDULE] FOREIGN KEY([ScheduleID])
 REFERENCES [dbo].[Schedule] ([ScheduleID])
 GO
 ALTER TABLE [dbo].[ScheduleMealSetDetail] CHECK CONSTRAINT [FK_SCHEDULE_MEAL_SET_SCHEDULE]
 GO
-/****** Object:  ForeignKey [FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[TransactionHistory]  WITH CHECK ADD  CONSTRAINT [FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET] FOREIGN KEY([ScheduleMealSetDetailID])
 REFERENCES [dbo].[ScheduleMealSetDetail] ([ScheduleMealSetDetailID])
 GO
 ALTER TABLE [dbo].[TransactionHistory] CHECK CONSTRAINT [FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET]
 GO
-/****** Object:  ForeignKey [FK_TRANSACTION_HISTORY_USER_INFO2]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_TRANSACTION_HISTORY_USER_INFO2]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[TransactionHistory]  WITH CHECK ADD  CONSTRAINT [FK_TRANSACTION_HISTORY_USER_INFO2] FOREIGN KEY([UpdatedBy])
 REFERENCES [dbo].[UserInfo] ([Username])
 GO
 ALTER TABLE [dbo].[TransactionHistory] CHECK CONSTRAINT [FK_TRANSACTION_HISTORY_USER_INFO2]
 GO
-/****** Object:  ForeignKey [FK_TransactionHistory_TransactionType]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_TransactionHistory_TransactionType]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[TransactionHistory]  WITH CHECK ADD  CONSTRAINT [FK_TransactionHistory_TransactionType] FOREIGN KEY([TransactionTypeID])
 REFERENCES [dbo].[TransactionType] ([TransactionTypeID])
 GO
 ALTER TABLE [dbo].[TransactionHistory] CHECK CONSTRAINT [FK_TransactionHistory_TransactionType]
 GO
-/****** Object:  ForeignKey [FK_TransactionHistory_UserInfo]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_TransactionHistory_UserInfo]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[TransactionHistory]  WITH CHECK ADD  CONSTRAINT [FK_TransactionHistory_UserInfo] FOREIGN KEY([Username])
 REFERENCES [dbo].[UserInfo] ([Username])
 GO
 ALTER TABLE [dbo].[TransactionHistory] CHECK CONSTRAINT [FK_TransactionHistory_UserInfo]
 GO
-/****** Object:  ForeignKey [FK_USER_INFO_USER_TYPES]    Script Date: 10/25/2015 20:17:01 ******/
+/****** Object:  ForeignKey [FK_USER_INFO_USER_TYPES]    Script Date: 10/29/2015 16:16:32 ******/
 ALTER TABLE [dbo].[UserInfo]  WITH CHECK ADD  CONSTRAINT [FK_USER_INFO_USER_TYPES] FOREIGN KEY([TypeShortName])
 REFERENCES [dbo].[UserType] ([TypeShortName])
 GO
