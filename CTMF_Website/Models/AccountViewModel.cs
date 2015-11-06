@@ -4,12 +4,12 @@ namespace CTMF_Website.Models
 {
 	public class LoginViewModel
 	{
-		[Required]
+		[Required(ErrorMessage = "Vui lòng nhập tên đăng nhập")]
 		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0}, {1}, {2}")]
 		[Display(Name = "Tên đăng nhập")]
 		public string Username { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "Vui lòng nhập mật khẩu.")]
 		[DataType(DataType.Password)]
 		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0}, {1}, {2}")]
 		[Display(Name = "Mật khẩu")]
@@ -41,5 +41,23 @@ namespace CTMF_Website.Models
 		[EmailAddress(ErrorMessage = "Invalid Email Address")]
 		[Display(Name = "Email")]
 		public string Email { get; set; }
+	}
+
+	public class Userinfo
+	{
+		[Display(Name = "Tên đăng nhập")]
+		public string Username { get; set; }
+
+		[Display(Name = "Họ và tên")]
+		public string Name { get; set; }
+
+		[Display(Name = "Vai trò")]
+		public string TypeName { get; set; }
+
+		[Display(Name = "Email")]
+		public string Email { get; set; }
+
+		[Display(Name = "Số tiền trong tài khoản")]
+		public int AmountOfMoney { get; set; }
 	}
 }
