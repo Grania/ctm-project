@@ -48,11 +48,20 @@ namespace CTMF_Website.Controllers
 		//[AllowAnonymous]
 		public JsonResult GetScheduleData(int selectedMonth, int selectedYear)
 		{
+			string username = "";
+			try
+			{
+				username = AccountInfo.GetUserName(Request);
+			}
+			catch(Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
 			ScheduleMonthForUserTableAdapter adapter = new ScheduleMonthForUserTableAdapter();
 			DataTable dt = null;
 			try
 			{
-				dt = adapter.GetData("dungnmse02767", selectedMonth, selectedYear);
+				dt = adapter.GetData(username, selectedMonth, selectedYear);
 			}
 			catch (Exception ex)
 			{

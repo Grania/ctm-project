@@ -34,8 +34,50 @@ namespace CTMF_Website.Controllers
 		[AllowAnonymous]
 		public ActionResult UserInfo()
 		{
-			return View();
+			string username = AccountInfo.GetUserName(Request);
+
+			Userinfo userinfo = new Userinfo();
+			UserInfoDetailTableAdapter userinfoAdapter = new UserInfoDetailTableAdapter();
+			DataTable userinfoDataTable = userinfoAdapter.GetDataByUsername(username);
+			DateTime date = DateTime.Parse(userinfoDataTable.Rows[0]["LastUpdatedMoney"].ToString());
+			int amountOfMoney = (int)userinfoDataTable.Rows[0]["AmountOfMoney"];
+
+			TransactionHistoryTableAdapter transactionAdapter = new TransactionHistoryTableAdapter();
+			DataTable transactionDataTable = transactionAdapter.GetDataByDate(date, username);
+
+			foreach (DataRow row in transactionDataTable.Rows)
+			{
+				try
+				{
+					if (row["TransactionTypeID"].Equals(2))
+					{
+						amountOfMoney += (int)row["Value"];
+					}
+					else
+					{
+						amountOfMoney -= (int)row["Value"];
+					}
+				}
+				catch (Exception ex)
+				{
+					Log.ErrorLog(ex.Message);
+				}
+			}
+
+			userinfo.Username = username;
+			userinfo.Name = (string)userinfoDataTable.Rows[0]["Name"];
+			userinfo.TypeName = (string)userinfoDataTable.Rows[0]["TypeName"];
+			userinfo.Email = (string)userinfoDataTable.Rows[0]["Email"];
+			userinfo.AmountOfMoney = amountOfMoney;
+
+			return View(userinfo);
 		}
+
+		//[AllowAnonymous]
+		//public ActionResult UserInfo(Userinfo model)
+		//{
+		//	return View();
+		//}
 
 		[AllowAnonymous]
 		[HttpPost]
@@ -65,18 +107,26 @@ namespace CTMF_Website.Controllers
 				return View(model);
 			}
 
-			FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
+			try
+			{
+				string role = dt.Rows[0]["Role"].ToString();
+				FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
 				1,
 				username,
 				DateTime.Now,
 				DateTime.Now.AddMilliseconds(20),
 				false,
-				"admin"
+				role
 				);
-			HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
-			string cookieName = FormsAuthentication.FormsCookieName;
-			string cookieValue = FormsAuthentication.Encrypt(ticket);
-			HttpContext.Response.Cookies.Set(new HttpCookie(cookieName, cookieValue));
+				HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
+				string cookieName = FormsAuthentication.FormsCookieName;
+				string cookieValue = FormsAuthentication.Encrypt(ticket);
+				HttpContext.Response.Cookies.Set(new HttpCookie(cookieName, cookieValue));
+			}
+			catch(Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
 
 			//return RedirectToAction("HomePage", "Home");
 			return RedirectToLocal(returnUrl);
@@ -106,7 +156,6 @@ namespace CTMF_Website.Controllers
 			HttpCookie c = Request.Cookies[FormsAuthentication.FormsCookieName];
 			c.Expires = DateTime.Now.AddDays(-1);
 
-			// Update the amended cookie!
 			Response.Cookies.Set(c);
 
 			Session.Clear();
@@ -165,7 +214,7 @@ namespace CTMF_Website.Controllers
 			{
 				try
 				{
-					UserInfoAdapter.InsertUserInfo(username, name, null, 0, date, null, null, false, false, date, username, date);
+					UserInfoAdapter.InsertUserInfo(username, name, null, 0, date, null,null, null, false, false, date, username, date);
 					AccountTableAdapter AccountAdapter = new AccountTableAdapter();
 					AccountAdapter.InsertAccount(username, password, email, 1, false);
 				}
