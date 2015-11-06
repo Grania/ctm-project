@@ -1,6 +1,24 @@
-﻿@{
-    ViewBag.Title = "ViewAnnounce";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@model System.Data.DataTable
+@{
+	ViewBag.Title = "ViewAnnounce";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>ViewAnnounce</h2>
+@{
+	string title, ID;
+}
+<div class="container">
+	<div id="list-announcement" style="width: 80%; margin: auto; background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
+		<table class="table table-striped">
+			@foreach (System.Data.DataRow row in Model.Rows)
+			{
+				title = row["Title"].ToString();
+				ID = row["AnnouncementID"].ToString();
+				<tr>
+					<td>
+						@Html.ActionLink(title, "Details", new { id = ID })
+					</td>
+				</tr>
+			}
+		</table>
+	</div>
+</div>

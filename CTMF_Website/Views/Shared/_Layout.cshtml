@@ -7,12 +7,24 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>@ViewBag.Title</title>
 	<link rel="stylesheet" href="~/CSS/app.css" />
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	@*<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>*@
+	<link href="~/Content/bootstrap.css" rel="stylesheet" />
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery-1.9.1.js"></script>
+	@*<script src="~/Scripts/jquery-1.9.1.min.js"></script>*@
+	<script src="~/Scripts/bootstrap.js"></script>
+	<script src="~/Scripts/bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$(".dropdown-toggle").dropdown();
+		});
+	</script>
 </head>
 @{
 	string username = AccountInfo.GetUserName(Request);
+	string role = AccountInfo.GetUserRole(Request);
 }
 <body>
 	<header>
@@ -30,7 +42,6 @@
 									@username
 									<span class="caret"></span>
 								</button>
-								<a href="~/Account/Register" id="btn-signup" class="btn btn-default"> <span class="glyphicon glyphicon-user"></span> Đăng ký</a>
 								<ul class="dropdown-menu">
 									<li>
 										@Html.ActionLink("Thông tin cá nhân", "UserInfo", "Account")
@@ -73,20 +84,24 @@
 								@Html.ActionLink(
 									linkText: "Thực đơn",
 									actionName: "ViewDish",
-									controllerName: "Dish",
-									routeValues: new
-									{
-										blogPostId = 0,
-									},
-									htmlAttributes: null
+									controllerName: "Dish"
 								)
 							</li>
-							<li>
-								@Html.ActionLink("Biểu lịch", "Schedule", "Schedule")
-							</li>
+							@if (Request.IsAuthenticated)
+							{
+								<li>
+									@Html.ActionLink("Biểu lịch", "Schedule", "Schedule")
+								</li>
+							}
 							<li>
 								@Html.ActionLink("Tin tức", "ViewAnnounce", "Announce")
 							</li>
+							@if (Request.IsAuthenticated && role.Equals("4"))
+							{
+								<li>
+									@Html.ActionLink("Quản lý người dùng", "", "")
+								</li>
+							}
 						</ul>
 					</div>
 				</div>
