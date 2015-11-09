@@ -129,7 +129,7 @@
 		border-color: #f1f1f1;
 	}
 
-#register-form {
+.addForm {
 	width: 60%;
 	margin: auto;
 	margin-top: 50px;
@@ -139,7 +139,7 @@
 	/*opacity: 0.9;*/
 }
 
-#register-title {
+.title {
 	padding: 10px 30px 10px;
 	color: #C41230;
 	font-size: 28px;

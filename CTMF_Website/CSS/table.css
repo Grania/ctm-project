@@ -1,0 +1,18 @@
+﻿.table-title {
+	padding: 10px 30px 10px;
+	color: #C41230;
+	font-size: 28px;
+	font-family: "Roboto Condensed";
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.table-body {
+	width: 97%;
+	margin: auto;
+}
+
+thead {
+	background-color: #f5f5f5;
+	text-transform: uppercase;
+}
