@@ -93,14 +93,9 @@
 			{
 				<div class="col-sm-4 dish">
 					<div id="dish-name" class="text-center" style="font-size:25px"><strong>@row["Name"]</strong></div>
-					<a @*href="#@row["DishID"]"*@ data-toggle="tooltip" data-placement="bottom" title="@row["Description"]">
+					<a data-toggle="tooltip" data-placement="bottom" title="@row["Description"]">
 						<img src="~/Images/no-image.jpg" class="dish-img">
 					</a>
-					@*<div id="@row["DishID"]" class="collapse dish-description">
-							<p>@row["Description"]</p>
-							<p>@row["Description"]</p>
-							<p>@row["Description"]</p>
-						</div>*@
 				</div>
 			}
 		</div>

@@ -1,0 +1,67 @@
+﻿@model System.Data.DataTable
+@{
+	ViewBag.Title = "ListDish";
+}
+<link href="~/CSS/table.css" rel="stylesheet" />
+<div class="container" style="background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
+	<legend class="table-title">Quản lý món ăn</legend>
+	<div>
+		<div class="table-body">
+			<div style="margin-bottom:20px;">
+				<a href="~/Dish/AddDish" class="btn btn-primary">Thêm món ăn mới</a>
+				<div class="pull-right">
+					@using (Html.BeginForm("ListDish", "Dish", FormMethod.Get))
+					{
+						<div class="input-group">
+							<span class="input-group-btn">
+								<button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+							</span>
+							<input type="text" class="form-control" name="search" placeholder="Tìm kiếm" style="min-width:300px;">
+						</div>
+					}
+				</div>
+			</div>
+			<table class="table table-bordered table-hover table-condensed">
+				<thead>
+					<tr>
+						<th>STT</th>
+						<th>Tên món ăn</th>
+						<th>Loại món ăn</th>
+						<th>Quản lý</th>
+					</tr>
+				</thead>
+				<tbody>
+					@{
+						int count = 0;
+					}
+					@foreach (System.Data.DataRow row in Model.Rows)
+					{
+						count++;
+						<tr>
+							<td>@count</td>
+							<td>@row["Name"]</td>
+							<td>@row["TypeName"]</td>
+							<td>
+								<div>
+									<button class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></button>
+									<a href="@Url.Action("EditDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+									<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>
+								</div>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+		<div id="footer">
+			<div>
+				<nav>
+					<ul class="pager">
+						<li><a href="#">Previous</a></li>
+						<li><a href="#">Next</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+</div>
