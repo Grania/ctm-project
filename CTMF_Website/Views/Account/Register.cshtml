@@ -4,11 +4,28 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
+	.addForm {
+		width: 60%;
+		margin: auto;
+		margin-top: 50px;
+		box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+		border-radius: 10px;
+		background-color: #fff;
+		/*opacity: 0.9;*/
+	}
 
+	.title {
+		padding: 10px 30px 10px;
+		color: #C41230;
+		font-size: 28px;
+		font-family: "Roboto Condensed";
+		font-weight: bold;
+		text-transform: uppercase;
+	}
 </style>
 
-<div id="register-form">
-	<legend id="register-title">Đăng ký thành viên</legend>
+<div class="addForm">
+	<legend class="title">Đăng ký thành viên</legend>
 		<div class="container">
 			@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
 			{
