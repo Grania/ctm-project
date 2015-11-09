@@ -12,14 +12,10 @@ namespace CTMF_Website.Controllers
 {
 	public class ScheduleController : Controller
 	{
-
-		//[AllowAnonymous]
 		public ActionResult Schedule()
 		{
 			return View();
 		}
-
-		//[AllowAnonymous]
 		public JsonResult GetDateRange()
 		{
 			ScheduleTableAdapter scheduleAdapter = new ScheduleTableAdapter();

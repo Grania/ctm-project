@@ -13,11 +13,6 @@ namespace CTMF_Website.Controllers
 {
 	public class AccountController : Controller
 	{
-		public ActionResult Index()
-		{
-			return View();
-		}
-
 		[AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
@@ -31,7 +26,7 @@ namespace CTMF_Website.Controllers
 			return View();
 		}
 
-		[AllowAnonymous]
+		//[AllowAnonymous]
 		public ActionResult UserInfo()
 		{
 			string username = AccountInfo.GetUserName(Request);
