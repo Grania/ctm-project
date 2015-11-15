@@ -1,5 +1,6 @@
 ﻿using CTMF_Website.DataAccessTableAdapters;
 using CTMF_Website.Util;
+using CTMF_Website.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -49,7 +50,7 @@ namespace CTMF_Website.Controllers
 			{
 				username = AccountInfo.GetUserName(Request);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
 			}
@@ -132,8 +133,137 @@ namespace CTMF_Website.Controllers
 					}
 				}
 			}
-
 			return Json(new { value = sb.ToString() }, JsonRequestBehavior.AllowGet);
+		}
+
+		//Serving time controller
+		[AllowAnonymous]
+		public ActionResult ViewServingTime()
+		{
+			DataTable dataTable = new DataTable();
+			ServingTimeTableAdapter servingTimeAdapter = new ServingTimeTableAdapter();
+
+			try
+			{
+				dataTable = servingTimeAdapter.GetData();
+				var results = from DataRow myRow in dataTable.Rows
+							  where (int)myRow["ServingTimeID"] != 0
+							  select myRow;
+				return View(results.CopyToDataTable());
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+			return View(dataTable);
+		}
+
+		[AllowAnonymous]
+		public ActionResult EditServingTime(string servingTimeID)
+		{
+			int servingTimeId = Convert.ToInt32(servingTimeID);
+			ServingTimeModel servingTimeModel = new ServingTimeModel();
+			DataTable servingTimeDataTable = new DataTable();
+			ServingTimeTableAdapter servingTimeAdapter = new ServingTimeTableAdapter();
+			try
+			{
+				servingTimeDataTable = servingTimeAdapter.GetDataByID(servingTimeId);
+				servingTimeModel.servingTimeID = servingTimeDataTable.Rows[0].Field<int>("ServingTimeID");
+				servingTimeModel.name = Convert.ToString(servingTimeDataTable.Rows[0]["Name"]);
+				servingTimeModel.startTime = (TimeSpan)servingTimeDataTable.Rows[0]["StartTime"];
+				if (servingTimeDataTable.Rows[0]["EndTime"].ToString() == String.Empty)
+				{
+					servingTimeModel.endTime = null;
+				}
+				else
+				{
+					servingTimeModel.endTime = (TimeSpan?)servingTimeDataTable.Rows[0]["EndTime"];
+				}
+				servingTimeModel.insertDate = Convert.ToDateTime(servingTimeDataTable.Rows[0]["InsertedDate"]);
+				servingTimeModel.lastUpdate = Convert.ToDateTime(servingTimeDataTable.Rows[0]["LastUpdated"]);
+
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+			if (servingTimeModel == null)
+			{
+				return RedirectToAction("Error", "ErrorController");
+			}
+			return View(servingTimeModel);
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		public ActionResult EditServingTime(ServingTimeModel servingTimeModel, string servingTimeID)
+		{
+			int servingTimeId = Convert.ToInt32(servingTimeID);
+			ServingTimeTableAdapter servingTimeTableAdapter = new ServingTimeTableAdapter();
+			if (servingTimeModel != null)
+			{
+				try
+				{
+					string name = servingTimeModel.name;
+					TimeSpan startTime = servingTimeModel.startTime;
+					TimeSpan? endTime = servingTimeModel.endTime;
+					DateTime insertDate = servingTimeModel.insertDate;
+					DateTime lastUpdate = DateTime.Now;
+
+					servingTimeTableAdapter.UpdateServingTimeByID(name, startTime, endTime, insertDate, lastUpdate, servingTimeId);
+					return RedirectToAction("ViewServingTime", "Schedule");
+				}
+				catch (Exception ex)
+				{
+					Log.ErrorLog(ex.Message);
+				}
+			}
+			return RedirectToAction("ViewServingTime", "Schedule");
+		}
+
+
+		[AllowAnonymous]
+		public ActionResult DeleteServingTime(string servingTimeID)
+		{
+			ServingTimeTableAdapter servingTimeTableAdapter = new ServingTimeTableAdapter();
+			ScheduleTableAdapter scheduleTableAdapter = new ScheduleTableAdapter();
+			try { 
+				int servingTimeId = Convert.ToInt32(servingTimeID);
+				scheduleTableAdapter.DeleteScheduleByServingTimeID(servingTimeId);
+				servingTimeTableAdapter.DeleteServingTimeByID(servingTimeId);
+			}catch(Exception ex){
+				Log.ErrorLog(ex.Message);
+			}
+			return RedirectToAction("ViewServingTime","Schedule");
+		}
+		[AllowAnonymous]
+		public ActionResult AddNewServingTime()
+		{
+			return View();
+		}
+		[AllowAnonymous]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult AddNewServingTime(ServingTimeModel servingTimeModel)
+		{
+			ServingTimeTableAdapter servingTimeDataAdapter = new ServingTimeTableAdapter();
+			if (servingTimeModel != null)
+			{
+				try
+				{
+					string name = servingTimeModel.name;
+					TimeSpan startTime = servingTimeModel.startTime;
+					TimeSpan? endTime = servingTimeModel.endTime;
+					DateTime date = DateTime.Now;
+					servingTimeDataAdapter.Insert(name, startTime, endTime, date, date);
+					return RedirectToAction("ViewServingTime", "Schedule");
+				}
+				catch (Exception ex)
+				{
+					Log.ErrorLog(ex.Message);
+				}
+			}
+			return View();
 		}
 	}
 }
