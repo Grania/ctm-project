@@ -1,0 +1,26 @@
+﻿@model CTMF_Website.Models.AnnounceModel
+@{
+    ViewBag.Title = "Details";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Announce Details</h2>
+<script type="text/javascript" src="scripts/widgEditor.js"></script>
+<link href="~/CSS/widgEditor.css" rel="stylesheet" />
+<div id="list-announcement" style="width: 80%; margin: auto; background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
+	<div class="display-label">
+		Tiêu đề:
+		@Html.DisplayText("Title")
+	</div>
+	<div class="display-label">
+		Nội dung:
+		@Html.DisplayText("Subject")
+	</div>
+	<div class="display-label">
+		Thời gian chỉnh sửa gần nhất:
+		@Html.DisplayText("lastUpdate")
+	</div>
+
+	<a href="@Url.Action("EditAnnounce", "Announce", new { announceID = Model.annoucemenID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+	<a href="@Url.Action("DeleteAnnounce", "Announce", new { announceID = Model.annoucemenID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-remove-sign"></span></a>
+</div>
