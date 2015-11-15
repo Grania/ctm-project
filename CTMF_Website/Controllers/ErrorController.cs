@@ -13,5 +13,9 @@ namespace CTMF_Website.Controllers
 			return View();
 		}
 
+		public ActionResult Error()
+		{
+			return View();
+		}
 	}
 }
