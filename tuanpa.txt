@@ -1,0 +1,15 @@
+Commit ngay? 16/11/2015:
+
+Announce model
+Announce controller
+Announce view
+Announce details
+Announce edit
+Announce delete
+Announce add
+
+Schedule controler
+Serving time view
+Serving time add
+Serving time edit
+Serving time delete
