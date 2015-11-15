@@ -15,10 +15,17 @@
 				ID = row["AnnouncementID"].ToString();
 				<tr>
 					<td>
-						@Html.ActionLink(title, "Details", new { id = ID })
+						@Html.ActionLink(title, "DetailsAnnounce", new { announceID = ID })
+					</td>
+					<td>
+						<a href="@Url.Action("EditAnnounce", "Announce", new { announceID = ID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+						<a href="@Url.Action("DeleteAnnounce", "Announce", new { announceID = ID })" class="btn btn-danger" title="Sửa"><span class="glyphicon glyphicon-remove-sign"></span></a>
 					</td>
 				</tr>
 			}
+			<tr>
+				<a href="AddNewAnnounce" class="btn btn-primary">Thêm thông tin mới</a>
+			</tr>
 		</table>
 	</div>
 </div>
