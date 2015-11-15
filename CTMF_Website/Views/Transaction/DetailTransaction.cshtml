@@ -1,0 +1,99 @@
+﻿@model CTMF_Website.Models.DetailTransaction
+@{
+	ViewBag.Title = "DetailTransaction";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+	#userinfo {
+		width: 60%;
+		margin: auto;
+		margin-top: 50px;
+		box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+		border-radius: 10px;
+		background-color: #fff;
+	}
+
+	#userinfo-title {
+		padding: 10px 30px 10px;
+		color: #C41230;
+		font-size: 28px;
+		font-family: "Roboto Condensed";
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+</style>
+
+<div id="detailtransaction">
+	<legend id="detailtransaction-title">Chi tiết giao dịch</legend>
+	<div class="container">
+		@using (Html.BeginForm("DetailTransaction", "Transaction", FormMethod.Post, new { @class = "form-horizontal" }))
+		{
+			@Html.AntiForgeryToken()
+			@Html.ValidationSummary(true)
+
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.Username, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.Username, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Name, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.TransactionTypeName, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.TransactionTypeName, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.TransactionContent, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.TransactionContent, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Value, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.Value, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.InsertedDate, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.InsertedDate, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.UpdatedBy, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.UpdatedBy, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.LastUpdated, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.LastUpdated, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.DishName, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.DishName, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+		}
+	</div>
+</div>
