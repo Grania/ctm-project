@@ -1,15 +1,14 @@
 Commit ngay? 16/11/2015:
 
 Announce model
-Announce controller
+Announce controller(view , detail, add, edit, delete)
 Announce view
 Announce details
 Announce edit
-Announce delete
 Announce add
 
-Schedule controler
+Serving Time model
+Schedule controler(Serving time : Add , edit, delete, view)
 Serving time view
 Serving time add
 Serving time edit
-Serving time delete
