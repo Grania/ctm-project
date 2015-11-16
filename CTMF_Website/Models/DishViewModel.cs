@@ -10,8 +10,10 @@ namespace CTMF_Website.Models
 
 		public string Dishtypeid { get; set; }
 
+		[Display(Name = "Mô tả")]
 		public string Description { get; set; }
 
+		[Display(Name = "Hình Ảnh")]
 		public string Image { get; set; }
 
 	}
