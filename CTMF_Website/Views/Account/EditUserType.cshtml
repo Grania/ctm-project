@@ -1,0 +1,90 @@
+﻿@model CTMF_Website.Models.UserTypeModel
+@{
+	ViewBag.Title = "EditUserType";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="addForm">
+	<h2>Chỉnh sửa phân loại người dùng</h2>
+	<div class="container">
+		@using (Html.BeginForm("EditUserType", "Account", new { typeShortName = Model.typeShortName }, FormMethod.Post, new { @class = "form-horizontal" }))
+		{
+			@Html.AntiForgeryToken()
+			@Html.ValidationSummary(true)
+			@Html.HiddenFor(m => m.insertedDate)
+			@Html.HiddenFor(m => m.lastUpdated)
+			@Html.HiddenFor(m => m.updatedBy)
+			<div class="form-group">
+				@Html.LabelFor(m => m.typeShortName, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.typeShortName, new { @class = "form-control" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-2">
+
+				</div>
+				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.typeShortName, String.Empty, new { @style = "color:red" })</div>
+			</div>
+
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.typeName, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.typeName, new { @class = "form-control", @placeholder = "" })
+				</div>
+
+				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.typeName, String.Empty, new { @style = "color:red" })</div>
+			</div>
+
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.mealValue, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.mealValue, new { @class = "form-control", @placeholder = "" })
+				</div>
+			</div>
+
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.moreMealValue, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.moreMealValue, new { @class = "form-control", @placeholder = "" })
+				</div>
+			</div>
+
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.moreMealValue, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.moreMealValue, new { @class = "form-control", @placeholder = "" })
+				</div>
+			</div>
+
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.description, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextAreaFor(m => m.description, new { @class = "form-control", @placeholder = "" })
+				</div>
+			</div>
+
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.canDebt, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.CheckBoxFor(m => m.canDebt, new { @class = "form-control", @placeholder = "" })
+				</div>
+			</div>
+
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.canEatMore, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.CheckBoxFor(m => m.canEatMore, new { @class = "form-control", @placeholder = "" })
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="submit" class="btn btn-danger" value="Chỉnh sửa">
+				</div>
+			</div>
+
+		}
+	</div>
+</div>
