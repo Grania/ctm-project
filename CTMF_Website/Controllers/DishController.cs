@@ -2,6 +2,7 @@
 using CTMF_Website.Models;
 using CTMF_Website.Util;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Web;
@@ -89,6 +90,15 @@ namespace CTMF_Website.Controllers
 		[AllowAnonymous]
 		public ActionResult AddDish()
 		{
+			DishTypeTableAdapter dishTypeAdapter = new DishTypeTableAdapter();
+			DataTable dishTypeDT = dishTypeAdapter.GetData();
+
+			List<SelectListItem> items = new List<SelectListItem>();
+			foreach (DataRow row in dishTypeDT.Rows)
+			{
+				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["DishTypeID"].ToString() });
+			}
+			ViewData["DishTypeID"] = items;
 			return View();
 		}
 
@@ -97,15 +107,64 @@ namespace CTMF_Website.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult AddDish(DishViewModel model)
 		{
+			DishTypeTableAdapter dishTypeAdapter = new DishTypeTableAdapter();
+			DataTable dishTypeDT = dishTypeAdapter.GetData();
+
+			List<SelectListItem> items = new List<SelectListItem>();
+			foreach (DataRow row in dishTypeDT.Rows)
+			{
+				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["DishTypeID"].ToString() });
+			}
+			ViewData["DishTypeID"] = items;
+
 			if (!ModelState.IsValid)
 			{
 				return View();
 			}
 
-			return View();
+			string updateBy = AccountInfo.GetUserName(Request);
+			DateTime date = DateTime.Now;
+			string dishName = model.Dishname;
+			int dishTypeID = model.DishTypeID;
+			string description = model.Description;
+			string savePath = model.Image.Replace("\\Temp", DishImagesPath);
+			var sourcePath = HttpContext.Server.MapPath(model.Image);
+			var destinationPath = HttpContext.Server.MapPath(savePath);
+
+			if (System.IO.File.Exists(destinationPath))
+			{
+				ModelState.AddModelError("", "Tên file ảnh món ăn đã tồn tại.");
+				return View(model);
+			}
+			else
+			{
+				System.IO.File.Move(sourcePath, destinationPath);
+			}
+
+			DishTableAdapter dishAdapter = new DishTableAdapter();
+			DataTable dishDT = dishAdapter.GetByName(dishName);
+
+			for (int i = 0; i < dishDT.Rows.Count; i++)
+			{
+				if (StringExtensions.EqualsInsensitive(dishDT.Rows[i]["Name"].ToString(), dishName))
+				{
+					ModelState.AddModelError("", "Tên món ăn đã tồn tại.");
+					return View(model);
+				}
+			}
+
+			try
+			{
+				dishAdapter.InsertDish(dishName, dishTypeID, description, savePath, date, updateBy, date);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+			return RedirectToAction("ListDish", "Dish");
 		}
 
-		private const int AvatarScreenWidth = 500;
+		private const int AvatarScreenWidth = 200;
 
 		private const string TempFolder = "/Temp";
 		private const string MapTempFolder = "~" + TempFolder;
@@ -203,13 +262,55 @@ namespace CTMF_Website.Controllers
 			}
 			catch
 			{
-				
+
 			}
 		}
 
 		[AllowAnonymous]
 		public ActionResult EditDish(string dishID)
 		{
+			DishTypeTableAdapter dishTypeAdapter = new DishTypeTableAdapter();
+			DataTable dishTypeDT = dishTypeAdapter.GetData();
+
+			List<SelectListItem> items = new List<SelectListItem>();
+			foreach (DataRow row in dishTypeDT.Rows)
+			{
+				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["DishTypeID"].ToString() });
+			}
+			ViewData["DishTypeID"] = items;
+
+			int id = int.Parse(dishID);
+			DishViewModel model = new DishViewModel();
+			DishTableAdapter dishAdapter = new DishTableAdapter();
+			DataTable dishDT = dishAdapter.GetDataByDishID(id);
+			model.Dishname = dishDT.Rows[0]["Name"].ToString();
+			model.DishTypeID = (int)dishDT.Rows[0]["DishTypeID"];
+			model.Description = dishDT.Rows[0]["Description"].ToString();
+			model.Image = dishDT.Rows[0]["Image"].ToString();
+			return View(model);
+			
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult EditDish(DishViewModel model)
+		{
+			DishTypeTableAdapter dishTypeAdapter = new DishTypeTableAdapter();
+			DataTable dishTypeDT = dishTypeAdapter.GetData();
+
+			List<SelectListItem> items = new List<SelectListItem>();
+			foreach (DataRow row in dishTypeDT.Rows)
+			{
+				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["DishTypeID"].ToString() });
+			}
+			ViewData["DishTypeID"] = items;
+
+			if (!ModelState.IsValid)
+			{
+				return View();
+			}
+
 			return View();
 		}
 	}
