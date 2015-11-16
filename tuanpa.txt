@@ -12,3 +12,10 @@ Schedule controler(Serving time : Add , edit, delete, view)
 Serving time view
 Serving time add
 Serving time edit
+
+User Type Model
+Account controller(User type: Add , edit, details, view)
+User type view
+User type add new
+User type edit
+User type details
