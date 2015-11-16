@@ -1,0 +1,98 @@
+﻿@model System.Data.DataTable
+@{
+	ViewBag.Title = "ListUser";
+}
+
+<link href="~/CSS/table.css" rel="stylesheet" />
+<div class="container" style="background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
+	<legend class="table-title">Quản lý người dùng</legend>
+	<div>
+		<div class="table-body">
+			<div style="margin-bottom:20px;">
+				<a href="~/Account/AddUser" class="btn btn-primary">Thêm người dùng mới</a>
+				<div class="pull-right">
+					@using (Html.BeginForm("ListUser", "Account", FormMethod.Get))
+					{
+						<div class="input-group">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+							</span>
+							<input type="text" class="form-control" name="search" placeholder="Tìm kiếm" style="max-width:300px;">
+						</div>
+					}
+				</div>
+			</div>
+			<table class="table table-bordered table-hover table-condensed">
+				<thead>
+					<tr>
+						<th style="width:5%">STT</th>
+						<th>Tên đăng nhập</th>
+						<th>Tên người dùng</th>
+						<th>Loại người dùng</th>
+						<th>Vai trò</th>
+						<th>Kích hoạt</th>
+						<th style="width:15%">Quản lý</th>
+					</tr>
+				</thead>
+				<tbody>
+					@{
+						int count = 0;
+					}
+					@foreach (System.Data.DataRow row in Model.Rows)
+					{
+						count++;
+						string role = "";
+						if (row["Role"].Equals(1))
+						{
+							role = "Khách hàng";
+						}
+						if (row["Role"].Equals(2))
+						{
+							role = "Nhân viên nhà ăn";
+						}
+						if (row["Role"].Equals(3))
+						{
+							role = "Quản lý";
+						}
+						if (row["Role"].Equals(4))
+						{
+							role = "Quản trị viên";
+						}
+						<tr>
+							<td>@count</td>
+							<td>@row["Username"]</td>
+							<td>@row["Name"]</td>
+							<td>@row["TypeName"]</td>
+							<td>@role</td>
+							@if (row["IsActive"].Equals(true))
+							{
+								<td><span style="color: #10CB10" class="glyphicon glyphicon-ok"></span></td>
+							}
+							else
+							{
+								<td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+							}
+							<td>
+								<div>
+									<a href="@Url.Action("DetailUser", "Account", new {Username = @row["Username"] })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
+									<a href="@Url.Action("EditUser", "Account", new {Username = @row["Username"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+									<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>
+								</div>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+		<div id="footer">
+			<div>
+				<nav>
+					<ul class="pager">
+						<li><a href="#">Previous</a></li>
+						<li><a href="#">Next</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+</div>
