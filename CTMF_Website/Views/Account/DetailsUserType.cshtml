@@ -1,38 +1,97 @@
 ﻿@model CTMF_Website.Models.UserTypeModel
 @{
-    ViewBag.Title = "DetailsUserType";
+	ViewBag.Title = "DetailsUserType";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>User Type Details</h2>
 <div id="list-announcement" style="width: 80%; margin: auto; background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
-	<div class="display-label">
-		Tên viết tắt:
-		@Html.DisplayText("TypeShortName")
-	</div>
-	<div class="display-label">
-		Tên đầy đủ:
-		@Html.DisplayText("TypeName")
-	</div>
-	<div class="display-label">
-		Giá trị bữa ăn quy định:
-		@Html.DisplayText("MealValue")
-	</div>
-	<div class="display-label">
-		Giá trị phần ăn thêm:
-		@Html.DisplayText("MoreMealValue")
-	</div>
-	<div class="display-label">
-		Mô tả chi tiết:
-		@Html.DisplayText("Description")
-	</div>
-	<div class="display-label">
-		Có thể sử dụng tín dụng nợ hay không:
-		@Html.Display("CanDebt")
-	</div>
-	<div class="display-label">
-		Có thể sử dụng phần ăn thêm hay không:
-		@Html.Display("CanEatMore")
-	</div>
-	<a href="@Url.Action("EditUserType", "Account", new { userTypeShortName = Model.typeShortName })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+	<table border="0" align="center">
+		<thead>
+			<tr><td></td><td></td><td></td></tr>
+		</thead>
+		<tr>
+			<td width="10%" style=" background-color:#fbe6c4; color:black;">
+				<b>Tên viết tắt:</b>
+			</td>
+			<td width="5%" style=" background-color:#fbe6c4; color:#FF0000"></td>
+			<td width="20%" style=" background-color: #fbe6c4; color: black">
+				<div class="display-label">
+					@Html.DisplayText("TypeShortName")
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>Tên đầy đủ:</b>
+
+			</td>
+			<td></td>
+			<td>
+				<div class="display-label">
+					@Html.DisplayText("TypeName")
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td width="10%" style=" background-color: #fbe6c4; color: black">
+				<b>Giá trị bữa ăn quy định:</b>
+			</td>
+			<td width="5%" style=" background-color:#fbe6c4; color:#FF0000"></td>
+			<td width="20%" style=" background-color: #fbe6c4; color: black">
+				<div class="display-label">
+					@Html.DisplayText("MealValue")
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>Giá trị phần ăn thêm:</b>
+			</td>
+			<td></td>
+			<td>
+				<div class="display-label">
+					@Html.DisplayText("MoreMealValue")
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td width="20%" style=" background-color: #fbe6c4; color: black">
+				<b>Mô tả chi tiết:</b>
+			</td>
+			<td width="5%" style=" background-color:#fbe6c4; color:#FF0000"></td>
+			<td width="20%" style=" background-color: #fbe6c4; color: black">
+				<div class="display-label">
+					@Html.DisplayText("Description")
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>Có thể sử dụng tín dụng nợ hay không:</b>
+			</td>
+			<td></td>
+			<td>
+				<div class="display-label">
+					@Html.Display("CanDebt")
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td width="20%" style=" background-color: #fbe6c4; color: black">
+				<b>Có thể sử dụng phần ăn thêm hay không:</b>
+			</td>
+			<td width="5%" style=" background-color:#fbe6c4; color:#FF0000"></td>
+			<td width="20%" style=" background-color: #fbe6c4; color: black">
+				<div class="display-label">
+					@Html.Display("CanEatMore")
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="@Url.Action("EditUserType", "Account", new { typeShortName = Model.typeShortName })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+			</td>
+		</tr>
+	</table>
 </div>
