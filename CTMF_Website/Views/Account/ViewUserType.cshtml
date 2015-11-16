@@ -21,8 +21,8 @@
 				<thead>
 					<tr>
 						<th>STT</th>
-						<th>Tên phân loại người sử dụng viết tắt</th>
-						<th>Tên phân loại người sử dụng</th>
+						<th>Tên phân loại người sử dụng </th>
+						<th>Tên viết tắt</th>
 						<th>Số tiền ăn mỗi bữa quy định</th>
 						<th>Số tiền ăn thêm mỗi bữa</th>
 						<th>Mô tả chi tiết</th>
@@ -37,8 +37,8 @@
 						_typeShortName = row["TypeShortName"].ToString();
 						<tr>
 							<td>@count</td>
-							<td>@row["TypeShortName"]</td>
 							<td>@row["TypeName"]</td>
+							<td>@row["TypeShortName"]</td>
 							<td>@row["MealValue"]</td>
 							<td>@row["MoreMealValue"]</td>
 							<td>@row["Description"]</td>
