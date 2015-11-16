@@ -7,13 +7,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>@ViewBag.Title</title>
 	<link rel="stylesheet" href="~/CSS/app.css" />
-	@*<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>*@
 	<link href="~/Content/bootstrap.css" rel="stylesheet" />
 	<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 	<script src="~/Scripts/jquery-1.9.1.js"></script>
-	@*<script src="~/Scripts/jquery-1.9.1.min.js"></script>*@
+	<script src="~/Scripts/jquery-1.9.1.min.js"></script>
 	<script src="~/Scripts/bootstrap.js"></script>
 	<script src="~/Scripts/bootstrap.min.js"></script>
 	<script>
@@ -34,11 +31,11 @@
 					<div>
 						<a class="navbar-brand" href="~/Home/HomePage"><img class="logo-com" src="" alt="logo"></a>
 					</div>
-					<div class="pull-right">
+					<div id="loginPartial" class="pull-right">
 						@if (Request.IsAuthenticated)
 						{
 							<div class="dropdown">
-								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+								<button id="personal" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
 									@username
 									<span class="caret"></span>
 								</button>
@@ -99,13 +96,36 @@
 							@if (Request.IsAuthenticated && role.Equals("4"))
 							{
 								<li>
-									@Html.ActionLink("Quản lý người dùng", "", "")
+									@Html.ActionLink("Quản lý người dùng", "ListUser", "Account")
 								</li>
 							}
 							@if (Request.IsAuthenticated && role.Equals("3"))
 							{
 								<li>
-									@Html.ActionLink("Quản lý", "", "")
+									<a class="dropdown-toggle" data-toggle="dropdown">
+										Quản lý
+										<span class="caret"></span>
+									</a>
+									<ul class="dropdown-menu">
+										<li>
+											@Html.ActionLink("Món ăn", "ListDish", "Dish")
+										</li>
+										<li>
+											@Html.ActionLink("Suất ăn", "", "")
+										</li>
+										<li>
+											@Html.ActionLink("Biểu lịch", "", "")
+										</li>
+										<li>
+											@Html.ActionLink("Thời gian phục vụ", "ViewServingTime", "Schedule")
+										</li>
+										<li>
+											@Html.ActionLink("Tin tức", "ViewAnnounce", "Announce")
+										</li>
+										<li>
+											@Html.ActionLink("Giao dịch", "ListTransaction", "Transaction")
+										</li>
+									</ul>
 								</li>
 							}
 						</ul>
