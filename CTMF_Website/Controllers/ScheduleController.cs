@@ -229,7 +229,7 @@ namespace CTMF_Website.Controllers
 			ScheduleTableAdapter scheduleTableAdapter = new ScheduleTableAdapter();
 			try { 
 				int servingTimeId = Convert.ToInt32(servingTimeID);
-				scheduleTableAdapter.DeleteScheduleByServingTimeID(servingTimeId);
+				//scheduleTableAdapter.DeleteScheduleByServingTimeID(servingTimeId);
 				servingTimeTableAdapter.DeleteServingTimeByID(servingTimeId);
 			}catch(Exception ex){
 				Log.ErrorLog(ex.Message);

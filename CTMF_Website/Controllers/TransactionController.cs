@@ -4,8 +4,6 @@ using CTMF_Website.Util;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CTMF_Website.Controllers
@@ -54,12 +52,12 @@ namespace CTMF_Website.Controllers
 			{
 				transactionAdapter.RechargeMoney(username, transactionType, amountOfMoney, transactionContent, null, false, date, updateBy, date);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
 			}
 
-			return RedirectToAction("ListTransaction","Transaction");
+			return RedirectToAction("ListTransaction", "Transaction");
 		}
 
 		[AllowAnonymous]
@@ -90,9 +88,9 @@ namespace CTMF_Website.Controllers
 			DataTable tranTypeDT = tranTypeAdapter.GetData();
 
 			List<SelectListItem> items = new List<SelectListItem>();
-			foreach(DataRow row in tranTypeDT.Rows)
+			foreach (DataRow row in tranTypeDT.Rows)
 			{
-				items.Add(new SelectListItem{Text = row["Name"].ToString(), Value = row["TransactionTypeID"].ToString()});
+				items.Add(new SelectListItem { Text = row["Name"].ToString(), Value = row["TransactionTypeID"].ToString() });
 			}
 			ViewData["TransType"] = items;
 
@@ -164,7 +162,7 @@ namespace CTMF_Website.Controllers
 				Log.ErrorLog(ex.Message);
 			}
 
-			return RedirectToAction("ListTransaction","Transaction");
+			return RedirectToAction("ListTransaction", "Transaction");
 		}
 
 		[AllowAnonymous]

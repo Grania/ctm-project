@@ -4,15 +4,18 @@ using CTMF_Website.Util;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Linq;
 
 namespace CTMF_Website.Controllers
 {
 	public class AccountController : Controller
 	{
+		DataTable userDT = new DataTable();
+
+
 		[AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
@@ -26,12 +29,12 @@ namespace CTMF_Website.Controllers
 			return View();
 		}
 
-		//[AllowAnonymous]
+
 		public ActionResult UserInfo()
 		{
 			string username = AccountInfo.GetUserName(Request);
 
-			Userinfo userinfo = new Userinfo();
+			UserinfoModel userinfo = new UserinfoModel();
 			UserInfoDetailTableAdapter userinfoAdapter = new UserInfoDetailTableAdapter();
 			DataTable userinfoDataTable = userinfoAdapter.GetDataByUsername(username);
 			DateTime date = DateTime.Parse(userinfoDataTable.Rows[0]["LastUpdatedMoney"].ToString());
@@ -67,12 +70,6 @@ namespace CTMF_Website.Controllers
 
 			return View(userinfo);
 		}
-
-		//[AllowAnonymous]
-		//public ActionResult UserInfo(Userinfo model)
-		//{
-		//	return View();
-		//}
 
 		[AllowAnonymous]
 		[HttpPost]
@@ -118,7 +115,7 @@ namespace CTMF_Website.Controllers
 				string cookieValue = FormsAuthentication.Encrypt(ticket);
 				HttpContext.Response.Cookies.Set(new HttpCookie(cookieName, cookieValue));
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
 			}
@@ -142,7 +139,6 @@ namespace CTMF_Website.Controllers
 		[AllowAnonymous]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-
 		public ActionResult Logout()
 		{
 			string username = AccountInfo.GetUserName(Request);
@@ -209,9 +205,11 @@ namespace CTMF_Website.Controllers
 			{
 				try
 				{
-					UserInfoAdapter.InsertUserInfo(username, name, null, 0, date, null,null, null, false, false, date, username, date);
+					UserInfoAdapter.InsertUserInfo(username, name, null, 0, date, null, null, null, false, false, date, username, date);
+					Log.ActivityLog("Insert into UserInfo: Username = " + username);
 					AccountTableAdapter AccountAdapter = new AccountTableAdapter();
 					AccountAdapter.InsertAccount(username, password, email, 1, false);
+					Log.ActivityLog("Insert into Account: Username = " + username);
 				}
 				catch (Exception ex)
 				{
@@ -220,6 +218,239 @@ namespace CTMF_Website.Controllers
 			}
 
 			return RedirectToAction("HomePage", "Home");
+		}
+
+		[AllowAnonymous]
+		public ActionResult ListUser(string search, string filter)
+		{
+			UserInfoDetailTableAdapter userInfoAdapter = new UserInfoDetailTableAdapter();
+
+			try
+			{
+				userDT = userInfoAdapter.GetData();
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+
+			return View(userDT);
+		}
+
+		[AllowAnonymous]
+		public ActionResult AddUser()
+		{
+			UserTypeTableAdapter userTypeAdapter = new UserTypeTableAdapter();
+			DataTable userTypeDT = userTypeAdapter.GetData();
+
+			List<SelectListItem> items = new List<SelectListItem>();
+			foreach (DataRow row in userTypeDT.Rows)
+			{
+				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["TypeShortName"].ToString() });
+			}
+			ViewData["UserType"] = items;
+			return View();
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult AddUser(UserInfoDetailModel model)
+		{
+			UserTypeTableAdapter userTypeAdapter = new UserTypeTableAdapter();
+			DataTable userTypeDT = userTypeAdapter.GetData();
+
+			List<SelectListItem> items = new List<SelectListItem>();
+			foreach (DataRow row in userTypeDT.Rows)
+			{
+				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["TypeShortName"].ToString() });
+			}
+			ViewData["UserType"] = items;
+
+			if (!ModelState.IsValid)
+			{
+				return View();
+			}
+
+			string updateBy = AccountInfo.GetUserName(Request);
+			string username = model.Username;
+			string password = model.Password;
+			string name = model.Name;
+			string email = model.Email;
+			string userTypeID = model.UserTypeID;
+			int role = model.Role;
+			bool isCafeteria = false;
+			if (role == 2)
+			{
+				isCafeteria = true;
+			}
+			DateTime date = DateTime.Now;
+
+			string errormsg = null;
+
+			UserInfoTableAdapter userInfoAdapter = new UserInfoTableAdapter();
+			DataTable userInfoDT = userInfoAdapter.GetDataByUsername(username);
+
+			if (userInfoDT.Rows.Count == 1)
+			{
+				errormsg += "Tên đăng nhập ";
+			}
+
+			if (!string.IsNullOrEmpty(email))
+			{
+				AccountTableAdapter AccountAdapter = new AccountTableAdapter();
+				DataTable AccountDT = AccountAdapter.GetDataByEmail(email);
+
+				if (AccountDT.Rows.Count == 1)
+				{
+					if (errormsg != null)
+					{
+						errormsg += ", Email ";
+					}
+					else errormsg += "Email ";
+				}
+			}
+
+			if (errormsg != null)
+			{
+				errormsg += "đã tồn tại!";
+				ModelState.AddModelError("", errormsg);
+				return View(model);
+			}
+			else
+			{
+				try
+				{
+					userInfoAdapter.InsertUserInfo(username, name, userTypeID, 0, date, null, null, null, isCafeteria, false, date, updateBy, date);
+					Log.ActivityLog("Insert into UserInfo: Username = " + username);
+					AccountTableAdapter AccountAdapter = new AccountTableAdapter();
+					AccountAdapter.InsertAccount(username, password, email, role, false);
+					Log.ActivityLog("Insert into Account: Username = " + username);
+				}
+				catch (Exception ex)
+				{
+					Log.ErrorLog(ex.Message);
+				}
+			}
+
+			return RedirectToAction("ListUser", "Account");
+		}
+
+		[AllowAnonymous]
+		public ActionResult EditUser(string username)
+		{
+			UserTypeTableAdapter userTypeAdapter = new UserTypeTableAdapter();
+			DataTable userTypeDT = userTypeAdapter.GetData();
+
+			List<SelectListItem> items = new List<SelectListItem>();
+			foreach (DataRow row in userTypeDT.Rows)
+			{
+				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["TypeShortName"].ToString() });
+			}
+			ViewData["UserType"] = items;
+
+			UserInfoDetailModel userinfo = new UserInfoDetailModel();
+			UserInfoDetailTableAdapter userinfoAdapter = new UserInfoDetailTableAdapter();
+			DataTable userinfoDataTable = userinfoAdapter.GetDataByUsername(username);
+
+			userinfo.Username = username;
+			userinfo.Name = (string)userinfoDataTable.Rows[0]["Name"];
+			userinfo.UserTypeID = (string)userinfoDataTable.Rows[0]["TypeShortName"];
+			userinfo.Email = (string)userinfoDataTable.Rows[0]["Email"];
+			userinfo.Role = (int)userinfoDataTable.Rows[0]["Role"];
+
+			return View(userinfo);
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult EditUser(UserInfoDetailModel model)
+		{
+			UserTypeTableAdapter userTypeAdapter = new UserTypeTableAdapter();
+			DataTable userTypeDT = userTypeAdapter.GetData();
+
+			List<SelectListItem> items = new List<SelectListItem>();
+			foreach (DataRow row in userTypeDT.Rows)
+			{
+				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["TypeShortName"].ToString() });
+			}
+			ViewData["UserType"] = items;
+
+			if (!ModelState.IsValid)
+			{
+				return View();
+			}
+
+			string updateBy = AccountInfo.GetUserName(Request);
+			DateTime date = DateTime.Now;
+			string username = model.Username;
+			string name = model.Name;
+			string email = model.Email;
+			string userTypeID = model.UserTypeID;
+			bool isCafeteriaStaff = false;
+			int role = model.Role;
+			if(role == 2){
+				isCafeteriaStaff = true;
+			}
+
+			AccountTableAdapter accountAdapter = new AccountTableAdapter();
+			UserInfoTableAdapter userInfoAdapter = new UserInfoTableAdapter();
+
+			try
+			{
+				userInfoAdapter.UpdateUserInfo(name, userTypeID, isCafeteriaStaff, updateBy, date, username);
+				Log.ActivityLog("Update to UserInfo: username = " + username);
+				accountAdapter.UpdateAccount(email,role,username);
+				Log.ActivityLog("Update to Account: username = " + username);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+
+			return RedirectToAction("ListUser", "Acount");
+		}
+
+		[AllowAnonymous]
+		public ActionResult DetailUser(string username)
+		{
+			UserinfoModel userinfo = new UserinfoModel();
+			UserInfoDetailTableAdapter userinfoAdapter = new UserInfoDetailTableAdapter();
+			DataTable userinfoDataTable = userinfoAdapter.GetDataByUsername(username);
+			DateTime date = DateTime.Parse(userinfoDataTable.Rows[0]["LastUpdatedMoney"].ToString());
+			int amountOfMoney = (int)userinfoDataTable.Rows[0]["AmountOfMoney"];
+
+			TransactionHistoryTableAdapter transactionAdapter = new TransactionHistoryTableAdapter();
+			DataTable transactionDataTable = transactionAdapter.GetDataByDate(date, username);
+
+			foreach (DataRow row in transactionDataTable.Rows)
+			{
+				try
+				{
+					if (row["TransactionTypeID"].Equals(2))
+					{
+						amountOfMoney += (int)row["Value"];
+					}
+					else
+					{
+						amountOfMoney -= (int)row["Value"];
+					}
+				}
+				catch (Exception ex)
+				{
+					Log.ErrorLog(ex.Message);
+				}
+			}
+
+			userinfo.Username = username;
+			userinfo.Name = (string)userinfoDataTable.Rows[0]["Name"];
+			userinfo.TypeName = (string)userinfoDataTable.Rows[0]["TypeName"];
+			userinfo.Email = (string)userinfoDataTable.Rows[0]["Email"];
+			userinfo.AmountOfMoney = amountOfMoney;
+			userinfo.Role = (int)userinfoDataTable.Rows[0]["Role"];
+
+			return View(userinfo);
 		}
 
 		[AllowAnonymous]
@@ -256,7 +487,7 @@ namespace CTMF_Website.Controllers
 				userTypeModel.moreMealValue = Convert.ToInt32(dt.Rows[0]["MoreMealValue"]);
 				userTypeModel.description = Convert.ToString(dt.Rows[0]["Description"]);
 				userTypeModel.canDebt = Convert.ToBoolean(dt.Rows[0]["CanDebt"]);
-				userTypeModel.canEatMore  = Convert.ToBoolean(dt.Rows[0]["CanEatMore"]);
+				userTypeModel.canEatMore = Convert.ToBoolean(dt.Rows[0]["CanEatMore"]);
 			}
 			catch (Exception ex)
 			{
@@ -309,7 +540,7 @@ namespace CTMF_Website.Controllers
 			{
 				try
 				{
-					string typeName = userTypeModel.typeName ;
+					string typeName = userTypeModel.typeName;
 					int mealValue = userTypeModel.mealValue;
 					int? moreMealValue = userTypeModel.moreMealValue;
 					string description = userTypeModel.description;
@@ -318,7 +549,7 @@ namespace CTMF_Website.Controllers
 					DateTime insertDate = userTypeModel.insertedDate;
 					DateTime lastUpdate = DateTime.Now;
 					string updateBy = AccountInfo.GetUserName(Request);
-					userTypeTableAdapter.UpdateUserTypeByTypeShortName(typeShortName,typeName,mealValue,moreMealValue,description,canDebt,canEatMore,insertDate,updateBy,lastUpdate,typeShortName);
+					userTypeTableAdapter.UpdateUserTypeByTypeShortName(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, insertDate, updateBy, lastUpdate, typeShortName);
 					//servingTimeTableAdapter.UpdateServingTimeByID(name, startTime, endTime, insertDate, lastUpdate, servingTimeId);
 					return RedirectToAction("ViewUserType", "Account");
 				}
@@ -354,7 +585,7 @@ namespace CTMF_Website.Controllers
 					Boolean canEatMore = userTypeModel.canEatMore;
 					DateTime date = DateTime.Now;
 					string updateBy = AccountInfo.GetUserName(Request);
-					userTypeTableAdapter.InsertNewUserType(typeShortName,typeName,mealValue,moreMealValue,description,canDebt,canEatMore,date,updateBy,date);
+					userTypeTableAdapter.InsertNewUserType(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, date, updateBy, date);
 					return RedirectToAction("ViewServingTime", "Schedule");
 				}
 				catch (Exception ex)
