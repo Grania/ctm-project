@@ -3,77 +3,50 @@
 @{
 	ViewBag.Title = "AddDish";
 }
+<link href="~/Content/jquery.fileupload.css" rel="stylesheet" />
+@*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+<script src="~/Scripts/jquery.ui.widget.js"></script>
+<script src="~/Scripts/jquery.fileupload.js"></script>
 <style>
-	.addForm {
-		width: 60%;
-		margin: auto;
-		margin-top: 50px;
-		box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
-		border-radius: 10px;
-		background-color: #fff;
-		/*opacity: 0.9;*/
-	}
-
-	.title {
-		padding: 10px 30px 10px;
-		color: #C41230;
-		font-size: 28px;
-		font-family: "Roboto Condensed";
-		font-weight: bold;
-		text-transform: uppercase;
-	}
-
-	textarea {
-		resize: none;
-	}
-
-	#dish-img {
-		width: 200px;
-		border: 4px solid;
-		border-color: #f1f1f1;
-	}
 </style>
-
 <script>
-	$('#file-upload').on('change', function (e) {
-		console.log("iuahwefiauhewhf");
-		var files = e.target.files;
-		var myID = 3; //uncomment this to make sure the ajax URL works
-		if (files.length > 0) {
-			if (window.FormData !== undefined) {
-				var data = new FormData();
-				for (var x = 0; x < files.length; x++) {
-					data.append("file" + x, files[x]);
-				}
 
-				$.ajax({
-					type: "POST",
-					url: '/Dish/UploadImage?id=' + myID,
-					contentType: false,
-					processData: false,
-					data: data,
-					success: function (result) {
-						console.log(result);
-					},
-					error: function (xhr, status, p3, p4) {
-						var err = "Error " + " " + status + " " + p3 + " " + p4;
-						if (xhr.responseText && xhr.responseText[0] == "{")
-							err = JSON.parse(xhr.responseText).Message;
-						console.log(err);
-					}
-				});
-			} else {
-				alert("This browser doesn't support HTML5 file uploads!");
+	$(document).ready(function () {
+		$('#file-upload').fileupload({
+			dataType: 'json',
+			url: '/Dish/UploadImage',
+			autoUpload: true,
+			done: function (e, data) {
+				//$('.file_name').html(data.result.fileName);
+				document.getElementById("dish-img").src = ".." + data.result.fileName;
 			}
-		}
+		});
 	});
 </script>
 
 <div class="addForm">
 	<legend class="title">Thêm món ăn mới</legend>
 	<div class="container">
-		@using (Html.BeginForm("AddDish", "Dish", FormMethod.Post, new { @class = "form-horizontal" }))
+		@*@using (Ajax.BeginForm("UploadImage", "Dish", null, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "upload-image", InsertionMode = InsertionMode.Replace }, new { enctype = "multipart/form-data", id = "avatar-upload-form", @class = "form-horizontal" }))
 		{
+			@Html.AntiForgeryToken()
+			<div class="form-group" style="margin-top: 20px">
+				<div class="col-sm-2">
+				</div>
+				<div class="col-sm-5">
+					<span class="btn btn-success fileinput-button">
+						<i class="glyphicon glyphicon-plus"></i>
+						<span>Chọn ảnh</span>
+						<input id="file-upload" type="file" name="files" />
+					</span>
+				</div>
+			</div>
+		}*@
+		<div class="file_name"></div>
+		<div><img id="dish-img" /></div>
+
+		@using (Html.BeginForm("AddDish", "Dish", FormMethod.Post, new { @class = "form-horizontal" }))
+  {
 			@Html.AntiForgeryToken()
 			@Html.ValidationSummary(true)
 			<div class="form-group" style="margin-top: 20px">
@@ -94,18 +67,20 @@
 					@Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
 				</div>
 			</div>
-			<div class="form-group" style="margin-top: 20px">
-				@Html.LabelFor(m => m.Image, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
-					<label for="file-upload" style="cursor: pointer;">
-						<img id="dish-img" src="~/Images/no-image.jpg" />
-					</label>
-					<input id="file-upload" type="file" name="files"/>
-				</div>
-			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<input type="submit" class="btn btn-danger" value="Đăng ký">
+					<input type="submit" class="btn btn-danger" value="Thêm món">
+				</div>
+			</div>
+			<div class="form-group" style="margin-top: 20px">
+				<div class="col-sm-2">
+				</div>
+				<div class="col-sm-5">
+					<span class="btn btn-success fileinput-button">
+						<i class="glyphicon glyphicon-plus"></i>
+						<span>Chọn ảnh</span>
+						<input id="file-upload" type="file" name="files" />
+					</span>
 				</div>
 			</div>
 		}
