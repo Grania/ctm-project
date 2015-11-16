@@ -221,5 +221,148 @@ namespace CTMF_Website.Controllers
 
 			return RedirectToAction("HomePage", "Home");
 		}
+
+		[AllowAnonymous]
+		public ActionResult ViewUserType()
+		{
+			DataTable dataTable = new DataTable();
+			UserTypeTableAdapter userTypeTableAdapter = new UserTypeTableAdapter();
+			try
+			{
+				dataTable = userTypeTableAdapter.GetData();
+				var results = from DataRow myRow in dataTable.Rows
+							  where (string)myRow["TypeShortName"] != null
+							  select myRow;
+				return View(results.CopyToDataTable());
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+			return View(dataTable);
+		}
+
+		[AllowAnonymous]
+		public ActionResult DetailsUserType(string typeShortName)
+		{
+			UserTypeTableAdapter userTypeDataTableAdapter = new UserTypeTableAdapter();
+			DataTable dt = userTypeDataTableAdapter.GetDataByTypeShortName(typeShortName);
+			UserTypeModel userTypeModel = new UserTypeModel();
+			try
+			{
+				userTypeModel.typeShortName = Convert.ToString(dt.Rows[0]["TypeShortName"]);
+				userTypeModel.typeName = Convert.ToString(dt.Rows[0]["TypeName"]);
+				userTypeModel.mealValue = Convert.ToInt32(dt.Rows[0]["MealValue"]);
+				userTypeModel.moreMealValue = Convert.ToInt32(dt.Rows[0]["MoreMealValue"]);
+				userTypeModel.description = Convert.ToString(dt.Rows[0]["Description"]);
+				userTypeModel.canDebt = Convert.ToBoolean(dt.Rows[0]["CanDebt"]);
+				userTypeModel.canEatMore  = Convert.ToBoolean(dt.Rows[0]["CanEatMore"]);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+			if (userTypeModel == null)
+			{
+				return HttpNotFound();
+			}
+			return View(userTypeModel);
+		}
+
+		[AllowAnonymous]
+		public ActionResult EditUserType(string userTypeShortName)
+		{
+			UserTypeModel userTypeModel = new UserTypeModel();
+			DataTable userTypeDataTable = new DataTable();
+			UserTypeTableAdapter userTypeTableAdapter = new UserTypeTableAdapter();
+			try
+			{
+				userTypeDataTable = userTypeTableAdapter.GetDataByTypeShortName(userTypeShortName);
+				userTypeModel.typeShortName = Convert.ToString(userTypeDataTable.Rows[0]["TypeShortName"]);
+				userTypeModel.typeName = Convert.ToString(userTypeDataTable.Rows[0]["TypeName"]);
+				userTypeModel.mealValue = Convert.ToInt32(userTypeDataTable.Rows[0]["MealValue"]);
+				userTypeModel.moreMealValue = Convert.ToInt32(userTypeDataTable.Rows[0]["MoreMealValue"]);
+				userTypeModel.description = Convert.ToString(userTypeDataTable.Rows[0]["Description"]);
+				userTypeModel.canDebt = Convert.ToBoolean(userTypeDataTable.Rows[0]["CanDebt"]);
+				userTypeModel.canEatMore = Convert.ToBoolean(userTypeDataTable.Rows[0]["CanEatMore"]);
+				userTypeModel.insertedDate = Convert.ToDateTime(userTypeDataTable.Rows[0]["InsertedDate"]);
+				userTypeModel.lastUpdated = Convert.ToDateTime(userTypeDataTable.Rows[0]["LastUpdated"]);
+				userTypeModel.updatedBy = Convert.ToString(userTypeDataTable.Rows[0]["UpdatedBy"]);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+			if (userTypeModel == null)
+			{
+				return RedirectToAction("Error", "ErrorController");
+			}
+			return View(userTypeModel);
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		public ActionResult EditUserType(UserTypeModel userTypeModel, string typeShortName)
+		{
+			UserTypeTableAdapter userTypeTableAdapter = new UserTypeTableAdapter();
+			if (userTypeModel != null)
+			{
+				try
+				{
+					string typeName = userTypeModel.typeName ;
+					int mealValue = userTypeModel.mealValue;
+					int? moreMealValue = userTypeModel.moreMealValue;
+					string description = userTypeModel.description;
+					Boolean canDebt = userTypeModel.canDebt;
+					Boolean canEatMore = userTypeModel.canEatMore;
+					DateTime insertDate = userTypeModel.insertedDate;
+					DateTime lastUpdate = DateTime.Now;
+					string updateBy = AccountInfo.GetUserName(Request);
+					userTypeTableAdapter.UpdateUserTypeByTypeShortName(typeShortName,typeName,mealValue,moreMealValue,description,canDebt,canEatMore,insertDate,updateBy,lastUpdate,typeShortName);
+					//servingTimeTableAdapter.UpdateServingTimeByID(name, startTime, endTime, insertDate, lastUpdate, servingTimeId);
+					return RedirectToAction("ViewUserType", "Account");
+				}
+				catch (Exception ex)
+				{
+					Log.ErrorLog(ex.Message);
+				}
+			}
+			return RedirectToAction("ViewUserType", "Account");
+		}
+
+		[AllowAnonymous]
+		public ActionResult AddNewUserType()
+		{
+			return View();
+		}
+		[AllowAnonymous]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult AddNewUserType(UserTypeModel userTypeModel)
+		{
+			UserTypeTableAdapter userTypeTableAdapter = new UserTypeTableAdapter();
+			if (userTypeModel != null)
+			{
+				try
+				{
+					string typeShortName = userTypeModel.typeShortName;
+					string typeName = userTypeModel.typeName;
+					int mealValue = userTypeModel.mealValue;
+					int? moreMealValue = userTypeModel.moreMealValue;
+					string description = userTypeModel.description;
+					Boolean canDebt = userTypeModel.canDebt;
+					Boolean canEatMore = userTypeModel.canEatMore;
+					DateTime date = DateTime.Now;
+					string updateBy = AccountInfo.GetUserName(Request);
+					userTypeTableAdapter.InsertNewUserType(typeShortName,typeName,mealValue,moreMealValue,description,canDebt,canEatMore,date,updateBy,date);
+					return RedirectToAction("ViewServingTime", "Schedule");
+				}
+				catch (Exception ex)
+				{
+					Log.ErrorLog(ex.Message);
+				}
+			}
+			return View();
+		}
 	}
 }
