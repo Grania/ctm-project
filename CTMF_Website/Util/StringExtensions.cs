@@ -11,5 +11,14 @@ namespace CTMF_Website.Util
 		{
 			return source.IndexOf(toCheck, StringComparison.OrdinalIgnoreCase) >= 0;
 		}
+
+		public static bool EqualsInsensitive(string source, string toCheck)
+		{
+			if (source.Length != toCheck.Length)
+			{
+				return false;
+			}
+			return source.IndexOf(toCheck, StringComparison.OrdinalIgnoreCase) == 0;
+		}
 	}
 }
