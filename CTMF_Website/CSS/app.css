@@ -88,26 +88,26 @@
 	border: 0;
 }
 
-.btn.btn-default {
+#btn-login, #btn-signup, #personal {
 	margin-top: 7px;
 	font-weight: bold;
 	color: #D11920;
 	border-color: #D11920;
 }
 
-	.btn.btn-default:hover {
+	#btn-login, #btn-signup, #personal:hover {
 		background-color: #e6eef6;
 		border-color: #D11920;
 		color: #D11920;
 	}
 
-	.btn.btn-default:active {
+	#btn-login, #btn-signup, #personal:active {
 		background-color: #e6eef6;
 		border-color: #D11920;
 		color: #D11920;
 	}
 
-	.btn.btn-default:focus {
+	#btn-login, #btn-signup, #personal:focus {
 		background-color: #fff;
 		border-color: #D11920;
 		color: #D11920;
