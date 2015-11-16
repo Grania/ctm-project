@@ -1,5 +1,94 @@
-﻿@{
-    ViewBag.Title = "EditDish";
+﻿@using CTMF_Website.Models
+@model DishViewModel
+@{
+	ViewBag.Title = "EditDish";
 }
 
-<h2>EditDish</h2>
+@{
+	List<SelectListItem> items = (List<SelectListItem>)ViewData["DishTypeID"];
+}
+<link href="~/Content/jquery.fileupload.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.ui.widget.js"></script>
+<script src="~/Scripts/jquery.fileupload.js"></script>
+<style>
+</style>
+<script>
+	$(document).ready(function () {
+		$('#file-upload').fileupload({
+			dataType: 'json',
+			url: '/Dish/UploadImage',
+			autoUpload: true,
+			done: function (e, data) {
+				document.getElementById("dish-img").src = ".." + data.result.fileName;
+				$('#pathImage').val(data.result.fileName);
+			}
+		});
+	});
+</script>
+
+<div class="addForm">
+	<legend class="title">Thêm món ăn mới</legend>
+	<div class="container">
+		@using (Html.BeginForm("AddDish", "Dish", FormMethod.Post, new { @class = "form-horizontal" }))
+		{
+			@Html.AntiForgeryToken()
+			@Html.ValidationSummary(true)
+			<div class="form-group">
+				<div class="col-sm-2">
+
+				</div>
+				<div class="col-sm-5">
+					@if (string.IsNullOrEmpty(Model.Image))
+					{
+						<img src="~/Images/no-image.jpg" id="dish-img" style="width:300px;">
+					}
+					else
+					{
+						<img id="dish-img" src="..@Model.Image" />
+					}
+				</div>
+			</div>
+			<div class="form-group" style="margin-top: 20px">
+				@Html.HiddenFor(m => m.Image, new { id = "pathImage" })
+				@Html.LabelFor(m => m.Image, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					<span class="btn btn-success fileinput-button">
+						<i class="glyphicon glyphicon-plus"></i>
+						<span>Chọn ảnh</span>
+						<input id="file-upload" type="file" name="files" />
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				@Html.HiddenFor(m => m.DishTypeID)
+				@Html.LabelFor(m => m.DishTypeID, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.DropDownListFor(m => m.DishTypeID, new SelectList(items, "Value", "Text", Model.DishTypeID.ToString()), new { @class = "form-control", @style = "width:250px;" })
+				</div>
+			</div>
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.Dishname, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.Dishname, new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2">
+
+				</div>
+				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Dishname, String.Empty, new { @style = "color:red" })</div>
+			</div>
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.Description, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="submit" class="btn btn-danger" value="Thêm món">
+				</div>
+			</div>
+		}
+	</div>
+</div>

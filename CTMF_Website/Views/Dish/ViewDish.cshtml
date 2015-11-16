@@ -94,7 +94,14 @@
 				<div class="col-sm-4 dish">
 					<div id="dish-name" class="text-center" style="font-size:25px"><strong>@row["Name"]</strong></div>
 					<a data-toggle="tooltip" data-placement="bottom" title="@row["Description"]">
-						<img src="~/Images/no-image.jpg" class="dish-img">
+						@if (string.IsNullOrEmpty(row["Image"].ToString()))
+						{
+							<img src="~/Images/no-image.jpg" class="dish-img">
+						}
+						else
+						{
+							<img src="..@row["Image"]" class="dish-img">
+						}
 					</a>
 				</div>
 			}
