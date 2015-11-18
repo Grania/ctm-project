@@ -98,7 +98,9 @@ namespace CTMF_Website.Controllers
 			{
 				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["DishTypeID"].ToString() });
 			}
-			ViewData["DishTypeID"] = items;
+			ViewData["DishType"] = items;
+			ViewBag.CheckRunTimes = "1";
+
 			return View();
 		}
 
@@ -115,7 +117,8 @@ namespace CTMF_Website.Controllers
 			{
 				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["DishTypeID"].ToString() });
 			}
-			ViewData["DishTypeID"] = items;
+			ViewData["DishType"] = items;
+			ViewBag.CheckRunTimes = "2";
 
 			if (!ModelState.IsValid)
 			{
@@ -127,35 +130,40 @@ namespace CTMF_Website.Controllers
 			string dishName = model.Dishname;
 			int dishTypeID = model.DishTypeID;
 			string description = model.Description;
-			string savePath = model.Image.Replace("\\Temp", DishImagesPath);
-			var sourcePath = HttpContext.Server.MapPath(model.Image);
-			var destinationPath = HttpContext.Server.MapPath(savePath);
 
-			if (System.IO.File.Exists(destinationPath))
-			{
-				ModelState.AddModelError("", "Tên file ảnh món ăn đã tồn tại.");
-				return View(model);
-			}
-			else
-			{
-				System.IO.File.Move(sourcePath, destinationPath);
-			}
+			string savePath = null;
 
 			DishTableAdapter dishAdapter = new DishTableAdapter();
 			DataTable dishDT = dishAdapter.GetByName(dishName);
 
-			for (int i = 0; i < dishDT.Rows.Count; i++)
+			foreach (DataRow row in dishDT.Rows)
 			{
-				if (StringExtensions.EqualsInsensitive(dishDT.Rows[i]["Name"].ToString(), dishName))
+				if (StringExtensions.EqualsInsensitive(row["Name"].ToString(), dishName))
 				{
 					ModelState.AddModelError("", "Tên món ăn đã tồn tại.");
 					return View(model);
 				}
 			}
 
+			if (!string.IsNullOrEmpty(model.Image))
+			{
+				savePath = model.Image.Replace("\\Temp", DishImagesPath);
+				var sourcePath = HttpContext.Server.MapPath(model.Image);
+				var destinationPath = HttpContext.Server.MapPath(savePath);
+
+				if (System.IO.File.Exists(destinationPath))
+				{
+					ModelState.AddModelError("", "Tên file ảnh món ăn đã tồn tại.");
+					return View(model);
+				}
+
+				System.IO.File.Move(sourcePath, destinationPath);
+			}
+
 			try
 			{
 				dishAdapter.InsertDish(dishName, dishTypeID, description, savePath, date, updateBy, date);
+				Log.ActivityLog("Insert into Dish Table: DishName = " + dishName);
 			}
 			catch (Exception ex)
 			{
@@ -164,7 +172,7 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("ListDish", "Dish");
 		}
 
-		private const int AvatarScreenWidth = 200;
+		private const int AvatarScreenWidth = 500;
 
 		private const string TempFolder = "/Temp";
 		private const string MapTempFolder = "~" + TempFolder;
@@ -277,24 +285,25 @@ namespace CTMF_Website.Controllers
 			{
 				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["DishTypeID"].ToString() });
 			}
-			ViewData["DishTypeID"] = items;
+			ViewData["DishType"] = items;
 
 			int id = int.Parse(dishID);
-			DishViewModel model = new DishViewModel();
+			EditDishModel model = new EditDishModel();
 			DishTableAdapter dishAdapter = new DishTableAdapter();
 			DataTable dishDT = dishAdapter.GetDataByDishID(id);
+			model.DishID = id;
 			model.Dishname = dishDT.Rows[0]["Name"].ToString();
 			model.DishTypeID = (int)dishDT.Rows[0]["DishTypeID"];
 			model.Description = dishDT.Rows[0]["Description"].ToString();
 			model.Image = dishDT.Rows[0]["Image"].ToString();
 			return View(model);
-			
+
 		}
 
 		[AllowAnonymous]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult EditDish(DishViewModel model)
+		public ActionResult EditDish(EditDishModel model)
 		{
 			DishTypeTableAdapter dishTypeAdapter = new DishTypeTableAdapter();
 			DataTable dishTypeDT = dishTypeAdapter.GetData();
@@ -304,14 +313,78 @@ namespace CTMF_Website.Controllers
 			{
 				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["DishTypeID"].ToString() });
 			}
-			ViewData["DishTypeID"] = items;
+			ViewData["DishType"] = items;
 
 			if (!ModelState.IsValid)
 			{
-				return View();
+				return View(model);
 			}
 
-			return View();
+			DishTableAdapter dishAdapter = new DishTableAdapter();
+
+			string updateBy = AccountInfo.GetUserName(Request);
+			DateTime date = DateTime.Now;
+			int dishID = model.DishID;
+			string dishName = model.Dishname;
+			int dishTypeID = model.DishTypeID;
+			string description = model.Description;
+
+			DataTable dt = dishAdapter.GetDataByDishID(dishID);
+
+			if (!StringExtensions.EqualsInsensitive(dt.Rows[0]["Name"].ToString(), dishName))
+			{
+				DataTable dishDT = dishAdapter.GetByName(dishName);
+
+				foreach (DataRow row in dishDT.Rows)
+				{
+					if (StringExtensions.EqualsInsensitive(row["Name"].ToString(), dishName))
+					{
+						ModelState.AddModelError("", "Tên món ăn đã tồn tại.");
+						return View(model);
+					}
+				}
+			}
+			string savePath = dt.Rows[0]["Image"].ToString();
+			if (model.Image != null)
+			{
+				if (!StringExtensions.EqualsInsensitive(savePath, model.Image))
+				{
+					savePath = model.Image.Replace("\\Temp", DishImagesPath);
+					var sourcePath = HttpContext.Server.MapPath(model.Image);
+					var destinationPath = HttpContext.Server.MapPath(savePath);
+
+					if (System.IO.File.Exists(destinationPath))
+					{
+						ModelState.AddModelError("", "Tên file ảnh món ăn đã tồn tại.");
+						return View(model);
+					}
+
+					string oldImage = dt.Rows[0]["Image"].ToString();
+					if (!string.IsNullOrEmpty(oldImage))
+					{
+						var oldImagePath = HttpContext.Server.MapPath(oldImage);
+						System.IO.File.Delete(oldImagePath);
+					}
+
+					System.IO.File.Move(sourcePath, destinationPath);
+				}
+			}
+			else
+			{
+				savePath = null;
+			}
+
+			try
+			{
+				dishAdapter.UpdateDish(dishName, dishTypeID, description, savePath, updateBy, date, dishID);
+				Log.ActivityLog("Update to Dish Table: DishID = " + dishID);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+
+			return RedirectToAction("ListDish", "Dish");
 		}
 	}
 }

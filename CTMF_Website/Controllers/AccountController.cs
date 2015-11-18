@@ -365,7 +365,7 @@ namespace CTMF_Website.Controllers
 		[AllowAnonymous]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult EditUser(UserInfoDetailModel model)
+		public ActionResult EditUser(EditUserModel model)
 		{
 			UserTypeTableAdapter userTypeAdapter = new UserTypeTableAdapter();
 			DataTable userTypeDT = userTypeAdapter.GetData();
@@ -379,7 +379,7 @@ namespace CTMF_Website.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				return View();
+				return View(model);
 			}
 
 			string updateBy = AccountInfo.GetUserName(Request);
@@ -409,7 +409,7 @@ namespace CTMF_Website.Controllers
 				Log.ErrorLog(ex.Message);
 			}
 
-			return RedirectToAction("ListUser", "Acount");
+			return RedirectToAction("ListUser", "Account");
 		}
 
 		[AllowAnonymous]
