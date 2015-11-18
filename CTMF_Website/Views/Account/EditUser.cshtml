@@ -19,10 +19,10 @@
 			@Html.AntiForgeryToken()
 			@Html.ValidationSummary(true)
 			<div class="form-group" style="margin-top: 20px">
-				@Html.HiddenFor(m => m.Username)
 				@Html.LabelFor(m => m.Username, new { @class = "control-label col-sm-2" })
 				<div class="col-sm-5">
-					@Html.DisplayFor(m => m.Username)
+					@Model.Username
+					@Html.HiddenFor(m => m.Username)
 				</div>
 			</div>
 			<div class="form-group">
@@ -50,7 +50,6 @@
 				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Email, String.Empty, new { @style = "color:red" })</div>
 			</div>
 			<div class="form-group">
-				@Html.HiddenFor(m => m.UserTypeID)
 				@Html.LabelFor(m => m.UserTypeID, new { @class = "control-label col-sm-2" })
 				<div class="col-sm-5">
 					@Html.DropDownListFor(m => m.UserTypeID, new SelectList(userType, "Value", "Text", Model.UserTypeID), new { @class = "form-control", @style = "width:250px;" })
