@@ -5,6 +5,7 @@
 }
 @{
 	string title, ID;
+	string role = CTMF_Website.Util.AccountInfo.GetUserRole(Request);
 }
 <div class="container">
 	<div id="list-announcement" style="width: 80%; margin: auto; background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
@@ -17,15 +18,21 @@
 					<td>
 						@Html.ActionLink(title, "DetailsAnnounce", new { announceID = ID })
 					</td>
-					<td>
-						<a href="@Url.Action("EditAnnounce", "Announce", new { announceID = ID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-						<a href="@Url.Action("DeleteAnnounce", "Announce", new { announceID = ID })" class="btn btn-danger" title="Sửa"><span class="glyphicon glyphicon-remove-sign"></span></a>
-					</td>
+					@if (role == "3")
+					{
+						<td>
+							<a href="@Url.Action("EditAnnounce", "Announce", new { announceID = ID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+							<a href="@Url.Action("DeleteAnnounce", "Announce", new { announceID = ID })" class="btn btn-danger" title="Sửa"><span class="glyphicon glyphicon-remove-sign"></span></a>
+						</td>
+					}
 				</tr>
 			}
-			<tr>
-				<a href="AddNewAnnounce" class="btn btn-primary">Thêm thông tin mới</a>
-			</tr>
+			@if (role == "3")
+			{
+				<tr>
+					<a href="AddNewAnnounce" class="btn btn-primary">Thêm thông tin mới</a>
+				</tr>
+			}
 		</table>
 	</div>
 </div>

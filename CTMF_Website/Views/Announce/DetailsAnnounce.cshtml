@@ -1,7 +1,10 @@
 ﻿@model CTMF_Website.Models.AnnounceModel
 @{
-    ViewBag.Title = "Details";
+	ViewBag.Title = "Details";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+	string role = CTMF_Website.Util.AccountInfo.GetUserRole(Request);
 }
 
 <h2>Announce Details</h2>
@@ -20,7 +23,9 @@
 		Thời gian chỉnh sửa gần nhất:
 		@Html.DisplayText("lastUpdate")
 	</div>
-
-	<a href="@Url.Action("EditAnnounce", "Announce", new { announceID = Model.annoucemenID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-	<a href="@Url.Action("DeleteAnnounce", "Announce", new { announceID = Model.annoucemenID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-remove-sign"></span></a>
+	@if (role == "3")
+	{
+		<a href="@Url.Action("EditAnnounce", "Announce", new { announceID = Model.annoucemenID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+		<a href="@Url.Action("DeleteAnnounce", "Announce", new { announceID = Model.annoucemenID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-remove-sign"></span></a>
+	}
 </div>
