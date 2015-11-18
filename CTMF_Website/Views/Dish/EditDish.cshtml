@@ -1,11 +1,11 @@
 ﻿@using CTMF_Website.Models
-@model DishViewModel
+@model EditDishModel
 @{
 	ViewBag.Title = "EditDish";
 }
 
 @{
-	List<SelectListItem> items = (List<SelectListItem>)ViewData["DishTypeID"];
+	List<SelectListItem> items = (List<SelectListItem>)ViewData["DishType"];
 }
 <link href="~/Content/jquery.fileupload.css" rel="stylesheet" />
 <script src="~/Scripts/jquery.ui.widget.js"></script>
@@ -19,20 +19,23 @@
 			url: '/Dish/UploadImage',
 			autoUpload: true,
 			done: function (e, data) {
-				document.getElementById("dish-img").src = ".." + data.result.fileName;
-				$('#pathImage').val(data.result.fileName);
+				if (data.result.fileName !== null) {
+					document.getElementById("dish-img").src = ".." + data.result.fileName;
+					$('#pathImage').val(data.result.fileName);
+				}
 			}
 		});
 	});
 </script>
 
 <div class="addForm">
-	<legend class="title">Thêm món ăn mới</legend>
+	<legend class="title">Cập nhật món ăn</legend>
 	<div class="container">
-		@using (Html.BeginForm("AddDish", "Dish", FormMethod.Post, new { @class = "form-horizontal" }))
+		@using (Html.BeginForm("EditDish", "Dish", FormMethod.Post, new { @class = "form-horizontal" }))
 		{
 			@Html.AntiForgeryToken()
 			@Html.ValidationSummary(true)
+			@Html.HiddenFor(m => m.DishID)
 			<div class="form-group">
 				<div class="col-sm-2">
 
@@ -40,11 +43,11 @@
 				<div class="col-sm-5">
 					@if (string.IsNullOrEmpty(Model.Image))
 					{
-						<img src="~/Images/no-image.jpg" id="dish-img" style="width:300px;">
+						<img src="~/Images/no-image.jpg" id="dish-img" style="width:200px;">
 					}
 					else
 					{
-						<img id="dish-img" src="..@Model.Image" />
+						<img id="dish-img" src="..@Model.Image" style="width:200px;" />
 					}
 				</div>
 			</div>
@@ -63,7 +66,7 @@
 				@Html.HiddenFor(m => m.DishTypeID)
 				@Html.LabelFor(m => m.DishTypeID, new { @class = "control-label col-sm-2" })
 				<div class="col-sm-5">
-					@Html.DropDownListFor(m => m.DishTypeID, new SelectList(items, "Value", "Text", Model.DishTypeID.ToString()), new { @class = "form-control", @style = "width:250px;" })
+					@Html.DropDownListFor(m => m.DishTypeID, new SelectList(items, "Value", "Text", Model.DishTypeID), new { @class = "form-control", @style = "width:250px;" })
 				</div>
 			</div>
 			<div class="form-group" style="margin-top: 20px">
@@ -86,7 +89,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<input type="submit" class="btn btn-danger" value="Thêm món">
+					<input type="submit" class="btn btn-danger" value="Cập nhật">
 				</div>
 			</div>
 		}
