@@ -17,4 +17,22 @@ namespace CTMF_Website.Models
 		[Display(Name = "Hình Ảnh")]
 		public string Image { get; set; }
 	}
+
+	public class EditDishModel
+	{
+		public int DishID { get; set; }
+
+		[Required(ErrorMessage = "Vui lòng nhập tên món ăn")]
+		[Display(Name = "Tên món ăn")]
+		public string Dishname { get; set; }
+
+		[Display(Name = "Loại món ăn")]
+		public int DishTypeID { get; set; }
+
+		[Display(Name = "Mô tả")]
+		public string Description { get; set; }
+
+		[Display(Name = "Hình Ảnh")]
+		public string Image { get; set; }
+	}
 }
