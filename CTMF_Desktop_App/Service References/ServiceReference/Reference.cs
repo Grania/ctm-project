@@ -23,6 +23,54 @@ namespace CTMF_Desktop_App.ServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetAccount", ReplyAction="*")]
         System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.GetAccountResponse> GetAccountAsync(CTMF_Desktop_App.ServiceReference.GetAccountRequest request);
+        
+        // CODEGEN: Generating message contract since message getUpdatedFingerPrintRequest has headers
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/getUpdatedFingerPrint", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintResponse getUpdatedFingerPrint(CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/getUpdatedFingerPrint", ReplyAction="*")]
+        System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintResponse> getUpdatedFingerPrintAsync(CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintRequest request);
+        
+        // CODEGEN: Generating message contract since message NewSyncDataRequest has headers
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/NewSyncData", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CTMF_Desktop_App.ServiceReference.NewSyncDataResponse NewSyncData(CTMF_Desktop_App.ServiceReference.NewSyncDataRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/NewSyncData", ReplyAction="*")]
+        System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.NewSyncDataResponse> NewSyncDataAsync(CTMF_Desktop_App.ServiceReference.NewSyncDataRequest request);
+        
+        // CODEGEN: Generating message contract since message DeleteSyncRequest has headers
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/DeleteSync", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CTMF_Desktop_App.ServiceReference.DeleteSyncResponse DeleteSync(CTMF_Desktop_App.ServiceReference.DeleteSyncRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/DeleteSync", ReplyAction="*")]
+        System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.DeleteSyncResponse> DeleteSyncAsync(CTMF_Desktop_App.ServiceReference.DeleteSyncRequest request);
+        
+        // CODEGEN: Generating message contract since message RequestXmlFileNameRequest has headers
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/RequestXmlFileName", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CTMF_Desktop_App.ServiceReference.RequestXmlFileNameResponse RequestXmlFileName(CTMF_Desktop_App.ServiceReference.RequestXmlFileNameRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/RequestXmlFileName", ReplyAction="*")]
+        System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.RequestXmlFileNameResponse> RequestXmlFileNameAsync(CTMF_Desktop_App.ServiceReference.RequestXmlFileNameRequest request);
+        
+        // CODEGEN: Generating message contract since message SetLastSyncAndInactiveFileRequest has headers
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/SetLastSyncAndInactiveFile", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileResponse SetLastSyncAndInactiveFile(CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/SetLastSyncAndInactiveFile", ReplyAction="*")]
+        System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileResponse> SetLastSyncAndInactiveFileAsync(CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileRequest request);
+        
+        // CODEGEN: Generating message contract since message RequestSyncRequest has headers
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/RequestSync", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        CTMF_Desktop_App.ServiceReference.RequestSyncResponse RequestSync(CTMF_Desktop_App.ServiceReference.RequestSyncRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/RequestSync", ReplyAction="*")]
+        System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.RequestSyncResponse> RequestSyncAsync(CTMF_Desktop_App.ServiceReference.RequestSyncRequest request);
     }
     
     /// <remarks/>
@@ -109,6 +157,269 @@ namespace CTMF_Desktop_App.ServiceReference {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getUpdatedFingerPrint", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class getUpdatedFingerPrintRequest {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public string username;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] image;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<int> fingerPosition;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        public System.DateTime lastUpdatedFingerPrint;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=4)]
+        public string ignoreSyncID;
+        
+        public getUpdatedFingerPrintRequest() {
+        }
+        
+        public getUpdatedFingerPrintRequest(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string username, byte[] image, System.Nullable<int> fingerPosition, System.DateTime lastUpdatedFingerPrint, string ignoreSyncID) {
+            this.AuthSoapHeader = AuthSoapHeader;
+            this.username = username;
+            this.image = image;
+            this.fingerPosition = fingerPosition;
+            this.lastUpdatedFingerPrint = lastUpdatedFingerPrint;
+            this.ignoreSyncID = ignoreSyncID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="getUpdatedFingerPrintResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class getUpdatedFingerPrintResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public bool getUpdatedFingerPrintResult;
+        
+        public getUpdatedFingerPrintResponse() {
+        }
+        
+        public getUpdatedFingerPrintResponse(bool getUpdatedFingerPrintResult) {
+            this.getUpdatedFingerPrintResult = getUpdatedFingerPrintResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="NewSyncData", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class NewSyncDataRequest {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public System.DateTime toDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public string oldSyncID;
+        
+        public NewSyncDataRequest() {
+        }
+        
+        public NewSyncDataRequest(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, System.DateTime toDate, string oldSyncID) {
+            this.AuthSoapHeader = AuthSoapHeader;
+            this.toDate = toDate;
+            this.oldSyncID = oldSyncID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="NewSyncDataResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class NewSyncDataResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public string NewSyncDataResult;
+        
+        public NewSyncDataResponse() {
+        }
+        
+        public NewSyncDataResponse(string NewSyncDataResult) {
+            this.NewSyncDataResult = NewSyncDataResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteSync", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class DeleteSyncRequest {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public string syncID;
+        
+        public DeleteSyncRequest() {
+        }
+        
+        public DeleteSyncRequest(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID) {
+            this.AuthSoapHeader = AuthSoapHeader;
+            this.syncID = syncID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="DeleteSyncResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class DeleteSyncResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public bool DeleteSyncResult;
+        
+        public DeleteSyncResponse() {
+        }
+        
+        public DeleteSyncResponse(bool DeleteSyncResult) {
+            this.DeleteSyncResult = DeleteSyncResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RequestXmlFileName", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class RequestXmlFileNameRequest {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public string syncID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public bool isExcludeCurrent;
+        
+        public RequestXmlFileNameRequest() {
+        }
+        
+        public RequestXmlFileNameRequest(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID, bool isExcludeCurrent) {
+            this.AuthSoapHeader = AuthSoapHeader;
+            this.syncID = syncID;
+            this.isExcludeCurrent = isExcludeCurrent;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RequestXmlFileNameResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class RequestXmlFileNameResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public string RequestXmlFileNameResult;
+        
+        public RequestXmlFileNameResponse() {
+        }
+        
+        public RequestXmlFileNameResponse(string RequestXmlFileNameResult) {
+            this.RequestXmlFileNameResult = RequestXmlFileNameResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SetLastSyncAndInactiveFile", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class SetLastSyncAndInactiveFileRequest {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public System.DateTime syncDate;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public string fileNameList;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        public string syncID;
+        
+        public SetLastSyncAndInactiveFileRequest() {
+        }
+        
+        public SetLastSyncAndInactiveFileRequest(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, System.DateTime syncDate, string fileNameList, string syncID) {
+            this.AuthSoapHeader = AuthSoapHeader;
+            this.syncDate = syncDate;
+            this.fileNameList = fileNameList;
+            this.syncID = syncID;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="SetLastSyncAndInactiveFileResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class SetLastSyncAndInactiveFileResponse {
+        
+        public SetLastSyncAndInactiveFileResponse() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RequestSync", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class RequestSyncRequest {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public string syncID;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public string filenames;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        public System.DateTime requestTime;
+        
+        public RequestSyncRequest() {
+        }
+        
+        public RequestSyncRequest(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID, string filenames, System.DateTime requestTime) {
+            this.AuthSoapHeader = AuthSoapHeader;
+            this.syncID = syncID;
+            this.filenames = filenames;
+            this.requestTime = requestTime;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="RequestSyncResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class RequestSyncResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public string RequestSyncResult;
+        
+        public RequestSyncResponse() {
+        }
+        
+        public RequestSyncResponse(string RequestSyncResult) {
+            this.RequestSyncResult = RequestSyncResult;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface WebServiceSoapChannel : CTMF_Desktop_App.ServiceReference.WebServiceSoap, System.ServiceModel.IClientChannel {
     }
@@ -159,6 +470,175 @@ namespace CTMF_Desktop_App.ServiceReference {
             inValue.AuthSoapHeader = AuthSoapHeader;
             inValue.username = username;
             return ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).GetAccountAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintResponse CTMF_Desktop_App.ServiceReference.WebServiceSoap.getUpdatedFingerPrint(CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintRequest request) {
+            return base.Channel.getUpdatedFingerPrint(request);
+        }
+        
+        public bool getUpdatedFingerPrint(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string username, byte[] image, System.Nullable<int> fingerPosition, System.DateTime lastUpdatedFingerPrint, string ignoreSyncID) {
+            CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintRequest inValue = new CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintRequest();
+            inValue.AuthSoapHeader = AuthSoapHeader;
+            inValue.username = username;
+            inValue.image = image;
+            inValue.fingerPosition = fingerPosition;
+            inValue.lastUpdatedFingerPrint = lastUpdatedFingerPrint;
+            inValue.ignoreSyncID = ignoreSyncID;
+            CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintResponse retVal = ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).getUpdatedFingerPrint(inValue);
+            return retVal.getUpdatedFingerPrintResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintResponse> CTMF_Desktop_App.ServiceReference.WebServiceSoap.getUpdatedFingerPrintAsync(CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintRequest request) {
+            return base.Channel.getUpdatedFingerPrintAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintResponse> getUpdatedFingerPrintAsync(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string username, byte[] image, System.Nullable<int> fingerPosition, System.DateTime lastUpdatedFingerPrint, string ignoreSyncID) {
+            CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintRequest inValue = new CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintRequest();
+            inValue.AuthSoapHeader = AuthSoapHeader;
+            inValue.username = username;
+            inValue.image = image;
+            inValue.fingerPosition = fingerPosition;
+            inValue.lastUpdatedFingerPrint = lastUpdatedFingerPrint;
+            inValue.ignoreSyncID = ignoreSyncID;
+            return ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).getUpdatedFingerPrintAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CTMF_Desktop_App.ServiceReference.NewSyncDataResponse CTMF_Desktop_App.ServiceReference.WebServiceSoap.NewSyncData(CTMF_Desktop_App.ServiceReference.NewSyncDataRequest request) {
+            return base.Channel.NewSyncData(request);
+        }
+        
+        public string NewSyncData(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, System.DateTime toDate, string oldSyncID) {
+            CTMF_Desktop_App.ServiceReference.NewSyncDataRequest inValue = new CTMF_Desktop_App.ServiceReference.NewSyncDataRequest();
+            inValue.AuthSoapHeader = AuthSoapHeader;
+            inValue.toDate = toDate;
+            inValue.oldSyncID = oldSyncID;
+            CTMF_Desktop_App.ServiceReference.NewSyncDataResponse retVal = ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).NewSyncData(inValue);
+            return retVal.NewSyncDataResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.NewSyncDataResponse> CTMF_Desktop_App.ServiceReference.WebServiceSoap.NewSyncDataAsync(CTMF_Desktop_App.ServiceReference.NewSyncDataRequest request) {
+            return base.Channel.NewSyncDataAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.NewSyncDataResponse> NewSyncDataAsync(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, System.DateTime toDate, string oldSyncID) {
+            CTMF_Desktop_App.ServiceReference.NewSyncDataRequest inValue = new CTMF_Desktop_App.ServiceReference.NewSyncDataRequest();
+            inValue.AuthSoapHeader = AuthSoapHeader;
+            inValue.toDate = toDate;
+            inValue.oldSyncID = oldSyncID;
+            return ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).NewSyncDataAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CTMF_Desktop_App.ServiceReference.DeleteSyncResponse CTMF_Desktop_App.ServiceReference.WebServiceSoap.DeleteSync(CTMF_Desktop_App.ServiceReference.DeleteSyncRequest request) {
+            return base.Channel.DeleteSync(request);
+        }
+        
+        public bool DeleteSync(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID) {
+            CTMF_Desktop_App.ServiceReference.DeleteSyncRequest inValue = new CTMF_Desktop_App.ServiceReference.DeleteSyncRequest();
+            inValue.AuthSoapHeader = AuthSoapHeader;
+            inValue.syncID = syncID;
+            CTMF_Desktop_App.ServiceReference.DeleteSyncResponse retVal = ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).DeleteSync(inValue);
+            return retVal.DeleteSyncResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.DeleteSyncResponse> CTMF_Desktop_App.ServiceReference.WebServiceSoap.DeleteSyncAsync(CTMF_Desktop_App.ServiceReference.DeleteSyncRequest request) {
+            return base.Channel.DeleteSyncAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.DeleteSyncResponse> DeleteSyncAsync(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID) {
+            CTMF_Desktop_App.ServiceReference.DeleteSyncRequest inValue = new CTMF_Desktop_App.ServiceReference.DeleteSyncRequest();
+            inValue.AuthSoapHeader = AuthSoapHeader;
+            inValue.syncID = syncID;
+            return ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).DeleteSyncAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CTMF_Desktop_App.ServiceReference.RequestXmlFileNameResponse CTMF_Desktop_App.ServiceReference.WebServiceSoap.RequestXmlFileName(CTMF_Desktop_App.ServiceReference.RequestXmlFileNameRequest request) {
+            return base.Channel.RequestXmlFileName(request);
+        }
+        
+        public string RequestXmlFileName(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID, bool isExcludeCurrent) {
+            CTMF_Desktop_App.ServiceReference.RequestXmlFileNameRequest inValue = new CTMF_Desktop_App.ServiceReference.RequestXmlFileNameRequest();
+            inValue.AuthSoapHeader = AuthSoapHeader;
+            inValue.syncID = syncID;
+            inValue.isExcludeCurrent = isExcludeCurrent;
+            CTMF_Desktop_App.ServiceReference.RequestXmlFileNameResponse retVal = ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).RequestXmlFileName(inValue);
+            return retVal.RequestXmlFileNameResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.RequestXmlFileNameResponse> CTMF_Desktop_App.ServiceReference.WebServiceSoap.RequestXmlFileNameAsync(CTMF_Desktop_App.ServiceReference.RequestXmlFileNameRequest request) {
+            return base.Channel.RequestXmlFileNameAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.RequestXmlFileNameResponse> RequestXmlFileNameAsync(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID, bool isExcludeCurrent) {
+            CTMF_Desktop_App.ServiceReference.RequestXmlFileNameRequest inValue = new CTMF_Desktop_App.ServiceReference.RequestXmlFileNameRequest();
+            inValue.AuthSoapHeader = AuthSoapHeader;
+            inValue.syncID = syncID;
+            inValue.isExcludeCurrent = isExcludeCurrent;
+            return ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).RequestXmlFileNameAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileResponse CTMF_Desktop_App.ServiceReference.WebServiceSoap.SetLastSyncAndInactiveFile(CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileRequest request) {
+            return base.Channel.SetLastSyncAndInactiveFile(request);
+        }
+        
+        public void SetLastSyncAndInactiveFile(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, System.DateTime syncDate, string fileNameList, string syncID) {
+            CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileRequest inValue = new CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileRequest();
+            inValue.AuthSoapHeader = AuthSoapHeader;
+            inValue.syncDate = syncDate;
+            inValue.fileNameList = fileNameList;
+            inValue.syncID = syncID;
+            CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileResponse retVal = ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).SetLastSyncAndInactiveFile(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileResponse> CTMF_Desktop_App.ServiceReference.WebServiceSoap.SetLastSyncAndInactiveFileAsync(CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileRequest request) {
+            return base.Channel.SetLastSyncAndInactiveFileAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileResponse> SetLastSyncAndInactiveFileAsync(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, System.DateTime syncDate, string fileNameList, string syncID) {
+            CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileRequest inValue = new CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileRequest();
+            inValue.AuthSoapHeader = AuthSoapHeader;
+            inValue.syncDate = syncDate;
+            inValue.fileNameList = fileNameList;
+            inValue.syncID = syncID;
+            return ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).SetLastSyncAndInactiveFileAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CTMF_Desktop_App.ServiceReference.RequestSyncResponse CTMF_Desktop_App.ServiceReference.WebServiceSoap.RequestSync(CTMF_Desktop_App.ServiceReference.RequestSyncRequest request) {
+            return base.Channel.RequestSync(request);
+        }
+        
+        public string RequestSync(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID, string filenames, System.DateTime requestTime) {
+            CTMF_Desktop_App.ServiceReference.RequestSyncRequest inValue = new CTMF_Desktop_App.ServiceReference.RequestSyncRequest();
+            inValue.AuthSoapHeader = AuthSoapHeader;
+            inValue.syncID = syncID;
+            inValue.filenames = filenames;
+            inValue.requestTime = requestTime;
+            CTMF_Desktop_App.ServiceReference.RequestSyncResponse retVal = ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).RequestSync(inValue);
+            return retVal.RequestSyncResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.RequestSyncResponse> CTMF_Desktop_App.ServiceReference.WebServiceSoap.RequestSyncAsync(CTMF_Desktop_App.ServiceReference.RequestSyncRequest request) {
+            return base.Channel.RequestSyncAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.RequestSyncResponse> RequestSyncAsync(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID, string filenames, System.DateTime requestTime) {
+            CTMF_Desktop_App.ServiceReference.RequestSyncRequest inValue = new CTMF_Desktop_App.ServiceReference.RequestSyncRequest();
+            inValue.AuthSoapHeader = AuthSoapHeader;
+            inValue.syncID = syncID;
+            inValue.filenames = filenames;
+            inValue.requestTime = requestTime;
+            return ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).RequestSyncAsync(inValue);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CTMF_Desktop_App.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace CTMF_Desktop_App
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new Login());
+			Application.Run(new MainForm());
 		}
 	}
 }

@@ -30,6 +30,106 @@
         </s:sequence>
         <s:anyAttribute />
       </s:complexType>
+      <s:element name="getUpdatedFingerPrint">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="image" type="s:base64Binary" />
+            <s:element minOccurs="1" maxOccurs="1" name="fingerPosition" nillable="true" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="lastUpdatedFingerPrint" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="ignoreSyncID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getUpdatedFingerPrintResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="getUpdatedFingerPrintResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NewSyncData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="toDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="oldSyncID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NewSyncDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NewSyncDataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteSync">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="syncID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteSyncResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteSyncResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RequestXmlFileName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="syncID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="isExcludeCurrent" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RequestXmlFileNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestXmlFileNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetLastSyncAndInactiveFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="syncDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileNameList" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="syncID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetLastSyncAndInactiveFileResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="RequestSync">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="syncID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filenames" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="requestTime" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RequestSyncResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestSyncResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DataTable" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+            <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+      <s:element name="boolean" type="s:boolean" />
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetAccountSoapIn">
@@ -41,10 +141,220 @@
   <wsdl:message name="GetAccountAuthSoapHeader">
     <wsdl:part name="AuthSoapHeader" element="tns:AuthSoapHeader" />
   </wsdl:message>
+  <wsdl:message name="getUpdatedFingerPrintSoapIn">
+    <wsdl:part name="parameters" element="tns:getUpdatedFingerPrint" />
+  </wsdl:message>
+  <wsdl:message name="getUpdatedFingerPrintSoapOut">
+    <wsdl:part name="parameters" element="tns:getUpdatedFingerPrintResponse" />
+  </wsdl:message>
+  <wsdl:message name="getUpdatedFingerPrintAuthSoapHeader">
+    <wsdl:part name="AuthSoapHeader" element="tns:AuthSoapHeader" />
+  </wsdl:message>
+  <wsdl:message name="NewSyncDataSoapIn">
+    <wsdl:part name="parameters" element="tns:NewSyncData" />
+  </wsdl:message>
+  <wsdl:message name="NewSyncDataSoapOut">
+    <wsdl:part name="parameters" element="tns:NewSyncDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="NewSyncDataAuthSoapHeader">
+    <wsdl:part name="AuthSoapHeader" element="tns:AuthSoapHeader" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSyncSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteSync" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSyncSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteSyncResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSyncAuthSoapHeader">
+    <wsdl:part name="AuthSoapHeader" element="tns:AuthSoapHeader" />
+  </wsdl:message>
+  <wsdl:message name="RequestXmlFileNameSoapIn">
+    <wsdl:part name="parameters" element="tns:RequestXmlFileName" />
+  </wsdl:message>
+  <wsdl:message name="RequestXmlFileNameSoapOut">
+    <wsdl:part name="parameters" element="tns:RequestXmlFileNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="RequestXmlFileNameAuthSoapHeader">
+    <wsdl:part name="AuthSoapHeader" element="tns:AuthSoapHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetLastSyncAndInactiveFileSoapIn">
+    <wsdl:part name="parameters" element="tns:SetLastSyncAndInactiveFile" />
+  </wsdl:message>
+  <wsdl:message name="SetLastSyncAndInactiveFileSoapOut">
+    <wsdl:part name="parameters" element="tns:SetLastSyncAndInactiveFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetLastSyncAndInactiveFileAuthSoapHeader">
+    <wsdl:part name="AuthSoapHeader" element="tns:AuthSoapHeader" />
+  </wsdl:message>
+  <wsdl:message name="RequestSyncSoapIn">
+    <wsdl:part name="parameters" element="tns:RequestSync" />
+  </wsdl:message>
+  <wsdl:message name="RequestSyncSoapOut">
+    <wsdl:part name="parameters" element="tns:RequestSyncResponse" />
+  </wsdl:message>
+  <wsdl:message name="RequestSyncAuthSoapHeader">
+    <wsdl:part name="AuthSoapHeader" element="tns:AuthSoapHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountHttpGetIn">
+    <wsdl:part name="username" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="NewSyncDataHttpGetIn">
+    <wsdl:part name="toDate" type="s:string" />
+    <wsdl:part name="oldSyncID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="NewSyncDataHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSyncHttpGetIn">
+    <wsdl:part name="syncID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSyncHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="RequestXmlFileNameHttpGetIn">
+    <wsdl:part name="syncID" type="s:string" />
+    <wsdl:part name="isExcludeCurrent" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RequestXmlFileNameHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SetLastSyncAndInactiveFileHttpGetIn">
+    <wsdl:part name="syncDate" type="s:string" />
+    <wsdl:part name="fileNameList" type="s:string" />
+    <wsdl:part name="syncID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SetLastSyncAndInactiveFileHttpGetOut" />
+  <wsdl:message name="RequestSyncHttpGetIn">
+    <wsdl:part name="syncID" type="s:string" />
+    <wsdl:part name="filenames" type="s:string" />
+    <wsdl:part name="requestTime" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RequestSyncHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountHttpPostIn">
+    <wsdl:part name="username" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataTable" />
+  </wsdl:message>
+  <wsdl:message name="NewSyncDataHttpPostIn">
+    <wsdl:part name="toDate" type="s:string" />
+    <wsdl:part name="oldSyncID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="NewSyncDataHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSyncHttpPostIn">
+    <wsdl:part name="syncID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSyncHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="RequestXmlFileNameHttpPostIn">
+    <wsdl:part name="syncID" type="s:string" />
+    <wsdl:part name="isExcludeCurrent" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RequestXmlFileNameHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SetLastSyncAndInactiveFileHttpPostIn">
+    <wsdl:part name="syncDate" type="s:string" />
+    <wsdl:part name="fileNameList" type="s:string" />
+    <wsdl:part name="syncID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SetLastSyncAndInactiveFileHttpPostOut" />
+  <wsdl:message name="RequestSyncHttpPostIn">
+    <wsdl:part name="syncID" type="s:string" />
+    <wsdl:part name="filenames" type="s:string" />
+    <wsdl:part name="requestTime" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="RequestSyncHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
   <wsdl:portType name="WebServiceSoap">
     <wsdl:operation name="GetAccount">
       <wsdl:input message="tns:GetAccountSoapIn" />
       <wsdl:output message="tns:GetAccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getUpdatedFingerPrint">
+      <wsdl:input message="tns:getUpdatedFingerPrintSoapIn" />
+      <wsdl:output message="tns:getUpdatedFingerPrintSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NewSyncData">
+      <wsdl:input message="tns:NewSyncDataSoapIn" />
+      <wsdl:output message="tns:NewSyncDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSync">
+      <wsdl:input message="tns:DeleteSyncSoapIn" />
+      <wsdl:output message="tns:DeleteSyncSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RequestXmlFileName">
+      <wsdl:input message="tns:RequestXmlFileNameSoapIn" />
+      <wsdl:output message="tns:RequestXmlFileNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetLastSyncAndInactiveFile">
+      <wsdl:input message="tns:SetLastSyncAndInactiveFileSoapIn" />
+      <wsdl:output message="tns:SetLastSyncAndInactiveFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RequestSync">
+      <wsdl:input message="tns:RequestSyncSoapIn" />
+      <wsdl:output message="tns:RequestSyncSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="WebServiceHttpGet">
+    <wsdl:operation name="GetAccount">
+      <wsdl:input message="tns:GetAccountHttpGetIn" />
+      <wsdl:output message="tns:GetAccountHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NewSyncData">
+      <wsdl:input message="tns:NewSyncDataHttpGetIn" />
+      <wsdl:output message="tns:NewSyncDataHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSync">
+      <wsdl:input message="tns:DeleteSyncHttpGetIn" />
+      <wsdl:output message="tns:DeleteSyncHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RequestXmlFileName">
+      <wsdl:input message="tns:RequestXmlFileNameHttpGetIn" />
+      <wsdl:output message="tns:RequestXmlFileNameHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetLastSyncAndInactiveFile">
+      <wsdl:input message="tns:SetLastSyncAndInactiveFileHttpGetIn" />
+      <wsdl:output message="tns:SetLastSyncAndInactiveFileHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RequestSync">
+      <wsdl:input message="tns:RequestSyncHttpGetIn" />
+      <wsdl:output message="tns:RequestSyncHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="WebServiceHttpPost">
+    <wsdl:operation name="GetAccount">
+      <wsdl:input message="tns:GetAccountHttpPostIn" />
+      <wsdl:output message="tns:GetAccountHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NewSyncData">
+      <wsdl:input message="tns:NewSyncDataHttpPostIn" />
+      <wsdl:output message="tns:NewSyncDataHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSync">
+      <wsdl:input message="tns:DeleteSyncHttpPostIn" />
+      <wsdl:output message="tns:DeleteSyncHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RequestXmlFileName">
+      <wsdl:input message="tns:RequestXmlFileNameHttpPostIn" />
+      <wsdl:output message="tns:RequestXmlFileNameHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetLastSyncAndInactiveFile">
+      <wsdl:input message="tns:SetLastSyncAndInactiveFileHttpPostIn" />
+      <wsdl:output message="tns:SetLastSyncAndInactiveFileHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RequestSync">
+      <wsdl:input message="tns:RequestSyncHttpPostIn" />
+      <wsdl:output message="tns:RequestSyncHttpPostOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
@@ -54,6 +364,66 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetAccountAuthSoapHeader" part="AuthSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUpdatedFingerPrint">
+      <soap:operation soapAction="http://tempuri.org/getUpdatedFingerPrint" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:getUpdatedFingerPrintAuthSoapHeader" part="AuthSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NewSyncData">
+      <soap:operation soapAction="http://tempuri.org/NewSyncData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:NewSyncDataAuthSoapHeader" part="AuthSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSync">
+      <soap:operation soapAction="http://tempuri.org/DeleteSync" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DeleteSyncAuthSoapHeader" part="AuthSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestXmlFileName">
+      <soap:operation soapAction="http://tempuri.org/RequestXmlFileName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:RequestXmlFileNameAuthSoapHeader" part="AuthSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetLastSyncAndInactiveFile">
+      <soap:operation soapAction="http://tempuri.org/SetLastSyncAndInactiveFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetLastSyncAndInactiveFileAuthSoapHeader" part="AuthSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestSync">
+      <soap:operation soapAction="http://tempuri.org/RequestSync" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:RequestSyncAuthSoapHeader" part="AuthSoapHeader" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -72,6 +442,176 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="getUpdatedFingerPrint">
+      <soap12:operation soapAction="http://tempuri.org/getUpdatedFingerPrint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:getUpdatedFingerPrintAuthSoapHeader" part="AuthSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NewSyncData">
+      <soap12:operation soapAction="http://tempuri.org/NewSyncData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:NewSyncDataAuthSoapHeader" part="AuthSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSync">
+      <soap12:operation soapAction="http://tempuri.org/DeleteSync" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteSyncAuthSoapHeader" part="AuthSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestXmlFileName">
+      <soap12:operation soapAction="http://tempuri.org/RequestXmlFileName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:RequestXmlFileNameAuthSoapHeader" part="AuthSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetLastSyncAndInactiveFile">
+      <soap12:operation soapAction="http://tempuri.org/SetLastSyncAndInactiveFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SetLastSyncAndInactiveFileAuthSoapHeader" part="AuthSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestSync">
+      <soap12:operation soapAction="http://tempuri.org/RequestSync" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:RequestSyncAuthSoapHeader" part="AuthSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServiceHttpGet" type="tns:WebServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="GetAccount">
+      <http:operation location="/GetAccount" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NewSyncData">
+      <http:operation location="/NewSyncData" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSync">
+      <http:operation location="/DeleteSync" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestXmlFileName">
+      <http:operation location="/RequestXmlFileName" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetLastSyncAndInactiveFile">
+      <http:operation location="/SetLastSyncAndInactiveFile" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="RequestSync">
+      <http:operation location="/RequestSync" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServiceHttpPost" type="tns:WebServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="GetAccount">
+      <http:operation location="/GetAccount" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NewSyncData">
+      <http:operation location="/NewSyncData" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteSync">
+      <http:operation location="/DeleteSync" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RequestXmlFileName">
+      <http:operation location="/RequestXmlFileName" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetLastSyncAndInactiveFile">
+      <http:operation location="/SetLastSyncAndInactiveFile" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+    <wsdl:operation name="RequestSync">
+      <http:operation location="/RequestSync" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="WebService">
     <wsdl:port name="WebServiceSoap" binding="tns:WebServiceSoap">
@@ -79,6 +619,12 @@
     </wsdl:port>
     <wsdl:port name="WebServiceSoap12" binding="tns:WebServiceSoap12">
       <soap12:address location="http://localhost:53684/Webservice/WebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServiceHttpGet" binding="tns:WebServiceHttpGet">
+      <http:address location="http://localhost:53684/Webservice/WebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServiceHttpPost" binding="tns:WebServiceHttpPost">
+      <http:address location="http://localhost:53684/Webservice/WebService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

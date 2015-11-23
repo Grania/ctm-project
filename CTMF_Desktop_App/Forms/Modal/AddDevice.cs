@@ -1,19 +1,22 @@
-﻿using System;
+﻿using CTMF_Desktop_App.Util;
+using System;
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace CTMF_Desktop_App.Forms.Modal
 {
 	public partial class AddDevice : Form
 	{
-		IList<Device> devices;
+		IList<DeviceModel> devices;
 
 		bool isScannerConnected = false;
 		bool isDisplayConnected = false;
 		bool isDone = false;
 
 		SerialPort mySerial;
+		private uint _address;
 
 		public AddDevice()
 		{
@@ -23,7 +26,7 @@ namespace CTMF_Desktop_App.Forms.Modal
 
 			mySerial = new SerialPort();
 			mySerial.BaudRate = 9600;
-			mySerial.ReadTimeout = 3000;
+			mySerial.ReadTimeout = 2000;
 
 			//get list ports
 			string[] ports = SerialPort.GetPortNames();
@@ -35,7 +38,7 @@ namespace CTMF_Desktop_App.Forms.Modal
 			lbPort.EndUpdate();
 		}
 
-		public AddDevice(IList<Device> devices)
+		public AddDevice(IList<DeviceModel> devices)
 			: this()
 		{
 			this.devices = devices;
@@ -73,7 +76,7 @@ namespace CTMF_Desktop_App.Forms.Modal
 			string portName = lbPort.GetItemText(lbPort.SelectedItem);
 			if (portName == null || portName == string.Empty)
 			{
-				MessageBox.Show(string.Format(StringResources.A00004, "cổng kết nối"));
+				MessageBox.Show(string.Format(StringResource.A00004, "cổng kết nối"));
 				return;
 			}
 
@@ -81,17 +84,21 @@ namespace CTMF_Desktop_App.Forms.Modal
 			int portNum;
 			if (!int.TryParse(portName.Substring(3), out portNum))
 			{
-				MessageBox.Show(string.Format(StringResources.E00002, "Port name"));
+				MessageBox.Show(string.Format(StringResource.E00002, "Port name"));
 				return;
 			}
 
 			//open scanner
-			if (!DeviceControl.connectScanner(portNum))
+			try
 			{
-				MessageBox.Show(string.Format(StringResources.A00006, "máy quét"));
+				_address = DeviceControl.connectScanner(portNum, null);
+			}
+			catch
+			{
+				MessageBox.Show(string.Format(StringResource.A00006, "máy quét"));
 				return;
 			}
-			MessageBox.Show(string.Format(StringResources.A00005, "máy quét"));
+			MessageBox.Show(string.Format(StringResource.A00005, "máy quét"));
 			isScannerConnected = true;
 			btnConScanner.Enabled = false;
 
@@ -107,7 +114,7 @@ namespace CTMF_Desktop_App.Forms.Modal
 			string portName = lbPort.GetItemText(lbPort.SelectedItem);
 			if (portName == null || portName == string.Empty)
 			{
-				MessageBox.Show(string.Format(StringResources.A00004, "cổng kết nối"));
+				MessageBox.Show(string.Format(StringResource.A00004, "cổng kết nối"));
 				return;
 			}
 
@@ -115,14 +122,15 @@ namespace CTMF_Desktop_App.Forms.Modal
 			mySerial.Open();
 
 			isDisplayConnected = DeviceControl.connectDisplay(mySerial);
+
 			if (!isDisplayConnected)
 			{
-				MessageBox.Show(string.Format(StringResources.A00006, "màn hình"));
+				MessageBox.Show(string.Format(StringResource.A00006, "màn hình"));
 				mySerial.Close();
 				return;
-				
+
 			}
-			MessageBox.Show(string.Format(StringResources.A00005, "màn hình"));
+			MessageBox.Show(string.Format(StringResource.A00005, "màn hình"));
 			btnConDisplay.Enabled = false;
 
 			//enable done btn
@@ -142,7 +150,13 @@ namespace CTMF_Desktop_App.Forms.Modal
 
 		private void btnDone_Click(object sender, EventArgs e)
 		{
-			devices.Add(new Device(mySerial, 0xffffffff));
+			DeviceModel device = new DeviceModel();
+			device.name = DeviceModel.GetName();
+			device.scannerAddress = _address;
+			device.serial = mySerial;
+			device.isForEating = true;
+
+			devices.Add(device);
 
 			isDone = true;
 			this.Close();

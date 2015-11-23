@@ -37,31 +37,35 @@ namespace CTMF_Desktop_App
 			//validate
 			if (username == string.Empty || password == string.Empty)
 			{
-				lblAlert.Text = StringResources.A00001;
+				lblAlert.Text = StringResource.A00001;
 				return;
 			}
 
 			WebServiceSoapClient soapClient = new WebServiceSoapClient();
 
 			//ACCOUNTTableAdapter accAdapter = new ACCOUNTTableAdapter();
-			DataTable dt = soapClient.GetAccount(WebServiceAuth.AuthSoapHeader(), username);
-			if (dt == null)
+			DataTable dt = null;
+			try
 			{
-				MessageBox.Show(StringResources.E00003);
-				Log.ErrorLog(StringResources.E00003);
+				dt = soapClient.GetAccount(WebServiceAuth.AuthSoapHeader(), username);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(StringResource.A00007);
+				Log.ErrorLog(ex.Message);
 				return;
 			}
 
 			if (dt.Rows.Count != 1)
 			{
-				lblAlert.Text = StringResources.A00002;
+				lblAlert.Text = StringResource.A00002;
 				return;
 			}
 			
 			//check password
 			if ((string)dt.Rows[0]["PASSWORD"] != password)
 			{
-				lblAlert.Text = StringResources.A00003;
+				lblAlert.Text = StringResource.A00003;
 				return;
 			}
 

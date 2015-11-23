@@ -33,14 +33,18 @@
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.imageList = new System.Windows.Forms.ImageList(this.components);
-			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.btnAddDevice = new System.Windows.Forms.Button();
-			this.pnlDevices = new System.Windows.Forms.Panel();
-			this.label1 = new System.Windows.Forms.Label();
 			this.tabControl = new System.Windows.Forms.TabControl();
+			this.deviceManageTab = new System.Windows.Forms.TabPage();
+			this.pnlDeviceManage = new System.Windows.Forms.Panel();
+			this.accountManageTab = new System.Windows.Forms.TabPage();
+			this.pnlAccountManager = new System.Windows.Forms.Panel();
+			this.settingManageTab = new System.Windows.Forms.TabPage();
+			this.pnlSettingManage = new System.Windows.Forms.Panel();
 			this.statusStrip.SuspendLayout();
-			this.tabPage1.SuspendLayout();
 			this.tabControl.SuspendLayout();
+			this.deviceManageTab.SuspendLayout();
+			this.accountManageTab.SuspendLayout();
+			this.settingManageTab.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// toolStripStatusLabel1
@@ -64,57 +68,20 @@
 			this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
 			this.imageList.TransparentColor = System.Drawing.Color.Transparent;
 			this.imageList.Images.SetKeyName(0, "home.png");
-			// 
-			// tabPage1
-			// 
-			this.tabPage1.Controls.Add(this.btnAddDevice);
-			this.tabPage1.Controls.Add(this.pnlDevices);
-			this.tabPage1.Controls.Add(this.label1);
-			this.tabPage1.ImageIndex = 0;
-			this.tabPage1.Location = new System.Drawing.Point(4, 104);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(1000, 597);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.UseVisualStyleBackColor = true;
-			// 
-			// btnAddDevice
-			// 
-			this.btnAddDevice.Location = new System.Drawing.Point(869, 5);
-			this.btnAddDevice.Name = "btnAddDevice";
-			this.btnAddDevice.Size = new System.Drawing.Size(125, 23);
-			this.btnAddDevice.TabIndex = 2;
-			this.btnAddDevice.Text = "Thêm thiết bị";
-			this.btnAddDevice.UseVisualStyleBackColor = true;
-			this.btnAddDevice.Click += new System.EventHandler(this.btnAddDevice_Click);
-			// 
-			// pnlDevices
-			// 
-			this.pnlDevices.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.pnlDevices.AutoScroll = true;
-			this.pnlDevices.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlDevices.Location = new System.Drawing.Point(9, 34);
-			this.pnlDevices.Name = "pnlDevices";
-			this.pnlDevices.Size = new System.Drawing.Size(985, 557);
-			this.pnlDevices.TabIndex = 1;
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(3, 17);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(176, 13);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Danh sách thiết bị đang hoạt động:";
+			this.imageList.Images.SetKeyName(1, "account.png");
+			this.imageList.Images.SetKeyName(2, "FEZ-04-128.png");
+			this.imageList.Images.SetKeyName(3, "6045658cb8c73ad98963005a99c73661-arrow.png");
+			this.imageList.Images.SetKeyName(4, "Fingerprint-13.png");
+			this.imageList.Images.SetKeyName(5, "fecb8369.png");
 			// 
 			// tabControl
 			// 
 			this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.tabControl.Controls.Add(this.tabPage1);
+			this.tabControl.Controls.Add(this.deviceManageTab);
+			this.tabControl.Controls.Add(this.accountManageTab);
+			this.tabControl.Controls.Add(this.settingManageTab);
 			this.tabControl.ImageList = this.imageList;
 			this.tabControl.ItemSize = new System.Drawing.Size(100, 100);
 			this.tabControl.Location = new System.Drawing.Point(0, 0);
@@ -123,6 +90,71 @@
 			this.tabControl.Size = new System.Drawing.Size(1008, 705);
 			this.tabControl.TabIndex = 1;
 			this.tabControl.TabStop = false;
+			this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
+			// 
+			// deviceManageTab
+			// 
+			this.deviceManageTab.Controls.Add(this.pnlDeviceManage);
+			this.deviceManageTab.ImageIndex = 0;
+			this.deviceManageTab.Location = new System.Drawing.Point(4, 104);
+			this.deviceManageTab.Name = "deviceManageTab";
+			this.deviceManageTab.Padding = new System.Windows.Forms.Padding(3);
+			this.deviceManageTab.Size = new System.Drawing.Size(1000, 597);
+			this.deviceManageTab.TabIndex = 0;
+			this.deviceManageTab.UseVisualStyleBackColor = true;
+			// 
+			// pnlDeviceManage
+			// 
+			this.pnlDeviceManage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlDeviceManage.Location = new System.Drawing.Point(0, 0);
+			this.pnlDeviceManage.Name = "pnlDeviceManage";
+			this.pnlDeviceManage.Size = new System.Drawing.Size(1000, 597);
+			this.pnlDeviceManage.TabIndex = 0;
+			this.pnlDeviceManage.SizeChanged += new System.EventHandler(this.pnlDeviceManage_SizeChanged);
+			// 
+			// accountManageTab
+			// 
+			this.accountManageTab.Controls.Add(this.pnlAccountManager);
+			this.accountManageTab.ImageIndex = 1;
+			this.accountManageTab.Location = new System.Drawing.Point(4, 104);
+			this.accountManageTab.Name = "accountManageTab";
+			this.accountManageTab.Size = new System.Drawing.Size(1000, 597);
+			this.accountManageTab.TabIndex = 1;
+			this.accountManageTab.UseVisualStyleBackColor = true;
+			// 
+			// pnlAccountManager
+			// 
+			this.pnlAccountManager.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlAccountManager.Location = new System.Drawing.Point(0, 0);
+			this.pnlAccountManager.Name = "pnlAccountManager";
+			this.pnlAccountManager.Size = new System.Drawing.Size(1000, 597);
+			this.pnlAccountManager.TabIndex = 0;
+			this.pnlAccountManager.SizeChanged += new System.EventHandler(this.pnlAccountManager_SizeChanged);
+			// 
+			// settingManageTab
+			// 
+			this.settingManageTab.Controls.Add(this.pnlSettingManage);
+			this.settingManageTab.ImageIndex = 2;
+			this.settingManageTab.Location = new System.Drawing.Point(4, 104);
+			this.settingManageTab.Name = "settingManageTab";
+			this.settingManageTab.Size = new System.Drawing.Size(1000, 597);
+			this.settingManageTab.TabIndex = 2;
+			this.settingManageTab.UseVisualStyleBackColor = true;
+			// 
+			// pnlSettingManage
+			// 
+			this.pnlSettingManage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlSettingManage.AutoScroll = true;
+			this.pnlSettingManage.Location = new System.Drawing.Point(0, 0);
+			this.pnlSettingManage.Name = "pnlSettingManage";
+			this.pnlSettingManage.Size = new System.Drawing.Size(1000, 597);
+			this.pnlSettingManage.TabIndex = 0;
 			// 
 			// MainForm
 			// 
@@ -137,9 +169,10 @@
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
 			this.statusStrip.ResumeLayout(false);
 			this.statusStrip.PerformLayout();
-			this.tabPage1.ResumeLayout(false);
-			this.tabPage1.PerformLayout();
 			this.tabControl.ResumeLayout(false);
+			this.deviceManageTab.ResumeLayout(false);
+			this.accountManageTab.ResumeLayout(false);
+			this.settingManageTab.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -150,10 +183,12 @@
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		private System.Windows.Forms.StatusStrip statusStrip;
 		private System.Windows.Forms.ImageList imageList;
-		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabControl tabControl;
-		private System.Windows.Forms.Panel pnlDevices;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Button btnAddDevice;
+		private System.Windows.Forms.TabPage accountManageTab;
+		private System.Windows.Forms.TabPage deviceManageTab;
+		private System.Windows.Forms.Panel pnlDeviceManage;
+		private System.Windows.Forms.Panel pnlAccountManager;
+		private System.Windows.Forms.TabPage settingManageTab;
+		private System.Windows.Forms.Panel pnlSettingManage;
 	}
 }

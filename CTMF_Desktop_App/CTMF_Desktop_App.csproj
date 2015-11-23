@@ -32,10 +32,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="SourceAFIS">
+      <HintPath>C:\Program Files (x86)\SourceAFIS\Sample\dll\SourceAFIS.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,15 +57,32 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Device.cs" />
-    <Compile Include="DeviceControl.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="DataAccess.cs">
+      <DependentUpon>DataAccess.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataAccess.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataAccess.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ExtentionClass\Customer.cs" />
+    <Compile Include="Forms\SettingManage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Forms\SettingManage.Designer.cs">
+      <DependentUpon>SettingManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util\DeviceModel.cs" />
+    <Compile Include="Util\DeviceControl.cs" />
+    <Compile Include="Forms\AccountManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AccountManage.Designer.cs">
+      <DependentUpon>AccountManage.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -60,11 +90,29 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\DeviceManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DeviceManage.Designer.cs">
+      <DependentUpon>DeviceManage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Modal\AddDevice.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Modal\AddDevice.Designer.cs">
       <DependentUpon>AddDevice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Modal\SelectScanner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Modal\SelectScanner.Designer.cs">
+      <DependentUpon>SelectScanner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Modal\UpdateFingerPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Modal\UpdateFingerPrint.Designer.cs">
+      <DependentUpon>UpdateFingerPrint.cs</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
@@ -79,14 +127,40 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="StringResources.Designer.cs" />
+    <Compile Include="StringResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StringResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ExtentionClass\ComboBoxItem.cs" />
+    <Compile Include="Util\FingerPositionDictionary.cs" />
     <Compile Include="Util\Log.cs" />
+    <Compile Include="Util\StringExtensions.cs" />
     <Compile Include="Util\WebServiceAuth.cs" />
+    <Compile Include="Util\XmlSync.cs" />
+    <EmbeddedResource Include="DataAccess.resx">
+      <DependentUpon>DataAccess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AccountManage.resx">
+      <DependentUpon>AccountManage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DeviceManage.resx">
+      <DependentUpon>DeviceManage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Modal\AddDevice.resx">
       <DependentUpon>AddDevice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Modal\SelectScanner.resx">
+      <DependentUpon>SelectScanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Modal\UpdateFingerPrint.resx">
+      <DependentUpon>UpdateFingerPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SettingManage.resx">
+      <DependentUpon>SettingManage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
@@ -100,7 +174,22 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="StringResources.resx" />
+    <EmbeddedResource Include="StringResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="DataAccess.xsc">
+      <DependentUpon>DataAccess.xsd</DependentUpon>
+    </None>
+    <None Include="DataAccess.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataAccess.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataAccess.xss">
+      <DependentUpon>DataAccess.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <None Include="Properties\DataSources\System.Data.DataTable.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -111,13 +200,33 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Service References\ServiceReference\CTMF_Desktop_App.ServiceReference.DeleteSyncResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\ServiceReference\CTMF_Desktop_App.ServiceReference.GetAccountResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference\CTMF_Desktop_App.ServiceReference.getUpdatedFingerPrintResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference\CTMF_Desktop_App.ServiceReference.NewSyncDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference\CTMF_Desktop_App.ServiceReference.RequestSyncResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference\CTMF_Desktop_App.ServiceReference.RequestXmlFileNameResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference\CTMF_Desktop_App.ServiceReference.SetLastSyncAndInactiveFileResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\ServiceReference\WebService.wsdl" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

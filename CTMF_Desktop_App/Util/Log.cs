@@ -8,6 +8,11 @@ namespace CTMF_Desktop_App.Util
 	{
 		private static string path = "Logs/";
 
+		public static void CreatePath()
+		{
+			Directory.CreateDirectory(Directory.GetCurrentDirectory() + path);
+		}
+
 		public static void ErrorLog(string message)
 		{
 			StreamWriter sw = new StreamWriter(path + getFileName("ErrorLog"), true);
