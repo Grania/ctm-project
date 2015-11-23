@@ -11,8 +11,8 @@ namespace CTMF_Website
 		{
 			config.Routes.MapHttpRoute(
 				name: "DefaultApi",
-				routeTemplate: "api/{controller}/{id}",
-				defaults: new { id = RouteParameter.Optional }
+				routeTemplate: "api/{controller}/{filename}",
+				defaults: new { filename = RouteParameter.Optional }
 			);
 		}
 	}

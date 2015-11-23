@@ -25,3 +25,33 @@ D:\fia\CTMF\CTMF_Website\bin\System.Web.WebPages.Deployment.xml
 D:\fia\CTMF\CTMF_Website\bin\System.Web.WebPages.Razor.xml
 D:\fia\CTMF\CTMF_Website\obj\Debug\CTMF_Website.dll
 D:\fia\CTMF\CTMF_Website\obj\Debug\CTMF_Website.pdb
+E:\Do an\trunk\CTMF_Website\obj\Debug\CTMF_Website.csprojResolveAssemblyReference.cache
+E:\Do an\trunk\CTMF_Website\obj\Debug\CTMF_Website.dll
+E:\Do an\trunk\CTMF_Website\obj\Debug\CTMF_Website.pdb
+E:\Do an\trunk\CTMF_Website\bin\CTMF_Website.dll.config
+E:\Do an\trunk\CTMF_Website\bin\CTMF_Website.dll
+E:\Do an\trunk\CTMF_Website\bin\CTMF_Website.pdb
+E:\Do an\trunk\CTMF_Website\bin\Microsoft.Web.Infrastructure.dll
+E:\Do an\trunk\CTMF_Website\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
+E:\Do an\trunk\CTMF_Website\bin\Newtonsoft.Json.dll
+E:\Do an\trunk\CTMF_Website\bin\System.Net.Http.Formatting.dll
+E:\Do an\trunk\CTMF_Website\bin\System.Web.Helpers.dll
+E:\Do an\trunk\CTMF_Website\bin\System.Web.Http.dll
+E:\Do an\trunk\CTMF_Website\bin\System.Web.Http.WebHost.dll
+E:\Do an\trunk\CTMF_Website\bin\System.Web.Mvc.dll
+E:\Do an\trunk\CTMF_Website\bin\System.Web.Razor.dll
+E:\Do an\trunk\CTMF_Website\bin\System.Web.WebPages.Deployment.dll
+E:\Do an\trunk\CTMF_Website\bin\System.Web.WebPages.dll
+E:\Do an\trunk\CTMF_Website\bin\System.Web.WebPages.Razor.dll
+E:\Do an\trunk\CTMF_Website\bin\Newtonsoft.Json.xml
+E:\Do an\trunk\CTMF_Website\bin\System.Net.Http.Formatting.xml
+E:\Do an\trunk\CTMF_Website\bin\System.Web.Helpers.xml
+E:\Do an\trunk\CTMF_Website\bin\System.Web.Http.xml
+E:\Do an\trunk\CTMF_Website\bin\System.Web.Http.WebHost.xml
+E:\Do an\trunk\CTMF_Website\bin\System.Web.Mvc.xml
+E:\Do an\trunk\CTMF_Website\bin\System.Web.Razor.xml
+E:\Do an\trunk\CTMF_Website\bin\System.Web.WebPages.xml
+E:\Do an\trunk\CTMF_Website\bin\System.Web.WebPages.Deployment.xml
+E:\Do an\trunk\CTMF_Website\bin\System.Web.WebPages.Razor.xml
+E:\Do an\trunk\CTMF_Website\obj\Debug\CTMF_Website.StringResources.resources
+E:\Do an\trunk\CTMF_Website\obj\Debug\CTMF_Website.csproj.GenerateResource.Cache

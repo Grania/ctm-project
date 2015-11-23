@@ -41,26 +41,13 @@ namespace CTMF_Website.Controllers
 			int amountOfMoney = (int)userinfoDataTable.Rows[0]["AmountOfMoney"];
 
 			TransactionHistoryTableAdapter transactionAdapter = new TransactionHistoryTableAdapter();
-			DataTable transactionDataTable = transactionAdapter.GetDataByDate(date, username);
-
-			foreach (DataRow row in transactionDataTable.Rows)
+			int? money = transactionAdapter.GetCurrentMoney(username, date);
+			if (money == null)
 			{
-				try
-				{
-					if (row["TransactionTypeID"].Equals(2))
-					{
-						amountOfMoney += (int)row["Value"];
-					}
-					else
-					{
-						amountOfMoney -= (int)row["Value"];
-					}
-				}
-				catch (Exception ex)
-				{
-					Log.ErrorLog(ex.Message);
-				}
+				money = 0;
 			}
+
+			amountOfMoney += money.Value;
 
 			userinfo.Username = username;
 			userinfo.Name = (string)userinfoDataTable.Rows[0]["Name"];
@@ -422,26 +409,13 @@ namespace CTMF_Website.Controllers
 			int amountOfMoney = (int)userinfoDataTable.Rows[0]["AmountOfMoney"];
 
 			TransactionHistoryTableAdapter transactionAdapter = new TransactionHistoryTableAdapter();
-			DataTable transactionDataTable = transactionAdapter.GetDataByDate(date, username);
-
-			foreach (DataRow row in transactionDataTable.Rows)
+			int? money = transactionAdapter.GetCurrentMoney(username, date);
+			if (money == null)
 			{
-				try
-				{
-					if (row["TransactionTypeID"].Equals(2))
-					{
-						amountOfMoney += (int)row["Value"];
-					}
-					else
-					{
-						amountOfMoney -= (int)row["Value"];
-					}
-				}
-				catch (Exception ex)
-				{
-					Log.ErrorLog(ex.Message);
-				}
+				money = 0;
 			}
+
+			amountOfMoney += money.Value;
 
 			userinfo.Username = username;
 			userinfo.Name = (string)userinfoDataTable.Rows[0]["Name"];
