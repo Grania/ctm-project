@@ -1,5 +1,6 @@
 ﻿body {
-	background: #F0EBE4 url("http://gdj.gdj.netdna-cdn.com/wp-content/uploads/2014/05/0052+background+pattern+designs.jpg") repeat scroll 0% 0%;
+	/*background: url("~/Images/body-img.jpg") repeat scroll 0% 0%;*/
+	background-color: #E0E0E0 !important;
 }
 
 #main-menu > li > a {
