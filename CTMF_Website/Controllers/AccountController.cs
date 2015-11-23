@@ -501,14 +501,14 @@ namespace CTMF_Website.Controllers
 		}
 
 		[AllowAnonymous]
-		public ActionResult EditUserType(string userTypeShortName)
+		public ActionResult EditUserType(string typeShortName)
 		{
 			UserTypeModel userTypeModel = new UserTypeModel();
 			DataTable userTypeDataTable = new DataTable();
 			UserTypeTableAdapter userTypeTableAdapter = new UserTypeTableAdapter();
 			try
 			{
-				userTypeDataTable = userTypeTableAdapter.GetDataByTypeShortName(userTypeShortName);
+				userTypeDataTable = userTypeTableAdapter.GetDataByTypeShortName(typeShortName);
 				userTypeModel.typeShortName = Convert.ToString(userTypeDataTable.Rows[0]["TypeShortName"]);
 				userTypeModel.typeName = Convert.ToString(userTypeDataTable.Rows[0]["TypeName"]);
 				userTypeModel.mealValue = Convert.ToInt32(userTypeDataTable.Rows[0]["MealValue"]);
@@ -550,7 +550,6 @@ namespace CTMF_Website.Controllers
 					DateTime lastUpdate = DateTime.Now;
 					string updateBy = AccountInfo.GetUserName(Request);
 					userTypeTableAdapter.UpdateUserTypeByTypeShortName(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, insertDate, updateBy, lastUpdate, typeShortName);
-					//servingTimeTableAdapter.UpdateServingTimeByID(name, startTime, endTime, insertDate, lastUpdate, servingTimeId);
 					return RedirectToAction("ViewUserType", "Account");
 				}
 				catch (Exception ex)
