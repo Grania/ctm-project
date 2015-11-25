@@ -120,5 +120,8 @@ namespace CTMF_Website.Models
 
 		[Display(Name = "Vai trò")]
 		public int Role { get; set; }
+
+		[Display(Name = "Kích hoạt")]
+		public bool isActive { get; set; }
 	}
 }
