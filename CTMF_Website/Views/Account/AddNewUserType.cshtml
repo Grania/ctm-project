@@ -6,7 +6,7 @@
 <div class="addForm">
 	<h2>Thêm thông tin mới</h2>
 	<div class="container">
-		@using (Html.BeginForm("AddNewServingTime", "Schedule", FormMethod.Post, new { @class = "form-horizontal" }))
+		@using (Html.BeginForm("AddNewUserType", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
 		{
 			@Html.AntiForgeryToken()
 			@Html.ValidationSummary(true)
