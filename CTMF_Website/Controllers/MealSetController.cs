@@ -93,7 +93,7 @@ namespace CTMF_Website.Controllers
 
 			if (!string.IsNullOrEmpty(model.Image))
 			{
-				savePath = DishImagesPath + "\\" + mealSetName.Replace(" ","_") + ".jpg";
+				savePath = DishImagesPath + "\\" + mealSetName.Replace(" ", "_") + ".jpg";
 				var sourcePath = HttpContext.Server.MapPath(model.Image);
 				var destinationPath = HttpContext.Server.MapPath(savePath);
 
@@ -298,6 +298,86 @@ namespace CTMF_Website.Controllers
 			}
 
 			return RedirectToAction("ListMealSet", "MealSet");
+		}
+
+		[AllowAnonymous]
+		public ActionResult AddMealSetDish(string mealSetID, string search, string filter)
+		{
+			DataTable dishDT = new DataTable();
+			DishInfoDetailTableAdapter adapter = new DishInfoDetailTableAdapter();
+
+			try
+			{
+				dishDT = adapter.GetData();
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+
+			if (!(string.IsNullOrEmpty(search) && string.IsNullOrEmpty(filter)))
+			{
+				int type = -1;
+				int.TryParse(filter, out type);
+
+				string name = search;
+				if (name == null)
+				{
+					name = String.Empty;
+				}
+
+				var result = from row in dishDT.AsEnumerable()
+							 where (name == String.Empty ? true : StringExtensions.ContainsInsensitive(row.Field<string>("Name"), name))
+							 && (type < 1 ? true : row.Field<int>("DishTypeID") == type)
+							 select row;
+
+				dishDT = result.CopyToDataTable();
+			}
+
+			ViewData["listDish"] = dishDT;
+
+			int id = int.Parse(mealSetID);
+			MealSetDishInfoTableAdapter mealSetDishInfoAdapter = new MealSetDishInfoTableAdapter();
+			ViewData["listMealSetDish"] = mealSetDishInfoAdapter.GetDataByMealSetID(id);
+
+			MealSetTableAdapter mealSetAdapter = new MealSetTableAdapter();
+			EditMealSetModel model = new EditMealSetModel();
+			DataTable mealSetDT = mealSetAdapter.GetDataByMealSetID(id);
+
+			model.MealSetID = id;
+			model.MealSetName = mealSetDT.Rows[0]["Name"].ToString();
+			model.Description = mealSetDT.Rows[0]["Description"].ToString();
+			model.Image = mealSetDT.Rows[0]["Image"].ToString();
+			model.CanEatMore = (bool)mealSetDT.Rows[0]["CanEatMore"];
+
+			return View(model);
+		}
+
+		public PartialViewResult Add(string mealSetID, string dishID)
+		{
+			int dish = int.Parse(dishID);
+			int mealset = int.Parse(mealSetID);
+			EditDishModel model = new EditDishModel();
+			DishTableAdapter dishAdapter = new DishTableAdapter();
+			DataTable dishDT = dishAdapter.GetDataByDishID(dish);
+			model.DishID = dish;
+			model.Dishname = dishDT.Rows[0]["Name"].ToString();
+			model.DishTypeID = (int)dishDT.Rows[0]["DishTypeID"];
+			model.Description = dishDT.Rows[0]["Description"].ToString();
+			model.Image = dishDT.Rows[0]["Image"].ToString();
+
+			try
+			{
+				MealSetDishDetailTableAdapter mealSetDishAdapter = new MealSetDishDetailTableAdapter();
+				mealSetDishAdapter.InsertMealSetDish(mealset,dish);
+				Log.ActivityLog("Insert into MealSetDishDetail table: MealsetID = " + mealSetID + ", DishID = " + dishDT);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+
+			return PartialView("_MealSetDish", model);
 		}
 	}
 }

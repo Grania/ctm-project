@@ -147,15 +147,9 @@ namespace CTMF_Website.Controllers
 
 			if (!string.IsNullOrEmpty(model.Image))
 			{
-				savePath = model.Image.Replace("\\Temp", DishImagesPath);
+				savePath = DishImagesPath + "\\" + dishName.Replace(" ", "_") + ".jpg";
 				var sourcePath = HttpContext.Server.MapPath(model.Image);
 				var destinationPath = HttpContext.Server.MapPath(savePath);
-
-				if (System.IO.File.Exists(destinationPath))
-				{
-					ModelState.AddModelError("", "Tên file ảnh món ăn đã tồn tại.");
-					return View(model);
-				}
 
 				System.IO.File.Move(sourcePath, destinationPath);
 			}
@@ -349,15 +343,9 @@ namespace CTMF_Website.Controllers
 			{
 				if (!StringExtensions.EqualsInsensitive(savePath, model.Image))
 				{
-					savePath = model.Image.Replace("\\Temp", DishImagesPath);
+					savePath = DishImagesPath + "\\" + dishName.Replace(" ", "_") + ".jpg";
 					var sourcePath = HttpContext.Server.MapPath(model.Image);
 					var destinationPath = HttpContext.Server.MapPath(savePath);
-
-					if (System.IO.File.Exists(destinationPath))
-					{
-						ModelState.AddModelError("", "Tên file ảnh món ăn đã tồn tại.");
-						return View(model);
-					}
 
 					string oldImage = dt.Rows[0]["Image"].ToString();
 					if (!string.IsNullOrEmpty(oldImage))
