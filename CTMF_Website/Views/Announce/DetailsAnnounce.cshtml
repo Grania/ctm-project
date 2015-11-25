@@ -3,29 +3,83 @@
 	ViewBag.Title = "Details";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{
-	string role = CTMF_Website.Util.AccountInfo.GetUserRole(Request);
-}
-
-<h2>Announce Details</h2>
-<script type="text/javascript" src="scripts/widgEditor.js"></script>
-<link href="~/CSS/widgEditor.css" rel="stylesheet" />
-<div id="list-announcement" style="width: 80%; margin: auto; background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
-	<div class="display-label">
-		Tiêu đề:
-		@Html.DisplayText("Title")
-	</div>
-	<div class="display-label">
-		Nội dung:
-		@Html.DisplayText("Subject")
-	</div>
-	<div class="display-label">
-		Thời gian chỉnh sửa gần nhất:
-		@Html.DisplayText("lastUpdate")
-	</div>
-	@if (role == "3")
-	{
-		<a href="@Url.Action("EditAnnounce", "Announce", new { announceID = Model.annoucemenID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-		<a href="@Url.Action("DeleteAnnounce", "Announce", new { announceID = Model.annoucemenID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-remove-sign"></span></a>
+<style>
+	#userinfo {
+		width: 80%;
+		margin: auto;
+		margin-top: 50px;
+		box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+		border-radius: 10px;
+		background-color: #fff;
 	}
+
+	#userinfo-title {
+		padding: 10px 30px 10px;
+		color: #C41230;
+		font-size: 28px;
+		font-family: "Roboto Condensed";
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+</style>
+
+<div id="userinfo">
+	<legend id="userinfo-title">Thông báo tin tức</legend>
+	@*<div id="list-announcement" style="width: 80%; margin: auto; background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">*@
+	<div class="container">
+		@Html.AntiForgeryToken()
+		@Html.ValidationSummary(true)
+		<table border="0">
+			<tr>
+				@*<div class="form-group" style="margin-top: 20px">*@
+				<td style="width:30%">
+					@Html.LabelFor(m => m.title, new { @class = "control-label col-sm-2", style = "width:200px;" })
+				</td>
+				<td style="width:70%">
+					@*<div class="col-sm-5" style="width:auto">*@
+					@Html.TextBoxFor(m => m.title, new { @class = "form-control", @readonly = "readonly", style = "width:400px;" })
+					@*</div>*@
+				</td>
+				@*</div>*@
+			</tr>
+			<tr>
+				<td style="width:30%">
+					@Html.LabelFor(m => m.subject, new { @class = "control-label col-sm-2", style = "width:200px;" })
+				</td>
+				<td style="width:70%">
+					@Html.TextAreaFor(m => m.subject, new { @class = "form-control", @readonly = "readonly", style = "width:400px;" })
+				</td>
+			</tr>
+			<tr>
+				<td style="width:30%">
+					@Html.LabelFor(m => m.lastUpdate, new { @class = "control-label col-sm-2", style = "width:200px;" })
+				</td>
+				<td style="width:70%">
+					@*<div class="col-sm-5" style="width:auto">*@
+					@Html.TextBoxFor(m => m.lastUpdate, new { @class = "form-control", @readonly = "readonly", style = "width:400px;" })
+					@*</div>*@
+				</td>
+			</tr>
+			<tr>
+				<td style="width:30%"><a href="@Url.Action("EditAnnounce", "Announce", new { announceID = Model.annoucemenID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a></td>
+				<td style="width:70%"></td>
+</tr>
+		</table>
+
+
+		@*</div>*@
+		@*<div class="form-group">
+				@Html.LabelFor(m => m.subject, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextAreaFor(m => m.subject, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>*@
+		@*<div class="form-group">
+				@Html.LabelFor(m => m.lastUpdate, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.lastUpdate, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>*@
+		
+	</div>
 </div>
