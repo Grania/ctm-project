@@ -17,6 +17,7 @@ namespace CTMF_Website.Models
 		public string Username { get; set; }
 
 		[Required(ErrorMessage = "Vui lòng nhập số tiền")]
+		[Range(0, int.MaxValue, ErrorMessage = "Vui lòng điền số dương")]
 		[Display(Name = "Số tiền")]
 		public int AmountOfMoney { get; set; }
 	}
@@ -49,7 +50,6 @@ namespace CTMF_Website.Models
 
 		[Display(Name = "Ngày giao dịch")]
 		public DateTime InsertedDate { get; set; }
-
 
 		[Display(Name = "Người cập nhật")]
 		public string UpdatedBy { get; set; }

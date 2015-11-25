@@ -8,7 +8,8 @@ namespace CTMF_Website.Models
 		public int servingTimeID { set; get; }
 
 		[Required(ErrorMessage = "Vui lòng nhập tên đăng nhập")]
-		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0}, {1}, {2}")]
+		[StringLength(30, MinimumLength = 6, ErrorMessage = "{0} nhiều nhất {1} ký tự, ít nhất {2}")]
+		[RegularExpression(@"^(?![_. 0-9])[^!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`0-9]+(?<![_. 0-9])$", ErrorMessage = "Tên sai định dạng")]
 		[Display(Name = "Tên ")]
 		public string name { set; get; }
 

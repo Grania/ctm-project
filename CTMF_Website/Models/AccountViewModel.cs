@@ -5,13 +5,13 @@ namespace CTMF_Website.Models
 	public class LoginViewModel
 	{
 		[Required(ErrorMessage = "Vui lòng nhập tên đăng nhập")]
-		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0}, {1}, {2}")]
+		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0} nhiều nhất {1} ký tự, ít nhất {2}")]
 		[Display(Name = "Tên đăng nhập")]
 		public string Username { get; set; }
 
 		[Required(ErrorMessage = "Vui lòng nhập mật khẩu.")]
 		[DataType(DataType.Password)]
-		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0}, {1}, {2}")]
+		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0} nhiều nhất {1} ký tự, ít nhất {2}")]
 		[Display(Name = "Mật khẩu")]
 		public string Password { get; set; }
 	}
@@ -19,13 +19,15 @@ namespace CTMF_Website.Models
 	public class RegisterModel
 	{
 		[Required(ErrorMessage = "Vui lòng nhập tên đăng nhập")]
-		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0}, {1}, {2}")]
+		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0} nhiều nhất {1} ký tự, ít nhất {2}")]
+		[RegularExpression(@"^(?![_.0-9])(?!.*[_.]{2})[a-zA-Z0-9]+(?<![_.])$", ErrorMessage = "Tên đăng nhập sai định dạng")]
 		[Display(Name = "Tên đăng nhập")]
 		public string Username { get; set; }
 
 		[Required(ErrorMessage = "Vui lòng nhập mật khẩu.")]
 		[DataType(DataType.Password)]
-		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0}, {1}, {2}")]
+		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0} nhiều nhất {1} ký tự, ít nhất {2}")]
+		[RegularExpression(@"^(?![!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`])(?=.*[A-z])(?=.*[0-9])(?=.*?[!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`])[a-zA-Z0-9!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`]+$", ErrorMessage = "Mật khẩu sai định dạng")]
 		[Display(Name = "Mật khẩu")]
 		public string Password { get; set; }
 
@@ -34,7 +36,8 @@ namespace CTMF_Website.Models
 		[Display(Name = "Nhập lại mật khẩu")]
 		public string ConfirmPassword { get; set; }
 
-		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0}, {1}, {2}")]
+		[StringLength(30, MinimumLength = 6, ErrorMessage = "{0} nhiều nhất {1} ký tự, ít nhất {2}")]
+		[RegularExpression(@"^(?![_. 0-9])[^!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`0-9]+(?<![_. 0-9])$", ErrorMessage = "Tên sai định dạng")]
 		[Display(Name = "Họ và tên")]
 		public string Name { get; set; }
 
