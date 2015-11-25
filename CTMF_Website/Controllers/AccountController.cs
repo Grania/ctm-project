@@ -35,10 +35,28 @@ namespace CTMF_Website.Controllers
 			string username = AccountInfo.GetUserName(Request);
 
 			UserinfoModel userinfo = new UserinfoModel();
-			UserInfoDetailTableAdapter userinfoAdapter = new UserInfoDetailTableAdapter();
-			DataTable userinfoDataTable = userinfoAdapter.GetDataByUsername(username);
-			DateTime date = DateTime.Parse(userinfoDataTable.Rows[0]["LastUpdatedMoney"].ToString());
-			int amountOfMoney = (int)userinfoDataTable.Rows[0]["AmountOfMoney"];
+			DataTable userInfoDataTable = new DataTable();
+			UserInfoDetailTableAdapter userInfoDetailAdapter = new UserInfoDetailTableAdapter();
+			//DataTable userinfoDataTable = userInfoDetailAdapter.GetDataByUsername(username);
+			UserInfoTableAdapter userInfoAdapter = new UserInfoTableAdapter();
+			userInfoDataTable = userInfoAdapter.GetDataByUsername(username);
+			string userTypeName = null;
+			string email = null;
+			if (!string.IsNullOrEmpty(userInfoDataTable.Rows[0]["TypeShortName"].ToString()))
+			{
+				userInfoDataTable = userInfoDetailAdapter.GetDataByUsername(username);
+				userTypeName = (string)userInfoDataTable.Rows[0]["TypeName"];
+				email = userInfoDataTable.Rows[0]["Email"].ToString();
+			}
+			else
+			{
+				AccountTableAdapter accountAdapter = new AccountTableAdapter();
+				DataTable accountDataTable = new DataTable();
+				accountDataTable = accountAdapter.GetDataByUsername(username);
+				email = accountDataTable.Rows[0]["Email"].ToString();
+			}
+			DateTime date = DateTime.Parse(userInfoDataTable.Rows[0]["LastUpdatedMoney"].ToString());
+			int amountOfMoney = (int)userInfoDataTable.Rows[0]["AmountOfMoney"];
 
 			TransactionHistoryTableAdapter transactionAdapter = new TransactionHistoryTableAdapter();
 			int? money = transactionAdapter.GetCurrentMoney(username, date);
@@ -50,9 +68,9 @@ namespace CTMF_Website.Controllers
 			amountOfMoney += money.Value;
 
 			userinfo.Username = username;
-			userinfo.Name = (string)userinfoDataTable.Rows[0]["Name"];
-			userinfo.TypeName = (string)userinfoDataTable.Rows[0]["TypeName"];
-			userinfo.Email = (string)userinfoDataTable.Rows[0]["Email"];
+			userinfo.Name = userInfoDataTable.Rows[0]["Name"].ToString();
+			userinfo.TypeName = userTypeName;
+			userinfo.Email = email;
 			userinfo.AmountOfMoney = amountOfMoney;
 
 			return View(userinfo);
@@ -156,6 +174,7 @@ namespace CTMF_Website.Controllers
 			string name = model.Name;
 			string email = model.Email;
 			DateTime date = DateTime.Now;
+			string userType = "DF";
 
 			string errormsg = null;
 
@@ -192,7 +211,7 @@ namespace CTMF_Website.Controllers
 			{
 				try
 				{
-					UserInfoAdapter.InsertUserInfo(username, name, null, 0, date, null, null, null, false, false, date, username, date);
+					UserInfoAdapter.InsertUserInfo(username, name, userType, 0, date, null, null, null, false, false, date, username, date);
 					Log.ActivityLog("Insert into UserInfo: Username = " + username);
 					AccountTableAdapter AccountAdapter = new AccountTableAdapter();
 					AccountAdapter.InsertAccount(username, password, email, 1, false);
@@ -420,7 +439,7 @@ namespace CTMF_Website.Controllers
 			userinfo.Username = username;
 			userinfo.Name = (string)userinfoDataTable.Rows[0]["Name"];
 			userinfo.TypeName = (string)userinfoDataTable.Rows[0]["TypeName"];
-			userinfo.Email = (string)userinfoDataTable.Rows[0]["Email"];
+			userinfo.Email = userinfoDataTable.Rows[0]["Email"].ToString();
 			userinfo.AmountOfMoney = amountOfMoney;
 			userinfo.Role = (int)userinfoDataTable.Rows[0]["Role"];
 
@@ -558,8 +577,8 @@ namespace CTMF_Website.Controllers
 					Boolean canEatMore = userTypeModel.canEatMore;
 					DateTime date = DateTime.Now;
 					string updateBy = AccountInfo.GetUserName(Request);
-					userTypeTableAdapter.InsertNewUserType(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, date, updateBy, date);
-					return RedirectToAction("ViewServingTime", "Schedule");
+					int test = userTypeTableAdapter.InsertNewUserType(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, date, updateBy, date);
+					return RedirectToAction("ViewUserType", "Account");
 				}
 				catch (Exception ex)
 				{

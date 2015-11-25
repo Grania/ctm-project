@@ -62,6 +62,14 @@ namespace CTMF_Website.Controllers
 		}
 
 		[AllowAnonymous]
+		public ActionResult AddNewAnnounce()
+		{
+			return View();
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult AddNewAnnounce(AnnounceModel announceModel)
 		{
 			if (announceModel != null)
