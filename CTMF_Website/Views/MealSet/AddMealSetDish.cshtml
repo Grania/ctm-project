@@ -1,0 +1,89 @@
+﻿@model CTMF_Website.Models.EditMealSetModel
+
+@{
+	ViewBag.Title = "AddMealSetDish";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+	System.Data.DataTable listDish = ViewData["listDish"] as System.Data.DataTable;
+	System.Data.DataTable listMealSetDish = ViewData["listMealSetDish"] as System.Data.DataTable;
+}
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<style>
+	.thumbnail {
+		padding: 0 0 15px 0;
+		border: none;
+		border-radius: 0;
+	}
+
+		.thumbnail p {
+			color: #555;
+		}
+
+	#add-mealSet-Dish {
+		margin-top: 10px;
+		padding: 10px 20px;
+		background-color: #1473D1;
+		color: #f1f1f1;
+		border-radius: 0;
+		transition: .2s;
+	}
+
+		#add-mealSet-Dish:hover, #add-mealSet-Dish:focus {
+			border: 1px solid #1473D1;
+			background-color: #fff;
+			color: #000;
+		}
+</style>
+<div class="container">
+	<div class="row text-center" style="width: 30%; float: left; box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5); background-color:#fff">
+		<p style="font-size:20px;"><strong>@Model.MealSetName</strong></p>
+		<div style="width:100%">
+			@if (string.IsNullOrEmpty(Model.Image))
+			{
+				<img src="~/Images/no-image.jpg" class="mealset-dish-img">
+			}
+			else
+			{
+				<img src="..@Model.Image" class="mealset-dish-img">
+			}
+		</div>
+		@foreach (System.Data.DataRow row in listMealSetDish.Rows)
+		{
+			<p>@row["DishName"]</p>
+		}
+		<div id="mealset-dish">
+
+		</div>
+	</div>
+	<div class="row text-center" style="width:70%;float:right">
+		@foreach (System.Data.DataRow row in listDish.Rows)
+		{
+			<div class="col-sm-3">
+				<div class="thumbnail" style="box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);">
+					<p id="dish-name" style="font-size:16px;"><strong>@row["Name"]</strong></p>
+					<div style="height:170px;width:100%">
+						@if (string.IsNullOrEmpty(row["Image"].ToString()))
+						{
+							<img src="~/Images/no-image.jpg" class="mealset-dish-img">
+						}
+						else
+						{
+							<img src="..@row["Image"]" class="mealset-dish-img">
+						}
+					</div>
+					@Ajax.ActionLink("Thêm", "Add",
+					new { mealSetID = @Model.MealSetID, dishID = @row["DishID"] },
+					new AjaxOptions
+						{
+							HttpMethod = "GET",
+							UpdateTargetId = "mealset-dish",
+							InsertionMode = InsertionMode.InsertAfter
+						},
+					new { @class = "btn", @id = "add-mealSet-Dish" })
+				</div>
+			</div>
+		}
+	</div>
+</div>

@@ -30,7 +30,7 @@
 						<th style="width:5%">STT</th>
 						<th>Tên suất ăn</th>
 						<th style="width:15%">Ăn thêm</th>
-						<th style="width:15%">Quản lý</th>
+						<th style="width:17%">Quản lý</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -55,6 +55,7 @@
 								<div>
 									<button class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></button>
 									<a href="@Url.Action("EditMealSet", "MealSet", new {mealSetID = @row["MealSetID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a href="@Url.Action("AddMealSetDish", "MealSet", new { mealSetID = @row["MealSetID"] })" class="btn btn-success" title="Thêm"><span class="glyphicon glyphicon-plus"></span></a>
 									<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>
 								</div>
 							</td>
