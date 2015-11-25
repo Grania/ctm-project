@@ -58,6 +58,10 @@ namespace CTMF_Website {
         
         private ScheduleMealSetDetailDataTable tableScheduleMealSetDetail;
         
+        private MealSetDishDetailDataTable tableMealSetDishDetail;
+        
+        private MealSetDishInfoDataTable tableMealSetDishInfo;
+        
         private global::System.Data.DataRelation relationFK_DISH_USER_INFO;
         
         private global::System.Data.DataRelation relationFK_EATING_DATE_USER_INFO;
@@ -93,6 +97,14 @@ namespace CTMF_Website {
         private global::System.Data.DataRelation relationFK_SCHEDULE_MEAL_SET_MEAL_SET;
         
         private global::System.Data.DataRelation relationFK_SCHEDULE_MEAL_SET_SCHEDULE;
+        
+        private global::System.Data.DataRelation relationFK_MEAL_DISH_DISH;
+        
+        private global::System.Data.DataRelation relationFK_MEAL_DISH_MEAL;
+        
+        private global::System.Data.DataRelation relationFK_MEAL_DISH_DISH1;
+        
+        private global::System.Data.DataRelation relationFK_Dish_DishType1;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -172,6 +184,12 @@ namespace CTMF_Website {
                 }
                 if ((ds.Tables["ScheduleMealSetDetail"] != null)) {
                     base.Tables.Add(new ScheduleMealSetDetailDataTable(ds.Tables["ScheduleMealSetDetail"]));
+                }
+                if ((ds.Tables["MealSetDishDetail"] != null)) {
+                    base.Tables.Add(new MealSetDishDetailDataTable(ds.Tables["MealSetDishDetail"]));
+                }
+                if ((ds.Tables["MealSetDishInfo"] != null)) {
+                    base.Tables.Add(new MealSetDishInfoDataTable(ds.Tables["MealSetDishInfo"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -363,6 +381,26 @@ namespace CTMF_Website {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public MealSetDishDetailDataTable MealSetDishDetail {
+            get {
+                return this.tableMealSetDishDetail;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public MealSetDishInfoDataTable MealSetDishInfo {
+            get {
+                return this.tableMealSetDishInfo;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -478,6 +516,12 @@ namespace CTMF_Website {
                 }
                 if ((ds.Tables["ScheduleMealSetDetail"] != null)) {
                     base.Tables.Add(new ScheduleMealSetDetailDataTable(ds.Tables["ScheduleMealSetDetail"]));
+                }
+                if ((ds.Tables["MealSetDishDetail"] != null)) {
+                    base.Tables.Add(new MealSetDishDetailDataTable(ds.Tables["MealSetDishDetail"]));
+                }
+                if ((ds.Tables["MealSetDishInfo"] != null)) {
+                    base.Tables.Add(new MealSetDishInfoDataTable(ds.Tables["MealSetDishInfo"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -614,6 +658,18 @@ namespace CTMF_Website {
                     this.tableScheduleMealSetDetail.InitVars();
                 }
             }
+            this.tableMealSetDishDetail = ((MealSetDishDetailDataTable)(base.Tables["MealSetDishDetail"]));
+            if ((initTable == true)) {
+                if ((this.tableMealSetDishDetail != null)) {
+                    this.tableMealSetDishDetail.InitVars();
+                }
+            }
+            this.tableMealSetDishInfo = ((MealSetDishInfoDataTable)(base.Tables["MealSetDishInfo"]));
+            if ((initTable == true)) {
+                if ((this.tableMealSetDishInfo != null)) {
+                    this.tableMealSetDishInfo.InitVars();
+                }
+            }
             this.relationFK_DISH_USER_INFO = this.Relations["FK_DISH_USER_INFO"];
             this.relationFK_EATING_DATE_USER_INFO = this.Relations["FK_EATING_DATE_USER_INFO"];
             this.relationFK_ANNOUNCEMENT_USER_INFO = this.Relations["FK_ANNOUNCEMENT_USER_INFO"];
@@ -632,6 +688,10 @@ namespace CTMF_Website {
             this.relationFK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET = this.Relations["FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET"];
             this.relationFK_SCHEDULE_MEAL_SET_MEAL_SET = this.Relations["FK_SCHEDULE_MEAL_SET_MEAL_SET"];
             this.relationFK_SCHEDULE_MEAL_SET_SCHEDULE = this.Relations["FK_SCHEDULE_MEAL_SET_SCHEDULE"];
+            this.relationFK_MEAL_DISH_DISH = this.Relations["FK_MEAL_DISH_DISH"];
+            this.relationFK_MEAL_DISH_MEAL = this.Relations["FK_MEAL_DISH_MEAL"];
+            this.relationFK_MEAL_DISH_DISH1 = this.Relations["FK_MEAL_DISH_DISH1"];
+            this.relationFK_Dish_DishType1 = this.Relations["FK_Dish_DishType1"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -676,6 +736,10 @@ namespace CTMF_Website {
             base.Tables.Add(this.tableMealSet);
             this.tableScheduleMealSetDetail = new ScheduleMealSetDetailDataTable();
             base.Tables.Add(this.tableScheduleMealSetDetail);
+            this.tableMealSetDishDetail = new MealSetDishDetailDataTable();
+            base.Tables.Add(this.tableMealSetDishDetail);
+            this.tableMealSetDishInfo = new MealSetDishInfoDataTable();
+            base.Tables.Add(this.tableMealSetDishInfo);
             this.relationFK_DISH_USER_INFO = new global::System.Data.DataRelation("FK_DISH_USER_INFO", new global::System.Data.DataColumn[] {
                         this.tableUserInfo.UsernameColumn}, new global::System.Data.DataColumn[] {
                         this.tableDish.UpdatedByColumn}, false);
@@ -748,6 +812,22 @@ namespace CTMF_Website {
                         this.tableSchedule.ScheduleIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableScheduleMealSetDetail.ScheduleIDColumn}, false);
             this.Relations.Add(this.relationFK_SCHEDULE_MEAL_SET_SCHEDULE);
+            this.relationFK_MEAL_DISH_DISH = new global::System.Data.DataRelation("FK_MEAL_DISH_DISH", new global::System.Data.DataColumn[] {
+                        this.tableDish.DishIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableMealSetDishDetail.DishIDColumn}, false);
+            this.Relations.Add(this.relationFK_MEAL_DISH_DISH);
+            this.relationFK_MEAL_DISH_MEAL = new global::System.Data.DataRelation("FK_MEAL_DISH_MEAL", new global::System.Data.DataColumn[] {
+                        this.tableMealSet.MealSetIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableMealSetDishDetail.MeatSetIDColumn}, false);
+            this.Relations.Add(this.relationFK_MEAL_DISH_MEAL);
+            this.relationFK_MEAL_DISH_DISH1 = new global::System.Data.DataRelation("FK_MEAL_DISH_DISH1", new global::System.Data.DataColumn[] {
+                        this.tableMealSetDishInfo.DishIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableMealSetDishDetail.DishIDColumn}, false);
+            this.Relations.Add(this.relationFK_MEAL_DISH_DISH1);
+            this.relationFK_Dish_DishType1 = new global::System.Data.DataRelation("FK_Dish_DishType1", new global::System.Data.DataColumn[] {
+                        this.tableDishType.DishTypeIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableMealSetDishInfo.DishTypeIDColumn}, false);
+            this.Relations.Add(this.relationFK_Dish_DishType1);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -849,6 +929,18 @@ namespace CTMF_Website {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private bool ShouldSerializeScheduleMealSetDetail() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private bool ShouldSerializeMealSetDishDetail() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private bool ShouldSerializeMealSetDishInfo() {
             return false;
         }
         
@@ -957,6 +1049,12 @@ namespace CTMF_Website {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void ScheduleMealSetDetailRowChangeEventHandler(object sender, ScheduleMealSetDetailRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public delegate void MealSetDishDetailRowChangeEventHandler(object sender, MealSetDishDetailRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public delegate void MealSetDishInfoRowChangeEventHandler(object sender, MealSetDishInfoRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -7309,6 +7407,747 @@ namespace CTMF_Website {
         }
         
         /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class MealSetDishDetailDataTable : global::System.Data.TypedTableBase<MealSetDishDetailRow> {
+            
+            private global::System.Data.DataColumn columnMealSetDishDetalID;
+            
+            private global::System.Data.DataColumn columnMeatSetID;
+            
+            private global::System.Data.DataColumn columnDishID;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishDetailDataTable() {
+                this.TableName = "MealSetDishDetail";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal MealSetDishDetailDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected MealSetDishDetailDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn MealSetDishDetalIDColumn {
+                get {
+                    return this.columnMealSetDishDetalID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn MeatSetIDColumn {
+                get {
+                    return this.columnMeatSetID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DishIDColumn {
+                get {
+                    return this.columnDishID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishDetailRow this[int index] {
+                get {
+                    return ((MealSetDishDetailRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event MealSetDishDetailRowChangeEventHandler MealSetDishDetailRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event MealSetDishDetailRowChangeEventHandler MealSetDishDetailRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event MealSetDishDetailRowChangeEventHandler MealSetDishDetailRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event MealSetDishDetailRowChangeEventHandler MealSetDishDetailRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void AddMealSetDishDetailRow(MealSetDishDetailRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishDetailRow AddMealSetDishDetailRow(MealSetRow parentMealSetRowByFK_MEAL_DISH_MEAL, DishRow parentDishRowByFK_MEAL_DISH_DISH) {
+                MealSetDishDetailRow rowMealSetDishDetailRow = ((MealSetDishDetailRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        null,
+                        null};
+                if ((parentMealSetRowByFK_MEAL_DISH_MEAL != null)) {
+                    columnValuesArray[1] = parentMealSetRowByFK_MEAL_DISH_MEAL[0];
+                }
+                if ((parentDishRowByFK_MEAL_DISH_DISH != null)) {
+                    columnValuesArray[2] = parentDishRowByFK_MEAL_DISH_DISH[0];
+                }
+                rowMealSetDishDetailRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowMealSetDishDetailRow);
+                return rowMealSetDishDetailRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishDetailRow FindByMealSetDishDetalID(int MealSetDishDetalID) {
+                return ((MealSetDishDetailRow)(this.Rows.Find(new object[] {
+                            MealSetDishDetalID})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                MealSetDishDetailDataTable cln = ((MealSetDishDetailDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new MealSetDishDetailDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal void InitVars() {
+                this.columnMealSetDishDetalID = base.Columns["MealSetDishDetalID"];
+                this.columnMeatSetID = base.Columns["MeatSetID"];
+                this.columnDishID = base.Columns["DishID"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            private void InitClass() {
+                this.columnMealSetDishDetalID = new global::System.Data.DataColumn("MealSetDishDetalID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMealSetDishDetalID);
+                this.columnMeatSetID = new global::System.Data.DataColumn("MeatSetID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMeatSetID);
+                this.columnDishID = new global::System.Data.DataColumn("DishID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDishID);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnMealSetDishDetalID}, true));
+                this.columnMealSetDishDetalID.AutoIncrement = true;
+                this.columnMealSetDishDetalID.AutoIncrementSeed = -1;
+                this.columnMealSetDishDetalID.AutoIncrementStep = -1;
+                this.columnMealSetDishDetalID.AllowDBNull = false;
+                this.columnMealSetDishDetalID.ReadOnly = true;
+                this.columnMealSetDishDetalID.Unique = true;
+                this.columnMeatSetID.AllowDBNull = false;
+                this.columnDishID.AllowDBNull = false;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishDetailRow NewMealSetDishDetailRow() {
+                return ((MealSetDishDetailRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new MealSetDishDetailRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(MealSetDishDetailRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.MealSetDishDetailRowChanged != null)) {
+                    this.MealSetDishDetailRowChanged(this, new MealSetDishDetailRowChangeEvent(((MealSetDishDetailRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.MealSetDishDetailRowChanging != null)) {
+                    this.MealSetDishDetailRowChanging(this, new MealSetDishDetailRowChangeEvent(((MealSetDishDetailRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.MealSetDishDetailRowDeleted != null)) {
+                    this.MealSetDishDetailRowDeleted(this, new MealSetDishDetailRowChangeEvent(((MealSetDishDetailRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.MealSetDishDetailRowDeleting != null)) {
+                    this.MealSetDishDetailRowDeleting(this, new MealSetDishDetailRowChangeEvent(((MealSetDishDetailRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void RemoveMealSetDishDetailRow(MealSetDishDetailRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                DataAccess ds = new DataAccess();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "MealSetDishDetailDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class MealSetDishInfoDataTable : global::System.Data.TypedTableBase<MealSetDishInfoRow> {
+            
+            private global::System.Data.DataColumn columnMealSetID;
+            
+            private global::System.Data.DataColumn columnMealSetName;
+            
+            private global::System.Data.DataColumn columnMealSetImage;
+            
+            private global::System.Data.DataColumn columnMealSetDescription;
+            
+            private global::System.Data.DataColumn columnUsedTime;
+            
+            private global::System.Data.DataColumn columnCanEatMore;
+            
+            private global::System.Data.DataColumn columnMealSetDishDetalID;
+            
+            private global::System.Data.DataColumn columnDishID;
+            
+            private global::System.Data.DataColumn columnDishName;
+            
+            private global::System.Data.DataColumn columnDishTypeID;
+            
+            private global::System.Data.DataColumn columnDishDescription;
+            
+            private global::System.Data.DataColumn columnDishImage;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishInfoDataTable() {
+                this.TableName = "MealSetDishInfo";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal MealSetDishInfoDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected MealSetDishInfoDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn MealSetIDColumn {
+                get {
+                    return this.columnMealSetID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn MealSetNameColumn {
+                get {
+                    return this.columnMealSetName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn MealSetImageColumn {
+                get {
+                    return this.columnMealSetImage;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn MealSetDescriptionColumn {
+                get {
+                    return this.columnMealSetDescription;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn UsedTimeColumn {
+                get {
+                    return this.columnUsedTime;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn CanEatMoreColumn {
+                get {
+                    return this.columnCanEatMore;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn MealSetDishDetalIDColumn {
+                get {
+                    return this.columnMealSetDishDetalID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DishIDColumn {
+                get {
+                    return this.columnDishID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DishNameColumn {
+                get {
+                    return this.columnDishName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DishTypeIDColumn {
+                get {
+                    return this.columnDishTypeID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DishDescriptionColumn {
+                get {
+                    return this.columnDishDescription;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DishImageColumn {
+                get {
+                    return this.columnDishImage;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishInfoRow this[int index] {
+                get {
+                    return ((MealSetDishInfoRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event MealSetDishInfoRowChangeEventHandler MealSetDishInfoRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event MealSetDishInfoRowChangeEventHandler MealSetDishInfoRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event MealSetDishInfoRowChangeEventHandler MealSetDishInfoRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event MealSetDishInfoRowChangeEventHandler MealSetDishInfoRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void AddMealSetDishInfoRow(MealSetDishInfoRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishInfoRow AddMealSetDishInfoRow(string MealSetName, string MealSetImage, string MealSetDescription, int UsedTime, bool CanEatMore, string DishName, DishTypeRow parentDishTypeRowByFK_Dish_DishType1, string DishDescription, string DishImage) {
+                MealSetDishInfoRow rowMealSetDishInfoRow = ((MealSetDishInfoRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        MealSetName,
+                        MealSetImage,
+                        MealSetDescription,
+                        UsedTime,
+                        CanEatMore,
+                        null,
+                        null,
+                        DishName,
+                        null,
+                        DishDescription,
+                        DishImage};
+                if ((parentDishTypeRowByFK_Dish_DishType1 != null)) {
+                    columnValuesArray[9] = parentDishTypeRowByFK_Dish_DishType1[0];
+                }
+                rowMealSetDishInfoRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowMealSetDishInfoRow);
+                return rowMealSetDishInfoRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishInfoRow FindByMealSetIDMealSetDishDetalIDDishID(int MealSetID, int MealSetDishDetalID, int DishID) {
+                return ((MealSetDishInfoRow)(this.Rows.Find(new object[] {
+                            MealSetID,
+                            MealSetDishDetalID,
+                            DishID})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                MealSetDishInfoDataTable cln = ((MealSetDishInfoDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new MealSetDishInfoDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal void InitVars() {
+                this.columnMealSetID = base.Columns["MealSetID"];
+                this.columnMealSetName = base.Columns["MealSetName"];
+                this.columnMealSetImage = base.Columns["MealSetImage"];
+                this.columnMealSetDescription = base.Columns["MealSetDescription"];
+                this.columnUsedTime = base.Columns["UsedTime"];
+                this.columnCanEatMore = base.Columns["CanEatMore"];
+                this.columnMealSetDishDetalID = base.Columns["MealSetDishDetalID"];
+                this.columnDishID = base.Columns["DishID"];
+                this.columnDishName = base.Columns["DishName"];
+                this.columnDishTypeID = base.Columns["DishTypeID"];
+                this.columnDishDescription = base.Columns["DishDescription"];
+                this.columnDishImage = base.Columns["DishImage"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            private void InitClass() {
+                this.columnMealSetID = new global::System.Data.DataColumn("MealSetID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMealSetID);
+                this.columnMealSetName = new global::System.Data.DataColumn("MealSetName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMealSetName);
+                this.columnMealSetImage = new global::System.Data.DataColumn("MealSetImage", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMealSetImage);
+                this.columnMealSetDescription = new global::System.Data.DataColumn("MealSetDescription", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMealSetDescription);
+                this.columnUsedTime = new global::System.Data.DataColumn("UsedTime", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUsedTime);
+                this.columnCanEatMore = new global::System.Data.DataColumn("CanEatMore", typeof(bool), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCanEatMore);
+                this.columnMealSetDishDetalID = new global::System.Data.DataColumn("MealSetDishDetalID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMealSetDishDetalID);
+                this.columnDishID = new global::System.Data.DataColumn("DishID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDishID);
+                this.columnDishName = new global::System.Data.DataColumn("DishName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDishName);
+                this.columnDishTypeID = new global::System.Data.DataColumn("DishTypeID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDishTypeID);
+                this.columnDishDescription = new global::System.Data.DataColumn("DishDescription", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDishDescription);
+                this.columnDishImage = new global::System.Data.DataColumn("DishImage", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDishImage);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnMealSetID,
+                                this.columnMealSetDishDetalID,
+                                this.columnDishID}, true));
+                this.columnMealSetID.AutoIncrement = true;
+                this.columnMealSetID.AutoIncrementSeed = -1;
+                this.columnMealSetID.AutoIncrementStep = -1;
+                this.columnMealSetID.AllowDBNull = false;
+                this.columnMealSetID.ReadOnly = true;
+                this.columnMealSetName.AllowDBNull = false;
+                this.columnMealSetName.MaxLength = 50;
+                this.columnMealSetImage.MaxLength = 50;
+                this.columnMealSetDescription.MaxLength = 500;
+                this.columnUsedTime.AllowDBNull = false;
+                this.columnCanEatMore.AllowDBNull = false;
+                this.columnMealSetDishDetalID.AutoIncrement = true;
+                this.columnMealSetDishDetalID.AutoIncrementSeed = -1;
+                this.columnMealSetDishDetalID.AutoIncrementStep = -1;
+                this.columnMealSetDishDetalID.AllowDBNull = false;
+                this.columnMealSetDishDetalID.ReadOnly = true;
+                this.columnDishID.AutoIncrement = true;
+                this.columnDishID.AutoIncrementSeed = -1;
+                this.columnDishID.AutoIncrementStep = -1;
+                this.columnDishID.AllowDBNull = false;
+                this.columnDishID.ReadOnly = true;
+                this.columnDishName.AllowDBNull = false;
+                this.columnDishName.MaxLength = 50;
+                this.columnDishTypeID.AllowDBNull = false;
+                this.columnDishDescription.MaxLength = 500;
+                this.columnDishImage.MaxLength = 50;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishInfoRow NewMealSetDishInfoRow() {
+                return ((MealSetDishInfoRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new MealSetDishInfoRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(MealSetDishInfoRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.MealSetDishInfoRowChanged != null)) {
+                    this.MealSetDishInfoRowChanged(this, new MealSetDishInfoRowChangeEvent(((MealSetDishInfoRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.MealSetDishInfoRowChanging != null)) {
+                    this.MealSetDishInfoRowChanging(this, new MealSetDishInfoRowChangeEvent(((MealSetDishInfoRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.MealSetDishInfoRowDeleted != null)) {
+                    this.MealSetDishInfoRowDeleted(this, new MealSetDishInfoRowChangeEvent(((MealSetDishInfoRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.MealSetDishInfoRowDeleting != null)) {
+                    this.MealSetDishInfoRowDeleting(this, new MealSetDishInfoRowChangeEvent(((MealSetDishInfoRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void RemoveMealSetDishInfoRow(MealSetDishInfoRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                DataAccess ds = new DataAccess();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "MealSetDishInfoDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
         public partial class DishRow : global::System.Data.DataRow {
@@ -7464,6 +8303,17 @@ namespace CTMF_Website {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetImageNull() {
                 this[this.tableDish.ImageColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishDetailRow[] GetMealSetDishDetailRows() {
+                if ((this.Table.ChildRelations["FK_MEAL_DISH_DISH"] == null)) {
+                    return new MealSetDishDetailRow[0];
+                }
+                else {
+                    return ((MealSetDishDetailRow[])(base.GetChildRows(this.Table.ChildRelations["FK_MEAL_DISH_DISH"])));
+                }
             }
         }
         
@@ -9767,6 +10617,17 @@ namespace CTMF_Website {
                     return ((DishRow[])(base.GetChildRows(this.Table.ChildRelations["FK_Dish_DishType"])));
                 }
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishInfoRow[] GetMealSetDishInfoRows() {
+                if ((this.Table.ChildRelations["FK_Dish_DishType1"] == null)) {
+                    return new MealSetDishInfoRow[0];
+                }
+                else {
+                    return ((MealSetDishInfoRow[])(base.GetChildRows(this.Table.ChildRelations["FK_Dish_DishType1"])));
+                }
+            }
         }
         
         /// <summary>
@@ -9954,6 +10815,17 @@ namespace CTMF_Website {
                     return ((ScheduleMealSetDetailRow[])(base.GetChildRows(this.Table.ChildRelations["FK_SCHEDULE_MEAL_SET_MEAL_SET"])));
                 }
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishDetailRow[] GetMealSetDishDetailRows() {
+                if ((this.Table.ChildRelations["FK_MEAL_DISH_MEAL"] == null)) {
+                    return new MealSetDishDetailRow[0];
+                }
+                else {
+                    return ((MealSetDishDetailRow[])(base.GetChildRows(this.Table.ChildRelations["FK_MEAL_DISH_MEAL"])));
+                }
+            }
         }
         
         /// <summary>
@@ -10066,6 +10938,324 @@ namespace CTMF_Website {
                 }
                 else {
                     return ((TransactionHistoryRow[])(base.GetChildRows(this.Table.ChildRelations["FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET"])));
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class MealSetDishDetailRow : global::System.Data.DataRow {
+            
+            private MealSetDishDetailDataTable tableMealSetDishDetail;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal MealSetDishDetailRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableMealSetDishDetail = ((MealSetDishDetailDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int MealSetDishDetalID {
+                get {
+                    return ((int)(this[this.tableMealSetDishDetail.MealSetDishDetalIDColumn]));
+                }
+                set {
+                    this[this.tableMealSetDishDetail.MealSetDishDetalIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int MeatSetID {
+                get {
+                    return ((int)(this[this.tableMealSetDishDetail.MeatSetIDColumn]));
+                }
+                set {
+                    this[this.tableMealSetDishDetail.MeatSetIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int DishID {
+                get {
+                    return ((int)(this[this.tableMealSetDishDetail.DishIDColumn]));
+                }
+                set {
+                    this[this.tableMealSetDishDetail.DishIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public DishRow DishRow {
+                get {
+                    return ((DishRow)(this.GetParentRow(this.Table.ParentRelations["FK_MEAL_DISH_DISH"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_MEAL_DISH_DISH"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetRow MealSetRow {
+                get {
+                    return ((MealSetRow)(this.GetParentRow(this.Table.ParentRelations["FK_MEAL_DISH_MEAL"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_MEAL_DISH_MEAL"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishInfoRow MealSetDishInfoRow {
+                get {
+                    return ((MealSetDishInfoRow)(this.GetParentRow(this.Table.ParentRelations["FK_MEAL_DISH_DISH1"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_MEAL_DISH_DISH1"]);
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class MealSetDishInfoRow : global::System.Data.DataRow {
+            
+            private MealSetDishInfoDataTable tableMealSetDishInfo;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal MealSetDishInfoRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableMealSetDishInfo = ((MealSetDishInfoDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int MealSetID {
+                get {
+                    return ((int)(this[this.tableMealSetDishInfo.MealSetIDColumn]));
+                }
+                set {
+                    this[this.tableMealSetDishInfo.MealSetIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string MealSetName {
+                get {
+                    return ((string)(this[this.tableMealSetDishInfo.MealSetNameColumn]));
+                }
+                set {
+                    this[this.tableMealSetDishInfo.MealSetNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string MealSetImage {
+                get {
+                    try {
+                        return ((string)(this[this.tableMealSetDishInfo.MealSetImageColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'MealSetImage\' in table \'MealSetDishInfo\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMealSetDishInfo.MealSetImageColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string MealSetDescription {
+                get {
+                    try {
+                        return ((string)(this[this.tableMealSetDishInfo.MealSetDescriptionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'MealSetDescription\' in table \'MealSetDishInfo\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMealSetDishInfo.MealSetDescriptionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int UsedTime {
+                get {
+                    return ((int)(this[this.tableMealSetDishInfo.UsedTimeColumn]));
+                }
+                set {
+                    this[this.tableMealSetDishInfo.UsedTimeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool CanEatMore {
+                get {
+                    return ((bool)(this[this.tableMealSetDishInfo.CanEatMoreColumn]));
+                }
+                set {
+                    this[this.tableMealSetDishInfo.CanEatMoreColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int MealSetDishDetalID {
+                get {
+                    return ((int)(this[this.tableMealSetDishInfo.MealSetDishDetalIDColumn]));
+                }
+                set {
+                    this[this.tableMealSetDishInfo.MealSetDishDetalIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int DishID {
+                get {
+                    return ((int)(this[this.tableMealSetDishInfo.DishIDColumn]));
+                }
+                set {
+                    this[this.tableMealSetDishInfo.DishIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string DishName {
+                get {
+                    return ((string)(this[this.tableMealSetDishInfo.DishNameColumn]));
+                }
+                set {
+                    this[this.tableMealSetDishInfo.DishNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int DishTypeID {
+                get {
+                    return ((int)(this[this.tableMealSetDishInfo.DishTypeIDColumn]));
+                }
+                set {
+                    this[this.tableMealSetDishInfo.DishTypeIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string DishDescription {
+                get {
+                    try {
+                        return ((string)(this[this.tableMealSetDishInfo.DishDescriptionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DishDescription\' in table \'MealSetDishInfo\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMealSetDishInfo.DishDescriptionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string DishImage {
+                get {
+                    try {
+                        return ((string)(this[this.tableMealSetDishInfo.DishImageColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DishImage\' in table \'MealSetDishInfo\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMealSetDishInfo.DishImageColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public DishTypeRow DishTypeRow {
+                get {
+                    return ((DishTypeRow)(this.GetParentRow(this.Table.ParentRelations["FK_Dish_DishType1"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_Dish_DishType1"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsMealSetImageNull() {
+                return this.IsNull(this.tableMealSetDishInfo.MealSetImageColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetMealSetImageNull() {
+                this[this.tableMealSetDishInfo.MealSetImageColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsMealSetDescriptionNull() {
+                return this.IsNull(this.tableMealSetDishInfo.MealSetDescriptionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetMealSetDescriptionNull() {
+                this[this.tableMealSetDishInfo.MealSetDescriptionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsDishDescriptionNull() {
+                return this.IsNull(this.tableMealSetDishInfo.DishDescriptionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetDishDescriptionNull() {
+                this[this.tableMealSetDishInfo.DishDescriptionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsDishImageNull() {
+                return this.IsNull(this.tableMealSetDishInfo.DishImageColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetDishImageNull() {
+                this[this.tableMealSetDishInfo.DishImageColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishDetailRow[] GetMealSetDishDetailRows() {
+                if ((this.Table.ChildRelations["FK_MEAL_DISH_DISH1"] == null)) {
+                    return new MealSetDishDetailRow[0];
+                }
+                else {
+                    return ((MealSetDishDetailRow[])(base.GetChildRows(this.Table.ChildRelations["FK_MEAL_DISH_DISH1"])));
                 }
             }
         }
@@ -10634,6 +11824,74 @@ namespace CTMF_Website {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public ScheduleMealSetDetailRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public class MealSetDishDetailRowChangeEvent : global::System.EventArgs {
+            
+            private MealSetDishDetailRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishDetailRowChangeEvent(MealSetDishDetailRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishDetailRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public class MealSetDishInfoRowChangeEvent : global::System.EventArgs {
+            
+            private MealSetDishInfoRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishInfoRowChangeEvent(MealSetDishInfoRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public MealSetDishInfoRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -13319,13 +14577,14 @@ WHERE        (Username = @Username)";
             this._commandCollection[4].Connection = this.Connection;
             this._commandCollection[4].CommandText = "UPDATE       UserInfo\r\nSET                Name = @Name, TypeShortName = @TypeShor" +
                 "tName, IsCafeteriaStaff = @IsCafeteriaStaff, UpdatedBy = @UpdatedBy, LastUpdated" +
-                " = @LastUpdated\r\nWHERE        (Username = @Username)";
+                " = @LastUpdated, isActive = @isActive\r\nWHERE        (Username = @Username)";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Name", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "Name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TypeShortName", global::System.Data.SqlDbType.NVarChar, 3, global::System.Data.ParameterDirection.Input, 0, 0, "TypeShortName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsCafeteriaStaff", global::System.Data.SqlDbType.Bit, 1, global::System.Data.ParameterDirection.Input, 0, 0, "IsCafeteriaStaff", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UpdatedBy", global::System.Data.SqlDbType.NVarChar, 254, global::System.Data.ParameterDirection.Input, 0, 0, "UpdatedBy", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LastUpdated", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@isActive", global::System.Data.SqlDbType.Bit, 1, global::System.Data.ParameterDirection.Input, 0, 0, "IsActive", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Username", global::System.Data.SqlDbType.NVarChar, 254, global::System.Data.ParameterDirection.Input, 0, 0, "Username", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
         }
         
@@ -13685,7 +14944,7 @@ WHERE        (Username = @Username)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
-        public virtual int UpdateUserInfo(string Name, string TypeShortName, bool IsCafeteriaStaff, string UpdatedBy, System.DateTime LastUpdated, string Username) {
+        public virtual int UpdateUserInfo(string Name, string TypeShortName, bool IsCafeteriaStaff, string UpdatedBy, System.DateTime LastUpdated, bool isActive, string Username) {
             global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[4];
             if ((Name == null)) {
                 command.Parameters[0].Value = global::System.DBNull.Value;
@@ -13707,11 +14966,12 @@ WHERE        (Username = @Username)";
                 command.Parameters[3].Value = ((string)(UpdatedBy));
             }
             command.Parameters[4].Value = ((System.DateTime)(LastUpdated));
+            command.Parameters[5].Value = ((bool)(isActive));
             if ((Username == null)) {
                 throw new global::System.ArgumentNullException("Username");
             }
             else {
-                command.Parameters[5].Value = ((string)(Username));
+                command.Parameters[6].Value = ((string)(Username));
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -13926,11 +15186,12 @@ WHERE        (Username = @Username)";
             this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsActive", global::System.Data.SqlDbType.Bit, 1, global::System.Data.ParameterDirection.Input, 0, 0, "IsActive", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "UPDATE       Account\r\nSET                Email = @Email, Role = @Role\r\nWHERE     " +
-                "   (Username = @Username)";
+            this._commandCollection[4].CommandText = "UPDATE       Account\r\nSET                Email = @Email, Role = @Role, isActive =" +
+                " @isActive\r\nWHERE        (Username = @Username)";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Email", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "Email", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Role", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "Role", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@isActive", global::System.Data.SqlDbType.Bit, 1, global::System.Data.ParameterDirection.Input, 0, 0, "IsActive", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Username", global::System.Data.SqlDbType.NVarChar, 254, global::System.Data.ParameterDirection.Input, 0, 0, "Username", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
         }
         
@@ -14229,7 +15490,7 @@ WHERE        (Username = @Username)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
-        public virtual int UpdateAccount(string Email, int Role, string Username) {
+        public virtual int UpdateAccount(string Email, int Role, bool isActive, string Username) {
             global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[4];
             if ((Email == null)) {
                 command.Parameters[0].Value = global::System.DBNull.Value;
@@ -14238,11 +15499,12 @@ WHERE        (Username = @Username)";
                 command.Parameters[0].Value = ((string)(Email));
             }
             command.Parameters[1].Value = ((int)(Role));
+            command.Parameters[2].Value = ((bool)(isActive));
             if ((Username == null)) {
                 throw new global::System.ArgumentNullException("Username");
             }
             else {
-                command.Parameters[2].Value = ((string)(Username));
+                command.Parameters[3].Value = ((string)(Username));
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -17415,6 +18677,505 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
     }
     
     /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class MealSetDishDetailTableAdapter : global::System.ComponentModel.Component {
+        
+        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
+        
+        private global::System.Data.SqlClient.SqlConnection _connection;
+        
+        private global::System.Data.SqlClient.SqlTransaction _transaction;
+        
+        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public MealSetDishDetailTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        internal global::System.Data.SqlClient.SqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        internal global::System.Data.SqlClient.SqlTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "MealSetDishDetail";
+            tableMapping.ColumnMappings.Add("MealSetDishDetalID", "MealSetDishDetalID");
+            tableMapping.ColumnMappings.Add("MeatSetID", "MeatSetID");
+            tableMapping.ColumnMappings.Add("DishID", "DishID");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM [MealSetDishDetail] WHERE (([MealSetDishDetalID] = @Original_MealSetD" +
+                "ishDetalID))";
+            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MealSetDishDetalID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MealSetDishDetalID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [MealSetDishDetail] ([MeatSetID], [DishID]) VALUES (@MeatSetID, @Dish" +
+                "ID)";
+            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MeatSetID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MeatSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@DishID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DishID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = "UPDATE [MealSetDishDetail] SET [MeatSetID] = @MeatSetID, [DishID] = @DishID WHERE" +
+                " (([MealSetDishDetalID] = @Original_MealSetDishDetalID))";
+            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MeatSetID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MeatSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@DishID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "DishID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MealSetDishDetalID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MealSetDishDetalID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::System.Data.SqlClient.SqlConnection();
+            this._connection.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CTMFConnectionString"].ConnectionString;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[3];
+            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT        MealSetDishDetalID, MeatSetID, DishID\r\nFROM            MealSetDishD" +
+                "etail";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "SELECT        MealSetDishDetalID, MeatSetID, DishID\r\nFROM            MealSetDishD" +
+                "etail\r\nWHERE        (MeatSetID = @MeatSetID)";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MeatSetID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "MeatSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "INSERT INTO MealSetDishDetail\r\n                         (MeatSetID, DishID)\r\nVALU" +
+                "ES        (@MeatSetID,@DishID)";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MeatSetID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "MeatSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@DishID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "DishID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual DataAccess.MealSetDishDetailDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            DataAccess.MealSetDishDetailDataTable dataTable = new DataAccess.MealSetDishDetailDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual DataAccess.MealSetDishDetailDataTable GetDataByMealSetID(int MeatSetID) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(MeatSetID));
+            DataAccess.MealSetDishDetailDataTable dataTable = new DataAccess.MealSetDishDetailDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataAccess.MealSetDishDetailDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataAccess dataSet) {
+            return this.Adapter.Update(dataSet, "MealSetDishDetail");
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new global::System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
+        public virtual int Delete(int Original_MealSetDishDetalID) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_MealSetDishDetalID));
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
+            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.DeleteCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.DeleteCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
+        public virtual int Insert(int MeatSetID, int DishID) {
+            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(MeatSetID));
+            this.Adapter.InsertCommand.Parameters[1].Value = ((int)(DishID));
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
+            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.InsertCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.InsertCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(int MeatSetID, int DishID, int Original_MealSetDishDetalID) {
+            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(MeatSetID));
+            this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(DishID));
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(Original_MealSetDishDetalID));
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
+            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.UpdateCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.UpdateCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
+        public virtual int InsertMealSetDish(int MeatSetID, int DishID) {
+            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[2];
+            command.Parameters[0].Value = ((int)(MeatSetID));
+            command.Parameters[1].Value = ((int)(DishID));
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+    }
+    
+    /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class MealSetDishInfoTableAdapter : global::System.ComponentModel.Component {
+        
+        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
+        
+        private global::System.Data.SqlClient.SqlConnection _connection;
+        
+        private global::System.Data.SqlClient.SqlTransaction _transaction;
+        
+        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public MealSetDishInfoTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        internal global::System.Data.SqlClient.SqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        internal global::System.Data.SqlClient.SqlTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "MealSetDishInfo";
+            tableMapping.ColumnMappings.Add("MealSetID", "MealSetID");
+            tableMapping.ColumnMappings.Add("MealSetName", "MealSetName");
+            tableMapping.ColumnMappings.Add("MealSetImage", "MealSetImage");
+            tableMapping.ColumnMappings.Add("MealSetDescription", "MealSetDescription");
+            tableMapping.ColumnMappings.Add("UsedTime", "UsedTime");
+            tableMapping.ColumnMappings.Add("CanEatMore", "CanEatMore");
+            tableMapping.ColumnMappings.Add("MealSetDishDetalID", "MealSetDishDetalID");
+            tableMapping.ColumnMappings.Add("DishID", "DishID");
+            tableMapping.ColumnMappings.Add("DishName", "DishName");
+            tableMapping.ColumnMappings.Add("DishTypeID", "DishTypeID");
+            tableMapping.ColumnMappings.Add("DishDescription", "DishDescription");
+            tableMapping.ColumnMappings.Add("DishImage", "DishImage");
+            this._adapter.TableMappings.Add(tableMapping);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::System.Data.SqlClient.SqlConnection();
+            this._connection.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CTMFConnectionString"].ConnectionString;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = @"SELECT        MealSet.MealSetID, MealSet.Name AS MealSetName, MealSet.Image AS MealSetImage, MealSet.Description AS MealSetDescription, MealSet.UsedTime, 
+                         MealSet.CanEatMore, MealSetDishDetail.MealSetDishDetalID, Dish.DishID, Dish.Name AS DishName, Dish.DishTypeID, Dish.Description AS DishDescription, 
+                         Dish.Image AS DishImage
+FROM            MealSet INNER JOIN
+                         MealSetDishDetail ON MealSet.MealSetID = MealSetDishDetail.MeatSetID INNER JOIN
+                         Dish ON MealSetDishDetail.DishID = Dish.DishID
+WHERE        (MealSet.MealSetID = @MealSetID)";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MealSetID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "MealSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual DataAccess.MealSetDishInfoDataTable GetDataByMealSetID(int MealSetID) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(MealSetID));
+            DataAccess.MealSetDishInfoDataTable dataTable = new DataAccess.MealSetDishInfoDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+    }
+    
+    /// <summary>
     ///TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -17449,6 +19210,8 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
         private MealSetTableAdapter _mealSetTableAdapter;
         
         private ScheduleMealSetDetailTableAdapter _scheduleMealSetDetailTableAdapter;
+        
+        private MealSetDishDetailTableAdapter _mealSetDishDetailTableAdapter;
         
         private bool _backupDataSetBeforeUpdate;
         
@@ -17635,6 +19398,20 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
+            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
+            "a", "System.Drawing.Design.UITypeEditor")]
+        public MealSetDishDetailTableAdapter MealSetDishDetailTableAdapter {
+            get {
+                return this._mealSetDishDetailTableAdapter;
+            }
+            set {
+                this._mealSetDishDetailTableAdapter = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public bool BackupDataSetBeforeUpdate {
             get {
                 return this._backupDataSetBeforeUpdate;
@@ -17700,6 +19477,10 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
                             && (this._scheduleMealSetDetailTableAdapter.Connection != null))) {
                     return this._scheduleMealSetDetailTableAdapter.Connection;
                 }
+                if (((this._mealSetDishDetailTableAdapter != null) 
+                            && (this._mealSetDishDetailTableAdapter.Connection != null))) {
+                    return this._mealSetDishDetailTableAdapter.Connection;
+                }
                 return null;
             }
             set {
@@ -17747,6 +19528,9 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
                     count = (count + 1);
                 }
                 if ((this._scheduleMealSetDetailTableAdapter != null)) {
+                    count = (count + 1);
+                }
+                if ((this._mealSetDishDetailTableAdapter != null)) {
                     count = (count + 1);
                 }
                 return count;
@@ -17805,15 +19589,6 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._scheduleMealSetDetailTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.ScheduleMealSetDetail.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._scheduleMealSetDetailTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             if ((this._dishTypeTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.DishType.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
@@ -17823,12 +19598,48 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
                     allChangedRows.AddRange(updatedRows);
                 }
             }
+            if ((this._scheduleMealSetDetailTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.ScheduleMealSetDetail.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._scheduleMealSetDetailTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
             if ((this._transactionTypeTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.TransactionType.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
                     result = (result + this._transactionTypeTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._dishTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.Dish.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._dishTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._mealSetDishDetailTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.MealSetDishDetail.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._mealSetDishDetailTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._accountTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.Account.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._accountTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -17847,24 +19658,6 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
                     result = (result + this._announcementTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
-            if ((this._accountTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.Account.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._accountTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
-            if ((this._dishTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.Dish.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._dishTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -17918,14 +19711,6 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._scheduleMealSetDetailTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.ScheduleMealSetDetail.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._scheduleMealSetDetailTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             if ((this._dishTypeTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.DishType.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
@@ -17934,11 +19719,43 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
                     allAddedRows.AddRange(addedRows);
                 }
             }
+            if ((this._scheduleMealSetDetailTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.ScheduleMealSetDetail.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._scheduleMealSetDetailTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
             if ((this._transactionTypeTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.TransactionType.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
                     result = (result + this._transactionTypeTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._dishTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.Dish.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._dishTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._mealSetDishDetailTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.MealSetDishDetail.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._mealSetDishDetailTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._accountTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.Account.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._accountTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -17958,22 +19775,6 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._accountTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.Account.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._accountTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
-            if ((this._dishTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.Dish.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._dishTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             return result;
         }
         
@@ -17984,22 +19785,6 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private int UpdateDeletedRows(DataAccess dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
-            if ((this._dishTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.Dish.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._dishTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._accountTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.Account.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._accountTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
             if ((this._announcementTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.Announcement.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
@@ -18016,6 +19801,30 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
                     allChangedRows.AddRange(deletedRows);
                 }
             }
+            if ((this._accountTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.Account.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._accountTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._mealSetDishDetailTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.MealSetDishDetail.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._mealSetDishDetailTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._dishTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.Dish.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._dishTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
             if ((this._transactionTypeTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.TransactionType.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
@@ -18024,19 +19833,19 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._dishTypeTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.DishType.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._dishTypeTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
             if ((this._scheduleMealSetDetailTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.ScheduleMealSetDetail.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._scheduleMealSetDetailTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._dishTypeTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.DishType.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._dishTypeTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -18176,6 +19985,11 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
             }
             if (((this._scheduleMealSetDetailTableAdapter != null) 
                         && (this.MatchTableAdapterConnection(this._scheduleMealSetDetailTableAdapter.Connection) == false))) {
+                throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
+                        "tring.");
+            }
+            if (((this._mealSetDishDetailTableAdapter != null) 
+                        && (this.MatchTableAdapterConnection(this._mealSetDishDetailTableAdapter.Connection) == false))) {
                 throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
                         "tring.");
             }
@@ -18319,6 +20133,15 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
                         adaptersWithAcceptChangesDuringUpdate.Add(this._scheduleMealSetDetailTableAdapter.Adapter);
                     }
                 }
+                if ((this._mealSetDishDetailTableAdapter != null)) {
+                    revertConnections.Add(this._mealSetDishDetailTableAdapter, this._mealSetDishDetailTableAdapter.Connection);
+                    this._mealSetDishDetailTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
+                    this._mealSetDishDetailTableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
+                    if (this._mealSetDishDetailTableAdapter.Adapter.AcceptChangesDuringUpdate) {
+                        this._mealSetDishDetailTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
+                        adaptersWithAcceptChangesDuringUpdate.Add(this._mealSetDishDetailTableAdapter.Adapter);
+                    }
+                }
                 // 
                 //---- Perform updates -----------
                 //
@@ -18424,6 +20247,10 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
                 if ((this._scheduleMealSetDetailTableAdapter != null)) {
                     this._scheduleMealSetDetailTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._scheduleMealSetDetailTableAdapter]));
                     this._scheduleMealSetDetailTableAdapter.Transaction = null;
+                }
+                if ((this._mealSetDishDetailTableAdapter != null)) {
+                    this._mealSetDishDetailTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._mealSetDishDetailTableAdapter]));
+                    this._mealSetDishDetailTableAdapter.Transaction = null;
                 }
                 if ((0 < adaptersWithAcceptChangesDuringUpdate.Count)) {
                     global::System.Data.Common.DataAdapter[] adapters = new System.Data.Common.DataAdapter[adaptersWithAcceptChangesDuringUpdate.Count];
