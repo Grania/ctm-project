@@ -126,9 +126,15 @@
 	/*opacity: 0.7;*/
 }
 
-	.dish-img:hover {
+	.mealset-dish-img:hover, .dish-img:hover {
 		border-color: #f1f1f1;
 	}
+
+.mealset-dish-img {
+	border: 10px solid transparent;
+	margin: auto;
+	width: 90%;
+}
 
 .addForm {
 	width: 60%;
