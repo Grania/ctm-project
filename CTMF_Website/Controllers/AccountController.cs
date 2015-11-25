@@ -355,17 +355,18 @@ namespace CTMF_Website.Controllers
 			}
 			ViewData["UserType"] = items;
 
-			UserInfoDetailModel userinfo = new UserInfoDetailModel();
+			EditUserModel userInfo = new EditUserModel();
 			UserInfoDetailTableAdapter userinfoAdapter = new UserInfoDetailTableAdapter();
 			DataTable userinfoDataTable = userinfoAdapter.GetDataByUsername(username);
 
-			userinfo.Username = username;
-			userinfo.Name = userinfoDataTable.Rows[0]["Name"].ToString();
-			userinfo.UserTypeID = (string)userinfoDataTable.Rows[0]["TypeShortName"];
-			userinfo.Email = userinfoDataTable.Rows[0]["Email"].ToString();
-			userinfo.Role = (int)userinfoDataTable.Rows[0]["Role"];
+			userInfo.Username = username;
+			userInfo.Name = userinfoDataTable.Rows[0]["Name"].ToString();
+			userInfo.UserTypeID = (string)userinfoDataTable.Rows[0]["TypeShortName"];
+			userInfo.Email = userinfoDataTable.Rows[0]["Email"].ToString();
+			userInfo.Role = (int)userinfoDataTable.Rows[0]["Role"];
+			userInfo.isActive = (bool)userinfoDataTable.Rows[0]["IsActive"];
 
-			return View(userinfo);
+			return View(userInfo);
 		}
 
 		[AllowAnonymous]
@@ -388,15 +389,28 @@ namespace CTMF_Website.Controllers
 				return View(model);
 			}
 
+			string email = model.Email;
+			if (!string.IsNullOrEmpty(email))
+			{
+				AccountTableAdapter AccountAdapter = new AccountTableAdapter();
+				DataTable AccountDT = AccountAdapter.GetDataByEmail(email);
+
+				if (AccountDT.Rows.Count == 1)
+				{
+					ModelState.AddModelError("", "Email đã tồn tại");
+					return View(model);
+				}
+			}
 			string updateBy = AccountInfo.GetUserName(Request);
 			DateTime date = DateTime.Now;
 			string username = model.Username;
 			string name = model.Name;
-			string email = model.Email;
 			string userTypeID = model.UserTypeID;
 			bool isCafeteriaStaff = false;
 			int role = model.Role;
-			if(role == 2){
+			bool isActive = model.isActive;
+			if (role == 2)
+			{
 				isCafeteriaStaff = true;
 			}
 
@@ -405,9 +419,9 @@ namespace CTMF_Website.Controllers
 
 			try
 			{
-				userInfoAdapter.UpdateUserInfo(name, userTypeID, isCafeteriaStaff, updateBy, date, username);
+				userInfoAdapter.UpdateUserInfo(name, userTypeID, isCafeteriaStaff, updateBy, date, isActive, username);
 				Log.ActivityLog("Update to UserInfo: username = " + username);
-				accountAdapter.UpdateAccount(email,role,username);
+				accountAdapter.UpdateAccount(email, role, isActive, username);
 				Log.ActivityLog("Update to Account: username = " + username);
 			}
 			catch (Exception ex)
@@ -437,7 +451,7 @@ namespace CTMF_Website.Controllers
 			amountOfMoney += money.Value;
 
 			userinfo.Username = username;
-			userinfo.Name = (string)userinfoDataTable.Rows[0]["Name"];
+			userinfo.Name = userinfoDataTable.Rows[0]["Name"].ToString();
 			userinfo.TypeName = (string)userinfoDataTable.Rows[0]["TypeName"];
 			userinfo.Email = userinfoDataTable.Rows[0]["Email"].ToString();
 			userinfo.AmountOfMoney = amountOfMoney;
