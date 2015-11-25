@@ -341,7 +341,7 @@ namespace CTMF_Website.Controllers
 			DataTable userinfoDataTable = userinfoAdapter.GetDataByUsername(username);
 
 			userinfo.Username = username;
-			userinfo.Name = (string)userinfoDataTable.Rows[0]["Name"];
+			userinfo.Name = userinfoDataTable.Rows[0]["Name"].ToString();
 			userinfo.UserTypeID = (string)userinfoDataTable.Rows[0]["TypeShortName"];
 			userinfo.Email = (string)userinfoDataTable.Rows[0]["Email"];
 			userinfo.Role = (int)userinfoDataTable.Rows[0]["Role"];
