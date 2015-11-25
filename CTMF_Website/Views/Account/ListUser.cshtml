@@ -9,7 +9,8 @@
 	<div>
 		<div class="table-body">
 			<div style="margin-bottom:20px;">
-				<a href="~/Account/AddUser" class="btn btn-primary">Thêm người dùng mới</a> <a href="~/Account/ViewUserType" class="btn btn-default">Loại người dùng</a>
+				@*<a href="~/Account/AddUser" class="btn btn-primary">Thêm người dùng mới</a>*@ 
+				<a href="~/Account/ViewUserType" class="btn btn-default">Quản lý loại người dùng</a>
 				<div class="pull-right">
 					@using (Html.BeginForm("ListUser", "Account", FormMethod.Get))
 					{

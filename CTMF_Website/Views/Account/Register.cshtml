@@ -8,79 +8,80 @@
 
 <div class="addForm">
 	<legend class="title">Đăng ký thành viên</legend>
-		<div class="container">
-			@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
-			{
-				@Html.AntiForgeryToken()
-				@Html.ValidationSummary(true)
-				<div class="form-group" style="margin-top: 20px">
-					@Html.LabelFor(m => m.Username, new { @class = "control-label col-sm-2"})
-					<div class="col-sm-5">
-						@Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
-					</div>
+	<div class="container">
+		@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+		{
+			@Html.AntiForgeryToken()
+			@Html.ValidationSummary(true)
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.Username, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
 				</div>
-				<div class="form-group">
-					<div class="col-sm-2">
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2">
 
-					</div>
-					<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Username, String.Empty, new { @style = "color:red" })</div>
 				</div>
-				<div class="form-group">
-					@Html.LabelFor(m => m.Password, new { @class = "control-label col-sm-2" })
-					<div class="col-sm-5">
-						@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-					</div>
+				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Username, String.Empty, new { @style = "color:red" })</div>
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.Password, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
 				</div>
-				<div class="form-group">
-					<div class="col-sm-2">
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2">
 
-					</div>
-					<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Password, String.Empty, new { @style = "color:red" })</div>
 				</div>
-				<div class="form-group">
-					@Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label col-sm-2" })
-					<div class="col-sm-5">
-						@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-					</div>
+				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Password, String.Empty, new { @style = "color:red" })</div>
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
 				</div>
-				<div class="form-group">
-					<div class="col-sm-2">
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2">
 
-					</div>
-					<div class="col-sm-5">@Html.ValidationMessageFor(model => model.ConfirmPassword, String.Empty, new { @style = "color:red" })</div>
 				</div>
-				<div class="form-group">
-					@Html.LabelFor(m => m.Name, new { @class = "control-label col-sm-2" })
-					<div class="col-sm-5">
-						@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-					</div>
+				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.ConfirmPassword, String.Empty, new { @style = "color:red" })</div>
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.Name, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
 				</div>
-				<div class="form-group">
-					<div class="col-sm-2">
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2">
 
-					</div>
-					<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Name, String.Empty, new { @style = "color:red" })</div>
 				</div>
-				<div class="form-group">
-					@Html.LabelFor(m => m.Email, new { @class = "control-label col-sm-2" })
-					<div class="col-sm-5">
-						@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-					</div>
+				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Name, String.Empty, new { @style = "color:red" })</div>
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.Email, new { @class = "control-label col-sm-2" })
+				<div class="col-sm-5">
+					@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
 				</div>
-				<div class="form-group">
-					<div class="col-sm-2">
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2">
 
-					</div>
-					<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Email, String.Empty, new { @style = "color:red" })</div>
 				</div>
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-2">
-						<input type="submit" class="btn btn-primary" value="Đăng ký">
-					</div>
-					<div class="col-sm-2">
-						<a href="~/Home/HomePage" class="btn btn-danger">Hủy</a>
-					</div>
+				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Email, String.Empty, new { @style = "color:red" })</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-2">
+					<input type="submit" class="btn btn-primary" value="Đăng ký">
 				</div>
-			}
-		</div>
+				<div class="col-sm-2">
+					<a href="~/Home/HomePage" class="btn btn-danger">Hủy</a>
+				</div>
+			</div>
+		}
+	</div>
 </div>
+
