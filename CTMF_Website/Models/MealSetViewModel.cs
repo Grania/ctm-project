@@ -39,4 +39,9 @@ namespace CTMF_Website.Models
 		[Display(Name = "Ăn thêm")]
 		public bool CanEatMore { get; set; }
 	}
+
+	public class MealSetDishModel
+	{
+
+	}
 }
