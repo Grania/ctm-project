@@ -343,7 +343,7 @@ namespace CTMF_Website.Controllers
 			userinfo.Username = username;
 			userinfo.Name = userinfoDataTable.Rows[0]["Name"].ToString();
 			userinfo.UserTypeID = (string)userinfoDataTable.Rows[0]["TypeShortName"];
-			userinfo.Email = (string)userinfoDataTable.Rows[0]["Email"];
+			userinfo.Email = userinfoDataTable.Rows[0]["Email"].ToString();
 			userinfo.Role = (int)userinfoDataTable.Rows[0]["Role"];
 
 			return View(userinfo);

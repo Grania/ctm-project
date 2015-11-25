@@ -122,7 +122,7 @@ namespace CTMF_Website.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				return View();
+				return View(model);
 			}
 
 			string updateBy = AccountInfo.GetUserName(Request);

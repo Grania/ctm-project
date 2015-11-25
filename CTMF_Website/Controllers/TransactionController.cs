@@ -35,7 +35,11 @@ namespace CTMF_Website.Controllers
 
 			string updateBy = AccountInfo.GetUserName(Request);
 			string username = model.Username;
-			int amountOfMoney = model.AmountOfMoney;
+			int amountOfMoney = 0;
+			if (!string.IsNullOrEmpty(model.AmountOfMoney.ToString()))
+			{
+				amountOfMoney = model.AmountOfMoney;
+			}
 			string transactionContent = "Nạp tiền";
 			DateTime date = DateTime.Now;
 			int transactionType = 2;
