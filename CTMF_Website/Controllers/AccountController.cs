@@ -528,6 +528,11 @@ namespace CTMF_Website.Controllers
 		[HttpPost]
 		public ActionResult EditUserType(UserTypeModel userTypeModel, string typeShortName)
 		{
+			if (!ModelState.IsValid)
+			{
+				return View(userTypeModel);
+			}
+
 			UserTypeTableAdapter userTypeTableAdapter = new UserTypeTableAdapter();
 			if (userTypeModel != null)
 			{
@@ -542,7 +547,7 @@ namespace CTMF_Website.Controllers
 					DateTime insertDate = userTypeModel.insertedDate;
 					DateTime lastUpdate = DateTime.Now;
 					string updateBy = AccountInfo.GetUserName(Request);
-					userTypeTableAdapter.UpdateUserTypeByTypeShortName(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, insertDate, updateBy, lastUpdate, typeShortName);
+					int test = userTypeTableAdapter.UpdateUserTypeByTypeShortName(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, insertDate, updateBy, lastUpdate, typeShortName);
 					return RedirectToAction("ViewUserType", "Account");
 				}
 				catch (Exception ex)
