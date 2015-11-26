@@ -249,6 +249,7 @@ namespace CTMF_Website.Controllers
 			bool canEatMore = model.CanEatMore;
 
 			DataTable dt = mealSetAdapter.GetDataByMealSetID(mealSetID);
+			string savePath = dt.Rows[0]["Image"].ToString();
 
 			if (!StringExtensions.EqualsInsensitive(dt.Rows[0]["Name"].ToString(), mealSetName))
 			{
@@ -262,8 +263,9 @@ namespace CTMF_Website.Controllers
 						return View(model);
 					}
 				}
+
+				savePath = DishImagesPath + "\\" + mealSetName.Replace(" ", "_") + ".jpg";
 			}
-			string savePath = dt.Rows[0]["Image"].ToString();
 			if (model.Image != null)
 			{
 				if (!StringExtensions.EqualsInsensitive(savePath, model.Image))
@@ -272,14 +274,15 @@ namespace CTMF_Website.Controllers
 					var sourcePath = HttpContext.Server.MapPath(model.Image);
 					var destinationPath = HttpContext.Server.MapPath(savePath);
 
+					System.IO.File.Move(sourcePath, destinationPath);
+
 					string oldImage = dt.Rows[0]["Image"].ToString();
 					if (!string.IsNullOrEmpty(oldImage))
 					{
 						var oldImagePath = HttpContext.Server.MapPath(oldImage);
+						if(System.IO.File.Exists(oldImagePath))
 						System.IO.File.Delete(oldImagePath);
 					}
-
-					System.IO.File.Move(sourcePath, destinationPath);
 				}
 			}
 			else
