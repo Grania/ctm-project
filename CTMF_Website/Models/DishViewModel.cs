@@ -6,7 +6,7 @@ namespace CTMF_Website.Models
 	{
 		[Required(ErrorMessage = "Vui lòng nhập tên món ăn")]
 		[StringLength(30, MinimumLength = 6, ErrorMessage = "{0} nhiều nhất {1} ký tự, ít nhất {2}")]
-		[RegularExpression(@"^(?![_. 0-9])[^!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`0-9]+(?<![_. 0-9])$", ErrorMessage = "Tên món ăn sai định dạng")]
+		[RegularExpression(@"^(?![!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|` 0-9])[^!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`]+(?<![!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|` ])$", ErrorMessage = "Tên suất ăn sai định dạng")]
 		[Display(Name = "Tên món ăn")]
 		public string Dishname { get; set; }
 
@@ -26,7 +26,7 @@ namespace CTMF_Website.Models
 
 		[Required(ErrorMessage = "Vui lòng nhập tên món ăn")]
 		[StringLength(30, MinimumLength = 6, ErrorMessage = "{0} nhiều nhất {1} ký tự, ít nhất {2}")]
-		[RegularExpression(@"^(?![_. 0-9])[^!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`0-9]+(?<![_. 0-9])$", ErrorMessage = "Tên món ăn sai định dạng")]
+		[RegularExpression(@"^(?![!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|` 0-9])[^!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`]+(?<![!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|` ])$", ErrorMessage = "Tên suất ăn sai định dạng")]
 		[Display(Name = "Tên món ăn")]
 		public string Dishname { get; set; }
 
