@@ -236,7 +236,7 @@ namespace CTMF_Website.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return View();
+				return View(model);
 			}
 
 			MealSetTableAdapter mealSetAdapter = new MealSetTableAdapter();
