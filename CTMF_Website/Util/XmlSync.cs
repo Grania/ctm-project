@@ -222,11 +222,12 @@ namespace CTMF_Website.Util
 		}
 
 		//return list xml file to sync from server
-		internal static string RequestSync(string syncID, string filenames, DateTime requestTime)
+		internal static string RequestSync(string syncID, string filenames)
 		{
 			IList<string> xmlFilePathList = new List<string>();
-			string[] xmlFilename = filenames.Split('|');
 			string xmlFilenames = RequestXmlFileName(syncID, false);
+
+			string[] xmlFilename = filenames.Split('|');
 
 			foreach (string filename in xmlFilename)
 			{
@@ -320,20 +321,32 @@ namespace CTMF_Website.Util
 						}
 
 						DataRow userInfoRow = userInfoDT.Rows[0];
-						DateTime? oriLastUpdateFingerPrint = (DateTime?)userInfoRow["LastUpdatedFingerPrint"];
+						DateTime? oriLastUpdateFingerPrint = userInfoRow.Field<DateTime?>("LastUpdatedFingerPrint");
 						if (oriLastUpdateFingerPrint == null || (lastUpdatedFingerPrint != null
 							&& lastUpdatedFingerPrint > oriLastUpdateFingerPrint))
 						{
+							//userInfoTA.Update(userInfoRow.Field<string>("Name"), userInfoRow.Field<string>("TypeShortName")
+							//	, userInfoRow.Field<int>("AmountOfMoney"), userInfoRow.Field<DateTime>("LastUpdatedMoney"), fingerPrintIMG
+							//	, lastUpdatedFingerPrint, fingerPosition, userInfoRow.Field<bool>("IsCafeteriaStaff")
+							//	, userInfoRow.Field<bool>("IsActive"), userInfoRow.Field<DateTime>("InsertedDate"), userInfoRow.Field<string>("UpdatedBy")
+							//	, userInfoRow.Field<DateTime>("LastUpdated"), username);
+
 							userInfoTA.Update(userInfoRow.Field<string>("Name"), userInfoRow.Field<string>("TypeShortName")
 								, userInfoRow.Field<int>("AmountOfMoney"), userInfoRow.Field<DateTime>("LastUpdatedMoney"), fingerPrintIMG
 								, lastUpdatedFingerPrint, fingerPosition, userInfoRow.Field<bool>("IsCafeteriaStaff")
-								, userInfoRow.Field<bool>("IsActive"), userInfoRow.Field<DateTime>("InsertedDate"), userInfoRow.Field<string>("UpdatedBy")
+								, true, userInfoRow.Field<DateTime>("InsertedDate"), userInfoRow.Field<string>("UpdatedBy")
 								, userInfoRow.Field<DateTime>("LastUpdated"), username);
+
+							//SaveUserInfoXml(userInfoRow.Field<string>("Username"), userInfoRow.Field<string>("Name"), userInfoRow.Field<string>("TypeShortName")
+							//	, userInfoRow.Field<int>("AmountOfMoney"), userInfoRow.Field<DateTime>("LastUpdatedMoney"), fingerPrintIMG
+							//	, lastUpdatedFingerPrint, fingerPosition, userInfoRow.Field<bool>("IsCafeteriaStaff")
+							//	, userInfoRow.Field<bool>("IsActive"), userInfoRow.Field<DateTime>("InsertedDate"), userInfoRow.Field<string>("UpdatedBy")
+							//	, userInfoRow.Field<DateTime>("LastUpdated"), ignoreSyncID);
 
 							SaveUserInfoXml(userInfoRow.Field<string>("Username"), userInfoRow.Field<string>("Name"), userInfoRow.Field<string>("TypeShortName")
 								, userInfoRow.Field<int>("AmountOfMoney"), userInfoRow.Field<DateTime>("LastUpdatedMoney"), fingerPrintIMG
 								, lastUpdatedFingerPrint, fingerPosition, userInfoRow.Field<bool>("IsCafeteriaStaff")
-								, userInfoRow.Field<bool>("IsActive"), userInfoRow.Field<DateTime>("InsertedDate"), userInfoRow.Field<string>("UpdatedBy")
+								,true, userInfoRow.Field<DateTime>("InsertedDate"), userInfoRow.Field<string>("UpdatedBy")
 								, userInfoRow.Field<DateTime>("LastUpdated"), ignoreSyncID);
 						}
 					}
@@ -383,7 +396,6 @@ namespace CTMF_Website.Util
 					throw ex;
 				}
 			}
-
 		}
 
 		#region Save data to xml
@@ -599,8 +611,8 @@ namespace CTMF_Website.Util
 			}
 		}
 
-		internal static void SaveScheduleXml(int servingTimeID, string name, TimeSpan startTime, TimeSpan? endTime
-			, DateTime insertedDate, DateTime lastUpdated, string ignoreSyncID)
+		internal static void SaveScheduleXml(int scheduleID, DateTime date, int servingTimeID, bool isDayOn
+			, DateTime insertedDate, string updatedBy, DateTime lastUpdated, string ignoreSyncID)
 		{
 			try
 			{
@@ -610,19 +622,19 @@ namespace CTMF_Website.Util
 					.Descendants("Client").Where(c => c.Attribute("SyncID").Value != ignoreSyncID)
 					.Descendants("XmlData").Where(x => x.Attribute("Current").Value == "1").ToList();
 
-				XElement schedule = new XElement("MealSet");
+				XElement schedule = new XElement("Schedule");
 
 				// not null value save
+				schedule.Add(new XElement("ScheduleID", scheduleID));
+				schedule.Add(new XElement("Date", date));
 				schedule.Add(new XElement("ServingTimeID", servingTimeID));
-				schedule.Add(new XElement("Name", name));
-				schedule.Add(new XElement("StartTime", startTime));
 				schedule.Add(new XElement("InsertedDate", insertedDate));
 				schedule.Add(new XElement("LastUpdated", lastUpdated));
 
 				// nullable value save
-				if (endTime != null)
+				if (updatedBy != null)
 				{
-					schedule.Add(new XElement("EndTime", endTime));
+					schedule.Add(new XElement("UpdatedBy", updatedBy));
 				}
 
 				foreach (XElement xmlDataEl in xmlDataEls)
@@ -630,7 +642,7 @@ namespace CTMF_Website.Util
 					XDocument dataSetXDoc = XDocument.Load(_path + xmlDataEl.Value);
 					XElement dataSetEl = dataSetXDoc.Element("NewDataSet");
 
-					dataSetEl.Descendants("ServingTime").Where(d => d.Element("ServingTimeID").Value == servingTimeID.ToString()).Remove();
+					dataSetEl.Descendants("Schedule").Where(d => d.Element("ScheduleID").Value == scheduleID.ToString()).Remove();
 
 					dataSetEl.Add(schedule);
 
