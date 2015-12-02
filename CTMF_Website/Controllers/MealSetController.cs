@@ -102,7 +102,9 @@ namespace CTMF_Website.Controllers
 
 			try
 			{
-				mealSetAdapter.InsertMealSet(mealSetName, savePath, description, usedTime, canEatMore, date, updateBy, date);
+				string mealSetID = mealSetAdapter.InsertMealSetScalar(mealSetName, savePath, description, usedTime, canEatMore, date, updateBy, date).ToString();
+				int id = int.Parse(mealSetID);
+				XmlSync.SaveMealSetXml(id, mealSetName, usedTime, canEatMore, date, updateBy, date, null);
 				Log.ActivityLog("Insert into MealSet Table: MealSetName = " + mealSetName);
 			}
 			catch (Exception ex)
@@ -249,7 +251,8 @@ namespace CTMF_Website.Controllers
 			bool canEatMore = model.CanEatMore;
 
 			DataTable dt = mealSetAdapter.GetDataByMealSetID(mealSetID);
-			string savePath = dt.Rows[0]["Image"].ToString();
+			string savePath = dt.Rows[0].Field<string>("Image");
+			int usedTime = dt.Rows[0].Field<int>("UsedTime");
 
 			if (!StringExtensions.EqualsInsensitive(dt.Rows[0]["Name"].ToString(), mealSetName))
 			{
@@ -293,6 +296,7 @@ namespace CTMF_Website.Controllers
 			try
 			{
 				mealSetAdapter.UpdateMealSet(mealSetName, savePath, description, canEatMore, updateBy, date, mealSetID);
+				XmlSync.SaveMealSetXml(mealSetID, mealSetName, usedTime, canEatMore, date, updateBy, date, null);
 				Log.ActivityLog("Update to MealSet Table: MealSetID = " + mealSetID);
 			}
 			catch (Exception ex)
@@ -360,26 +364,48 @@ namespace CTMF_Website.Controllers
 		{
 			int dish = int.Parse(dishID);
 			int mealset = int.Parse(mealSetID);
-			EditDishModel model = new EditDishModel();
-			DishTableAdapter dishAdapter = new DishTableAdapter();
-			DataTable dishDT = dishAdapter.GetDataByDishID(dish);
-			model.DishID = dish;
-			model.Dishname = dishDT.Rows[0]["Name"].ToString();
-			model.DishTypeID = (int)dishDT.Rows[0]["DishTypeID"];
-			model.Description = dishDT.Rows[0]["Description"].ToString();
-			model.Image = dishDT.Rows[0]["Image"].ToString();
 
 			try
 			{
 				MealSetDishDetailTableAdapter mealSetDishAdapter = new MealSetDishDetailTableAdapter();
 				mealSetDishAdapter.InsertMealSetDish(mealset,dish);
-				Log.ActivityLog("Insert into MealSetDishDetail table: MealsetID = " + mealSetID + ", DishID = " + dishDT);
+				Log.ActivityLog("Insert into MealSetDishDetail table: MealsetID = " + mealSetID + ", DishID = " + dishID);
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
 			}
 
+			MealSetDishModel model = new MealSetDishModel();
+			MealSetDishInfoTableAdapter mealSetDishInfoAdapter = new MealSetDishInfoTableAdapter();
+			DataTable mealSetDishInfoDT = mealSetDishInfoAdapter.GetDataByMealSetIDDishID(mealset, dish);
+			model.DishID = dish;
+			model.MealSetID = mealset;
+			model.Dishname = mealSetDishInfoDT.Rows[0]["DishName"].ToString();
+			model.DishTypeID = (int)mealSetDishInfoDT.Rows[0]["DishTypeID"];
+			model.DishDescription = mealSetDishInfoDT.Rows[0]["DishDescription"].ToString();
+			model.DishImage = mealSetDishInfoDT.Rows[0]["DishImage"].ToString();
+
+			return PartialView("_MealSetDish", model);
+		}
+
+		public PartialViewResult Remove(string mealSetID, string dishID)
+		{
+			int dish = int.Parse(dishID);
+			int mealset = int.Parse(mealSetID);
+
+			try
+			{
+				MealSetDishDetailTableAdapter mealSetDishAdapter = new MealSetDishDetailTableAdapter();
+				mealSetDishAdapter.DeleteMealSetDish(mealset, dish);
+				Log.ActivityLog("Delete into MealSetDishDetail table: MealsetID = " + mealSetID + ", DishID = " + dishID);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+
+			MealSetDishModel model = new MealSetDishModel();
 			return PartialView("_MealSetDish", model);
 		}
 	}

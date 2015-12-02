@@ -211,6 +211,7 @@ namespace CTMF_Website.Controllers
 					DateTime lastUpdate = DateTime.Now;
 
 					servingTimeTableAdapter.UpdateServingTimeByID(name, startTime, endTime, insertDate, lastUpdate, servingTimeId);
+					XmlSync.SaveServingTimeXml(servingTimeId, name, startTime, endTime, insertDate, lastUpdate, null);
 					return RedirectToAction("ViewServingTime", "Schedule");
 				}
 				catch (Exception ex)
@@ -255,15 +256,16 @@ namespace CTMF_Website.Controllers
 					TimeSpan startTime = servingTimeModel.startTime;
 					TimeSpan? endTime = servingTimeModel.endTime;
 					DateTime date = DateTime.Now;
-					servingTimeDataAdapter.Insert(name, startTime, endTime, date, date);
-					return RedirectToAction("ViewServingTime", "Schedule");
+					string servingTimeID = servingTimeDataAdapter.InsertNewServingTimeScalar(name, startTime, endTime, date, date).ToString();
+					int id = int.Parse(servingTimeID);
+					XmlSync.SaveServingTimeXml(id, name, startTime, endTime, date, date, null);
 				}
 				catch (Exception ex)
 				{
 					Log.ErrorLog(ex.Message);
 				}
 			}
-			return View();
+			return RedirectToAction("ViewServingTime", "Schedule");
 		}
 	}
 }

@@ -54,7 +54,9 @@ namespace CTMF_Website.Controllers
 			TransactionHistoryTableAdapter transactionAdapter = new TransactionHistoryTableAdapter();
 			try
 			{
-				transactionAdapter.RechargeMoney(username, transactionType, amountOfMoney, transactionContent, null, false, date, updateBy, date);
+				string transactionID = transactionAdapter.RechargeMoneyScalar(username, transactionType, amountOfMoney, transactionContent, null, false, date, updateBy, date).ToString();
+				int id = int.Parse(transactionID);
+				XmlSync.SaveTransactionHistoryXml(id, username, transactionType, amountOfMoney, transactionContent, null, false, date, updateBy, date, null);
 			}
 			catch (Exception ex)
 			{
@@ -160,6 +162,8 @@ namespace CTMF_Website.Controllers
 				transAdapter.UpdateTransactionHistory(username, transactionTypeID, value, transactionContent
 					, scheduleMealSetDetailID, isAuto, insertedDate, AccountInfo.GetUserName(Request), lastUpdated
 					, transactionHistoryID);
+				XmlSync.SaveTransactionHistoryXml(transactionHistoryID, username, transactionTypeID, value, transactionContent
+					, scheduleMealSetDetailID, isAuto, insertedDate, AccountInfo.GetUserName(Request), lastUpdated, null);
 			}
 			catch (Exception ex)
 			{

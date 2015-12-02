@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Linq;
+using System.Data.SqlClient;
 
 namespace CTMF_Website.Controllers
 {
@@ -209,17 +210,32 @@ namespace CTMF_Website.Controllers
 			}
 			else
 			{
-				try
+				AccountTableAdapter AccountAdapter = new AccountTableAdapter();
+
+				UserInfoAdapter.Connection.Open();
+				AccountAdapter.Connection = UserInfoAdapter.Connection;
+
+				using (SqlTransaction transaction = UserInfoAdapter.Connection.BeginTransaction())
 				{
-					UserInfoAdapter.InsertUserInfo(username, name, userType, 0, date, null, null, null, false, false, date, username, date);
-					Log.ActivityLog("Insert into UserInfo: Username = " + username);
-					AccountTableAdapter AccountAdapter = new AccountTableAdapter();
-					AccountAdapter.InsertAccount(username, password, email, 1, false);
-					Log.ActivityLog("Insert into Account: Username = " + username);
-				}
-				catch (Exception ex)
-				{
-					Log.ErrorLog(ex.Message);
+					UserInfoAdapter.AttachTransaction(transaction);
+					AccountAdapter.AttachTransaction(transaction);
+
+					try
+					{
+						UserInfoAdapter.InsertUserInfo(username, name, userType, 0, date, null, null, null, false, false, date, username, date);
+						Log.ActivityLog("Insert into UserInfo: Username = " + username);
+
+						AccountAdapter.InsertAccount(username, password, email, 1, false);
+						Log.ActivityLog("Insert into Account: Username = " + username);
+
+						XmlSync.SaveUserInfoXml(username, name, userType, 0, date, null, null, null, false, false, date, username, date, null);
+						transaction.Commit();
+					}
+					catch (Exception ex)
+					{
+						transaction.Rollback();
+						Log.ErrorLog(ex.Message);
+					}
 				}
 			}
 
@@ -401,6 +417,7 @@ namespace CTMF_Website.Controllers
 					return View(model);
 				}
 			}
+
 			string updateBy = AccountInfo.GetUserName(Request);
 			DateTime date = DateTime.Now;
 			string username = model.Username;
@@ -417,16 +434,40 @@ namespace CTMF_Website.Controllers
 			AccountTableAdapter accountAdapter = new AccountTableAdapter();
 			UserInfoTableAdapter userInfoAdapter = new UserInfoTableAdapter();
 
-			try
+			DataTable userInfoDT = userInfoAdapter.GetDataByUsername(username);
+			DataRow userInfoRow = userInfoDT.Rows[0];
+
+			int amountOfMoney = userInfoRow.Field<int>("AmountOfMoney");
+			DateTime lastUpdatedMoney = userInfoRow.Field<DateTime>("LastUpdatedMoney");
+			byte[] fingerPrintIMG = userInfoRow.Field<byte[]>("FingerPrintIMG");
+			DateTime? lastUpdatedFingerPrint = userInfoRow.Field<DateTime?>("LastUpdatedFingerPrint");
+			int? fingerPosition = userInfoRow.Field<int?>("FingerPosition");
+			DateTime insertedDate = userInfoRow.Field<DateTime>("InsertedDate");
+
+			accountAdapter.Connection.Open();
+			userInfoAdapter.Connection = accountAdapter.Connection;
+
+			using (SqlTransaction transaction = accountAdapter.Connection.BeginTransaction())
 			{
-				userInfoAdapter.UpdateUserInfo(name, userTypeID, isCafeteriaStaff, updateBy, date, isActive, username);
-				Log.ActivityLog("Update to UserInfo: username = " + username);
-				accountAdapter.UpdateAccount(email, role, isActive, username);
-				Log.ActivityLog("Update to Account: username = " + username);
-			}
-			catch (Exception ex)
-			{
-				Log.ErrorLog(ex.Message);
+				accountAdapter.AttachTransaction(transaction);
+				userInfoAdapter.AttachTransaction(transaction);
+
+				try
+				{
+					userInfoAdapter.UpdateUserInfo(username, name, userTypeID, amountOfMoney, lastUpdatedMoney, fingerPrintIMG
+						, lastUpdatedFingerPrint, fingerPosition, isCafeteriaStaff, isActive, insertedDate, updateBy, date, username);
+					Log.ActivityLog("Update to UserInfo: username = " + username);
+					accountAdapter.UpdateAccount(email, role, isActive, username);
+					Log.ActivityLog("Update to Account: username = " + username);
+
+					XmlSync.SaveUserInfoXml(username, name, userTypeID, amountOfMoney, lastUpdatedMoney, fingerPrintIMG
+						, lastUpdatedFingerPrint, fingerPosition, isCafeteriaStaff, isActive, insertedDate, updateBy, date, null);
+				}
+				catch (Exception ex)
+				{
+					transaction.Rollback();
+					Log.ErrorLog(ex.Message);
+				}
 			}
 
 			return RedirectToAction("ListUser", "Account");
@@ -562,7 +603,7 @@ namespace CTMF_Website.Controllers
 					DateTime lastUpdate = DateTime.Now;
 					string updateBy = AccountInfo.GetUserName(Request);
 					int test = userTypeTableAdapter.UpdateUserTypeByTypeShortName(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, insertDate, updateBy, lastUpdate, typeShortName);
-					return RedirectToAction("ViewUserType", "Account");
+					XmlSync.SaveUserTypeXml(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, insertDate, updateBy, lastUpdate, null);
 				}
 				catch (Exception ex)
 				{
@@ -597,6 +638,7 @@ namespace CTMF_Website.Controllers
 					DateTime date = DateTime.Now;
 					string updateBy = AccountInfo.GetUserName(Request);
 					int test = userTypeTableAdapter.InsertNewUserType(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, date, updateBy, date);
+					XmlSync.SaveUserTypeXml(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, date, updateBy, date, null);
 					return RedirectToAction("ViewUserType", "Account");
 				}
 				catch (Exception ex)
