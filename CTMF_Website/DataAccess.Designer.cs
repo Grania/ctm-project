@@ -13920,38 +13920,39 @@ WHERE        (UserInfo.Username = @Username)";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT InsertedDate, IsAuto, LastUpdated, ScheduleMealSetDetailID, TransactionCon" +
-                "tent, TransactionHistoryID, TransactionTypeID, UpdatedBy, Username, Value FROM T" +
-                "ransactionHistory WHERE (Username = @Username)";
+            this._commandCollection[1].CommandText = "SELECT        SUM(Value) AS Expr1\r\nFROM            TransactionHistory\r\nWHERE     " +
+                "   (Username = @Username) AND (InsertedDate > @InsertedDate)";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Username", global::System.Data.SqlDbType.NVarChar, 254, global::System.Data.ParameterDirection.Input, 0, 0, "Username", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@InsertedDate", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "InsertedDate", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "SELECT        SUM(Value) AS Expr1\r\nFROM            TransactionHistory\r\nWHERE     " +
-                "   (Username = @Username) AND (InsertedDate > @InsertedDate)";
+            this._commandCollection[2].CommandText = "SELECT InsertedDate, IsAuto, LastUpdated, ScheduleMealSetDetailID, TransactionCon" +
+                "tent, TransactionHistoryID, TransactionTypeID, UpdatedBy, Username, Value FROM T" +
+                "ransactionHistory WHERE (LastUpdated > @FromDate) AND (LastUpdated <= @ToDate)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Username", global::System.Data.SqlDbType.NVarChar, 254, global::System.Data.ParameterDirection.Input, 0, 0, "Username", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@InsertedDate", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "InsertedDate", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FromDate", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ToDate", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[3] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[3].Connection = this.Connection;
             this._commandCollection[3].CommandText = "SELECT InsertedDate, IsAuto, LastUpdated, ScheduleMealSetDetailID, TransactionCon" +
                 "tent, TransactionHistoryID, TransactionTypeID, UpdatedBy, Username, Value FROM T" +
-                "ransactionHistory WHERE (LastUpdated > @FromDate) AND (LastUpdated <= @ToDate)";
+                "ransactionHistory WHERE (TransactionHistoryID = @TransactionHistoryID)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FromDate", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ToDate", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TransactionHistoryID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "TransactionHistoryID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[4].Connection = this.Connection;
             this._commandCollection[4].CommandText = "SELECT InsertedDate, IsAuto, LastUpdated, ScheduleMealSetDetailID, TransactionCon" +
                 "tent, TransactionHistoryID, TransactionTypeID, UpdatedBy, Username, Value FROM T" +
-                "ransactionHistory WHERE (TransactionHistoryID = @TransactionHistoryID)";
+                "ransactionHistory WHERE (Username = @Username)";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TransactionHistoryID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "TransactionHistoryID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Username", global::System.Data.SqlDbType.NVarChar, 254, global::System.Data.ParameterDirection.Input, 0, 0, "Username", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[5] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[5].Connection = this.Connection;
             this._commandCollection[5].CommandText = @"INSERT INTO TransactionHistory
                          (Username, TransactionTypeID, Value, TransactionContent, ScheduleMealSetDetailID, IsAuto, InsertedDate, UpdatedBy, LastUpdated)
-VALUES        (@Username,@TransactionTypeID,@Value,@TransactionContent,@ScheduleMealSetDetailID,@IsAuto,@InsertedDate,@UpdatedBy,@LastUpdated)";
+VALUES        (@Username,@TransactionTypeID,@Value,@TransactionContent,@ScheduleMealSetDetailID,@IsAuto,@InsertedDate,@UpdatedBy,@LastUpdated)
+SELECT @@IDENTITY";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[5].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Username", global::System.Data.SqlDbType.NVarChar, 254, global::System.Data.ParameterDirection.Input, 0, 0, "Username", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[5].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TransactionTypeID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "TransactionTypeID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -13996,45 +13997,9 @@ WHERE        (TransactionHistoryID = @Original_TransactionHistoryID)";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
-        public virtual int FillBy1(DataAccess.TransactionHistoryDataTable dataTable, string Username) {
-            this.Adapter.SelectCommand = this.CommandCollection[1];
-            if ((Username == null)) {
-                throw new global::System.ArgumentNullException("Username");
-            }
-            else {
-                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(Username));
-            }
-            if ((this.ClearBeforeFill == true)) {
-                dataTable.Clear();
-            }
-            int returnValue = this.Adapter.Fill(dataTable);
-            return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
-        public virtual DataAccess.TransactionHistoryDataTable GetDataByUsername(string Username) {
-            this.Adapter.SelectCommand = this.CommandCollection[1];
-            if ((Username == null)) {
-                throw new global::System.ArgumentNullException("Username");
-            }
-            else {
-                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(Username));
-            }
-            DataAccess.TransactionHistoryDataTable dataTable = new DataAccess.TransactionHistoryDataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual DataAccess.TransactionHistoryDataTable GetDataByDate(System.DateTime FromDate, System.DateTime ToDate) {
-            this.Adapter.SelectCommand = this.CommandCollection[3];
+            this.Adapter.SelectCommand = this.CommandCollection[2];
             this.Adapter.SelectCommand.Parameters[0].Value = ((System.DateTime)(FromDate));
             this.Adapter.SelectCommand.Parameters[1].Value = ((System.DateTime)(ToDate));
             DataAccess.TransactionHistoryDataTable dataTable = new DataAccess.TransactionHistoryDataTable();
@@ -14047,8 +14012,25 @@ WHERE        (TransactionHistoryID = @Original_TransactionHistoryID)";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual DataAccess.TransactionHistoryDataTable GetDataByKey(int TransactionHistoryID) {
-            this.Adapter.SelectCommand = this.CommandCollection[4];
+            this.Adapter.SelectCommand = this.CommandCollection[3];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(TransactionHistoryID));
+            DataAccess.TransactionHistoryDataTable dataTable = new DataAccess.TransactionHistoryDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual DataAccess.TransactionHistoryDataTable GetDataByUsername(string Username) {
+            this.Adapter.SelectCommand = this.CommandCollection[4];
+            if ((Username == null)) {
+                throw new global::System.ArgumentNullException("Username");
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(Username));
+            }
             DataAccess.TransactionHistoryDataTable dataTable = new DataAccess.TransactionHistoryDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -14210,7 +14192,7 @@ WHERE        (TransactionHistoryID = @Original_TransactionHistoryID)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual global::System.Nullable<int> GetCurrentMoney(string Username, System.DateTime InsertedDate) {
-            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[2];
+            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[1];
             if ((Username == null)) {
                 throw new global::System.ArgumentNullException("Username");
             }
@@ -14245,7 +14227,7 @@ WHERE        (TransactionHistoryID = @Original_TransactionHistoryID)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
-        public virtual int RechargeMoney(string Username, int TransactionTypeID, int Value, string TransactionContent, global::System.Nullable<int> ScheduleMealSetDetailID, bool IsAuto, System.DateTime InsertedDate, string UpdatedBy, System.DateTime LastUpdated) {
+        public virtual object RechargeMoneyScalar(string Username, int TransactionTypeID, int Value, string TransactionContent, global::System.Nullable<int> ScheduleMealSetDetailID, bool IsAuto, System.DateTime InsertedDate, string UpdatedBy, System.DateTime LastUpdated) {
             global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[5];
             if ((Username == null)) {
                 throw new global::System.ArgumentNullException("Username");
@@ -14281,16 +14263,22 @@ WHERE        (TransactionHistoryID = @Original_TransactionHistoryID)";
                         != global::System.Data.ConnectionState.Open)) {
                 command.Connection.Open();
             }
-            int returnValue;
+            object returnValue;
             try {
-                returnValue = command.ExecuteNonQuery();
+                returnValue = command.ExecuteScalar();
             }
             finally {
                 if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
                     command.Connection.Close();
                 }
             }
-            return returnValue;
+            if (((returnValue == null) 
+                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
+                return null;
+            }
+            else {
+                return ((object)(returnValue));
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -14575,17 +14563,22 @@ WHERE        (Username = @Username)";
             this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LastUpdated", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "UPDATE       UserInfo\r\nSET                Name = @Name, TypeShortName = @TypeShor" +
-                "tName, IsCafeteriaStaff = @IsCafeteriaStaff, UpdatedBy = @UpdatedBy, LastUpdated" +
-                " = @LastUpdated, isActive = @isActive\r\nWHERE        (Username = @Username)";
+            this._commandCollection[4].CommandText = @"UPDATE [UserInfo] SET [Username] = @Username, [Name] = @Name, [TypeShortName] = @TypeShortName, [AmountOfMoney] = @AmountOfMoney, [LastUpdatedMoney] = @LastUpdatedMoney, [FingerPrintIMG] = @FingerPrintIMG, [LastUpdatedFingerPrint] = @LastUpdatedFingerPrint, [FingerPosition] = @FingerPosition, [IsCafeteriaStaff] = @IsCafeteriaStaff, [IsActive] = @IsActive, [InsertedDate] = @InsertedDate, [UpdatedBy] = @UpdatedBy, [LastUpdated] = @LastUpdated WHERE (([Username] = @Original_Username))";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Username", global::System.Data.SqlDbType.NVarChar, 254, global::System.Data.ParameterDirection.Input, 0, 0, "Username", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Name", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "Name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@TypeShortName", global::System.Data.SqlDbType.NVarChar, 3, global::System.Data.ParameterDirection.Input, 0, 0, "TypeShortName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@AmountOfMoney", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "AmountOfMoney", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LastUpdatedMoney", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdatedMoney", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FingerPrintIMG", global::System.Data.SqlDbType.Image, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, "FingerPrintIMG", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LastUpdatedFingerPrint", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdatedFingerPrint", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FingerPosition", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "FingerPosition", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsCafeteriaStaff", global::System.Data.SqlDbType.Bit, 1, global::System.Data.ParameterDirection.Input, 0, 0, "IsCafeteriaStaff", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsActive", global::System.Data.SqlDbType.Bit, 1, global::System.Data.ParameterDirection.Input, 0, 0, "IsActive", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@InsertedDate", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "InsertedDate", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UpdatedBy", global::System.Data.SqlDbType.NVarChar, 254, global::System.Data.ParameterDirection.Input, 0, 0, "UpdatedBy", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LastUpdated", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@isActive", global::System.Data.SqlDbType.Bit, 1, global::System.Data.ParameterDirection.Input, 0, 0, "IsActive", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Username", global::System.Data.SqlDbType.NVarChar, 254, global::System.Data.ParameterDirection.Input, 0, 0, "Username", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Username", global::System.Data.SqlDbType.NVarChar, 254, global::System.Data.ParameterDirection.Input, 0, 0, "Username", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -14944,34 +14937,61 @@ WHERE        (Username = @Username)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
-        public virtual int UpdateUserInfo(string Name, string TypeShortName, bool IsCafeteriaStaff, string UpdatedBy, System.DateTime LastUpdated, bool isActive, string Username) {
+        public virtual int UpdateUserInfo(string Username, string Name, string TypeShortName, int AmountOfMoney, System.DateTime LastUpdatedMoney, byte[] FingerPrintIMG, global::System.Nullable<global::System.DateTime> LastUpdatedFingerPrint, global::System.Nullable<int> FingerPosition, bool IsCafeteriaStaff, bool IsActive, System.DateTime InsertedDate, string UpdatedBy, System.DateTime LastUpdated, string Original_Username) {
             global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[4];
-            if ((Name == null)) {
-                command.Parameters[0].Value = global::System.DBNull.Value;
-            }
-            else {
-                command.Parameters[0].Value = ((string)(Name));
-            }
-            if ((TypeShortName == null)) {
-                command.Parameters[1].Value = global::System.DBNull.Value;
-            }
-            else {
-                command.Parameters[1].Value = ((string)(TypeShortName));
-            }
-            command.Parameters[2].Value = ((bool)(IsCafeteriaStaff));
-            if ((UpdatedBy == null)) {
-                command.Parameters[3].Value = global::System.DBNull.Value;
-            }
-            else {
-                command.Parameters[3].Value = ((string)(UpdatedBy));
-            }
-            command.Parameters[4].Value = ((System.DateTime)(LastUpdated));
-            command.Parameters[5].Value = ((bool)(isActive));
             if ((Username == null)) {
                 throw new global::System.ArgumentNullException("Username");
             }
             else {
-                command.Parameters[6].Value = ((string)(Username));
+                command.Parameters[0].Value = ((string)(Username));
+            }
+            if ((Name == null)) {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[1].Value = ((string)(Name));
+            }
+            if ((TypeShortName == null)) {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[2].Value = ((string)(TypeShortName));
+            }
+            command.Parameters[3].Value = ((int)(AmountOfMoney));
+            command.Parameters[4].Value = ((System.DateTime)(LastUpdatedMoney));
+            if ((FingerPrintIMG == null)) {
+                command.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[5].Value = ((byte[])(FingerPrintIMG));
+            }
+            if ((LastUpdatedFingerPrint.HasValue == true)) {
+                command.Parameters[6].Value = ((System.DateTime)(LastUpdatedFingerPrint.Value));
+            }
+            else {
+                command.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            if ((FingerPosition.HasValue == true)) {
+                command.Parameters[7].Value = ((int)(FingerPosition.Value));
+            }
+            else {
+                command.Parameters[7].Value = global::System.DBNull.Value;
+            }
+            command.Parameters[8].Value = ((bool)(IsCafeteriaStaff));
+            command.Parameters[9].Value = ((bool)(IsActive));
+            command.Parameters[10].Value = ((System.DateTime)(InsertedDate));
+            if ((UpdatedBy == null)) {
+                command.Parameters[11].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[11].Value = ((string)(UpdatedBy));
+            }
+            command.Parameters[12].Value = ((System.DateTime)(LastUpdated));
+            if ((Original_Username == null)) {
+                throw new global::System.ArgumentNullException("Original_Username");
+            }
+            else {
+                command.Parameters[13].Value = ((string)(Original_Username));
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -17248,7 +17268,7 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
             this._commandCollection[4].Connection = this.Connection;
             this._commandCollection[4].CommandText = "INSERT INTO ServingTime\r\n                         (Name, StartTime, EndTime, Inse" +
                 "rtedDate, LastUpdated)\r\nVALUES        (@Name,@StartTime,@EndTime,@InsertedDate,@" +
-                "LastUpdated)";
+                "LastUpdated)\r\nSELECT @@IDENTITY";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Name", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "Name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@StartTime", global::System.Data.SqlDbType.Time, 3, global::System.Data.ParameterDirection.Input, 0, 0, "StartTime", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -17457,7 +17477,7 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
-        public virtual int InsertNewServingTime(string Name, string StartTime, string EndTime, System.DateTime InsertedDate, System.DateTime LastUpdated) {
+        public virtual object InsertNewServingTimeScalar(string Name, System.TimeSpan StartTime, global::System.Nullable<global::System.TimeSpan> EndTime, System.DateTime InsertedDate, System.DateTime LastUpdated) {
             global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[4];
             if ((Name == null)) {
                 throw new global::System.ArgumentNullException("Name");
@@ -17465,17 +17485,12 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
             else {
                 command.Parameters[0].Value = ((string)(Name));
             }
-            if ((StartTime == null)) {
-                throw new global::System.ArgumentNullException("StartTime");
+            command.Parameters[1].Value = ((System.TimeSpan)(StartTime));
+            if ((EndTime.HasValue == true)) {
+                command.Parameters[2].Value = ((System.TimeSpan)(EndTime.Value));
             }
             else {
-                command.Parameters[1].Value = ((string)(StartTime));
-            }
-            if ((EndTime == null)) {
                 command.Parameters[2].Value = global::System.DBNull.Value;
-            }
-            else {
-                command.Parameters[2].Value = ((string)(EndTime));
             }
             command.Parameters[3].Value = ((System.DateTime)(InsertedDate));
             command.Parameters[4].Value = ((System.DateTime)(LastUpdated));
@@ -17484,16 +17499,22 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
                         != global::System.Data.ConnectionState.Open)) {
                 command.Connection.Open();
             }
-            int returnValue;
+            object returnValue;
             try {
-                returnValue = command.ExecuteNonQuery();
+                returnValue = command.ExecuteScalar();
             }
             finally {
                 if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
                     command.Connection.Close();
                 }
             }
-            return returnValue;
+            if (((returnValue == null) 
+                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
+                return null;
+            }
+            else {
+                return ((object)(returnValue));
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -18021,7 +18042,8 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
             this._commandCollection[4].Connection = this.Connection;
             this._commandCollection[4].CommandText = "INSERT INTO MealSet\r\n                         (Name, Image, Description, UsedTime" +
                 ", CanEatMore, InsertedDate, UpdatedBy, LastUpdated)\r\nVALUES        (@Name,@Image" +
-                ",@Description,@UsedTime,@CanEatMore,@InsertedDate,@UpdatedBy,@LastUpdated)";
+                ",@Description,@UsedTime,@CanEatMore,@InsertedDate,@UpdatedBy,@LastUpdated)\r\nSELE" +
+                "CT @@IDENTITY";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Name", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "Name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Image", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "Image", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -18254,7 +18276,7 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
-        public virtual int InsertMealSet(string Name, string Image, string Description, int UsedTime, bool CanEatMore, System.DateTime InsertedDate, string UpdatedBy, System.DateTime LastUpdated) {
+        public virtual int InsertMealSetScalar(string Name, string Image, string Description, int UsedTime, bool CanEatMore, System.DateTime InsertedDate, string UpdatedBy, System.DateTime LastUpdated) {
             global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[4];
             if ((Name == null)) {
                 throw new global::System.ArgumentNullException("Name");
@@ -18834,7 +18856,7 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[3];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[4];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT        MealSetDishDetalID, MeatSetID, DishID\r\nFROM            MealSetDishD" +
@@ -18842,17 +18864,24 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT        MealSetDishDetalID, MeatSetID, DishID\r\nFROM            MealSetDishD" +
-                "etail\r\nWHERE        (MeatSetID = @MeatSetID)";
+            this._commandCollection[1].CommandText = "DELETE FROM [MealSetDishDetail] \r\nWHERE MeatSetID = @MealSetID AND DishID = @Dish" +
+                "ID";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MeatSetID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "MeatSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MealSetID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "MeatSetID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@DishID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "DishID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "INSERT INTO MealSetDishDetail\r\n                         (MeatSetID, DishID)\r\nVALU" +
-                "ES        (@MeatSetID,@DishID)";
+            this._commandCollection[2].CommandText = "SELECT        MealSetDishDetalID, MeatSetID, DishID\r\nFROM            MealSetDishD" +
+                "etail\r\nWHERE        (MeatSetID = @MeatSetID)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MeatSetID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "MeatSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@DishID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "DishID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[3] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[3].Connection = this.Connection;
+            this._commandCollection[3].CommandText = "INSERT INTO MealSetDishDetail\r\n                         (MeatSetID, DishID)\r\nVALU" +
+                "ES        (@MeatSetID,@DishID)";
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MeatSetID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "MeatSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@DishID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "DishID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -18871,7 +18900,7 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual DataAccess.MealSetDishDetailDataTable GetDataByMealSetID(int MeatSetID) {
-            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand = this.CommandCollection[2];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(MeatSetID));
             DataAccess.MealSetDishDetailDataTable dataTable = new DataAccess.MealSetDishDetailDataTable();
             this.Adapter.Fill(dataTable);
@@ -18979,9 +19008,34 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, false)]
+        public virtual int DeleteMealSetDish(int MealSetID, int DishID) {
+            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[1];
+            command.Parameters[0].Value = ((int)(MealSetID));
+            command.Parameters[1].Value = ((int)(DishID));
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
         public virtual int InsertMealSetDish(int MeatSetID, int DishID) {
-            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[2];
+            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[3];
             command.Parameters[0].Value = ((int)(MeatSetID));
             command.Parameters[1].Value = ((int)(DishID));
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
@@ -19148,7 +19202,7 @@ WHERE        (TH.TransactionHistoryID = @TransactionHistoryID)";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[2];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = @"SELECT        MealSet.MealSetID, MealSet.Name AS MealSetName, MealSet.Image AS MealSetImage, MealSet.Description AS MealSetDescription, MealSet.UsedTime, 
@@ -19160,6 +19214,18 @@ FROM            MealSet INNER JOIN
 WHERE        (MealSet.MealSetID = @MealSetID)";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MealSetID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "MealSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = @"SELECT        MealSet.MealSetID, MealSet.Name AS MealSetName, MealSet.Image AS MealSetImage, MealSet.Description AS MealSetDescription, MealSet.UsedTime, 
+                         MealSet.CanEatMore, MealSetDishDetail.MealSetDishDetalID, Dish.DishID, Dish.Name AS DishName, Dish.DishTypeID, Dish.Description AS DishDescription, 
+                         Dish.Image AS DishImage
+FROM            MealSet INNER JOIN
+                         MealSetDishDetail ON MealSet.MealSetID = MealSetDishDetail.MeatSetID INNER JOIN
+                         Dish ON MealSetDishDetail.DishID = Dish.DishID
+WHERE        (MealSet.MealSetID = @MealSetID) AND (Dish.DishID = @DishID)";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MealSetID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "MealSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@DishID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "DishID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -19169,6 +19235,19 @@ WHERE        (MealSet.MealSetID = @MealSetID)";
         public virtual DataAccess.MealSetDishInfoDataTable GetDataByMealSetID(int MealSetID) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(MealSetID));
+            DataAccess.MealSetDishInfoDataTable dataTable = new DataAccess.MealSetDishInfoDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual DataAccess.MealSetDishInfoDataTable GetDataByMealSetIDDishID(int MealSetID, int DishID) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(MealSetID));
+            this.Adapter.SelectCommand.Parameters[1].Value = ((int)(DishID));
             DataAccess.MealSetDishInfoDataTable dataTable = new DataAccess.MealSetDishInfoDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;

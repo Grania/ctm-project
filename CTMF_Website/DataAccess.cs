@@ -39,6 +39,21 @@ namespace CTMF_Website
 
 namespace CTMF_Website.DataAccessTableAdapters
 {
+	public partial class AccountTableAdapter
+	{
+		public void AttachTransaction(System.Data.SqlClient.SqlTransaction t)
+		{
+			this.Adapter.InsertCommand.Transaction = t;
+			this.Adapter.UpdateCommand.Transaction = t;
+			this.Adapter.DeleteCommand.Transaction = t;
+			foreach (System.Data.SqlClient.SqlCommand cmd
+					 in this.CommandCollection)
+			{
+				cmd.Transaction = t;
+			}
+		}
+	}
+
 	public partial class UserTypeTableAdapter
 	{
 		public void AttachTransaction(System.Data.SqlClient.SqlTransaction t)
