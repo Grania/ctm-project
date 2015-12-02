@@ -277,7 +277,7 @@ namespace CTMF_Website.Controllers
 					var sourcePath = HttpContext.Server.MapPath(model.Image);
 					var destinationPath = HttpContext.Server.MapPath(savePath);
 
-					System.IO.File.Move(sourcePath, destinationPath);
+					//System.IO.File.Copy(sourcePath, destinationPath);
 
 					string oldImage = dt.Rows[0]["Image"].ToString();
 					if (!string.IsNullOrEmpty(oldImage))
@@ -286,6 +286,8 @@ namespace CTMF_Website.Controllers
 						if(System.IO.File.Exists(oldImagePath))
 						System.IO.File.Delete(oldImagePath);
 					}
+
+					System.IO.File.Copy(sourcePath, destinationPath);
 				}
 			}
 			else
