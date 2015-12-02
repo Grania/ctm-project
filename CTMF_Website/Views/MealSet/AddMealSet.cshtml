@@ -15,7 +15,7 @@
 	$(document).ready(function () {
 		$('#file-upload').fileupload({
 			dataType: 'json',
-			url: '/MealSet/UploadImage',
+			url: '@Url.Action("UploadImage", "MealSet")',
 			autoUpload: true,
 			done: function (e, data) {
 				document.getElementById("mealset-img").src = ".." + data.result.fileName;

@@ -157,14 +157,14 @@ namespace CTMF_Website.Webservice
 		}
 
 		[WebMethod, SoapHeader("soapHeader")]
-		public string RequestSync(string syncID, string filenames, DateTime requestTime)
+		public string RequestSync(string syncID, string filenames)
 		{
 			if (!authHeader())
 			{
 				throw new Exception(StringResources.E00001);
 			}
 
-			return XmlSync.RequestSync(syncID, filenames, requestTime);
+			return XmlSync.RequestSync(syncID, filenames);
 		}
 	}
 }

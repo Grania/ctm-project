@@ -147,16 +147,17 @@ namespace CTMF_Website.Controllers
 
 			if (!string.IsNullOrEmpty(model.Image))
 			{
-				savePath = DishImagesPath + "\\" + dishName.Replace(" ", "_") + ".jpg";
-				var sourcePath = HttpContext.Server.MapPath(model.Image);
-				var destinationPath = HttpContext.Server.MapPath(savePath);
+				savePath = _sourcePath + dishName.Replace(" ", "_") + ".jpg";
+				var sourcePath = AppDomain.CurrentDomain.BaseDirectory + model.Image;
+				//var destinationPath = HttpContext.Server.MapPath(savePath);
 
-				System.IO.File.Move(sourcePath, destinationPath);
+				System.IO.File.Move(sourcePath, savePath);
 			}
 
 			try
 			{
-				dishAdapter.InsertDish(dishName, dishTypeID, description, savePath, date, updateBy, date);
+				string imgPath = "\\Images\\DishImages\\" + dishName.Replace(" ", "_") + ".jpg";
+				dishAdapter.InsertDish(dishName, dishTypeID, description, imgPath, date, updateBy, date);
 				Log.ActivityLog("Insert into Dish Table: DishName = " + dishName);
 			}
 			catch (Exception ex)
@@ -168,15 +169,20 @@ namespace CTMF_Website.Controllers
 
 		private const int AvatarScreenWidth = 500;
 
-		private const string TempFolder = "/Temp";
-		private const string MapTempFolder = "~" + TempFolder;
-		private const string DishImagesPath = "\\Images\\DishImages";
+		//private const string TempFolder = "/ctmf/Temp";
+		//private const string MapTempFolder = "~" + TempFolder;
+		//private const string DishImagesPath = "\\Images\\DishImages";
 
+		private static readonly string _tempPath = AppDomain.CurrentDomain.BaseDirectory + "\\Temp\\";
+		private static readonly string _sourcePath = AppDomain.CurrentDomain.BaseDirectory + "\\Images\\DishImages\\";
+		[AllowAnonymous]
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public JsonResult UploadImage()
 		{
 			HttpPostedFileBase files = Request.Files[0] as HttpPostedFileBase;
+
+			Log.ActivityLog(files == null ? "null" : "deo' null");
+
 			if (files == null)
 			{
 				var errorData = new
@@ -204,44 +210,45 @@ namespace CTMF_Website.Controllers
 				};
 				return Json(errorData);
 			}
-			var webPath = GetTempSavedFilePath(files);
+			SavedFilePath(files);
 			var successData = new
 			{
 				success = true,
-				fileName = webPath.Replace("/", "\\")
+				fileName = "/Temp/" + files.FileName
 			};
+
 			return Json(successData);
 		}
 
-		private string GetTempSavedFilePath(HttpPostedFileBase file)
+		private string SavedFilePath(HttpPostedFileBase file)
 		{
-			var serverPath = HttpContext.Server.MapPath(TempFolder);
-			if (Directory.Exists(serverPath) == false)
+			//var serverPath = HttpContext.Server.MapPath(TempFolder);
+			if (Directory.Exists(_tempPath) == false)
 			{
-				Directory.CreateDirectory(serverPath);
+				Directory.CreateDirectory(_tempPath);
 			}
 
 			var fileName = Path.GetFileName(file.FileName);
-			fileName = SaveTemporaryAvatarFileImage(file, serverPath, fileName);
+			fileName = SaveTemporaryAvatarFileImage(file, fileName);
 
 			CleanUpTempFolder(1);
-			return Path.Combine(TempFolder, fileName);
+			return _tempPath + fileName;
 		}
 
-		private static string SaveTemporaryAvatarFileImage(HttpPostedFileBase file, string serverPath, string fileName)
+		private static string SaveTemporaryAvatarFileImage(HttpPostedFileBase file, string fileName)
 		{
 			var img = new WebImage(file.InputStream);
 			var ratio = img.Height / (double)img.Width;
 			img.Resize(AvatarScreenWidth, (int)(AvatarScreenWidth * ratio));
 
-			var fullFileName = Path.Combine(serverPath, fileName);
+			string fullFileName = _tempPath + fileName;
 			if (System.IO.File.Exists(fullFileName))
 			{
 				System.IO.File.Delete(fullFileName);
 			}
 
 			img.Save(fullFileName);
-			return Path.GetFileName(img.FileName);
+			return fileName;
 		}
 
 		private void CleanUpTempFolder(int hoursOld)
@@ -249,7 +256,7 @@ namespace CTMF_Website.Controllers
 			try
 			{
 				var currentUtcNow = DateTime.UtcNow;
-				var serverPath = HttpContext.Server.MapPath(TempFolder);
+				var serverPath = _tempPath;
 				if (!Directory.Exists(serverPath)) return;
 				var fileEntries = Directory.GetFiles(serverPath);
 				foreach (var fileEntry in fileEntries)
@@ -338,27 +345,25 @@ namespace CTMF_Website.Controllers
 						return View(model);
 					}
 				}
-				savePath = DishImagesPath + "\\" + dishName.Replace(" ", "_") + ".jpg";
+				savePath = _sourcePath + dishName.Replace(" ", "_") + ".jpg";
 			}
 
 			if (model.Image != null)
 			{
 				if (!StringExtensions.EqualsInsensitive(savePath, model.Image))
 				{
-					savePath = DishImagesPath + "\\" + dishName.Replace(" ", "_") + ".jpg";
-					var sourcePath = HttpContext.Server.MapPath(model.Image);
-					var destinationPath = HttpContext.Server.MapPath(savePath);
-
-					System.IO.File.Move(sourcePath, destinationPath);
+					savePath = _sourcePath + dishName.Replace(" ", "_") + ".jpg";
+					var sourcePath = AppDomain.CurrentDomain.BaseDirectory + model.Image;
 
 					string oldImage = dt.Rows[0]["Image"].ToString();
 					if (!string.IsNullOrEmpty(oldImage))
 					{
-						var oldImagePath = HttpContext.Server.MapPath(oldImage);
+						var oldImagePath = AppDomain.CurrentDomain.BaseDirectory + oldImage;
 						if (System.IO.File.Exists(oldImagePath))
 						System.IO.File.Delete(oldImagePath);
 					}
 
+					System.IO.File.Move(sourcePath, savePath);
 				}
 			}
 			else
@@ -368,7 +373,8 @@ namespace CTMF_Website.Controllers
 
 			try
 			{
-				dishAdapter.UpdateDish(dishName, dishTypeID, description, savePath, updateBy, date, dishID);
+				string imgPath = "\\Images\\DishImages\\" + dishName.Replace(" ", "_") + ".jpg";
+				dishAdapter.UpdateDish(dishName, dishTypeID, description, imgPath, updateBy, date, dishID);
 				Log.ActivityLog("Update to Dish Table: DishID = " + dishID);
 			}
 			catch (Exception ex)

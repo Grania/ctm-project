@@ -16,9 +16,10 @@
 	$(document).ready(function () {
 		$('#file-upload').fileupload({
 			dataType: 'json',
-			url: '/Dish/UploadImage',
+			url: '@Url.Action("UploadImage", "Dish")',
 			autoUpload: true,
 			done: function (e, data) {
+				alert('done');
 				document.getElementById("dish-img").src = ".." + data.result.fileName;
 				$('#pathImage').val(data.result.fileName);
 			}

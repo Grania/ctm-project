@@ -15,7 +15,7 @@
     <AssemblyName>CTMF_Website</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -164,9 +164,26 @@
     <Content Include="Content\jquery.fileupload.css" />
     <Content Include="CSS\app.css" />
     <Content Include="CSS\Schedule.css" />
+    <Content Include="CSS\table.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\body-img.jpg" />
     <Content Include="Images\Calendar\ajax-loader.gif" />
+    <Content Include="Images\DishImages\abc.jpg" />
+    <Content Include="Images\DishImages\Bún_riêu.jpg" />
+    <Content Include="Images\DishImages\Bắp_cải_xào.jpg" />
+    <Content Include="Images\DishImages\Chả_lá_lốt.jpg" />
+    <Content Include="Images\DishImages\Cá_kho.jpg" />
+    <Content Include="Images\DishImages\Dưa_hấu.jpg" />
+    <Content Include="Images\DishImages\Mỳ_xào.jpg" />
+    <Content Include="Images\DishImages\Phở_xào.jpg" />
+    <Content Include="Images\DishImages\Rau_muống_xào.jpg" />
+    <Content Include="Images\DishImages\Súp_cua.jpg" />
+    <Content Include="Images\DishImages\Sữa_chua.jpg" />
+    <Content Include="Images\DishImages\Thịt_băm.jpg" />
+    <Content Include="Images\DishImages\Thịt_lợn_rang.jpg" />
+    <Content Include="Images\DishImages\Đùi_gà_rán.jpg" />
+    <Content Include="Images\MealSetImages\kfc.jpg" />
     <Content Include="Images\no-image.jpg" />
     <Content Include="Images\P1 - Copy.jpg" />
     <Content Include="Images\P1.jpg" />
@@ -184,14 +201,21 @@
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery.fileupload.js" />
     <Content Include="Scripts\jquery.ui.widget.js" />
-    <Content Include="Web.config" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Temp\abc.jpg" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Webservice\WebService.asmx" />
     <Content Include="Views\MealSet\AddMealSet.cshtml" />
     <Content Include="Views\MealSet\EditMealSet.cshtml" />
@@ -221,9 +245,12 @@
     <Content Include="Views\Schedule\EditServingTime.cshtml" />
     <Content Include="Views\Schedule\ViewServingTime.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\MealSet\AddMealSetDish.cshtml" />
+    <Content Include="Views\Shared\_MealSetDish.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\log\" />
+    <Folder Include="Temp2\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -284,7 +311,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>53684</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:53658/</IISUrl>
+          <IISUrl>http://localhost/CTMF_Website</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>http://localhost:53658/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

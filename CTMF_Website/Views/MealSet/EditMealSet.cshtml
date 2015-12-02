@@ -13,7 +13,7 @@
 	$(document).ready(function () {
 		$('#file-upload').fileupload({
 			dataType: 'json',
-			url: '/MealSet/UploadImage',
+			url: '@Url.Action("UploadImage", "MealSet")',
 			autoUpload: true,
 			done: function (e, data) {
 				if (data.result.fileName !== null) {

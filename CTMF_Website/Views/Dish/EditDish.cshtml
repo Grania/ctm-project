@@ -16,7 +16,7 @@
 	$(document).ready(function () {
 		$('#file-upload').fileupload({
 			dataType: 'json',
-			url: '/Dish/UploadImage',
+			url: '@Url.Action("UploadImage", "Dish")',
 			autoUpload: true,
 			done: function (e, data) {
 				if (data.result.fileName !== null) {

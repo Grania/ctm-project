@@ -93,16 +93,18 @@ namespace CTMF_Website.Controllers
 
 			if (!string.IsNullOrEmpty(model.Image))
 			{
-				savePath = DishImagesPath + "\\" + mealSetName.Replace(" ", "_") + ".jpg";
-				var sourcePath = HttpContext.Server.MapPath(model.Image);
-				var destinationPath = HttpContext.Server.MapPath(savePath);
+				savePath = _sourcePath + mealSetName.Replace(" ", "_") + ".jpg";
+				var sourcePath = AppDomain.CurrentDomain.BaseDirectory + model.Image;
 
-				System.IO.File.Move(sourcePath, destinationPath);
+				Log.ActivityLog("savePath : " + savePath + " sourcePath :" + sourcePath);
+
+				System.IO.File.Move(sourcePath, savePath);
 			}
 
 			try
 			{
-				string mealSetID = mealSetAdapter.InsertMealSetScalar(mealSetName, savePath, description, usedTime, canEatMore, date, updateBy, date).ToString();
+				string imgPath = "\\Images\\MealSetImages\\" + mealSetName.Replace(" ", "_") + ".jpg";
+				string mealSetID = mealSetAdapter.InsertMealSetScalar(mealSetName, imgPath, description, usedTime, canEatMore, date, updateBy, date).ToString();
 				int id = int.Parse(mealSetID);
 				XmlSync.SaveMealSetXml(id, mealSetName, usedTime, canEatMore, date, updateBy, date, null);
 				Log.ActivityLog("Insert into MealSet Table: MealSetName = " + mealSetName);
@@ -116,9 +118,12 @@ namespace CTMF_Website.Controllers
 
 		private const int AvatarScreenWidth = 500;
 
-		private const string TempFolder = "/Temp2";
-		private const string MapTempFolder = "~" + TempFolder;
-		private const string DishImagesPath = "\\Images\\MealSetImages";
+		//private const string TempFolder = "/Temp2";
+		//private const string MapTempFolder = "~" + TempFolder;
+		//private const string DishImagesPath = "\\Images\\MealSetImages";
+
+		private static readonly string _tempPath = AppDomain.CurrentDomain.BaseDirectory + "\\Temp\\";
+		private static readonly string _sourcePath = AppDomain.CurrentDomain.BaseDirectory + "\\Images\\MealSetImages\\";
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -152,44 +157,45 @@ namespace CTMF_Website.Controllers
 				};
 				return Json(errorData);
 			}
-			var webPath = GetTempSavedFilePath(files);
+
+			SavedFilePath(files);
 			var successData = new
 			{
 				success = true,
-				fileName = webPath.Replace("/", "\\")
+				fileName = "/Temp/" + files.FileName
 			};
 			return Json(successData);
 		}
 
-		private string GetTempSavedFilePath(HttpPostedFileBase file)
+		private string SavedFilePath(HttpPostedFileBase file)
 		{
-			var serverPath = HttpContext.Server.MapPath(TempFolder);
-			if (Directory.Exists(serverPath) == false)
+			//var serverPath = HttpContext.Server.MapPath(TempFolder);
+			if (Directory.Exists(_tempPath) == false)
 			{
-				Directory.CreateDirectory(serverPath);
+				Directory.CreateDirectory(_tempPath);
 			}
 
 			var fileName = Path.GetFileName(file.FileName);
-			fileName = SaveTemporaryAvatarFileImage(file, serverPath, fileName);
+			fileName = SaveTemporaryAvatarFileImage(file, fileName);
 
 			CleanUpTempFolder(1);
-			return Path.Combine(TempFolder, fileName);
+			return _tempPath + fileName;
 		}
 
-		private static string SaveTemporaryAvatarFileImage(HttpPostedFileBase file, string serverPath, string fileName)
+		private static string SaveTemporaryAvatarFileImage(HttpPostedFileBase file, string fileName)
 		{
 			var img = new WebImage(file.InputStream);
 			var ratio = img.Height / (double)img.Width;
 			img.Resize(AvatarScreenWidth, (int)(AvatarScreenWidth * ratio));
 
-			var fullFileName = Path.Combine(serverPath, fileName);
+			string fullFileName = _tempPath + fileName;
 			if (System.IO.File.Exists(fullFileName))
 			{
 				System.IO.File.Delete(fullFileName);
 			}
 
 			img.Save(fullFileName);
-			return Path.GetFileName(img.FileName);
+			return fileName;
 		}
 
 		private void CleanUpTempFolder(int hoursOld)
@@ -197,7 +203,7 @@ namespace CTMF_Website.Controllers
 			try
 			{
 				var currentUtcNow = DateTime.UtcNow;
-				var serverPath = HttpContext.Server.MapPath(TempFolder);
+				var serverPath = _tempPath;
 				if (!Directory.Exists(serverPath)) return;
 				var fileEntries = Directory.GetFiles(serverPath);
 				foreach (var fileEntry in fileEntries)
@@ -267,27 +273,24 @@ namespace CTMF_Website.Controllers
 					}
 				}
 
-				savePath = DishImagesPath + "\\" + mealSetName.Replace(" ", "_") + ".jpg";
+				savePath = AppDomain.CurrentDomain.BaseDirectory + mealSetName.Replace(" ", "_") + ".jpg";
 			}
 			if (model.Image != null)
 			{
 				if (!StringExtensions.EqualsInsensitive(savePath, model.Image))
 				{
-					savePath = DishImagesPath + "\\" + mealSetName.Replace(" ", "_") + ".jpg";
-					var sourcePath = HttpContext.Server.MapPath(model.Image);
-					var destinationPath = HttpContext.Server.MapPath(savePath);
-
-					//System.IO.File.Copy(sourcePath, destinationPath);
+					savePath = _sourcePath + mealSetName.Replace(" ", "_") + ".jpg";
+					var sourcePath = AppDomain.CurrentDomain.BaseDirectory + model.Image;
 
 					string oldImage = dt.Rows[0]["Image"].ToString();
 					if (!string.IsNullOrEmpty(oldImage))
 					{
-						var oldImagePath = HttpContext.Server.MapPath(oldImage);
+						var oldImagePath = AppDomain.CurrentDomain.BaseDirectory + oldImage;
 						if(System.IO.File.Exists(oldImagePath))
 						System.IO.File.Delete(oldImagePath);
 					}
 
-					System.IO.File.Copy(sourcePath, destinationPath);
+					System.IO.File.Move(sourcePath, savePath);
 				}
 			}
 			else
@@ -297,7 +300,8 @@ namespace CTMF_Website.Controllers
 
 			try
 			{
-				mealSetAdapter.UpdateMealSet(mealSetName, savePath, description, canEatMore, updateBy, date, mealSetID);
+				string imgPath = "\\Images\\MealSetImages\\" + mealSetName.Replace(" ", "_") + ".jpg";
+				mealSetAdapter.UpdateMealSet(mealSetName, imgPath, description, canEatMore, updateBy, date, mealSetID);
 				XmlSync.SaveMealSetXml(mealSetID, mealSetName, usedTime, canEatMore, date, updateBy, date, null);
 				Log.ActivityLog("Update to MealSet Table: MealSetID = " + mealSetID);
 			}
