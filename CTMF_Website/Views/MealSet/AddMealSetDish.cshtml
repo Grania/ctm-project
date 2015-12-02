@@ -36,6 +36,16 @@
 			color: #000;
 		}
 </style>
+<script>
+	$(document).ready(function () {
+		$('.remove-meal-set-dish').click(function () {
+			var r = confirm('Bạn có muốn xóa món ăn ' + $(this).attr('value') + ' ?');
+			if (r == true) {
+				$(this).parent().parent().remove();
+			}
+		})
+	})
+</script>
 <div class="container">
 	<div class="row text-center" style="width: 30%; float: left; box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5); background-color:#fff">
 		<p style="font-size:20px;"><strong>@Model.MealSetName</strong></p>
@@ -51,13 +61,29 @@
 		</div>
 		@foreach (System.Data.DataRow row in listMealSetDish.Rows)
 		{
-			<p>@row["DishName"]</p>
+			<div>
+				<div class="col-xs-6 col-sm-6 col-md-6">
+					<p>@row["DishName"]</p>
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-6">
+					@Ajax.ActionLink("Xóa", "Remove",
+					new { mealSetID = @Model.MealSetID, dishID = @row["DishID"] },
+					new AjaxOptions
+						{
+							HttpMethod = "GET",
+							UpdateTargetId = "mealset-dish",
+							InsertionMode = InsertionMode.InsertAfter
+						},
+											new { @class = "btn btn-link remove-meal-set-dish", @id = "remove-meal-set-dish", @value = @row["DishName"] })
+				</div>
+			</div>
 		}
 		<div id="mealset-dish">
 
 		</div>
 	</div>
 	<div class="row text-center" style="width:70%;float:right">
+
 		@foreach (System.Data.DataRow row in listDish.Rows)
 		{
 			<div class="col-sm-3">
