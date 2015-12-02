@@ -38,13 +38,18 @@
 </style>
 <script>
 	$(document).ready(function () {
+		setRemoveEvent();
+	})
+
+	function setRemoveEvent() {
+		$('.remove-meal-set-dish').unbind();
 		$('.remove-meal-set-dish').click(function () {
 			var r = confirm('Bạn có muốn xóa món ăn ' + $(this).attr('value') + ' ?');
 			if (r == true) {
 				$(this).parent().parent().remove();
 			}
-		})
-	})
+		});
+	}
 </script>
 <div class="container">
 	<div class="row text-center" style="width: 30%; float: left; box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5); background-color:#fff">
@@ -74,7 +79,7 @@
 							UpdateTargetId = "mealset-dish",
 							InsertionMode = InsertionMode.InsertAfter
 						},
-											new { @class = "btn btn-link remove-meal-set-dish", @id = "remove-meal-set-dish", @value = @row["DishName"] })
+					new { @class = "btn btn-link remove-meal-set-dish", @id = "remove-meal-set-dish", @value = @row["DishName"] })
 				</div>
 			</div>
 		}
@@ -105,7 +110,8 @@
 						{
 							HttpMethod = "GET",
 							UpdateTargetId = "mealset-dish",
-							InsertionMode = InsertionMode.InsertAfter
+							InsertionMode = InsertionMode.InsertAfter,
+							OnSuccess = "setRemoveEvent()"
 						},
 					new { @class = "btn", @id = "add-mealSet-Dish" })
 				</div>
