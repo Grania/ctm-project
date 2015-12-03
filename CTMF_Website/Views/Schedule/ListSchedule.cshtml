@@ -1,0 +1,305 @@
+﻿@model CTMF_Website.Models.ScheduleJsonModel
+@{
+	ViewBag.Title = "ListSchedule";
+}
+
+<script type="text/javascript">
+	var $dayArray;
+	var _selectedDay;
+	var _selectedMonth;
+	var _selectedYear;
+
+	$(document).ready(function () {
+		initSchedule();
+		$('[data-toggle="tooltip"]').tooltip();
+	});
+
+	function initSchedule() {
+		var $monthDdl = $('#schedule-month-ddl');
+		var $yearDdl = $('#schedule-year-ddl');
+
+		for (i = 1; i <= 12; i++) {
+			$monthDdl.append($('<option></option>')
+				.attr("value", i).text("Tháng " + i));
+		}
+
+		$.ajax({
+			url: '/Schedule/GetDateRange',
+			success: function (data) {
+				if (data == 'error') {
+					alert('Có lỗi khi lấy dữ liệu.');
+					return false;
+				}
+
+				//format mm-yyyy
+				var minDate = data[0];
+				var maxDate = data[1];
+				var curDate = data[2];
+
+				var splitMinDate = minDate.split('-');
+				var minYear = parseInt(splitMinDate[0]);
+
+				var splitMaxDate = maxDate.split('-');
+				var maxYear = parseInt(splitMaxDate[0]);
+
+				var splitCurDate = curDate.split('-');
+				var curYear = parseInt(splitCurDate[0]);
+				var curMonth = parseInt(splitCurDate[1]);
+
+				for (i = minYear; i <= maxYear + 1; i++) {
+					$yearDdl.append($('<option></option>')
+						.attr("value", i).text("Năm " + i));
+				}
+
+				$monthDdl.val(curMonth);
+				$yearDdl.val(curYear);
+
+				paintDayList(curMonth, curYear);
+			}
+		});
+	}
+
+	function setEvent() {
+		var $monthDdl = $('#schedule-month-ddl');
+		var $yearDdl = $('#schedule-year-ddl');
+
+		$monthDdl.change(function () {
+			var selectedMonth = parseInt($monthDdl.val().toString());
+			var selectedYear = parseInt($yearDdl.val().toString());
+
+			paintDayList(selectedMonth, selectedYear);
+		});
+
+		$yearDdl.change(function () {
+			$monthDdl.change();
+		});
+
+		for (i = 0; i < $dayArray.length; i++) {
+			(function () {
+				var selectedYear = parseInt($yearDdl.val().toString());
+				var selectedMonth = parseInt($monthDdl.val().toString());
+				var day = i + 1;
+
+				$dayArray[i].click(function () {
+					$.ajax({
+						url: '/Schedule/GetScheduleDateDetail',
+						data: { selectedDay: day, selectedMonth: selectedMonth, selectedYear: selectedYear },
+						tranditional: true,
+						success: function (result) {
+							if (result == 'error') {
+								alert("Có lỗi khi lấy dữ liệu.");
+								return false;
+							}
+
+							_selectedDay = day;
+							_selectedMonth = selectedMonth;
+							_selectedYear = selectedYear;
+
+							var $divDateDetail = $('#date-detail');
+							if (!$divDateDetail.hasClass('is-filled')) {
+								fillDateDetail();
+							}
+
+							$('.serving-time-table tr').empty();
+
+							var label = 65;
+							var schedule = result.result;
+							for (j = 0; j < schedule.length; j++) {
+								var $table = $('#serving-time-table-' + schedule[j].ServingTimeID);
+
+								if (schedule[j].MealSetID != null) {
+									var $tr = $('<tr></tr>');
+									$tr.append($('<td></td>').text(String.fromCharCode(label)))
+										.append($('<td></td>').text(schedule[j].Name));
+
+									if (schedule.Image == null) {
+										$tr.append($('<td></td>').append('<img src="/Images/no-image.jpg" height="150px" width="150px">'));
+									} else {
+										$tr.append($('<td></td>').append($('<img></img>').attr('src', schedule[j].Image)
+											.css({
+												height: '150px',
+												width: '150px'
+											})));
+									}
+
+									$tr.append($('<td></td>').text(schedule[j].Description));
+
+									label++;
+
+									$table.append($tr);
+								}
+								else if (!schedule[j].IsDayOn) {
+									var $table = $('#serving-time-table-' + schedule[j].ServingTimeID);
+
+									$table.append('<tr><td></td><td></td><td><h2>Nghỉ</h2></td><td></td></tr>')
+								}
+							}
+						}
+					})
+				});
+			}());
+		}
+	}
+
+	function fillDateDetail() {
+		$.ajax({
+			url: '/Schedule/GetEatingTime',
+			async: false,
+			success: function (data) {
+				if (data == 'error') {
+					alert('Có lỗi khi lấy dữ liệu.');
+					return false;
+				}
+
+				var $divDateDetail = $('#date-detail');
+				var servingTime = data.servingTime;
+				for (j = 0; j < servingTime.length; j++) {
+					var $span = $('<span></span>').css({
+						'font-size': '25px'
+					}).text(servingTime[j].Name + " Thời gian:" + servingTime[j].StartTimeStr
+						+ (servingTime[j].EndTimeStr == null ? "" : "-" + servingTime[j].EndTimeStr));
+
+					var $addDiv = $('<div></div>').attr('value', servingTime[j].ServingTimeID)
+						.css({
+							float: 'right'
+						})
+						.append('<a class="btn btn-primary">Cập nhật lịch</a>')
+					setAddDivEvent($addDiv);
+
+					var $table = $('<table></table>').css({
+						width: '100%',
+						'border-collapse': 'collapse',
+						border: '1px solid black'
+					}).attr('id', 'serving-time-table-' + servingTime[j].ServingTimeID)
+						.attr('class', 'serving-time-table')
+						.append('<col width="5%"/><col width="25%"/><col width="25%"/><col width="45%"/>');
+					// [label] [name] [image] [description]
+
+					$divDateDetail.append($span);
+					$divDateDetail.append($addDiv);
+					$divDateDetail.append($table);
+				}
+
+				$divDateDetail.addClass('is-filled');
+			}
+		});
+	}
+
+	
+
+	function setAddDivEvent($div) {
+		$div.click(function () {
+			var ServingTimeID = parseInt($div.attr('value').toString());
+
+			$.ajax({
+				url: '/Schedule/GetScheduleID',
+				data: { selectedDay: _selectedDay, selectedMonth: _selectedMonth, selectedYear: _selectedYear, ServingTimeID: ServingTimeID },
+				tranditional: true,
+				success: function (result) {
+					if (result == 'error') {
+						alert('Có lỗi khi lấy dữ liệu.');
+						return false;
+					}
+
+					//alert(result.ScheduleID);
+					window.location.href = '/Schedule/EditSchedule?ScheduleID=' + result.ScheduleID;
+				}
+			});
+		});
+	}
+
+	function paintDayList(selectedMonth, selectedYear) {
+		var date = new Date(selectedYear + '-' + (selectedMonth) + '-01');
+
+		var $dayList = $('#schedule-day-list');
+		$dayList.empty();
+
+		$dayArray = new Array();
+		while ((date.getMonth() + 1) == selectedMonth) {
+
+			var $day = $('<div></div>').css({
+				width: '100%',
+				height: '30px',
+				border: '1px solid black',
+				'line-height': '30px'
+			}).text('Ngày ' + (date.getDate()));
+
+			$day.append($('<span></span>').css({
+				float: 'right'
+			}));
+
+			$dayList.append($day);
+			$dayArray.push($day);
+
+			date.setDate(date.getDate() + 1);
+		}
+
+		$.ajax({
+			url: '/Schedule/GetScheduleMonthDetail',
+			data: { selectedMonth: selectedMonth, selectedYear: selectedYear },
+			traditional: true,
+			success: function (result) {
+				var resultVar = result.value;
+				if (resultVar == "error") {
+					alert("Có lỗi khi lấy dữ liệu. (134)");
+					return false;
+				}
+
+				//alert(result.value);
+				for (i = 0; i < $dayArray.length; i++) {
+					var ch = result.value.charAt(i);
+
+					$dayArray[i].css({
+						'background-color': getColorFromChar(ch)
+					});
+
+					$dayArray[i].children('span').text(getTextFromChar(ch));
+				}
+
+				setEvent();
+			}
+		});
+	}
+
+	function getColorFromChar(ch) {
+		if (ch == 'N') {
+			return '#FFFFFF';
+		}
+		else if (ch == 'X') {
+			return '#751947';
+		}
+		else {
+			return 'yellow';
+		}
+	}
+
+	function getTextFromChar(ch) {
+		if (ch == 'N') {
+			return 'Chưa có lịch';
+		}
+		else if (ch == 'X') {
+			return 'Nghỉ';
+		}
+		else {
+			return 'Có lịch cho ' + ch + ' suất';
+		}
+	}
+</script>
+
+<link href="~/CSS/table.css" rel="stylesheet" />
+<div class="container" style="background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
+	<legend class="table-title">Quản lý lịch ăn</legend>
+	<div>
+		<div class="table-body">
+			<div id="schedule-date-list" style="width:30%; height: 500px; border: 1px solid black; float: left">
+				<div id="schedule-month-picker" style="width: 100%; height: 30px; border: 1px solid black; border-width: 0px 0px 1px 0px; text-align: center; line-height: 30px">
+					<select id="schedule-month-ddl"></select>
+					<select id="schedule-year-ddl"></select>
+				</div>
+				<div id="schedule-day-list" style="overflow-y: auto; width: 100%; height: 470px"></div>
+			</div>
+			<div id="date-detail" style="width: 70%; border: 1px solid black; float: right">
+			</div>
+		</div>
+	</div>
+</div>
