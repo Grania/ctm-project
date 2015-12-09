@@ -34,6 +34,7 @@
 @{
 	string username = AccountInfo.GetUserName(Request);
 	string role = AccountInfo.GetUserRole(Request);
+	string title = ViewBag.Title;
 }
 <body>
 	<header>
@@ -48,7 +49,9 @@
 					<a href="@Url.Action("HomePage", "Home")" class="navbar-brand">Cafeteria</a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
-					<div class="sub-menu nav navbar-nav">
+					@if (title.Equals("HomePage"))
+					{
+						<div class="sub-menu nav navbar-nav">
 							<ul class="nav navbar-nav">
 								<li>
 									<a href="#about">Giới thiệu</a>
@@ -61,6 +64,7 @@
 								</li>
 							</ul>
 						</div>
+					}
 					<div class="nav navbar-nav navbar-right">
 						@if (Request.IsAuthenticated)
 						{
