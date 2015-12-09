@@ -11,11 +11,6 @@ namespace CTMF_Website.Controllers
 	public class TransactionController : Controller
 	{
 		DataTable transactionDT = new DataTable();
-		[AllowAnonymous]
-		public ActionResult TransactionHistory()
-		{
-			return View();
-		}
 
 		[AllowAnonymous]
 		public ActionResult RechargeMoney()
@@ -75,6 +70,24 @@ namespace CTMF_Website.Controllers
 			try
 			{
 				transactionDT = transactionAdapter.GetData();
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+
+			return View(transactionDT);
+		}
+
+		[AllowAnonymous]
+		public ActionResult TransactionHistory()
+		{
+			TransactionHistoryListTableAdapter transactionAdapter
+				= new TransactionHistoryListTableAdapter();
+			string username = AccountInfo.GetUserName(Request);
+			try
+			{
+				transactionDT = transactionAdapter.GetDataByUsername(username);
 			}
 			catch (Exception ex)
 			{
