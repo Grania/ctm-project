@@ -2,5 +2,53 @@
     ViewBag.Title = "TransactionHistory";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/CSS/table.css" rel="stylesheet" />
 
-<h2>TransactionHistory</h2>
+<div class="container" style="background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
+	<legend class="table-title">Danh sách giao dịch</legend>
+	<div>
+		<div class="table-body">
+			@*<div style="margin-bottom:20px;">
+				<div class="pull-right">
+					@using (Html.BeginForm("ListTransaction", "Transaction", FormMethod.Get))
+					{
+						<div class="input-group">
+							<span class="input-group-btn">
+								<button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+							</span>
+							<input type="text" class="form-control" name="search" placeholder="Tìm kiếm" style="min-width:300px;">
+						</div>
+					}
+				</div>
+			</div>*@
+			<table class="table table-bordered table-hover table-condensed">
+				<thead>
+					<tr>
+						<th>STT</th>
+						<th>Tên đăng nhập</th>
+						<th>Loại giao dịch</th>
+						<th>Giá trị giao dịch</th>
+						<th>Ngày giao dịch</th>
+					</tr>
+				</thead>
+				<tbody>
+					@{
+						int count = 0;
+					}
+					@foreach (System.Data.DataRow row in Model.Rows)
+					{
+						count++;
+						string date = ((DateTime)row["InsertedDate"]).ToString("dd/MM/yyyy");
+						<tr>
+							<td>@count</td>
+							<td>@row["Username"]</td>
+							<td>@row["Name"]</td>
+							<td>@row["Value"]</td>
+							<td>@date</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
