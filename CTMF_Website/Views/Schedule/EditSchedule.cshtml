@@ -53,6 +53,11 @@
 					return false;
 				}
 
+				if (result == 'duplicate') {
+					alert('Thực đơn đã tồn tại, không thể thêm vào.');
+					return false;
+				}
+
 				if (result.result == 'done') {
 					location.reload(false);
 				}

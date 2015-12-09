@@ -248,6 +248,7 @@
 				//alert(result.value);
 				for (i = 0; i < $dayArray.length; i++) {
 					var ch = result.value.charAt(i);
+					//var ch = result.value.charCodeAt(i);
 
 					$dayArray[i].css({
 						'background-color': getColorFromChar(ch)
@@ -281,7 +282,9 @@
 			return 'Nghỉ';
 		}
 		else {
-			return 'Có lịch cho ' + ch + ' suất';
+			var number = ch.charCodeAt(0);
+			number = number - 33;
+			return 'Có lịch cho ' + number + ' suất';
 		}
 	}
 </script>
