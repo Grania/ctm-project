@@ -140,7 +140,7 @@ nav {
 	}
 
 #signup {
-	margin-left: 10px;
+	/*margin-left: 10px;*/
 }
 
 #signin {
@@ -151,7 +151,6 @@ nav {
 	border-bottom: 4px solid #04A3ED;
 	width: 100%;
 	margin-bottom: 50px;
-	height: auto;
 	padding: 0 10px;
 }
 
@@ -176,13 +175,18 @@ nav {
 		}
 
 .navbar-header > a {
-	padding: 0px;
-	margin: 0px;
+	/*padding: 0px;
+	margin: 0px;*/
+	margin-top: 10px;
 	text-decoration: none;
 	color: white;
 	font-size: 50px;
-	padding: 5px 30px;
+	/*padding: 5px 30px;*/
 	font-weight: 700;
+}
+
+.navbar-header > a:hover{
+	color: white;
 }
 /*End sub-menu*/
 #main-menu > li > a {
