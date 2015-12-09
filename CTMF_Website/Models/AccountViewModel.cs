@@ -41,7 +41,7 @@ namespace CTMF_Website.Models
 		[Display(Name = "Họ và tên")]
 		public string Name { get; set; }
 
-		[EmailAddress(ErrorMessage = "Invalid Email Address")]
+		[EmailAddress(ErrorMessage = "Email Không hợp lệ")]
 		[Display(Name = "Email")]
 		public string Email { get; set; }
 	}
