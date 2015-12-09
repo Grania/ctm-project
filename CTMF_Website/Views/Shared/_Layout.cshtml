@@ -17,6 +17,18 @@
 		$(document).ready(function () {
 			$(".dropdown-toggle").dropdown();
 		});
+
+		$(function () {
+			$(".dropdown").hover(
+					function () {
+						$('.dropdown-menu', this).stop(true, true).fadeIn("fast");
+						$(this).toggleClass('open');
+					},
+					function () {
+						$('.dropdown-menu', this).stop(true, true).fadeOut("fast");
+						$(this).toggleClass('open');
+					});
+		});
 	</script>
 </head>
 @{
@@ -25,120 +37,198 @@
 }
 <body>
 	<header>
-		<div id="header">
-			<div id="top-header" style="background-color: #9E1325; ">
-				<div class="container">
-					<div>
-						<a class="navbar-brand" href="~/Home/HomePage"><img class="logo-com" src="" alt="logo"></a>
-					</div>
-					<div id="loginPartial" class="pull-right">
-						@if (Request.IsAuthenticated)
-						{
-							<div class="dropdown">
-								<button id="personal" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-									@username
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li>
-										@Html.ActionLink("Thông tin cá nhân", "UserInfo", "Account")
-									</li>
-									<li>
-										@Html.ActionLink("Lịch sử giao dịch", "TransactionHistory", "Transaction")
-									</li>
-									<li>
-										@using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
-										{
-											@Html.AntiForgeryToken()
-											<a href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a>
-										}
-									</li>
-								</ul>
-							</div>
-						}
-						else
-						{
-							@Html.Partial("_LoginPartial", new CTMF_Website.Models.LoginViewModel())
-						}
-					</div>
+		<div class="menu">
+			<div class="container">
+				<div class="navbar-header">
+					<a href="@Url.Action("HomePage", "Home")">Cafeteria</a>
+				</div>
+				@*<div class="sub-menu" style="margin-left: 500px;">
+					<ul class="nav navbar-nav navbar-left">
+						<li>
+							<a href="@Url.Action("", "")">Giới thiệu</a>
+						</li>
+						<li>
+							<a href="@Url.Action("", "")">Nhóm</a>
+						</li>
+						<li>
+							<a href="@Url.Action("", "")">ABCXYZ</a>
+						</li>
+					</ul>
+				</div>*@
+				<div class="nav navbar-nav navbar-right">
+					@if (Request.IsAuthenticated)
+					{
+						<div class="dropdown">
+							<button id="btn-user-info" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								@username
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="@Url.Action("UserInfo", "Account")" class="btn btn-link">Thông tin cá nhân</a>
+								</li>
+								<li>
+									<a href="@Url.Action("TransactionHistory", "Transaction")" class="btn btn-link">Lịch sử giao dịch</a>
+								</li>
+								<li>
+									@using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
+									{
+										@Html.AntiForgeryToken()
+										@*<a href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a>*@
+										<input type="submit" class="btn btn-link" value="Đăng xuất" />
+									}
+								</li>
+							</ul>
+						</div>
+					}
+					else
+					{
+						@Html.Partial("_LoginPartial", new CTMF_Website.Models.LoginViewModel())
+					}
 				</div>
 			</div>
-			<nav id="main-navbar" class="navbar navbar-default">
-				<div class="container">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#MainNavbar">
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-					</div>
-					<div class="collapse navbar-collapse" id="MainNavbar">
-						<ul id="main-menu" class="nav navbar-nav">
-							<li>
-								@Html.ActionLink("Trang chủ", "HomePage", "Home")
-							</li>
-							<li>
-								@Html.ActionLink(
-									linkText: "Thực đơn",
-									actionName: "ViewDish",
-									controllerName: "Dish"
-								)
-							</li>
-							@if (Request.IsAuthenticated)
-							{
-								<li>
-									@Html.ActionLink("Biểu lịch", "Schedule", "Schedule")
-								</li>
-							}
-							<li>
-								@Html.ActionLink("Tin tức", "ViewAnnounce", "Announce")
-							</li>
-							@if (Request.IsAuthenticated && role.Equals("4"))
-							{
-								<li>
-									@Html.ActionLink("Quản lý người dùng", "ListUser", "Account")
-								</li>
-							}
-							@if (Request.IsAuthenticated && role.Equals("3"))
-							{
-								<li>
-									<a class="dropdown-toggle" data-toggle="dropdown">
-										Quản lý
-										<span class="caret"></span>
-									</a>
-									<ul class="dropdown-menu">
-										<li>
-											@Html.ActionLink("Món ăn", "ListDish", "Dish")
-										</li>
-										<li>
-											@Html.ActionLink("Suất ăn", "ListMealSet", "MealSet")
-										</li>
-										<li>
-											@Html.ActionLink("Biểu lịch", "ListSchedule", "Schedule")
-										</li>
-										<li>
-											@Html.ActionLink("Thời gian phục vụ", "ViewServingTime", "Schedule")
-										</li>
-										<li>
-											@Html.ActionLink("Tin tức", "ViewAnnounce", "Announce")
-										</li>
-										<li>
-											@Html.ActionLink("Giao dịch", "ListTransaction", "Transaction")
-										</li>
-									</ul>
-								</li>
-							}
-						</ul>
-					</div>
-				</div>
-			</nav>
 		</div>
 	</header>
-
+	<nav class="main-menu">
+		<ul>
+			<li>
+				<a href="@Url.Action("HomePage", "Home")">
+					<i class="fa fa-home fa-2x"><span class="glyphicon glyphicon-home"></span></i>
+					<span class="nav-text">
+						Trang chủ
+					</span>
+				</a>
+			</li>
+			<li class="has-subnav">
+				<a href="@Url.Action("ViewDish", "Dish")">
+					<i class="fa fa-laptop fa-2x"><span class="glyphicon glyphicon-th-list"></span></i>
+					<span class="nav-text">
+						Danh sách món ăn
+					</span>
+				</a>
+			</li>
+			@if (Request.IsAuthenticated)
+			{
+				<li class="has-subnav">
+					<a href="@Url.Action("Schedule", "Schedule")">
+						<i class="fa fa-list fa-2x"><span class="glyphicon glyphicon-calendar"></span></i>
+						<span class="nav-text">
+							Biểu lịch
+						</span>
+					</a>
+				</li>
+			}
+			<li class="has-subnav">
+				<a href="@Url.Action("ViewAnnounce", "Announce")">
+					<i class="fa fa-folder-open fa-2x"><span class="glyphicon glyphicon-bullhorn"></span></i>
+					<span class="nav-text">
+						Tin tức
+					</span>
+				</a>
+			</li>
+			@if (Request.IsAuthenticated && role.Equals("4"))
+			{
+				<li class="has-subnav">
+					<a href="@Url.Action("ListUser", "Account")">
+						<i class="fa fa-list fa-2x"><span class="glyphicon glyphicon-user"></span></i>
+						<span class="nav-text">
+							Quản lý người dùng
+						</span>
+					</a>
+				</li>
+			}
+			@if (Request.IsAuthenticated && role.Equals("3"))
+			{
+				<li class=" dropdown has-subnav">
+					<a style="cursor: pointer">
+						<i class="fa fa-list fa-2x"><span class="glyphicon glyphicon-list-alt"></span></i>
+						<span class="nav-text">
+							Quản lý
+							<span class="caret"></span>
+						</span>
+					</a>
+					<div class="dropdown-menu" style="border-radius: 0">
+						<ul>
+							<li>
+								<a href="@Url.Action("ListDish", "Dish")">
+									<i class="fa fa-list fa-2x"></i>
+									<span class="nav-text">
+										Quản lý món ăn
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="@Url.Action("ListMealSet", "MealSet")">
+									<i class="fa fa-list fa-2x"></i>
+									<span class="nav-text">
+										Quản lý suất ăn
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="@Url.Action("ListSchedule", "Schedule")">
+									<i class="fa fa-list fa-2x"></i>
+									<span class="nav-text">
+										Quản lý biểu lịch
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="@Url.Action("ViewServingTime", "Schedule")">
+									<i class="fa fa-list fa-2x"></i>
+									<span class="nav-text">
+										Thời gian phục vụ
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="@Url.Action("ViewAnnounce", "Announce")">
+									<i class="fa fa-list fa-2x"></i>
+									<span class="nav-text">
+										Quản lý tin tức
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="@Url.Action("ListTransaction", "Transaction")">
+									<i class="fa fa-list fa-2x"></i>
+									<span class="nav-text">
+										Quản lý giao dịch
+									</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+			}
+		</ul>
+	</nav>
 	@RenderBody()
-
-	<footer class="text-center">
-		<p>FPT University Cafeteria</p>
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<ul class="list-inline">
+						<li>
+							<a href="#">Trang chủ</a>
+						</li>
+						<li class="footer-menu-divider">&sdot;</li>
+						<li>
+							<a href="#about">Giới thiệu</a>
+						</li>
+						<li class="footer-menu-divider">&sdot;</li>
+						<li>
+							<a href="#portfolio">Nhóm</a>
+						</li>
+						<li class="footer-menu-divider">&sdot;</li>
+						<li>
+							<a href="#contact">ABCXYZ</a>
+						</li>
+					</ul>
+					<p class="copyright text-muted small">&copy; Nhóm phát triển CTMF</p>
+				</div>
+			</div>
+		</div>
 	</footer>
 
 </body>

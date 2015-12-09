@@ -1,7 +1,10 @@
 ﻿@model CTMF_Website.Models.LoginViewModel
 
-<button id="btn-login" class="btn btn-default" data-toggle="modal" data-target="#login"> <span class="glyphicon glyphicon-log-in"></span> Đăng nhập</button>
-<a href="~/Account/Register" id="btn-signup" class="btn btn-default"> <span class="glyphicon glyphicon-user"></span> Đăng ký</a>
+<a href="@Url.Action("Register", "Account")" id="signup" class="btn btn-default"> <span class="glyphicon glyphicon-user"></span> Đăng ký</a>
+<button id="signin" class="btn btn-default" data-toggle="modal" data-target="#login"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</button>
+
+@*<button id="btn-login" class="btn btn-default" data-toggle="modal" data-target="#login"> <span class="glyphicon glyphicon-log-in"></span> Đăng nhập</button>
+<a href="~/Account/Register" id="btn-signup" class="btn btn-default"> <span class="glyphicon glyphicon-user"></span> Đăng ký</a>*@
 <div id="login" class="modal fade" role="dialog">
 	<div class="modal-dialog" style="width:400px">
 		<div class="modal-content">
