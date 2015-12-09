@@ -417,8 +417,12 @@ namespace CTMF_Website.Controllers
 
 					if (AccountDT.Rows.Count == 1)
 					{
-						ModelState.AddModelError("", "Email đã tồn tại");
-						return View(model);
+						if (!AccountDT.Rows[0]["Username"].ToString().Equals(model.Username))
+						{
+							Log.ActivityLog(AccountDT.Rows[0]["Username"].ToString().Equals(model.Username).ToString());
+							ModelState.AddModelError("", "Email đã tồn tại");
+							return View(model);
+						}
 					}
 				}
 			}
