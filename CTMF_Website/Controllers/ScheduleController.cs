@@ -294,10 +294,12 @@ namespace CTMF_Website.Controllers
 					{
 						if (isDayOn)
 						{
-							sb[day] = '0';
+							//sb[day] = '0';
+							sb[day] = (char)33;
 							if (ScheduleMealSetDetailID != null)
 							{
-								sb[day] = '1';
+								//sb[day] = '1';
+								sb[day] = (char)34;
 							}
 						}
 						else
@@ -309,9 +311,9 @@ namespace CTMF_Website.Controllers
 					{
 						if (isDayOn && ScheduleMealSetDetailID != null)
 						{
-							int number = int.Parse(sb[day].ToString());
+							char number = sb[day];
 							number++;
-							sb[day] = number.ToString()[0];
+							sb[day] = number;
 						}
 					}
 				}
@@ -399,6 +401,12 @@ namespace CTMF_Website.Controllers
 				try
 				{
 					ScheduleMealSetDetailTableAdapter scheduleMealSetDetailTA = new ScheduleMealSetDetailTableAdapter();
+
+					DataTable dt = scheduleMealSetDetailTA.GetDataByMealSetIDScheduleID(mealSetID, scheduleID);
+					if (dt.Rows.Count != 0)
+					{
+						return Json("duplicate", JsonRequestBehavior.AllowGet);
+					}
 
 					DateTime now = DateTime.Now;
 					string newScheduleMealSetDetailIDStr = scheduleMealSetDetailTA.InsertScalar(mealSetID, scheduleID, "A", now, now).ToString();
