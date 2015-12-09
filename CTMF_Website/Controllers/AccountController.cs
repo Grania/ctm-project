@@ -409,12 +409,17 @@ namespace CTMF_Website.Controllers
 			if (!string.IsNullOrEmpty(email))
 			{
 				AccountTableAdapter AccountAdapter = new AccountTableAdapter();
-				DataTable AccountDT = AccountAdapter.GetDataByEmail(email);
+				DataTable dt = AccountAdapter.GetDataByUsername(model.Username);
 
-				if (AccountDT.Rows.Count == 1)
+				if (!dt.Rows[0]["Email"].ToString().Equals(email))
 				{
-					ModelState.AddModelError("", "Email đã tồn tại");
-					return View(model);
+					DataTable AccountDT = AccountAdapter.GetDataByEmail(email);
+
+					if (AccountDT.Rows.Count == 1)
+					{
+						ModelState.AddModelError("", "Email đã tồn tại");
+						return View(model);
+					}
 				}
 			}
 
