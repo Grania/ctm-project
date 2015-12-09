@@ -154,7 +154,7 @@
 
 			setCalendarDate(selectedMonth, selectedYear);
 			$.ajax({
-				url: '/Schedule/GetScheduleData',
+				url: '@Url.Action("GetScheduleData", "Schedule")',
 				data: { selectedMonth: selectedMonth, selectedYear: selectedYear },
 				traditional: true,
 				success: function (result) {
@@ -202,7 +202,7 @@
 		});
 
 		$.ajax({
-			url: '/Schedule/GetDateRange',
+			url: '@Url.Action("GetDateRange", "Schedule")',
 			success: function (data) {
 				if (data.length != 3) {
 					disableCalendar('Có lỗi xảy ra.');
@@ -342,7 +342,7 @@
 				var selectedYear = parseInt($('#calendar-month-picker-year').val().toString());
 
 				$.ajax({
-					url: '/Schedule/GetScheduleDateDetail',
+					url: '@Url.Action("GetScheduleDateDetail", "Schedule")',
 					data: { selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: selectedYear },
 					tranditional: true,
 					success: function (data) {
@@ -386,7 +386,7 @@
 
 	function getColorFromChar(ch) {
 		if (ch == 'X') {
-			return '#751947'; //day off color
+			return '#33cc33'; //day off color <= thay vao cai gia tri o day nay`
 		}
 		else if (ch == 'N') {
 			return '#FFFFFF'; //not have in schedule
