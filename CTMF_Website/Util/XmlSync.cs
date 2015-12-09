@@ -473,7 +473,7 @@ namespace CTMF_Website.Util
 				userInfo.Add(new XElement("Username", username));
 				userInfo.Add(new XElement("AmountOfMoney", amountOfMoney));
 				userInfo.Add(new XElement("LastUpdatedMoney", lastUpdatedMoney));
-				userInfo.Add(new XElement("ICafeteriaStaff", isCafeteriaStaff));
+				userInfo.Add(new XElement("IsCafeteriaStaff", isCafeteriaStaff));
 				userInfo.Add(new XElement("IsActive", isActive));
 				userInfo.Add(new XElement("InsertedDate", insertedDate));
 				userInfo.Add(new XElement("LastUpdated", lastUpdated));
