@@ -8,6 +8,9 @@
 @{
 	System.Data.DataTable listDish = ViewData["listDish"] as System.Data.DataTable;
 	System.Data.DataTable listMealSetDish = ViewData["listMealSetDish"] as System.Data.DataTable;
+
+	string max = (string)(Session["maxMealsetDish"]);
+	string exist = (string)(Session["existMealsetDish"]);
 }
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <style>
@@ -40,6 +43,18 @@
 <script>
 	$(document).ready(function () {
 		setRemoveEvent();
+	})
+
+	$(document).ready(function () {
+		if (max !== "") {
+			alert(max);
+		}
+	})
+
+	$(document).ready(function () {
+		if (exist !== "") {
+			alert(exist);
+		}
 	})
 
 	function setRemoveEvent() {
