@@ -66,7 +66,7 @@ namespace CTMF_Website.Controllers
 		{
 			TransactionHistoryListTableAdapter transactionAdapter
 				= new TransactionHistoryListTableAdapter();
-
+			
 			try
 			{
 				transactionDT = transactionAdapter.GetData();

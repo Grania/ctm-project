@@ -14,7 +14,7 @@
 	function fillMealSetDdl($ddl) {
 		if (mealSetVar == null) {
 			$.ajax({
-				url: '/Schedule/GetMeatSetForDDL',
+				url: '@Url.Action("GetMeatSetForDDL", "Schedule")',
 				tranditional: true,
 				async: false,
 				success: function (data) {
@@ -43,7 +43,7 @@
 		}
 
 		$.ajax({
-			url: '/Schedule/AddScheduleMealSet',
+			url: '@Url.Action("AddScheduleMealSet", "Schedule")',
 			tranditional: true,
 			data: { mealSetID: parseInt($mealSetDdl.val().toString()), scheduleID: parseInt(scheduleID.toString()), isDayOn: isDayOn },
 			async: false,
@@ -69,7 +69,7 @@
 		var r = confirm('Bạn muốn xóa thực đơn [' + name + '] ?');
 		if (r == true) {
 			$.ajax({
-				url: '/Schedule/RemoveScheduleMealSet',
+				url: '@Url.Action("RemoveScheduleMealSet", "Schedule")',
 				tranditional: true,
 				data: { scheduleMealSetDetailID: scheduleMealSetDetailID },
 				async: false,
@@ -110,7 +110,7 @@
 			}
 
 			$.ajax({
-				url: '/Schedule/SetIsDayOn',
+				url: '@Url.Action("SetIsDayOn", "Schedule")',
 				tranditional: true,
 				data: { isDayOn: isActive, scheduleID: scheduleID },
 				async: false,
@@ -158,7 +158,7 @@
 							<td>
 								@if (string.IsNullOrEmpty(row["Image"].ToString()))
 								{
-									<img src="~/Images/no-image.jpg" height="150px" width="150px">
+									<img src="../Images/no-image.jpg" height="150px" width="150px">
 
 								}
 								else

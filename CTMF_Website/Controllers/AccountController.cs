@@ -469,6 +469,7 @@ namespace CTMF_Website.Controllers
 					accountAdapter.UpdateAccount(email, role, isActive, username);
 					Log.ActivityLog("Update to Account: username = " + username);
 
+					transaction.Commit();
 					XmlSync.SaveUserInfoXml(username, name, userTypeID, amountOfMoney, lastUpdatedMoney, fingerPrintIMG
 						, lastUpdatedFingerPrint, fingerPosition, isCafeteriaStaff, isActive, insertedDate, updateBy, date, null);
 				}

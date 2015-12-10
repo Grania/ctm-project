@@ -380,7 +380,7 @@ namespace CTMF_Website.Util
 
 						if (insertedDate > lastSync)
 						{
-							transactionHistoryTA.Insert(username, transactionHistoryID, value, transactionContent, scheduleMealSetDetailID,
+							transactionHistoryTA.Insert(username, transactionTypeID, value, transactionContent, scheduleMealSetDetailID,
 								isAuto, insertedDate, updatedBy, lastUpdated);
 
 							SaveTransactionHistoryXml(transactionHistoryID, username, transactionTypeID, value, transactionContent
@@ -489,7 +489,7 @@ namespace CTMF_Website.Util
 				}
 				if (fingerPrintIMG != null)
 				{
-					userInfo.Add(new XElement("FingerPrintIMG", fingerPrintIMG));
+					userInfo.Add(new XElement("FingerPrintIMG", Convert.ToBase64String(fingerPrintIMG)));
 				}
 				if (lastUpdatedFingerPrint != null)
 				{
@@ -628,6 +628,7 @@ namespace CTMF_Website.Util
 				schedule.Add(new XElement("ScheduleID", scheduleID));
 				schedule.Add(new XElement("Date", date));
 				schedule.Add(new XElement("ServingTimeID", servingTimeID));
+				schedule.Add(new XElement("IsDayOn", isDayOn));
 				schedule.Add(new XElement("InsertedDate", insertedDate));
 				schedule.Add(new XElement("LastUpdated", lastUpdated));
 
