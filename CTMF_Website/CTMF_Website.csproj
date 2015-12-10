@@ -15,7 +15,7 @@
     <AssemblyName>CTMF_Website</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -29,7 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IncludeIisSettings>true</IncludeIisSettings>
+    <IncludeIisSettings>false</IncludeIisSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,6 +40,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.76.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ClosedXML.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -115,6 +119,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MealSetController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Controllers\XMLController.cs" />
@@ -136,6 +141,7 @@
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\AnnounceModel.cs" />
     <Compile Include="Models\DishViewModel.cs" />
+    <Compile Include="Models\JsonModel.cs" />
     <Compile Include="Models\MealSetViewModel.cs" />
     <Compile Include="Models\ServingTimeModel.cs" />
     <Compile Include="Models\TransactionViewModel.cs" />
@@ -143,6 +149,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringResources.Designer.cs" />
     <Compile Include="Util\AccountInfo.cs" />
+    <Compile Include="Util\ExcelReport.cs" />
     <Compile Include="Util\Log.cs" />
     <Compile Include="Util\StringExtensions.cs" />
     <Compile Include="Util\XmlSync.cs" />
@@ -203,7 +210,6 @@
     <Content Include="Scripts\jquery.ui.widget.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Temp\abc.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -247,10 +253,14 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\MealSet\AddMealSetDish.cshtml" />
     <Content Include="Views\Shared\_MealSetDish.cshtml" />
+    <Content Include="Views\Schedule\EditSchedule.cshtml" />
+    <Content Include="Views\Schedule\ListSchedule.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\log\" />
     <Folder Include="Temp2\" />
+    <Folder Include="Temp\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -311,7 +321,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>53684</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/CTMF_Website</IISUrl>
+          <IISUrl>http://localhost:53658/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>http://localhost:53658/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
