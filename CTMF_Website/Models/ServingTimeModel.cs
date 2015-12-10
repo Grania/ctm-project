@@ -13,12 +13,13 @@ namespace CTMF_Website.Models
 		[Display(Name = "Tên ")]
 		public string name { set; get; }
 
-		[Required(ErrorMessage="Vui lòng nhập thời gian đăng nhập")]
+		[Required(ErrorMessage="Vui lòng nhập thời gian bắt đầu")]
 		[Display(Name="Thời gian bắt đầu")]
 		public TimeSpan startTime { set; get; }
-		[Required(ErrorMessage = "Vui lòng nhập thời gian đăng nhập")]
+
+		[Required(ErrorMessage = "Vui lòng nhập thời gian kết thúc")]
 		[Display(Name = "Thời gian kết thúc")]
-		public TimeSpan? endTime { set; get; }
+		public TimeSpan endTime { set; get; }
 		public DateTime insertDate { set; get; }
 		public DateTime lastUpdate { set; get; }
 	}

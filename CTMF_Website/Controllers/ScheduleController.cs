@@ -588,14 +588,7 @@ namespace CTMF_Website.Controllers
 				servingTimeModel.servingTimeID = servingTimeDataTable.Rows[0].Field<int>("ServingTimeID");
 				servingTimeModel.name = Convert.ToString(servingTimeDataTable.Rows[0]["Name"]);
 				servingTimeModel.startTime = (TimeSpan)servingTimeDataTable.Rows[0]["StartTime"];
-				if (servingTimeDataTable.Rows[0]["EndTime"].ToString() == String.Empty)
-				{
-					servingTimeModel.endTime = null;
-				}
-				else
-				{
-					servingTimeModel.endTime = (TimeSpan?)servingTimeDataTable.Rows[0]["EndTime"];
-				}
+				servingTimeModel.endTime = (TimeSpan)servingTimeDataTable.Rows[0]["EndTime"];
 				servingTimeModel.insertDate = Convert.ToDateTime(servingTimeDataTable.Rows[0]["InsertedDate"]);
 				servingTimeModel.lastUpdate = Convert.ToDateTime(servingTimeDataTable.Rows[0]["LastUpdated"]);
 
@@ -623,7 +616,7 @@ namespace CTMF_Website.Controllers
 				{
 					string name = servingTimeModel.name;
 					TimeSpan startTime = servingTimeModel.startTime;
-					TimeSpan? endTime = servingTimeModel.endTime;
+					TimeSpan endTime = servingTimeModel.endTime;
 					DateTime insertDate = servingTimeModel.insertDate;
 					DateTime lastUpdate = DateTime.Now;
 
@@ -675,7 +668,7 @@ namespace CTMF_Website.Controllers
 				{
 					string name = servingTimeModel.name;
 					TimeSpan startTime = servingTimeModel.startTime;
-					TimeSpan? endTime = servingTimeModel.endTime;
+					TimeSpan endTime = servingTimeModel.endTime;
 					DateTime date = DateTime.Now;
 					servingTimeDataAdapter.Insert(name, startTime, endTime, date, date);
 					return RedirectToAction("ViewServingTime", "Schedule");

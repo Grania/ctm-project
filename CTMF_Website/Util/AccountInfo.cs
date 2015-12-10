@@ -27,6 +27,7 @@ namespace CTMF_Website.Util
 			catch (System.Security.Cryptography.CryptographicException cex)
 			{
 				FormsAuthentication.SignOut();
+				Log.ErrorLog(cex.Message);
 				return null;
 			}
 		}
@@ -55,6 +56,7 @@ namespace CTMF_Website.Util
 			catch (System.Security.Cryptography.CryptographicException cex)
 			{
 				FormsAuthentication.SignOut();
+				Log.ErrorLog(cex.Message);
 				return null;
 			}
 		}

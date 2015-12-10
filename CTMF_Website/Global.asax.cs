@@ -43,6 +43,7 @@ namespace CTMF_Website
 				catch (System.Security.Cryptography.CryptographicException cex)
 				{
 					FormsAuthentication.SignOut();
+					CTMF_Website.Util.Log.ErrorLog(cex.Message);
 				}
 			}
 		}
