@@ -8,28 +8,34 @@ namespace CTMF_Desktop_App.Forms
 {
 	public partial class MainForm : Form
 	{
-		public static string username;
+		internal static string username;
+		internal static DateTime loginTime;
 
-		DeviceManage deviceManageForm;
-		AccountManage accountManageForm;
-		lblLastSync settingManageForm;
+		internal static Home homeForm;
+		internal static AccountManage accountManageForm;
+		internal static SettingManage settingManageForm;
 
-		public MainForm()
+		public MainForm(string username_, DateTime loginTime_)
 		{
+			//username = username_;
+			//loginTime = loginTime_;
+
 			username = "dungnmse02767";
+			loginTime = DateTime.Now;
+
 			InitializeComponent();
 
-			deviceManageForm = new DeviceManage();
-			deviceManageForm.TopLevel = false;
-			this.pnlDeviceManage.Controls.Add(deviceManageForm);
-			deviceManageForm.Show();
+			homeForm = new Home();
+			homeForm.TopLevel = false;
+			this.pnlHome.Controls.Add(homeForm);
+			homeForm.Show();
 
 			accountManageForm = new AccountManage();
 			accountManageForm.TopLevel = false;
 			this.pnlAccountManager.Controls.Add(accountManageForm);
 			accountManageForm.Show();
 
-			settingManageForm = new lblLastSync();
+			settingManageForm = new SettingManage();
 			settingManageForm.TopLevel = false;
 			this.pnlSettingManage.Controls.Add(settingManageForm);
 			settingManageForm.Show();
@@ -40,13 +46,13 @@ namespace CTMF_Desktop_App.Forms
 			Application.Exit();
 		}
 
-		private void pnlDeviceManage_SizeChanged(object sender, EventArgs e)
+		private void pnlHome_SizeChanged(object sender, EventArgs e)
 		{
-			deviceManageForm.Height = this.pnlDeviceManage.Height;
-			deviceManageForm.Width = this.pnlDeviceManage.Width;
+			homeForm.Height = this.pnlHome.Height;
+			homeForm.Width = this.pnlHome.Width;
 		}
 
-		private void pnlAccountManager_SizeChanged(object sender, EventArgs e)
+		private void pnlAccountManage_SizeChanged(object sender, EventArgs e)
 		{
 			accountManageForm.Height = this.pnlAccountManager.Height;
 			accountManageForm.Width = this.pnlAccountManager.Width;

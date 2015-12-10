@@ -67,7 +67,7 @@ namespace CTMF_Desktop_App
 				transaction.Commit();
 			}
 
-			Log.ActivityLog("Clear all complete.");
+			Log.ActivityLog("Clear all completed.");
 			Log.ActivityLog("Register sync to server.");
 
 			ServiceReference.WebServiceSoapClient soapClient = new ServiceReference.WebServiceSoapClient();
@@ -77,18 +77,18 @@ namespace CTMF_Desktop_App
 			string newSyncID = soapClient.NewSyncData(WebServiceAuth.AuthSoapHeader(), syncDate, oldSyncID);
 			XmlSync.SaveNewSync(newSyncID);
 
-			Log.ActivityLog("Register complete.");
+			Log.ActivityLog("Register completed.");
 			Log.ActivityLog("Geting xml data.");
 
-			string fileNameList = XmlSync.RequestXmlFileName(newSyncID, false);
+			string fileNameList = XmlSync.RequestXmlFileName(newSyncID, true);
 			IList<string> xmlPathList = XmlSync.SaveXmlFile(fileNameList);
 
-			Log.ActivityLog("Save xml data complete.");
+			Log.ActivityLog("Save xml data completed.");
 			Log.ActivityLog("Start sync.");
 
 			XmlSync.Sync(xmlPathList);
 
-			Log.ActivityLog("Sync complete.");
+			Log.ActivityLog("Sync completed.");
 			Log.ActivityLog("Update last sync date.");
 
 			XmlSync.SetLastSync(syncDate);
@@ -100,13 +100,26 @@ namespace CTMF_Desktop_App
 		internal static void StartSync()
 		{
 			Log.ActivityLog("-----------------------Start sync transaction-----------------------");
+			ServiceReference.WebServiceSoapClient soapClient = new ServiceReference.WebServiceSoapClient();
 
-			string syncFilenames = XmlSync.RequestSync();
+			DateTime syncDate = DateTime.Now;
+			string sendFilenames = XmlSync.SendXml(syncDate);
+			string syncFilenames = soapClient.RequestSync(WebServiceAuth.AuthSoapHeader(), XmlSync.GetSyncID(), sendFilenames);
 
-			int a = 0;
+			IList<string> xmlFilePath = XmlSync.SaveXmlFile(syncFilenames);
+			XmlSync.Sync(xmlFilePath);
+
+			XmlSync.SetLastSync(syncDate);
+
+			XmlSync.SetLastSyncAndInactiveFile(syncDate, sendFilenames);
+
+			string syncID = XmlSync.GetSyncID();
+			
+			soapClient.SetLastSyncAndInactiveFile(WebServiceAuth.AuthSoapHeader(), syncDate, syncFilenames, syncID);
+			Log.ActivityLog("-----------------------End sync transaction-----------------------");
 		}
 
-		internal static string PayForFood(Customer customer)
+		internal static string PayForFood(Customer customer, bool eatMoreFlag, int? scheduleMealSetDetailID)
 		{
 			UserInfoTableAdapter userInfoTA = new UserInfoTableAdapter();
 
@@ -130,7 +143,13 @@ namespace CTMF_Desktop_App
 
 			int curMoney = sumOfMoney.Value + amountOfMoney;
 
-			int remainMoney = curMoney - customer.MealValue;
+			int payMoney = customer.MealValue;
+			if (customer.CanEatMore && eatMoreFlag && customer.MoreMealValue != null)
+			{
+				payMoney += customer.MoreMealValue.Value;
+			}
+
+			int remainMoney = curMoney - payMoney;
 			if (remainMoney < 0)
 			{
 				if (!customer.CanDebt)
@@ -140,11 +159,12 @@ namespace CTMF_Desktop_App
 			}
 
 			DateTime insertedDate = DateTime.Now;
-			int TransactionHistoryID = transactionHistoryTA.Insert(customer.Username, 1, (-1) * customer.MealValue, "Ăn"
-				, null, true, insertedDate, CTMF_Desktop_App.Forms.MainForm.username, insertedDate);
+			string TransactionHistoryIDStr = transactionHistoryTA.InsertScalar(customer.Username, 1, (-1) * payMoney, "Ăn"
+				, scheduleMealSetDetailID, true, insertedDate, CTMF_Desktop_App.Forms.MainForm.username, insertedDate).ToString();
 
-			XmlSync.SaveTransactionHistoryXml(TransactionHistoryID, customer.Username, 1, (-1) * customer.MealValue, "Ăn"
-				, null, true, insertedDate, CTMF_Desktop_App.Forms.MainForm.username, insertedDate);
+			int TransactionHistoryID = int.Parse(TransactionHistoryIDStr);
+			XmlSync.SaveTransactionHistoryXml(TransactionHistoryID, customer.Username, 1, (-1) * payMoney, "Ăn"
+				, scheduleMealSetDetailID, true, insertedDate, CTMF_Desktop_App.Forms.MainForm.username, insertedDate);
 
 			return "Con lai:" + remainMoney;
 		}
@@ -259,21 +279,6 @@ namespace CTMF_Desktop_App.DataAccessTableAdapters
 	}
 
 	public partial class TransactionHistoryTableAdapter
-	{
-		public void AttachTransaction(System.Data.SqlClient.SqlTransaction t)
-		{
-			this.Adapter.InsertCommand.Transaction = t;
-			this.Adapter.UpdateCommand.Transaction = t;
-			this.Adapter.DeleteCommand.Transaction = t;
-			foreach (System.Data.SqlClient.SqlCommand cmd
-					 in this.CommandCollection)
-			{
-				cmd.Transaction = t;
-			}
-		}
-	}
-
-	public partial class SyncDateTableAdapter
 	{
 		public void AttachTransaction(System.Data.SqlClient.SqlTransaction t)
 		{

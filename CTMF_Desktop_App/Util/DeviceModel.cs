@@ -17,6 +17,12 @@ namespace CTMF_Desktop_App.Util
 		public string name { get; set; }
 		public System.ComponentModel.BackgroundWorker backgroundWokder { get; set; }
 
+		public bool canEatMore { get; set; }
+		public bool eatMoreFlag { get; set; }
+
+		public char mealSetLabel { get; set; }
+		public int? scheduleMealSetDetailID { get; set; }
+
 		public DeviceModel()
 		{
 

@@ -34,15 +34,15 @@
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.imageList = new System.Windows.Forms.ImageList(this.components);
 			this.tabControl = new System.Windows.Forms.TabControl();
-			this.deviceManageTab = new System.Windows.Forms.TabPage();
-			this.pnlDeviceManage = new System.Windows.Forms.Panel();
+			this.homeTab = new System.Windows.Forms.TabPage();
+			this.pnlHome = new System.Windows.Forms.Panel();
 			this.accountManageTab = new System.Windows.Forms.TabPage();
 			this.pnlAccountManager = new System.Windows.Forms.Panel();
 			this.settingManageTab = new System.Windows.Forms.TabPage();
 			this.pnlSettingManage = new System.Windows.Forms.Panel();
 			this.statusStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
-			this.deviceManageTab.SuspendLayout();
+			this.homeTab.SuspendLayout();
 			this.accountManageTab.SuspendLayout();
 			this.settingManageTab.SuspendLayout();
 			this.SuspendLayout();
@@ -79,7 +79,7 @@
 			this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.tabControl.Controls.Add(this.deviceManageTab);
+			this.tabControl.Controls.Add(this.homeTab);
 			this.tabControl.Controls.Add(this.accountManageTab);
 			this.tabControl.Controls.Add(this.settingManageTab);
 			this.tabControl.ImageList = this.imageList;
@@ -92,27 +92,27 @@
 			this.tabControl.TabStop = false;
 			this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
 			// 
-			// deviceManageTab
+			// homeTab
 			// 
-			this.deviceManageTab.Controls.Add(this.pnlDeviceManage);
-			this.deviceManageTab.ImageIndex = 0;
-			this.deviceManageTab.Location = new System.Drawing.Point(4, 104);
-			this.deviceManageTab.Name = "deviceManageTab";
-			this.deviceManageTab.Padding = new System.Windows.Forms.Padding(3);
-			this.deviceManageTab.Size = new System.Drawing.Size(1000, 597);
-			this.deviceManageTab.TabIndex = 0;
-			this.deviceManageTab.UseVisualStyleBackColor = true;
+			this.homeTab.Controls.Add(this.pnlHome);
+			this.homeTab.ImageIndex = 0;
+			this.homeTab.Location = new System.Drawing.Point(4, 104);
+			this.homeTab.Name = "homeTab";
+			this.homeTab.Padding = new System.Windows.Forms.Padding(3);
+			this.homeTab.Size = new System.Drawing.Size(1000, 597);
+			this.homeTab.TabIndex = 0;
+			this.homeTab.UseVisualStyleBackColor = true;
 			// 
-			// pnlDeviceManage
+			// pnlHome
 			// 
-			this.pnlDeviceManage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.pnlHome.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.pnlDeviceManage.Location = new System.Drawing.Point(0, 0);
-			this.pnlDeviceManage.Name = "pnlDeviceManage";
-			this.pnlDeviceManage.Size = new System.Drawing.Size(1000, 597);
-			this.pnlDeviceManage.TabIndex = 0;
-			this.pnlDeviceManage.SizeChanged += new System.EventHandler(this.pnlDeviceManage_SizeChanged);
+			this.pnlHome.Location = new System.Drawing.Point(0, 0);
+			this.pnlHome.Name = "pnlHome";
+			this.pnlHome.Size = new System.Drawing.Size(1000, 597);
+			this.pnlHome.TabIndex = 0;
+			this.pnlHome.SizeChanged += new System.EventHandler(this.pnlHome_SizeChanged);
 			// 
 			// accountManageTab
 			// 
@@ -133,7 +133,7 @@
 			this.pnlAccountManager.Name = "pnlAccountManager";
 			this.pnlAccountManager.Size = new System.Drawing.Size(1000, 597);
 			this.pnlAccountManager.TabIndex = 0;
-			this.pnlAccountManager.SizeChanged += new System.EventHandler(this.pnlAccountManager_SizeChanged);
+			this.pnlAccountManager.SizeChanged += new System.EventHandler(this.pnlAccountManage_SizeChanged);
 			// 
 			// settingManageTab
 			// 
@@ -170,7 +170,7 @@
 			this.statusStrip.ResumeLayout(false);
 			this.statusStrip.PerformLayout();
 			this.tabControl.ResumeLayout(false);
-			this.deviceManageTab.ResumeLayout(false);
+			this.homeTab.ResumeLayout(false);
 			this.accountManageTab.ResumeLayout(false);
 			this.settingManageTab.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -185,8 +185,8 @@
 		private System.Windows.Forms.ImageList imageList;
 		private System.Windows.Forms.TabControl tabControl;
 		private System.Windows.Forms.TabPage accountManageTab;
-		private System.Windows.Forms.TabPage deviceManageTab;
-		private System.Windows.Forms.Panel pnlDeviceManage;
+		private System.Windows.Forms.TabPage homeTab;
+		private System.Windows.Forms.Panel pnlHome;
 		private System.Windows.Forms.Panel pnlAccountManager;
 		private System.Windows.Forms.TabPage settingManageTab;
 		private System.Windows.Forms.Panel pnlSettingManage;

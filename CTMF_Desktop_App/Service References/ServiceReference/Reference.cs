@@ -389,17 +389,13 @@ namespace CTMF_Desktop_App.ServiceReference {
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
         public string filenames;
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
-        public System.DateTime requestTime;
-        
         public RequestSyncRequest() {
         }
         
-        public RequestSyncRequest(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID, string filenames, System.DateTime requestTime) {
+        public RequestSyncRequest(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID, string filenames) {
             this.AuthSoapHeader = AuthSoapHeader;
             this.syncID = syncID;
             this.filenames = filenames;
-            this.requestTime = requestTime;
         }
     }
     
@@ -617,12 +613,11 @@ namespace CTMF_Desktop_App.ServiceReference {
             return base.Channel.RequestSync(request);
         }
         
-        public string RequestSync(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID, string filenames, System.DateTime requestTime) {
+        public string RequestSync(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID, string filenames) {
             CTMF_Desktop_App.ServiceReference.RequestSyncRequest inValue = new CTMF_Desktop_App.ServiceReference.RequestSyncRequest();
             inValue.AuthSoapHeader = AuthSoapHeader;
             inValue.syncID = syncID;
             inValue.filenames = filenames;
-            inValue.requestTime = requestTime;
             CTMF_Desktop_App.ServiceReference.RequestSyncResponse retVal = ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).RequestSync(inValue);
             return retVal.RequestSyncResult;
         }
@@ -632,12 +627,11 @@ namespace CTMF_Desktop_App.ServiceReference {
             return base.Channel.RequestSyncAsync(request);
         }
         
-        public System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.RequestSyncResponse> RequestSyncAsync(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID, string filenames, System.DateTime requestTime) {
+        public System.Threading.Tasks.Task<CTMF_Desktop_App.ServiceReference.RequestSyncResponse> RequestSyncAsync(CTMF_Desktop_App.ServiceReference.AuthSoapHeader AuthSoapHeader, string syncID, string filenames) {
             CTMF_Desktop_App.ServiceReference.RequestSyncRequest inValue = new CTMF_Desktop_App.ServiceReference.RequestSyncRequest();
             inValue.AuthSoapHeader = AuthSoapHeader;
             inValue.syncID = syncID;
             inValue.filenames = filenames;
-            inValue.requestTime = requestTime;
             return ((CTMF_Desktop_App.ServiceReference.WebServiceSoap)(this)).RequestSyncAsync(inValue);
         }
     }

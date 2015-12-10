@@ -7,7 +7,9 @@ namespace CTMF_Desktop_App.Util
 {
 	public static class DeviceControl
 	{
-		public static List<DeviceModel> deviceList = new List<DeviceModel>();
+		//public static List<DeviceModel> deviceList = new List<DeviceModel>();
+
+		public static int newAddr = 1;
 
 		private static readonly uint _addr = 0xffffffff;
 		public static readonly byte[] iPwd = { 0 };
@@ -15,8 +17,10 @@ namespace CTMF_Desktop_App.Util
 		private static readonly string _IMGPath = System.Windows.Forms.Application.StartupPath
 			+ "\\ImageTemp\\";
 
-		static string DisplayToAppAccessString = "I'm CTMF LCD\r";
-		static string AppToDisplayAccessString = "I'm CTMF Client";
+		private static string DisplayToAppAccessString = "I'm CTMF LCD\r";
+		private static string AppToDisplayAccessString = "I'm CTMF Client";
+
+		public static readonly string EatMoreCmd = "EatMore\r";
 
 		const string synoDllPath = "SynoAPI.dll";
 		[DllImport(synoDllPath)]
@@ -42,7 +46,6 @@ namespace CTMF_Desktop_App.Util
 
 		private static uint addAndChangeAddr(uint addr)
 		{
-			int newAddr = deviceList.Count + 1;
 			byte[] newByteAdd = BitConverter.GetBytes(newAddr);
 			newByteAdd = reverseByteArray(newByteAdd);
 			uint nAddr = Convert.ToUInt32(newAddr);
@@ -66,6 +69,7 @@ namespace CTMF_Desktop_App.Util
 				throw new Exception("New address is wrong.");
 			}
 
+			newAddr++;
 			return nAddr;
 		}
 
@@ -295,11 +299,6 @@ namespace CTMF_Desktop_App.Util
 				serial.Close();
 			}
 			PSCloseDevice();
-		}
-
-		public static int deviceCount()
-		{
-			return deviceList.Count;
 		}
 
 		private static byte[] reverseByteArray(byte[] arr)

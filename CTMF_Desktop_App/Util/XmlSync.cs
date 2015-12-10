@@ -32,6 +32,26 @@ namespace CTMF_Desktop_App.Util
 			return syncAttr.Value;
 		}
 
+		internal static DateTime GetLastSync()
+		{
+			XDocument xDoc = XDocument.Load(_xmlConfigPath);
+
+			XAttribute lastSyncAttr = xDoc.Element("SyncServer").Attribute("LastSync");
+			if (lastSyncAttr == null)
+			{
+				throw new Exception("Cannot get LastSync value from config.xml");
+			}
+
+			string lastSyncStr = lastSyncAttr.Value;
+			DateTime lastSync;
+			if (!DateTime.TryParse(lastSyncStr, out lastSync))
+			{
+				throw new Exception("Cannot parse LastSync value from config.xml");
+			}
+
+			return lastSync;
+		}
+
 		internal static void SetLastSync(DateTime lastDate)
 		{
 			XDocument xDoc = XDocument.Load(_xmlConfigPath);
@@ -101,13 +121,12 @@ namespace CTMF_Desktop_App.Util
 			return soapClient.RequestXmlFileName(WebServiceAuth.AuthSoapHeader(), syncID, isExcludeCurrent);
 		}
 
-		internal static string RequestSync()
+		internal static string RequestSync(DateTime syncDate)
 		{
-			string syncFilenames = SendXml();
+			string syncFilenames = SendXml(syncDate);
 
 			ServiceReference.WebServiceSoapClient soapClient = new ServiceReference.WebServiceSoapClient();
-			DateTime requestTime = DateTime.Now;
-			return soapClient.RequestSync(WebServiceAuth.AuthSoapHeader(), GetSyncID(), syncFilenames, requestTime);
+			return soapClient.RequestSync(WebServiceAuth.AuthSoapHeader(), GetSyncID(), syncFilenames);
 		}
 
 		internal static bool DeleteSync(string syncID)
@@ -177,7 +196,7 @@ namespace CTMF_Desktop_App.Util
 				userInfo.Add(new XElement("Username", username));
 				userInfo.Add(new XElement("AmountOfMoney", amountOfMoney));
 				userInfo.Add(new XElement("LastUpdatedMoney", lastUpdatedMoney));
-				userInfo.Add(new XElement("ICafeteriaStaff", isCafeteriaStaff));
+				userInfo.Add(new XElement("IsCafeteriaStaff", isCafeteriaStaff));
 				userInfo.Add(new XElement("IsActive", isActive));
 				userInfo.Add(new XElement("InsertedDate", insertedDate));
 				userInfo.Add(new XElement("LastUpdated", lastUpdated));
@@ -272,8 +291,7 @@ namespace CTMF_Desktop_App.Util
 			}
 		}
 
-
-		private static string SendXml()
+		internal static string SendXml(DateTime syncDate)
 		{
 			XDocument xDoc = XDocument.Load(_xmlConfigPath);
 			XElement syncServerEl = xDoc.Element("SyncServer");
@@ -282,7 +300,7 @@ namespace CTMF_Desktop_App.Util
 
 			syncServerEl.Descendants("XmlData").Where(x => x.Attribute("Current").Value == "1").Single().Attribute("Current").Value = "0";
 
-			string newFilename = syncID + "-" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xml";
+			string newFilename = syncID + "-" + syncDate.ToString("yyyyMMddHHmmssfff") + ".xml";
 			XDocument xmlDataDoc = new XDocument();
 			xmlDataDoc.Add(new XElement("NewDataSet"));
 			xmlDataDoc.Save(_path + newFilename);
@@ -310,26 +328,6 @@ namespace CTMF_Desktop_App.Util
 			}
 
 			return sbFilenames.ToString();
-		}
-
-		private static DateTime GetLastSync()
-		{
-			XDocument xDoc = XDocument.Load(_xmlConfigPath);
-
-			XAttribute lastSyncAttr = xDoc.Element("SyncServer").Attribute("LastSync");
-			if (lastSyncAttr == null)
-			{
-				throw new Exception("Cannot get LastSync value from config.xml");
-			}
-
-			string lastSyncStr = lastSyncAttr.Value;
-			DateTime lastSync;
-			if (!DateTime.TryParse(lastSyncStr, out lastSync))
-			{
-				throw new Exception("Cannot parse LastSync value from config.xml");
-			}
-
-			return lastSync;
 		}
 
 		private static void Sync(string xmlPath)
@@ -506,7 +504,7 @@ namespace CTMF_Desktop_App.Util
 						}
 						DataRow userInfoRow = userInfoDT.Rows[0];
 						DateTime oriLastUpdatedMoney = (DateTime)userInfoRow["LastUpdatedMoney"];
-						DateTime? oriLastUpdateFingerPrint = (DateTime?)userInfoRow["LastUpdatedFingerPrint"];
+						DateTime? oriLastUpdateFingerPrint = userInfoRow.Field<DateTime?>("LastUpdatedFingerPrint");
 
 						userInfoTA.UpdateGeneric(name, typeShortName, isCafeteriaStaff, isActive, insertedDate, updatedBy, lastUpdated, username);
 						if (oriLastUpdatedMoney > lastSync)
@@ -778,6 +776,28 @@ namespace CTMF_Desktop_App.Util
 			}
 
 			return defaultValue;
+		}
+
+		internal static void SetLastSyncAndInactiveFile(DateTime syncDate, string syncFilenames)
+		{
+			XDocument xDoc = XDocument.Load(_xmlConfigPath);
+
+			List<XElement> xmlData = xDoc.Element("SyncServer").Descendants("XmlData").ToList();
+			xDoc.Element("SyncServer").Attribute("LastSync").Value = syncDate.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+			string[] syncFileNamesArr = syncFilenames.Split('|');
+
+			foreach (string syncFileName in syncFileNamesArr)
+			{
+				if (syncFileName == String.Empty)
+				{
+					continue;
+				}
+
+				xmlData.Where(x=> x.Value == syncFileName).Single().Attribute("Active").Value = "0";
+			}
+
+			xDoc.Save(_xmlConfigPath);
 		}
 	}
 }

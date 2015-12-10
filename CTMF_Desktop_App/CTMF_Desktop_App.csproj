@@ -70,6 +70,12 @@
       <DependentUpon>DataAccess.xsd</DependentUpon>
     </Compile>
     <Compile Include="Forms\ExtentionClass\Customer.cs" />
+    <Compile Include="Forms\Modal\UpdateServingTime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Modal\UpdateServingTime.Designer.cs">
+      <DependentUpon>UpdateServingTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SettingManage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,11 +96,11 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\DeviceManage.cs">
+    <Compile Include="Forms\Home.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\DeviceManage.Designer.cs">
-      <DependentUpon>DeviceManage.cs</DependentUpon>
+    <Compile Include="Forms\Home.Designer.cs">
+      <DependentUpon>Home.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Modal\AddDevice.cs">
       <SubType>Form</SubType>
@@ -132,7 +138,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StringResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ExtentionClass\ComboBoxItem.cs" />
     <Compile Include="Util\FingerPositionDictionary.cs" />
     <Compile Include="Util\Log.cs" />
     <Compile Include="Util\StringExtensions.cs" />
@@ -147,8 +152,8 @@
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\DeviceManage.resx">
-      <DependentUpon>DeviceManage.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Home.resx">
+      <DependentUpon>Home.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Modal\AddDevice.resx">
       <DependentUpon>AddDevice.cs</DependentUpon>
@@ -158,6 +163,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Modal\UpdateFingerPrint.resx">
       <DependentUpon>UpdateFingerPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Modal\UpdateServingTime.resx">
+      <DependentUpon>UpdateServingTime.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SettingManage.resx">
       <DependentUpon>SettingManage.cs</DependentUpon>
@@ -235,9 +243,6 @@
     <WCFMetadataStorage Include="Service References\ServiceReference\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ServiceReference\WebService.disco" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Service References\ServiceReference\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +253,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReference\WebService.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

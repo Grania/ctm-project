@@ -70,7 +70,7 @@ namespace CTMF_Desktop_App
 			}
 
 			this.Dispose(false);
-			MainForm mf = new MainForm();
+			MainForm mf = new MainForm(username, DateTime.Now);
 			mf.Show();
 		}
 	}

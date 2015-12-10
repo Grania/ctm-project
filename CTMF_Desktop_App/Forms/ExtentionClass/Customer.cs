@@ -9,11 +9,18 @@ namespace CTMF_Desktop_App.Forms.ExtentionClass
 	[Serializable]
 	public class Customer : SourceAFIS.Simple.Person
 	{
+		public static readonly string DefaultTypeShortName = "DF";
+
 		public string Username { get; set; }
+
 		public string TypetShortName { get; set; }
+
 		public int MealValue { get; set; }
+
 		public bool CanDebt { get; set; }
+
 		public bool CanEatMore { get; set; }
+
 		public int? MoreMealValue { get; set; }
 	}
 }

@@ -17,7 +17,8 @@ namespace CTMF_Desktop_App
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainForm());
+			//Application.Run(new MainForm("dungnmse02767", DateTime.Now));
+			Application.Run(new Login());
 		}
 	}
 }

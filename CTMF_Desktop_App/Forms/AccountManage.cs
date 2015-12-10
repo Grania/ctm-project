@@ -11,16 +11,17 @@ using CTMF_Desktop_App.DataAccessTableAdapters;
 using CTMF_Desktop_App.Forms.Modal;
 using CTMF_Desktop_App.Util;
 using SourceAFIS;
+using CTMF_Desktop_App.Forms.ExtentionClass;
 
 namespace CTMF_Desktop_App.Forms
 {
 	public partial class AccountManage : Form
 	{
 		private static bool _isLoaded = false;
-		private static int _usingPortNumber = -1;
+		private static int _scannerPortNumber = -1;
 		private static uint _scannerAddr = 0;
-		public static DataTable customerDT;
-		public static DataTable userTypeDT;
+		internal static DataTable customerDT;
+		internal static DataTable userTypeDT;
 
 		public AccountManage()
 		{
@@ -102,27 +103,20 @@ namespace CTMF_Desktop_App.Forms
 				return;
 			}
 
-			if (_usingPortNumber < 0)
+			if (_scannerPortNumber < 0)
 			{
 				using (var form = new SelectScanner())
 				{
 					var result = form.ShowDialog();
-					_usingPortNumber = form.scannerPort;
+					_scannerPortNumber = form.scannerPort;
 					_scannerAddr = form.scannerAddr;
 				}
 
-				if (_usingPortNumber < 0 || _scannerAddr == 0)
+				if (_scannerPortNumber < 0 || _scannerAddr == 0)
 				{
 					MessageBox.Show("Không thể kết nối tới máy quét.");
 					return;
 				}
-
-				DeviceControl.deviceList.Add(new DeviceModel
-				{
-					serial = null,
-					scannerAddress = _scannerAddr,
-					isForEating = false
-				});
 			}
 
 			string username = dataGridView.SelectedRows[0].Cells["Username"].Value.ToString();
@@ -153,6 +147,7 @@ namespace CTMF_Desktop_App.Forms
 						row["FingerPrintIMG"] = fingerImage;
 						row["FingerPosition"] = fingerPosition;
 						row["LastUpdatedFingerPrint"] = lastUpdatedFingerPrint;
+						row["IsActive"] = true;
 
 						userInfoRow = row;
 						break;
@@ -264,7 +259,8 @@ namespace CTMF_Desktop_App.Forms
 			string name = txtNameSearch.Text;
 			string typeShortName = (string)cbxUserTypeSearch.SelectedValue;
 			int active = (int)cbxActive.SelectedValue;
-
+			bool isActive = (active == 1? true: false);
+			
 			try
 			{
 				dataGridView.DataSource = null;
@@ -277,7 +273,7 @@ namespace CTMF_Desktop_App.Forms
 						: StringExtensions.ContainsInsensitive(r.Field<string>("Name"), name))
 						&& (String.IsNullOrWhiteSpace(typeShortName) ? true
 						: r.Field<string>("TypeShortName") == typeShortName)
-						&& (active < 0 ? true : r.Field<int>("IsActive") == active)).CopyToDataTable();
+						&& (active < 0 ? true : r.Field<bool>("IsActive") == isActive)).CopyToDataTable();
 
 				CustomGrid(dataGridView);
 			}

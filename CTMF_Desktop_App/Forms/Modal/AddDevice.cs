@@ -111,32 +111,40 @@ namespace CTMF_Desktop_App.Forms.Modal
 
 		private void btnConDisplay_Click(object sender, EventArgs e)
 		{
-			string portName = lbPort.GetItemText(lbPort.SelectedItem);
-			if (portName == null || portName == string.Empty)
+			try
 			{
-				MessageBox.Show(string.Format(StringResource.A00004, "cổng kết nối"));
-				return;
+				string portName = lbPort.GetItemText(lbPort.SelectedItem);
+				if (portName == null || portName == string.Empty)
+				{
+					MessageBox.Show(string.Format(StringResource.A00004, "cổng kết nối"));
+					return;
+				}
+
+				mySerial.PortName = portName;
+				mySerial.Open();
+
+				isDisplayConnected = DeviceControl.connectDisplay(mySerial);
+
+				if (!isDisplayConnected)
+				{
+					MessageBox.Show(string.Format(StringResource.A00006, "màn hình"));
+					mySerial.Close();
+					return;
+
+				}
+				MessageBox.Show(string.Format(StringResource.A00005, "màn hình"));
+				btnConDisplay.Enabled = false;
+
+				//enable done btn
+				if (isScannerConnected)
+				{
+					btnDone.Enabled = true;
+				}
 			}
-
-			mySerial.PortName = portName;
-			mySerial.Open();
-
-			isDisplayConnected = DeviceControl.connectDisplay(mySerial);
-
-			if (!isDisplayConnected)
+			catch (Exception ex)
 			{
+				Log.ErrorLog(ex.Message);
 				MessageBox.Show(string.Format(StringResource.A00006, "màn hình"));
-				mySerial.Close();
-				return;
-
-			}
-			MessageBox.Show(string.Format(StringResource.A00005, "màn hình"));
-			btnConDisplay.Enabled = false;
-
-			//enable done btn
-			if (isScannerConnected)
-			{
-				btnDone.Enabled = true;
 			}
 		}
 
