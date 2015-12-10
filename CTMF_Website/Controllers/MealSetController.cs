@@ -316,6 +316,9 @@ namespace CTMF_Website.Controllers
 		[AllowAnonymous]
 		public ActionResult AddMealSetDish(string mealSetID, string search, string filter)
 		{
+			Session["maxMealsetDish"] = "";
+			Session["existMealsetDish"] = "";
+
 			DataTable dishDT = new DataTable();
 			DishInfoDetailTableAdapter adapter = new DishInfoDetailTableAdapter();
 
@@ -370,10 +373,28 @@ namespace CTMF_Website.Controllers
 		{
 			int dish = int.Parse(dishID);
 			int mealset = int.Parse(mealSetID);
+			MealSetDishModel model = new MealSetDishModel();
+
+			Session["maxMealsetDish"] = "";
+			Session["existMealsetDish"] = "";
 
 			try
 			{
 				MealSetDishDetailTableAdapter mealSetDishAdapter = new MealSetDishDetailTableAdapter();
+				DataTable mealSetDishDT = new DataTable();
+				mealSetDishDT = mealSetDishAdapter.GetDataByMealSetID(mealset);
+				int test = mealSetDishDT.Rows.Count;
+				if (mealSetDishDT.Rows.Count >= 6)
+				{
+					Session["maxMealsetDish"] = "Số lượng món ăn trong suất ăn đã đầy. Bỏ món ăn bạn ko cần để có thể thêm món mới!";
+					return PartialView("_MealSetDish", model);
+				}
+				mealSetDishDT = mealSetDishAdapter.GetDataByMealsetDish(mealset, dish);
+				if (mealSetDishDT.Rows.Count != 0)
+				{
+					Session["existMealsetDish"] = "Món ăn đã được thêm trước đó. Bạn vui lòng chọn món ăn khác!";
+					return PartialView("_MealSetDish", model);
+				}
 				mealSetDishAdapter.InsertMealSetDish(mealset,dish);
 				Log.ActivityLog("Insert into MealSetDishDetail table: MealsetID = " + mealSetID + ", DishID = " + dishID);
 			}
@@ -382,7 +403,7 @@ namespace CTMF_Website.Controllers
 				Log.ErrorLog(ex.Message);
 			}
 
-			MealSetDishModel model = new MealSetDishModel();
+			
 			MealSetDishInfoTableAdapter mealSetDishInfoAdapter = new MealSetDishInfoTableAdapter();
 			DataTable mealSetDishInfoDT = mealSetDishInfoAdapter.GetDataByMealSetIDDishID(mealset, dish);
 			model.DishID = dish;
