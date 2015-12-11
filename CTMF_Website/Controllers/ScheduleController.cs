@@ -245,7 +245,6 @@ namespace CTMF_Website.Controllers
 					model.Description = row.Field<string>("Description");
 					model.ServingTimeID = row.Field<int>("ServingTimeID");
 					model.ServingTimeName = row.Field<string>("ServingTimeName");
-					model.MealSetDetailName = row.Field<string>("MealSetDetailName");
 					model.IsDayOn = row.Field<bool>("IsDayOn");
 
 					schedule.Add(model);
@@ -409,10 +408,10 @@ namespace CTMF_Website.Controllers
 					}
 
 					DateTime now = DateTime.Now;
-					string newScheduleMealSetDetailIDStr = scheduleMealSetDetailTA.InsertScalar(mealSetID, scheduleID, "A", now, now).ToString();
+					string newScheduleMealSetDetailIDStr = scheduleMealSetDetailTA.InsertScalar(mealSetID, scheduleID, now, now).ToString();
 					int newScheduleMealSetDetailID = int.Parse(newScheduleMealSetDetailIDStr);
 
-					XmlSync.SaveScheduleMealSetDetailXml(newScheduleMealSetDetailID, mealSetID, scheduleID, "A", now, now, null);
+					XmlSync.SaveScheduleMealSetDetailXml(newScheduleMealSetDetailID, mealSetID, scheduleID, now, now, null);
 
 					return Json(new { result = "done" }, JsonRequestBehavior.AllowGet);
 				}
@@ -454,10 +453,10 @@ namespace CTMF_Website.Controllers
 						XmlSync.SaveScheduleXml(scheduleID, scheduleRow.Field<DateTime>("Date"), scheduleRow.Field<int>("ServingTimeID"), true
 							, scheduleRow.Field<DateTime>("InsertedDate"), username, now, null);
 
-						string newScheduleMealSetDetailIDStr = scheduleMealSetDetailTA.InsertScalar(mealSetID, scheduleID, "A", now, now).ToString();
+						string newScheduleMealSetDetailIDStr = scheduleMealSetDetailTA.InsertScalar(mealSetID, scheduleID, now, now).ToString();
 						int newScheduleMealSetDetailID = int.Parse(newScheduleMealSetDetailIDStr);
 
-						XmlSync.SaveScheduleMealSetDetailXml(newScheduleMealSetDetailID, mealSetID, scheduleID, "A", now, now, null);
+						XmlSync.SaveScheduleMealSetDetailXml(newScheduleMealSetDetailID, mealSetID, scheduleID, now, now, null);
 
 						transaction.Commit();
 					}

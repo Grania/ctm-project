@@ -19,8 +19,6 @@ namespace CTMF_Website.Models
 
 		public string ServingTimeName { get; set; }
 
-		public string MealSetDetailName { get; set; }
-
 		public bool IsDayOn { get; set; }
 	}
 

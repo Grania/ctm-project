@@ -74,7 +74,6 @@ namespace CTMF_Website.Controllers
 			DateTime date = DateTime.Now;
 			string mealSetName = model.MealSetName;
 			string description = model.Description;
-			int usedTime = 0;
 			bool canEatMore = model.CanEatMore;
 
 			string savePath = null;
@@ -104,9 +103,9 @@ namespace CTMF_Website.Controllers
 			try
 			{
 				string imgPath = "\\Images\\MealSetImages\\" + mealSetName.Replace(" ", "_") + ".jpg";
-				string mealSetID = mealSetAdapter.InsertMealSetScalar(mealSetName, imgPath, description, usedTime, canEatMore, date, updateBy, date).ToString();
+				string mealSetID = mealSetAdapter.InsertMealSetScalar(mealSetName, imgPath, description, canEatMore, date, updateBy, date).ToString();
 				int id = int.Parse(mealSetID);
-				XmlSync.SaveMealSetXml(id, mealSetName, usedTime, canEatMore, date, updateBy, date, null);
+				XmlSync.SaveMealSetXml(id, mealSetName, canEatMore, date, updateBy, date, null);
 				Log.ActivityLog("Insert into MealSet Table: MealSetName = " + mealSetName);
 			}
 			catch (Exception ex)
@@ -258,7 +257,6 @@ namespace CTMF_Website.Controllers
 
 			DataTable dt = mealSetAdapter.GetDataByMealSetID(mealSetID);
 			string savePath = dt.Rows[0].Field<string>("Image");
-			int usedTime = dt.Rows[0].Field<int>("UsedTime");
 
 			if (!StringExtensions.EqualsInsensitive(dt.Rows[0]["Name"].ToString(), mealSetName))
 			{
@@ -302,7 +300,7 @@ namespace CTMF_Website.Controllers
 			{
 				string imgPath = "\\Images\\MealSetImages\\" + mealSetName.Replace(" ", "_") + ".jpg";
 				mealSetAdapter.UpdateMealSet(mealSetName, imgPath, description, canEatMore, updateBy, date, mealSetID);
-				XmlSync.SaveMealSetXml(mealSetID, mealSetName, usedTime, canEatMore, date, updateBy, date, null);
+				XmlSync.SaveMealSetXml(mealSetID, mealSetName, canEatMore, date, updateBy, date, null);
 				Log.ActivityLog("Update to MealSet Table: MealSetID = " + mealSetID);
 			}
 			catch (Exception ex)
