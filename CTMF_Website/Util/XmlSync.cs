@@ -522,7 +522,7 @@ namespace CTMF_Website.Util
 			}
 		}
 
-		internal static void SaveMealSetXml(int mealSetID, string name, int usedTime, bool canEatMore, DateTime insertedDate
+		internal static void SaveMealSetXml(int mealSetID, string name, bool canEatMore, DateTime insertedDate
 			, string updatedBy, DateTime lastUpdated, string ignoreSyncID)
 		{
 			try
@@ -538,7 +538,6 @@ namespace CTMF_Website.Util
 				// not null value save
 				mealSet.Add(new XElement("MealSetID", mealSetID));
 				mealSet.Add(new XElement("Name", name));
-				mealSet.Add(new XElement("UsedTime", usedTime));
 				mealSet.Add(new XElement("CanEatMore", canEatMore));
 				mealSet.Add(new XElement("InsertedDate", insertedDate));
 				mealSet.Add(new XElement("LastUpdated", lastUpdated));
@@ -657,7 +656,7 @@ namespace CTMF_Website.Util
 		}
 
 		internal static void SaveScheduleMealSetDetailXml(int scheduleMealSetDetailID, int mealSetID, int scheduleID
-			, string name, DateTime insertedDate, DateTime lastUpdated, string ignoreSyncID)
+			, DateTime insertedDate, DateTime lastUpdated, string ignoreSyncID)
 		{
 			try
 			{
@@ -680,7 +679,6 @@ namespace CTMF_Website.Util
 					scheduleMealSetDetail.Add(new XElement("ScheduleMealSetDetailID", scheduleMealSetDetailID));
 					scheduleMealSetDetail.Add(new XElement("MealSetID", mealSetID));
 					scheduleMealSetDetail.Add(new XElement("ScheduleID", scheduleID));
-					scheduleMealSetDetail.Add(new XElement("Name", name));
 					scheduleMealSetDetail.Add(new XElement("InsertedDate", insertedDate));
 					scheduleMealSetDetail.Add(new XElement("LastUpdated", lastUpdated));
 
@@ -757,11 +755,11 @@ namespace CTMF_Website.Util
 				transactionHistory.Add(new XElement("LastUpdated", lastUpdated));
 
 				// nullable value save
-				if (scheduleMealSetDetailID == null)
+				if (scheduleMealSetDetailID != null)
 				{
 					transactionHistory.Add(new XElement("ScheduleMealSetDetailID", scheduleMealSetDetailID));
 				}
-				if (updatedBy == null)
+				if (updatedBy != null)
 				{
 					transactionHistory.Add(new XElement("UpdatedBy", updatedBy));
 				}
