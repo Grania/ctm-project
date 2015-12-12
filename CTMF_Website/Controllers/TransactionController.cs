@@ -4,6 +4,7 @@ using CTMF_Website.Util;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Web.Mvc;
 
 namespace CTMF_Website.Controllers
@@ -66,14 +67,139 @@ namespace CTMF_Website.Controllers
 		{
 			TransactionHistoryListTableAdapter transactionAdapter
 				= new TransactionHistoryListTableAdapter();
-			
+			DataTable transactionDT = new DataTable();
+
+			string username = Request.QueryString["username"];
+			string transactionType = Request.QueryString["transactionType"];
+			string date = Request.QueryString["date"];
+			string page = Request.QueryString["page"];
+			string amountPerPage = Request.QueryString["amountPerPage"];
+
+			int transactionType_;
+			if (!int.TryParse(transactionType, out transactionType_))
+			{
+				transactionType = null;
+			}
+			else
+			{
+				if (transactionType_ == 0)
+				{
+					transactionType = null;
+				}
+			}
+
+			DateTime date_;
+			if (!DateTime.TryParseExact(date, "dd/MM/yyyy", null
+				, System.Globalization.DateTimeStyles.None
+				, out date_))
+			{
+				date = null;
+			}
+			else
+			{
+				date = date_.ToString("yyyy-MM-dd");
+			}
+
+			int page_;
+			if (!int.TryParse(page, out page_))
+			{
+				page = null;
+				page_ = 1;
+			}
+
+			int amountPerPage_;
+			if (!int.TryParse(amountPerPage, out amountPerPage_))
+			{
+				amountPerPage = "50";
+				amountPerPage_ = 50;
+			}
+
 			try
 			{
-				transactionDT = transactionAdapter.GetData();
+				string query = "SELECT * FROM ( SELECT TH.TransactionHistoryID, TH.Username, TH.TransactionTypeID, "
+					+ "TH.Value, TH.TransactionContent, TH.IsAuto, TH.InsertedDate, TT.Name, "
+					+ "ROW_NUMBER() OVER (ORDER BY transactionhistoryid DESC) AS RowNum "
+					+ "FROM TransactionHistory AS TH INNER JOIN "
+					+ "TransactionType AS TT ON TH.TransactionTypeID = TT.TransactionTypeID ";
+				string countQuery = "SELECT COUNT(TH.TransactionHistoryID) FROM TransactionHistory AS TH ";
+				string conditionQuery = "";
+
+				if (username != null || transactionType != null || date != null)
+				{
+					conditionQuery += "WHERE ";
+					bool isFirst = false;
+
+					if (username != null)
+					{
+						conditionQuery += "TH.Username LIKE '%" + username + "%' ";
+						isFirst = true;
+					}
+
+					if (transactionType != null)
+					{
+						if (isFirst)
+						{
+							conditionQuery += "AND ";
+						}
+						conditionQuery += "TH.TransactionTypeID = " + transactionType + " ";
+						isFirst = true;
+					}
+
+					if (date != null)
+					{
+						if (isFirst)
+						{
+							conditionQuery += "AND ";
+						}
+						conditionQuery += "TH.InsertedDate BETWEEN '" + date + " 00:00:000' AND '" + date + " 23:59:59:999' ";
+					}
+				}
+
+				int minRowNum = ((page_ - 1) * amountPerPage_) + 1;
+				int maxRowNum = page_ * amountPerPage_;
+				query += conditionQuery;
+				query += ") AS SOD WHERE SOD.RowNum BETWEEN (" + minRowNum + ") AND (" + maxRowNum + ") ";
+
+				SqlCommand countCmd = new SqlCommand(countQuery + conditionQuery, transactionAdapter.Connection);
+				SqlCommand getDataCmd = new SqlCommand(query, transactionAdapter.Connection);
+				SqlDataAdapter getDataAdapter = new SqlDataAdapter(getDataCmd);
+
+				transactionAdapter.Connection.Open();
+				int count = (int)countCmd.ExecuteScalar();
+
+				getDataAdapter.Fill(transactionDT);
+
+				int maxPage = (count / amountPerPage_);
+				if (count % amountPerPage_ != 0)
+				{
+					maxPage++;
+				}
+
+				ViewBag.maxPage = maxPage;
+				if (page_ > maxPage)
+				{
+					page_ = maxPage;
+				}
+
+				ViewBag.curPage = page_;
+				ViewBag.amountPerPage = amountPerPage_;
+
+				DataTable transactionTypeDT = new TransactionTypeTableAdapter().GetData();
+				List<KeyValuePair<int, string>> transactionTypes = new List<KeyValuePair<int, string>>();
+
+				foreach (DataRow row in transactionTypeDT.Rows)
+				{
+					transactionTypes.Add(new KeyValuePair<int, string>(
+						row.Field<int>("TransactionTypeID"),
+						row.Field<string>("Name")));
+				}
+
+				ViewBag.transactionTypes = transactionTypes;
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
+				return View("Error");
 			}
 
 			return View(transactionDT);
