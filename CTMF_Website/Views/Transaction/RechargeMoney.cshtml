@@ -1,72 +1,51 @@
 ﻿@using CTMF_Website.Models
 @model RechargeMoney
 @{
-    ViewBag.Title = "RechargeMoney";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "RechargeMoney";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-	.addForm {
-		width: 60%;
-		margin: auto;
-		margin-top: 50px;
-		box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
-		border-radius: 10px;
-		background-color: #fff;
-		/*opacity: 0.9;*/
-	}
-
-	.title {
-		padding: 10px 30px 10px;
-		color: #C41230;
-		font-size: 28px;
-		font-family: "Roboto Condensed";
-		font-weight: bold;
-		text-transform: uppercase;
-	}
-</style>
-
-<div class="addForm">
-	<legend class="title">Nạp tiền</legend>
-	<div class="container">
-		@using (Html.BeginForm("RechargeMoney", "Transaction", FormMethod.Post, new { @class = "form-horizontal" }))
-		{
+<div class="container container-fix" style="width: 75% !important">
+	@using (Html.BeginForm("RechargeMoney", "Transaction", FormMethod.Post, new { @class = "form-horizontal" }))
+	{
+		<fieldset>
+			<legend class="title">Nạp tiền</legend>
 			@Html.AntiForgeryToken()
 			@Html.ValidationSummary(true)
 			<div class="form-group" style="margin-top: 20px">
-				@Html.LabelFor(m => m.Username, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
+				@Html.LabelFor(m => m.Username, new { @class = "control-label col-md-4" })
+				<div class="col-md-6">
 					@Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2">
+				<div class="col-md-4">
 
 				</div>
-				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Username, String.Empty, new { @style = "color:red" })</div>
+				<div class="col-md-4">@Html.ValidationMessageFor(model => model.Username, String.Empty, new { @style = "color:red" })</div>
 			</div>
 			<div class="form-group">
-				@Html.LabelFor(m => m.AmountOfMoney, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
+				@Html.LabelFor(m => m.AmountOfMoney, new { @class = "control-label col-md-4" })
+				<div class="col-md-4">
 					@Html.TextBoxFor(m => m.AmountOfMoney, new { @class = "form-control" })
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2">
+				<div class="col-md-4">
 
 				</div>
-				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.AmountOfMoney, String.Empty, new { @style = "color:red" })</div>
+				<div class="col-md-4">@Html.ValidationMessageFor(model => model.AmountOfMoney, String.Empty, new { @style = "color:red" })</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-2">
+				<label class="col-md-4 control-label"></label>
+				<div class="col-md-2">
 					<input type="submit" class="btn btn-primary" value="Nạp tiền">
 				</div>
 				<div class="col-sm-2">
 					<a href="~/Transaction/ListTransaction" class="btn btn-danger">Hủy</a>
 				</div>
 			</div>
-		}
-	</div>
+		</fieldset>
+	}
 </div>
-
 

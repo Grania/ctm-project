@@ -9,60 +9,62 @@
 }
 
 <link href="~/CSS/table.css" rel="stylesheet" />
-<div class="container" style="background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
-	<legend class="table-title">Quản lý thời gian phục vụ</legend>
-	<div>
-		<div class="table-body">
-			<div style="margin-bottom:20px;">
-				<div class="pull-right">
-					@using (Html.BeginForm("ViewServingTime", "Schedule", FormMethod.Get))
-					{
-						<div class="input-group">
-							<span class="input-group-btn">
-								<button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-							</span>
-						</div>
-					}
+<div class="container container-fix">
+	<fieldset>
+		<legend class="table-title">Quản lý thời gian phục vụ</legend>
+		<div>
+			<div class="table-body">
+				<div style="margin-bottom:20px;">
+					<div class="pull-right">
+						@using (Html.BeginForm("ViewServingTime", "Schedule", FormMethod.Get))
+						{
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+								</span>
+							</div>
+						}
+					</div>
+				</div>
+				<tr><a href="AddNewServingTime" class="btn btn-primary">Thêm thông tin mới</a></tr>
+				<table class="table table-bordered table-hover table-condensed">
+					<thead>
+						<tr>
+							<th>STT</th>
+							<th>Tên bữa ăn</th>
+							<th>Thời gian bắt đầu</th>
+							<th>Thời gian kết thúc</th>
+							<th>Quản lý</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (System.Data.DataRow row in Model.Rows)
+						{
+							count++;
+							ID = row["ServingTimeID"].ToString();
+							<tr>
+								<td>@count</td>
+								<td>@row["Name"]</td>
+								<td>@row["StartTime"]</td>
+								<td>@row["EndTime"]</td>
+								<td>
+									<div>
+										<a href="@Url.Action("EditServingTime", "Schedule", new { servingTimeID = ID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+										<a href="@Url.Action("DeleteServingTime", "Schedule", new { servingTimeID = ID })" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>
+									</div>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+			<div id="footer">
+				<div>
+					<nav>
+						<ul class="pager"></ul>
+					</nav>
 				</div>
 			</div>
-			<tr><a href="AddNewServingTime" class="btn btn-primary">Thêm thông tin mới</a></tr>
-			<table class="table table-bordered table-hover table-condensed">
-				<thead>
-					<tr>
-						<th>STT</th>
-						<th>Tên bữa ăn</th>
-						<th>Thời gian bắt đầu</th>
-						<th>Thời gian kết thúc</th>
-						<th>Quản lý</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (System.Data.DataRow row in Model.Rows)
-					{
-						count++;
-						ID = row["ServingTimeID"].ToString();
-						<tr>
-							<td>@count</td>
-							<td>@row["Name"]</td>
-							<td>@row["StartTime"]</td>
-							<td>@row["EndTime"]</td>
-							<td>
-								<div>
-									<a href="@Url.Action("EditServingTime", "Schedule", new { servingTimeID = ID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="@Url.Action("DeleteServingTime", "Schedule", new { servingTimeID = ID })" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>
-								</div>
-							</td>
-						</tr>
-					}
-				</tbody>
-			</table>
 		</div>
-		<div id="footer">
-			<div>
-				<nav>
-					<ul class="pager"></ul>
-				</nav>
-			</div>
-		</div>
-	</div>
+	</fieldset>
 </div>

@@ -3,9 +3,10 @@
 	ViewBag.Title = "ListDish";
 }
 <link href="~/CSS/table.css" rel="stylesheet" />
-<div class="container" style="background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
-	<legend class="table-title">Quản lý món ăn</legend>
-	<div>
+
+<div class="container container-fix">
+	<fieldset>
+		<legend class="table-title">Quản lý món ăn</legend>
 		<div class="table-body">
 			<div style="margin-bottom:20px;">
 				<a href="~/Dish/AddDish" class="btn btn-primary">Thêm món ăn mới</a>
@@ -26,8 +27,8 @@
 					<tr>
 						<th style="width:5%">STT</th>
 						<th>Tên món ăn</th>
-						<th style="width:15%">Loại món ăn</th>
-						<th style="width:15%">Quản lý</th>
+						<th>Loại món ăn</th>
+						<th>Quản lý</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -42,8 +43,8 @@
 							<td>@row["Name"]</td>
 							<td>@row["TypeName"]</td>
 							<td>
-								<div>
-									<button class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></button>
+								<div class="">
+									<button class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign" ></span></button>
 									<a href="@Url.Action("EditDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
 									<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>
 								</div>
@@ -63,5 +64,5 @@
 				</nav>
 			</div>
 		</div>
-	</div>
+	</fieldset>
 </div>

@@ -27,11 +27,12 @@
 	});
 </script>
 
-<div class="addForm">
-	<legend class="title">Thêm món ăn mới</legend>
-	<div class="container">
-		@using (Html.BeginForm("AddDish", "Dish", FormMethod.Post, new { @class = "form-horizontal" }))
-		{
+<div class="container container-fix" style="width: 75% !important;">
+
+	@using (Html.BeginForm("AddDish", "Dish", FormMethod.Post, new { @class = "form-horizontal" }))
+	{
+		<fieldset>
+			<legend class="title">Thêm món ăn mới</legend>
 			@Html.AntiForgeryToken()
 			@Html.ValidationSummary(true)
 			<div class="form-group">
@@ -58,7 +59,7 @@
 			</div>
 			<div class="form-group" style="margin-top: 20px">
 				@Html.HiddenFor(m => m.Image, new { id = "pathImage" })
-				@Html.LabelFor(m => m.Image, new { @class = "control-label col-sm-2" })
+				@Html.LabelFor(m => m.Image, new { @class = "col-md-4 control-label" })
 				<div class="col-sm-5">
 					<span class="btn btn-success fileinput-button">
 						<i class="glyphicon glyphicon-plus"></i>
@@ -68,37 +69,39 @@
 				</div>
 			</div>
 			<div class="form-group">
-				@Html.LabelFor(m => m.DishTypeID, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
-					@Html.DropDownListFor(m => m.DishTypeID, new SelectList(items, "Value", "Text"), new { @class = "form-control", @style = "width:250px;" })
+				@Html.LabelFor(m => m.DishTypeID, new { @class = "control-label col-md-4" })
+				<div class="col-md-3">
+					@Html.DropDownListFor(m => m.DishTypeID, new SelectList(items, "Value", "Text"), new { @class = "form-control"})
 				</div>
 			</div>
 			<div class="form-group" style="margin-top: 20px">
-				@Html.LabelFor(m => m.Dishname, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
+				@Html.LabelFor(m => m.Dishname, new { @class = "control-label col-md-4" })
+				<div class="col-md-4">
 					@Html.TextBoxFor(m => m.Dishname, new { @class = "form-control" })
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2">
+				<div class="col-md-4">
 
 				</div>
-				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Dishname, String.Empty, new { @style = "color:red" })</div>
+				<div class="col-md-4">@Html.ValidationMessageFor(model => model.Dishname, String.Empty, new { @style = "color:red" })</div>
 			</div>
 			<div class="form-group" style="margin-top: 20px">
-				@Html.LabelFor(m => m.Description, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
+				@Html.LabelFor(m => m.Description, new { @class = "control-label col-md-4" })
+				<div class="col-md-6">
 					@Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-2">
-					<input type="submit" class="btn btn-primary" value="Thêm món">
+				<label class="col-md-4 control-label"></label>
+				<div class="col-md-2">
+					<button type="submit" class="btn btn-primary">Thêm món</button>
 				</div>
-				<div class="col-sm-2">
+				<div class="col-md-2">
 					<a href="~/Dish/ListDish" class="btn btn-danger">Hủy</a>
 				</div>
 			</div>
-		}
-	</div>
+		</fieldset>
+	}
+
 </div>

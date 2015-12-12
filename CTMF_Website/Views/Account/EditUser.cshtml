@@ -11,24 +11,19 @@
 	role.Add(new SelectListItem { Text = "Quản lý", Value = "3" });
 	role.Add(new SelectListItem { Text = "Quản trị viên", Value = "4" });
 }
-<div class="container">
-	@using (Html.BeginForm("EditUser", "Account", FormMethod.Post, new { @class = "well form-horizontal", @id = "contact_form" }))
+<div class="container container-fix">
+	@using (Html.BeginForm("EditUser", "Account", FormMethod.Post, new { @class = "form-horizontal", @id = "contact_form" }))
 	{
-		@*<form class="well form-horizontal" action=" " method="post" id="contact_form">*@
 		<fieldset>
-
-			<!-- Form Name -->
-			<legend class="title">Đăng ký thành viên</legend>
+			<legend class="title">Cập nhật thông tin người dùng</legend>
 			@Html.AntiForgeryToken()
 			@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
-			<!-- Text input-->
 
 			<div class="form-group">
 				<label class="col-md-4 control-label">Tên đăng nhập</label>
 				<div class="col-md-4 inputGroupContainer">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-						@*<input name="first_name" placeholder="First Name" class="form-control" type="text">*@
 						@Html.TextBoxFor(m => m.Username, new { @class = "form-control", @readonly = "readonly" })
 						@Html.HiddenFor(m => m.Username)
 					</div>
@@ -43,13 +38,11 @@
 				</div>
 			</div>
 
-			<!-- Text input-->
 			<div class="form-group">
 				<label class="col-md-4 control-label">E-Mail</label>
 				<div class="col-md-4 inputGroupContainer">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-						@*<input name="email" placeholder="E-Mail Address" class="form-control" type="text">*@
 						@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "E-Mail" })
 					</div>
 				</div>
@@ -62,9 +55,6 @@
 					</div>
 				</div>
 			</div>
-
-
-			<!-- Text input-->
 
 			<div class="form-group">
 				<label class="col-md-4 control-label">Họ Tên</label>
@@ -111,85 +101,16 @@
 				</div>
 			</div>
 
-
-			<!-- Button -->
 			<div class="form-group">
 				<label class="col-md-4 control-label"></label>
-				<div class="col-xs-4 col-md-4">
+				<div class="col-md-2">
 					<button type="submit" class="btn btn-warning">Cập nhật <span class="glyphicon glyphicon-send"></span></button>
-					<a href="~/Account/ListUser" class="btn btn-danger" style="margin-left: 130px;">Hủy</a>
+				</div>
+				<div class="col-md-2">
+					<a href="~/Account/ListUser" class="btn btn-danger">Hủy</a>
 				</div>
 			</div>
 
 		</fieldset>
-		@*</form>*@
 	}
 </div>
-
-@*<div class="addForm">
-	<legend class="title">Cập nhật thông tin người dùng</legend>
-	<div class="container">
-		@using (Html.BeginForm("EditUser", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
-		{
-			@Html.AntiForgeryToken()
-			@Html.ValidationSummary(true)
-			<div class="form-group" style="margin-top: 20px">
-				@Html.LabelFor(m => m.Username, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
-					@Model.Username
-					@Html.HiddenFor(m => m.Username)
-				</div>
-			</div>
-			<div class="form-group">
-				@Html.LabelFor(m => m.Name, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
-					@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2">
-
-				</div>
-				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Name, String.Empty, new { @style = "color:red" })</div>
-			</div>
-			<div class="form-group">
-				@Html.LabelFor(m => m.Email, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
-					@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2">
-
-				</div>
-				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.Email, String.Empty, new { @style = "color:red" })</div>
-			</div>
-			<div class="form-group">
-				@Html.LabelFor(m => m.UserTypeID, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
-					@Html.DropDownListFor(m => m.UserTypeID, new SelectList(userType, "Value", "Text", Model.UserTypeID), new { @class = "form-control", @style = "width:250px;" })
-				</div>
-			</div>
-			<div class="form-group">
-				@Html.LabelFor(m => m.Role, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
-					@Html.DropDownListFor(m => m.Role, new SelectList(role, "Value", "Text", Model.Role), new { @class = "form-control", @style = "width:250px;" })
-				</div>
-			</div>
-			<div class="form-group">
-				@Html.LabelFor(m => m.isActive, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
-					@Html.CheckBoxFor(m => m.isActive, new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-2">
-					<input type="submit" class="btn btn-primary" value="Cập nhật">
-				</div>
-				<div class="col-sm-2">
-					<a href="~/Account/ListUser" class="btn btn-danger">Hủy</a>
-				</div>
-			</div>
-		}
-	</div>
-</div>*@

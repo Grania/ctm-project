@@ -6,73 +6,75 @@
 }
 
 <link href="~/CSS/table.css" rel="stylesheet" />
-<div class="container" style="background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
-	<legend class="table-title">Quản lý suất ăn</legend>
-	<div>
-		<div class="table-body">
-			<div style="margin-bottom:20px;">
-				<a href="~/MealSet/AddMealSet" class="btn btn-primary">Thêm suất ăn mới</a>
-				<div class="pull-right">
-					@using (Html.BeginForm("ListMealSet", "MealSet", FormMethod.Get))
-					{
-						<div class="input-group">
-							<span class="input-group-btn">
-								<button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-							</span>
-							<input type="text" class="form-control" name="search" placeholder="Tìm kiếm" style="min-width:300px;">
-						</div>
-					}
+<div class="container container-fix">
+	<fieldset>
+		<legend class="table-title">Quản lý suất ăn</legend>
+		<div>
+			<div class="table-body">
+				<div style="margin-bottom:20px;">
+					<a href="~/MealSet/AddMealSet" class="btn btn-primary">Thêm suất ăn mới</a>
+					<div class="pull-right">
+						@using (Html.BeginForm("ListMealSet", "MealSet", FormMethod.Get))
+						{
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+								</span>
+								<input type="text" class="form-control" name="search" placeholder="Tìm kiếm" style="min-width:300px;">
+							</div>
+						}
+					</div>
+				</div>
+				<table class="table table-bordered table-hover table-condensed">
+					<thead>
+						<tr>
+							<th style="width:5%">STT</th>
+							<th>Tên suất ăn</th>
+							<th style="width:15%">Ăn thêm</th>
+							<th style="width:17%">Quản lý</th>
+						</tr>
+					</thead>
+					<tbody>
+						@{
+							int count = 0;
+						}
+						@foreach (System.Data.DataRow row in Model.Rows)
+						{
+							count++;
+							<tr>
+								<td>@count</td>
+								<td>@row["Name"]</td>
+								@if (row["CanEatMore"].Equals(true))
+								{
+									<td><span style="color: #10CB10" class="glyphicon glyphicon-ok"></span></td>
+								}
+								else
+								{
+									<td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+								}
+								<td>
+									<div>
+										<button class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></button>
+										<a href="@Url.Action("EditMealSet", "MealSet", new {mealSetID = @row["MealSetID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+										<a href="@Url.Action("AddMealSetDish", "MealSet", new { mealSetID = @row["MealSetID"] })" class="btn btn-success" title="Thêm"><span class="glyphicon glyphicon-plus"></span></a>
+										<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>
+									</div>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+			<div id="footer">
+				<div>
+					<nav>
+						<ul class="pager">
+							<li><a href="#">Previous</a></li>
+							<li><a href="#">Next</a></li>
+						</ul>
+					</nav>
 				</div>
 			</div>
-			<table class="table table-bordered table-hover table-condensed">
-				<thead>
-					<tr>
-						<th style="width:5%">STT</th>
-						<th>Tên suất ăn</th>
-						<th style="width:15%">Ăn thêm</th>
-						<th style="width:17%">Quản lý</th>
-					</tr>
-				</thead>
-				<tbody>
-					@{
-						int count = 0;
-					}
-					@foreach (System.Data.DataRow row in Model.Rows)
-					{
-						count++;
-						<tr>
-							<td>@count</td>
-							<td>@row["Name"]</td>
-							@if (row["CanEatMore"].Equals(true))
-							{
-								<td><span style="color: #10CB10" class="glyphicon glyphicon-ok"></span></td>
-							}
-							else
-							{
-								<td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
-							}
-							<td>
-								<div>
-									<button class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></button>
-									<a href="@Url.Action("EditMealSet", "MealSet", new {mealSetID = @row["MealSetID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="@Url.Action("AddMealSetDish", "MealSet", new { mealSetID = @row["MealSetID"] })" class="btn btn-success" title="Thêm"><span class="glyphicon glyphicon-plus"></span></a>
-									<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>
-								</div>
-							</td>
-						</tr>
-					}
-				</tbody>
-			</table>
 		</div>
-		<div id="footer">
-			<div>
-				<nav>
-					<ul class="pager">
-						<li><a href="#">Previous</a></li>
-						<li><a href="#">Next</a></li>
-					</ul>
-				</nav>
-			</div>
-		</div>
-	</div>
+	</fieldset>
 </div>

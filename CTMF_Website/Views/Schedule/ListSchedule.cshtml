@@ -290,19 +290,21 @@
 </script>
 
 <link href="~/CSS/table.css" rel="stylesheet" />
-<div class="container" style="background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
-	<legend class="table-title">Quản lý lịch ăn</legend>
-	<div>
-		<div class="table-body">
-			<div id="schedule-date-list" style="width:30%; height: 500px; border: 1px solid black; float: left">
-				<div id="schedule-month-picker" style="width: 100%; height: 30px; border: 1px solid black; border-width: 0px 0px 1px 0px; text-align: center; line-height: 30px">
-					<select id="schedule-month-ddl"></select>
-					<select id="schedule-year-ddl"></select>
+<div class="container container-fix">
+	<fieldset>
+		<legend class="table-title">Quản lý lịch ăn</legend>
+		<div>
+			<div class="table-body">
+				<div id="schedule-date-list" style="width:30%; height: 500px; border: 1px solid black; float: left">
+					<div id="schedule-month-picker" style="width: 100%; height: 30px; border: 1px solid black; border-width: 0px 0px 1px 0px; text-align: center; line-height: 30px">
+						<select id="schedule-month-ddl"></select>
+						<select id="schedule-year-ddl"></select>
+					</div>
+					<div id="schedule-day-list" style="overflow-y: auto; width: 100%; height: 470px"></div>
 				</div>
-				<div id="schedule-day-list" style="overflow-y: auto; width: 100%; height: 470px"></div>
-			</div>
-			<div id="date-detail" style="width: 70%; border: 1px solid black; float: right">
+				<div id="date-detail" style="width: 70%; border: 1px solid black; float: right">
+				</div>
 			</div>
 		</div>
-	</div>
+	</fieldset>
 </div>

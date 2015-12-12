@@ -21,11 +21,11 @@
 		role = "Quản trị viên";
 	}
 }
-<div class="container">
-	@using (Html.BeginForm("", "", FormMethod.Post, new { @class = "well form-horizontal" }))
+<div class="container container-fix">
+	@using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal" }))
 	{
 		<fieldset>
-			<legend class="title">Thông tin cá nhân</legend>
+			<legend class="title">Thông tin người dùng</legend>
 			<div class="form-group">
 				<label class="col-md-4 control-label">Tên đăng nhập</label>
 				<div class="col-md-4 inputGroupContainer">
