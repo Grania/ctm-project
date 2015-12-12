@@ -18,6 +18,12 @@ namespace CTMF_Website.Controllers
 		[AllowAnonymous]
 		public ActionResult ViewDish(string search, string filter)
 		{
+
+			DishTypeTableAdapter dishTypeAdapter = new DishTypeTableAdapter();
+			DataTable dishTypeDT = dishTypeAdapter.GetData();
+
+			ViewData["DishType"] = dishTypeDT;
+
 			DishTableAdapter adapter = new DishTableAdapter();
 
 			try
