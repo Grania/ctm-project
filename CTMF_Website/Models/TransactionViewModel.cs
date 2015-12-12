@@ -84,7 +84,7 @@ namespace CTMF_Website.Models
 		[Display(Name = "Thời gian cập nhật cuối cùng")]
 		public DateTime LastUpdated { get; set; }
 
-		[Display(Name = "Tên món ăn")]
+		[Display(Name = "Tên suất ăn")]
 		public string DishName { get; set; }
 
 
