@@ -14,9 +14,6 @@ namespace CTMF_Website.Controllers
 {
 	public class AccountController : Controller
 	{
-		DataTable userDT = new DataTable();
-
-
 		[AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
@@ -225,7 +222,7 @@ namespace CTMF_Website.Controllers
 						UserInfoAdapter.InsertUserInfo(username, name, userType, 0, date, null, null, null, false, false, date, username, date);
 						Log.ActivityLog("Insert into UserInfo: Username = " + username);
 
-						AccountAdapter.InsertAccount(username, password, email, 1, false);
+						AccountAdapter.Insert(username, password, email, 1);
 						Log.ActivityLog("Insert into Account: Username = " + username);
 
 						XmlSync.SaveUserInfoXml(username, name, userType, 0, date, null, null, null, false, false, date, username, date, null);
@@ -243,13 +240,110 @@ namespace CTMF_Website.Controllers
 		}
 
 		[AllowAnonymous]
-		public ActionResult ListUser(string search, string filter)
+		public ActionResult ListUser()
 		{
 			UserInfoDetailTableAdapter userInfoAdapter = new UserInfoDetailTableAdapter();
+			DataTable userDT = new DataTable();
+
+			string username = Request.QueryString["username"];
+			string name = Request.QueryString["name"];
+			string userType = Request.QueryString["userType"];
+			string role = Request.QueryString["role"];
+			string active = Request.QueryString["active"];
+
+			string page = Request.QueryString["page"];
+			string amountPerPage = Request.QueryString["amountPerPage"];
+
+			int role_;
+			if (!int.TryParse(role, out role_))
+			{
+				role = null;
+			}
+
+			int active_;
+			if (!int.TryParse(active, out active_))
+			{
+				active = null;
+			}
+
+			int page_;
+			if (!int.TryParse(page, out page_))
+			{
+				page = null;
+				page_ = 1;
+			}
+
+			int amountPerPage_;
+			if (!int.TryParse(amountPerPage, out amountPerPage_))
+			{
+				amountPerPage = "50";
+				amountPerPage_ = 50;
+			}
 
 			try
 			{
+				string query = "SELECT * FROM ( SELECT UserInfo.Username, UserInfo.Name, UserInfo.TypeShortName, "
+					+ "UserInfo.AmountOfMoney, UserInfo.LastUpdatedMoney, UserInfo.FingerPosition, UserInfo.IsCafeteriaStaff, "
+					+ "UserInfo.InsertedDate, UserInfo.UpdatedBy, UserInfo.LastUpdated, Account.Email, Account.Role, "
+					+ "UserType.TypeName, UserType.MealValue, UserType.MoreMealValue, UserType.CanDebt, "
+					+ "UserType.CanEatMore, UserInfo.IsActive, ROW_NUMBER() OVER (order by UserInfo.InsertedDate DESC) AS RowNum "
+					+ "FROM UserInfo INNER JOIN Account ON UserInfo.Username = Account.Username INNER JOIN "
+					+ "UserType ON UserInfo.TypeShortName = UserType.TypeShortName ";
+				string countQuery = "SELECT COUNT(UserInfo.Username) FROM UserInfo INNER JOIN Account " 
+					+ "ON UserInfo.Username = Account.Username ";
+				string conditionString = "";
+
+				if (username != null || name != null || userType != null || role != null || active != null)
+				{
+					conditionString += "WHERE ";
+					bool isFirst = false;
+
+					if (username != null)
+					{
+						conditionString += "UserInfo.Username like '%"+username+"%' ";
+						isFirst = true;
+					}
+
+					if(name != null)
+					{
+						if (isFirst)
+						{
+							conditionString += "AND ";
+						}
+						conditionString += "UserInfo.Name like N'%"+name+"%' ";
+					}
+
+					if (userType != null)
+					{
+						if (isFirst)
+						{
+							conditionString += "AND ";
+						}
+						conditionString += "UserInfo.TypeShortName = '" + userType + "' ";
+					}
+
+					if (role != null)
+					{
+						if (isFirst)
+						{
+							conditionString += "AND ";
+						}
+						conditionString += "Account.Role = " + role + " ";
+					}
+
+					if (active != null)
+					{
+						if (isFirst)
+						{
+							conditionString += "AND ";
+						}
+						conditionString += "";
+					}
+				}
+
 				userDT = userInfoAdapter.GetData();
+
+				ViewBag.listRole = AccountInfo.GetRoleListVnese();
 			}
 			catch (Exception ex)
 			{
@@ -346,7 +440,7 @@ namespace CTMF_Website.Controllers
 					userInfoAdapter.InsertUserInfo(username, name, userTypeID, 0, date, null, null, null, isCafeteria, false, date, updateBy, date);
 					Log.ActivityLog("Insert into UserInfo: Username = " + username);
 					AccountTableAdapter AccountAdapter = new AccountTableAdapter();
-					AccountAdapter.InsertAccount(username, password, email, role, false);
+					AccountAdapter.Insert(username, password, email, role);
 					Log.ActivityLog("Insert into Account: Username = " + username);
 				}
 				catch (Exception ex)
@@ -466,7 +560,7 @@ namespace CTMF_Website.Controllers
 					userInfoAdapter.UpdateUserInfo(username, name, userTypeID, amountOfMoney, lastUpdatedMoney, fingerPrintIMG
 						, lastUpdatedFingerPrint, fingerPosition, isCafeteriaStaff, isActive, insertedDate, updateBy, date, username);
 					Log.ActivityLog("Update to UserInfo: username = " + username);
-					accountAdapter.UpdateAccount(email, role, isActive, username);
+					accountAdapter.UpdateAccount(email, role, username);
 					Log.ActivityLog("Update to Account: username = " + username);
 
 					transaction.Commit();

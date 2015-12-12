@@ -17,7 +17,28 @@
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
 						</span>
-						<input type="text" class="form-control" name="search" placeholder="Tìm kiếm" style="max-width:300px;">
+						<input type="text" class="form-control" name="username" placeholder="Tìm kiếm" style="max-width:300px;">
+						<input type="text" class="form-control" name="name" placeholder="Tìm kiếm" style="max-width:300px;">
+						<select id="ddlUserType"></select>
+						<select id="ddlRole">
+							<option value="">Tất cả</option>
+							@foreach (KeyValuePair<int, string> pair in (List<KeyValuePair<int, string>>)ViewBag.roleList)
+							{
+								if (pair.Key.ToString() == Request.QueryString["role"])
+								{
+									<option value="@pair.Key" selected>@pair.Value</option>
+								}
+								else
+								{
+									<option value="@pair.Key">@pair.Value</option>
+								}
+							}
+						</select>
+						<select id="ddlActive">
+							<option value="">Tất cả</option>
+							<option value="0">Chưa kích hoạt</option>
+							<option value="1">Đã kích hoạt</option>
+						</select>
 					</div>
 				}
 			</div>
@@ -41,23 +62,7 @@
 				@foreach (System.Data.DataRow row in Model.Rows)
 				{
 					count++;
-					string role = "";
-					if (row["Role"].Equals(1))
-					{
-						role = "Khách hàng";
-					}
-					if (row["Role"].Equals(2))
-					{
-						role = "Nhân viên nhà ăn";
-					}
-					if (row["Role"].Equals(3))
-					{
-						role = "Quản lý";
-					}
-					if (row["Role"].Equals(4))
-					{
-						role = "Quản trị viên";
-					}
+					string role = CTMF_Website.Util.AccountInfo.GetRoleNameVnese((int)row["Role"]);
 					<tr>
 						<td>@count</td>
 						<td>@row["Username"]</td>
@@ -83,16 +88,15 @@
 				}
 			</tbody>
 		</table>
+		<div id="footer">
+			<div>
+				<nav>
+					<ul class="pager">
+						<li><a href="#">Trước</a></li>
+						<li><a href="#">Sau</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
 	</fieldset>
-</div>
-
-<div id="footer">
-	<div>
-		<nav>
-			<ul class="pager">
-				<li><a href="#">Previous</a></li>
-				<li><a href="#">Next</a></li>
-			</ul>
-		</nav>
-	</div>
 </div>

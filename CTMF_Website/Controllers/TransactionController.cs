@@ -1,4 +1,4 @@
-﻿using CTMF_Website.DataAccessTableAdapters;
+﻿ using CTMF_Website.DataAccessTableAdapters;
 using CTMF_Website.Models;
 using CTMF_Website.Util;
 using System;
@@ -72,6 +72,7 @@ namespace CTMF_Website.Controllers
 			string username = Request.QueryString["username"];
 			string transactionType = Request.QueryString["transactionType"];
 			string date = Request.QueryString["date"];
+
 			string page = Request.QueryString["page"];
 			string amountPerPage = Request.QueryString["amountPerPage"];
 
