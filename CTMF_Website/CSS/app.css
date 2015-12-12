@@ -1,6 +1,14 @@
 ﻿body {
 	background-color: #E0E0E0 !important;
 }
+
+.container-fix {
+	width: 85% !important;
+	background-color: #fff;
+	box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+	border-radius: 7px;
+}
+
 /*Sidebar css*/
 .fa-2x {
 	font-size: 2em;
@@ -26,10 +34,10 @@ nav.main-menu.expanded {
 	background: #fbfbfb;
 	border-right: 1px solid #e5e5e5;
 	position: fixed;
-	top: 100px;
-	/*bottom: 0;
-			height: 100%;*/
-	left: 0;
+	/*top: 100px;
+	bottom: 0;
+	height: 100%;
+	left: 0;*/
 	width: 60px;
 	overflow: hidden;
 	-webkit-transition: width .05s linear;
@@ -62,37 +70,12 @@ nav.main-menu.expanded {
 			transition: all .1s linear;
 		}
 
-	.main-menu .nav-icon {
-		position: relative;
-		display: table-cell;
-		width: 60px;
-		height: 36px;
-		text-align: center;
-		vertical-align: middle;
-		font-size: 18px;
-	}
-
 	.main-menu .nav-text {
 		position: relative;
 		display: table-cell;
 		vertical-align: middle;
 		width: 190px;
 		font-family: 'Titillium Web', sans-serif;
-	}
-
-	.main-menu > ul.logout {
-		position: absolute;
-		left: 0;
-		bottom: 0;
-	}
-
-.no-touch .scrollable.hover {
-	overflow-y: hidden;
-}
-
-	.no-touch .scrollable.hover:hover {
-		overflow-y: auto;
-		overflow: visible;
 	}
 
 a:hover,
@@ -162,7 +145,6 @@ nav {
 		/*margin-top: 32px;*/
 		/*border-top-left-radius: 7px;
 		border-top-right-radius: 7px;*/
-
 		-webkit-transition: all 0.3s;
 		-moz-transition: all 0.3s;
 		-ms-transition: all 0.3s;
@@ -183,9 +165,9 @@ nav {
 	font-weight: 700;
 }
 
-.navbar-header > a:hover{
-	color: white;
-}
+	.navbar-header > a:hover {
+		color: white;
+	}
 /*End sub-menu*/
 #main-menu > li > a {
 	font-size: 15px;
@@ -207,6 +189,7 @@ nav {
 	border-radius: 0px;
 	white-space: nowrap;
 	color: #fff;
+	padding: 22px 20px;
 }
 
 #main-menu > li > a:hover {
@@ -217,8 +200,8 @@ nav {
 }
 
 #sub-menu > li > a:hover {
-	background-color: #E1E1E1;
-	color: #C41230;
+	background-color: #fff;
+	color: #04A3ED;
 	transition: all 400ms;
 }
 
@@ -268,53 +251,52 @@ nav {
 
 /*HomePage*/
 .section {
-		font-size: 56px;
-		text-align: center;
-		margin-top: 35px;
-		letter-spacing: 3px;
-		font-weight: 500;
-		color: #34495e;
-		text-transform: capitalize;
+	font-size: 56px;
+	text-align: center;
+	margin-top: 35px;
+	letter-spacing: 3px;
+	font-weight: 500;
+	color: #34495e;
+	text-transform: capitalize;
+}
+
+	.section hr {
+		width: 100px;
+		height: 50px;
 	}
 
-		.section hr {
-			width: 100px;
-			height: 50px;
-		}
+.work {
+	background: -webkit-linear-gradient(rgba(52, 73, 94, 0.8), rgba(52, 73, 94, 0.8)), url(http://timothy.expert/codepen-resources/writing.jpg) no-repeat center center;
+	background: linear-gradient(rgba(52, 73, 94, 0.8), rgba(52, 73, 94, 0.8)), url(http://timothy.expert/codepen-resources/writing.jpg) no-repeat center center;
+	background-size: cover;
+}
 
-	.work {
-		background: -webkit-linear-gradient(rgba(52, 73, 94, 0.8), rgba(52, 73, 94, 0.8)), url(http://timothy.expert/codepen-resources/writing.jpg) no-repeat center center;
-		background: linear-gradient(rgba(52, 73, 94, 0.8), rgba(52, 73, 94, 0.8)), url(http://timothy.expert/codepen-resources/writing.jpg) no-repeat center center;
-		background-size: cover;
+	.work h3,
+	.work p {
+		color: #fff !important;
 	}
 
-		.work h3,
-		.work p {
-			color: #fff !important;
-		}
+.spacer {
+	clear: both;
+	height: 20px;
+}
 
-	.spacer {
-		clear: both;
-		height: 20px;
-	}
-
-	.well {
-		min-height: 20px;
-		padding: 9px;
-		margin-bottom: 20px;
-		background-color: #fff;
-		border-radius: 3px;
-		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-	}
+.well {
+	min-height: 20px;
+	padding: 9px;
+	margin-bottom: 20px;
+	background-color: #fff;
+	border-radius: 3px;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
 /*End Homepage*/
 
-.navbar.navbar-default {
+/*.navbar.navbar-default {
 	background-color: #D11920;
 	border-radius: 0px;
 	border: 0;
 	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2) inset;
-	/*opacity: 0.9;*/
-}
+}*/
 
 .navbar.navbar-inverse {
 	background-color: #464646;
@@ -323,41 +305,11 @@ nav {
 	border: 0;
 }
 
-/*#btn-login, #btn-signup, #personal {
-	margin-top: 7px;
-	font-weight: bold;
-	color: #D11920;
-	border-color: #D11920;
-}
-
-	#btn-login, #btn-signup, #personal:hover {
-		background-color: #e6eef6;
-		border-color: #D11920;
-		color: #D11920;
-	}
-
-	#btn-login, #btn-signup, #personal:active {
-		background-color: #e6eef6;
-		border-color: #D11920;
-		color: #D11920;
-	}
-
-	#btn-login, #btn-signup, #personal:focus {
-		background-color: #fff;
-		border-color: #D11920;
-		color: #D11920;
-	}*/
-
-#search {
-	margin-top: 7px;
-}
-
 .dish-img {
 	border: 10px solid transparent;
 	margin-bottom: 25px;
 	width: 80%;
 	height: 80%;
-	/*opacity: 0.7;*/
 }
 
 	.mealset-dish-img:hover, .dish-img:hover {
@@ -368,16 +320,6 @@ nav {
 	border: 10px solid transparent;
 	margin: auto;
 	width: 90%;
-}
-
-.addForm {
-	width: 60%;
-	margin: auto;
-	margin-top: 50px;
-	box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
-	border-radius: 10px;
-	background-color: #fff;
-	/*opacity: 0.9;*/
 }
 
 .title {
