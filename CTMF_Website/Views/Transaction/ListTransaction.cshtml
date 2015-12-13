@@ -62,12 +62,11 @@
 		<div>
 			<div class="table-body">
 				<div class="row" style="margin-bottom:20px;">
-					<div class="col-md-1">
+					<div class="col-md-3">
+						<a href="~/Transaction/RechargeMoney" class="btn btn-primary">Nạp tiền</a>
 						<a href="#" class="btn btn-success">Rút tiền</a>
 					</div>
-					<div class="col-md-2">
-						<a href="~/Transaction/RechargeMoney" class="btn btn-primary">Nạp tiền</a>
-					</div>
+
 					@using (Html.BeginForm("ListTransaction", "Transaction", FormMethod.Get))
 					{
 						<div>
@@ -112,7 +111,7 @@
 							<th>Loại giao dịch</th>
 							<th>Giá trị giao dịch</th>
 							<th>Ngày giao dịch</th>
-							<th>Quản lý</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -142,20 +141,20 @@
 						@foreach (System.Data.DataRow row in Model.Rows)
 						{
 							string date = ((DateTime)row["InsertedDate"]).ToString("dd/MM/yyyy");
-							<tr>
-								<td>@row["RowNum"]</td>
-								<td>@row["Username"]</td>
-								<td>@row["Name"]</td>
-								<td>@row["Value"]</td>
-								<td>@date</td>
-								<td>
-									<div>
-										<a href="@Url.Action("DetailTransaction", "Transaction", new { TransID = @row["TransactionHistoryID"] })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
-										<a href="@Url.Action("EditTransaction", "Transaction", new {TransID = @row["TransactionHistoryID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-										<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>
-									</div>
-								</td>
-							</tr>
+								<tr>
+									<td>@row["RowNum"]</td>
+									<td>@row["Username"]</td>
+									<td>@row["Name"]</td>
+									<td>@row["Value"]</td>
+									<td>@date</td>
+									<td>
+										<div>
+											<a href="@Url.Action("DetailTransaction", "Transaction", new { TransID = @row["TransactionHistoryID"] })" class="btn btn-link" title="Chi tiết">Chi tiết</a>
+											@*<a href="@Url.Action("EditTransaction", "Transaction", new {TransID = @row["TransactionHistoryID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>*@
+											@*<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>*@
+										</div>
+									</td>
+								</tr>
 						}
 					</tbody>
 				</table>
