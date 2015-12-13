@@ -12,7 +12,10 @@
 	string max = (string)(Session["maxMealsetDish"]);
 	string exist = (string)(Session["existMealsetDish"]);
 }
+
+<script src="~/Scripts/ekko-lightbox.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
 <style>
 	.thumbnail {
 		padding: 0 0 15px 0;
@@ -38,7 +41,6 @@
 			background-color: #fff;
 			color: #000;
 		}
-
 </style>
 <script>
 	$(document).ready(function () {
@@ -54,61 +56,99 @@
 			}
 		});
 	}
+
+	$(document).ready(function () {
+		$('i.glyphicon-thumbs-up, i.glyphicon-thumbs-down').click(function () {
+			var $this = $(this),
+			c = $this.data('count');
+			if (!c) c = 0;
+			c++;
+			$this.data('count', c);
+			$('#' + this.id + '-bs3').html(c);
+		});
+		$(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
+			event.preventDefault();
+			$(this).ekkoLightbox();
+		});
+	});
 </script>
-<div class="container">
-	<div class="row text-center" style="width: 30%; float: left; box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5); background-color:#fff">
-		<p style="font-size:20px;"><strong>@Model.MealSetName</strong></p>
-		<div style="width:100%">
-			@if (string.IsNullOrEmpty(Model.Image))
-			{
-				<img src="~/Images/no-image.jpg" class="mealset-dish-img">
-			}
-			else
-			{
-				<img src="..@Model.Image" class="mealset-dish-img">
-			}
-		</div>
-		@foreach (System.Data.DataRow row in listMealSetDish.Rows)
-		{
-			<div>
-				<div class="col-xs-6 col-sm-6 col-md-6">
-					<p>@row["DishName"]</p>
+<div class="container" style="width: 85% !important">
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="panel panel-default">
+				<div class="panel-footer">
+					<h4>@Model.MealSetName</h4>
 				</div>
-				<div class="col-xs-6 col-sm-6 col-md-6">
-					@Ajax.ActionLink("Xóa", "Remove",
-					new { mealSetID = @Model.MealSetID, dishID = @row["DishID"] },
-					new AjaxOptions
-						{
-							HttpMethod = "GET",
-							UpdateTargetId = "mealset-dish",
-							InsertionMode = InsertionMode.InsertAfter
-						},
-					new { @class = "btn btn-link remove-meal-set-dish", @id = "remove-meal-set-dish", @value = @row["DishName"] })
+				<div class="panel-body">
+					@if (string.IsNullOrEmpty(Model.Image.ToString()))
+					{
+						<a href="~/Images/no-image.jpg" class="zoom" data-title="@Model.MealSetName" data-footer="@Model.Description" data-type="image" data-toggle="lightbox">
+							<img src="~/Images/no-image.jpg" />
+						</a>
+					}
+					else
+					{
+						<a href="..@Model.Image" class="zoom" data-title="@Model.MealSetName" data-footer="@Model.Description" data-type="image" data-toggle="lightbox">
+							<img src="..@Model.Image" />
+						</a>
+					}
+				</div>
+				<div class="panel-footer">
+					<table class="table .table-condensed">
+						<tbody id="mealset-dish">
+							@foreach (System.Data.DataRow row in listMealSetDish.Rows)
+							{
+								<tr class="info">
+									<td>
+										@row["DishName"]
+									</td>
+									<td>
+										@Ajax.ActionLink("Xóa", "Remove",
+									new { mealSetID = @Model.MealSetID, dishID = @row["DishID"] },
+									new AjaxOptions
+										{
+											HttpMethod = "GET",
+											UpdateTargetId = "mealset-dish",
+											InsertionMode = InsertionMode.InsertAfter
+										},
+									new { @class = "btn btn-link remove-meal-set-dish", @id = "remove-meal-set-dish", @value = @row["DishName"] })
+									</td>
+								</tr>
+							}
+							@*<tr id="mealset-dish">
+
+								</tr>*@
+						</tbody>
+					</table>
 				</div>
 			</div>
-		}
-		<div id="mealset-dish">
-
 		</div>
-	</div>
-	<div class="row text-center" style="width:70%;float:right">
 
-		@foreach (System.Data.DataRow row in listDish.Rows)
-		{
-			<div class="col-sm-3">
-				<div class="thumbnail" style="box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);">
-					<p id="dish-name" style="font-size:16px;"><strong>@row["Name"]</strong></p>
-					<div style="height:170px;width:100%">
-						@if (string.IsNullOrEmpty(row["Image"].ToString()))
-						{
-							<img src="~/Images/no-image.jpg" class="mealset-dish-img">
-						}
-						else
-						{
-							<img src="..@row["Image"]" class="mealset-dish-img">
-						}
-					</div>
-					@Ajax.ActionLink("Thêm", "Add",
+		<div class="col-md-8">
+			<div class="row">
+				@foreach (System.Data.DataRow row in listDish.Rows)
+				{
+					<div class="col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-footer">
+								<h4>@row["Name"]</h4>
+							</div>
+							<div class="panel-body" style="height:150px;">
+								@if (string.IsNullOrEmpty(row["Image"].ToString()))
+								{
+									<a href="~/Images/no-image.jpg" class="zoom" data-title="@row["Name"]" data-footer="@row["Description"]" data-type="image" data-toggle="lightbox">
+										<img src="~/Images/no-image.jpg" style="height:150px;" />
+									</a>
+								}
+								else
+								{
+									<a href="..@row["Image"]" class="zoom" data-title="@row["Name"]" data-footer="@row["Description"]" data-type="image" data-toggle="lightbox">
+										<img src="..@row["Image"]" style="height:150px;" />
+									</a>
+								}
+							</div>
+							<div class="panel-footer">
+								@Ajax.ActionLink("Thêm", "Add",
 					new { mealSetID = @Model.MealSetID, dishID = @row["DishID"] },
 					new AjaxOptions
 						{
@@ -118,8 +158,11 @@
 							OnSuccess = "setRemoveEvent()"
 						},
 					new { @class = "btn", @id = "add-mealSet-Dish" })
-				</div>
+							</div>
+						</div>
+					</div>
+				}
 			</div>
-		}
+		</div>
 	</div>
 </div>

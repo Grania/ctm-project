@@ -1,18 +1,20 @@
 ﻿@model CTMF_Website.Models.MealSetDishModel
 @if (!string.IsNullOrEmpty(Model.Dishname))
 {
-	<div class="col-xs-6 col-sm-6 col-md-6">
-		<p>@Model.Dishname</p>
-	</div>
-	<div class="col-xs-6 col-sm-6 col-md-6">
-		@Ajax.ActionLink("Xóa", "Remove",
-					new { mealSetID = @Model.MealSetID, dishID = @Model.DishID },
-					new AjaxOptions
-						{
-							HttpMethod = "GET",
-							UpdateTargetId = "mealset-dish",
-							InsertionMode = InsertionMode.InsertAfter
-						},
-								new { @class = "btn btn-link remove-meal-set-dish", @id = "remove-mealSet-Dish", @value = @Model.Dishname })
-	</div>
+	<tr>
+		<td>
+			@Model.Dishname
+		</td>
+		<td>
+			@Ajax.ActionLink("Xóa", "Remove",
+							new { mealSetID = @Model.MealSetID, dishID = @Model.DishID },
+							new AjaxOptions
+										{
+											HttpMethod = "GET",
+											UpdateTargetId = "mealset-dish",
+											InsertionMode = InsertionMode.InsertAfter
+										},
+							new { @class = "btn btn-link remove-meal-set-dish", @id = "remove-meal-set-dish", @value = @Model.Dishname })
+		</td>
+	</tr>
 }

@@ -16,22 +16,26 @@
 					<div class="pull-right">
 						@using (Html.BeginForm("ListMealSet", "MealSet", FormMethod.Get))
 						{
+							<div id="custom-search-input">
 							<div class="input-group">
+								<input type="text" name="search" class="search-query form-control" placeholder="Tìm kiếm" />
 								<span class="input-group-btn">
-									<button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+									<button class="btn btn-danger" type="submit">
+										<span class=" glyphicon glyphicon-search"></span>
+									</button>
 								</span>
-								<input type="text" class="form-control" name="search" placeholder="Tìm kiếm" style="min-width:300px;">
 							</div>
+						</div>
 						}
 					</div>
 				</div>
 				<table class="table table-bordered table-hover table-condensed">
 					<thead>
 						<tr>
-							<th style="width:5%">STT</th>
+							<th>STT</th>
 							<th>Tên suất ăn</th>
-							<th style="width:15%">Ăn thêm</th>
-							<th style="width:17%">Quản lý</th>
+							<th>Ăn thêm</th>
+							<th>Quản lý</th>
 						</tr>
 					</thead>
 					<tbody>

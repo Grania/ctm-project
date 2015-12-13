@@ -10,199 +10,6 @@
 	System.Data.DataTable dishType = (System.Data.DataTable)ViewData["DishType"];
 }
 
-<style>
-	#custom-search-input {
-		width: 100%;
-		margin-left: 12px;
-	}
-
-		#custom-search-input .search-query {
-			padding-right: 3px;
-			padding-right: 4px \9;
-			padding-left: 3px;
-			padding-left: 4px \9;
-			margin-bottom: 0;
-			-webkit-border-radius: 3px;
-			-moz-border-radius: 3px;
-			border-radius: 3px;
-		}
-
-		#custom-search-input button {
-			border: 0;
-			background: none;
-			padding: 2px 5px;
-			margin-top: 2px;
-			position: relative;
-			left: -28px;
-			margin-bottom: 0;
-			-webkit-border-radius: 3px;
-			-moz-border-radius: 3px;
-			border-radius: 3px;
-			color: #04A3ED;
-		}
-
-	.search-query:focus + button {
-		z-index: 3;
-	}
-</style>
-<style>
-	.panel {
-		position: relative;
-		overflow: hidden;
-		display: block;
-		border-radius: 5px !important;
-	}
-
-	.panel-default {
-		border-color: #ebedef !important;
-		transition: all 0.5s;
-		-moz-transition: all 0.3s;
-		-webkit-transition: all 0.3s;
-		-o-transition: all 0.3s;
-	}
-
-		.panel-default:hover {
-			border-color: #04A3ED !important;
-			box-shadow: 0px 0px 5px #04A3ED;
-		}
-
-	.panel .panel-body {
-		position: relative;
-		padding: 0 !important;
-		overflow: hidden;
-		height: auto;
-	}
-
-		.panel .panel-body a {
-			overflow: hidden;
-		}
-
-			.panel .panel-body a img {
-				display: block;
-				margin: 0;
-				width: 100%;
-				height: auto;
-				transition: all 0.5s;
-				-moz-transition: all 0.5s;
-				-webkit-transition: all 0.5s;
-				-o-transition: all 0.5s;
-			}
-
-	/*.panel .panel-body a.zoom:hover img {
-				transform: scale(1.3);
-				-ms-transform: scale(1.3);
-				-webkit-transform: scale(1.3);
-				-o-transform: scale(1.3);
-				-moz-transform: scale(1.3);
-			}*/
-
-	.panel .panel-footer {
-		padding: 8px !important;
-		background-color: #f9f9f9 !important;
-		border-bottom-right-radius: 0 !important;
-		border-bottom-left-radius: 0 !important;
-		text-align: center !important;
-	}
-
-		.panel .panel-footer h4 {
-			display: inline;
-			font: 400 normal 1.125em "Roboto",Arial,Verdana,sans-serif;
-			color: #34495e;
-			padding: 0 !important;
-		}
-
-		/*.panel .panel-footer i.glyphicon {
-			display: inline;
-			font-size: 1.125em;
-			cursor: pointer;
-		}
-
-		.panel .panel-footer i.glyphicon-thumbs-up {
-			color: #1abc9c;
-		}
-
-		.panel .panel-footer i.glyphicon-thumbs-down {
-			color: #e74c3c;
-			padding-left: 5px;
-		}*/
-
-		.panel .panel-footer div {
-			width: 15px;
-			display: inline;
-			font: 300 normal 1.125em "Roboto",Arial,Verdana,sans-serif;
-			color: #34495e;
-			text-align: center;
-			background-color: transparent !important;
-			border: none !important;
-		}
-
-	.modal-title {
-		text-align: center !important;
-		font: 400 normal 1.625em "Roboto",Arial,Verdana,sans-serif;
-	}
-
-	.modal-footer {
-		text-align: center !important;
-		font: 400 normal 1.125em "Roboto",Arial,Verdana,sans-serif;
-	}
-
-	.ekko-lightbox-container {
-		position: relative;
-	}
-
-	.ekko-lightbox-nav-overlay {
-		position: absolute;
-		top: 0;
-		left: 0;
-		z-index: 100;
-		width: 100%;
-		height: 100%;
-	}
-
-		.ekko-lightbox-nav-overlay a {
-			z-index: 100;
-			display: block;
-			width: 49%;
-			height: 100%;
-			padding-top: 45%;
-			font-size: 30px;
-			color: #fff;
-			text-shadow: 2px 2px 4px #000;
-			opacity: 0;
-			filter: dropshadow(color=#000000,offx=2,offy=2);
-			-webkit-transition: opacity .5s;
-			-moz-transition: opacity .5s;
-			-o-transition: opacity .5s;
-			transition: opacity .5s;
-		}
-
-			.ekko-lightbox-nav-overlay a:empty {
-				width: 49%;
-			}
-
-	.ekko-lightbox a:hover {
-		text-decoration: none;
-		opacity: 1;
-	}
-
-	.ekko-lightbox .glyphicon-chevron-left {
-		left: 0;
-		float: left;
-		padding-left: 15px;
-		text-align: left;
-	}
-
-	.ekko-lightbox .glyphicon-chevron-right {
-		right: 0;
-		float: right;
-		padding-right: 15px;
-		text-align: right;
-	}
-
-	.ekko-lightbox .modal-footer {
-		text-align: left;
-	}
-</style>
 <script>
 	$(document).ready(function () {
 		$('i.glyphicon-thumbs-up, i.glyphicon-thumbs-down').click(function () {
@@ -224,33 +31,35 @@
 <div class="container" style="width: 90% !important">
 	<div class="row">
 		<div class="col-md-9">
-			@foreach (System.Data.DataRow row in Model.Rows)
-			{
-				<div class="col-sm-4">
-					<div class="panel panel-default">
-						<div class="panel-body">
-							@if (string.IsNullOrEmpty(row["Image"].ToString()))
-							{
-								<a href="~/Images/no-image.jpg" class="zoom" data-title="@row["Name"]" data-footer="@row["Description"]" data-type="image" data-toggle="lightbox">
-									<img src="~/Images/no-image.jpg" />
-								</a>
-							}
-							else
-							{
-								<a href="..@row["Image"]" class="zoom" data-title="@row["Name"]" data-footer="@row["Description"]" data-type="image" data-toggle="lightbox">
-									<img src="..@row["Image"]" />
-								</a>
-							}
-						</div>
-						<div class="panel-footer">
-							<h4>@row["Name"]</h4>
+			<div class="row">
+				@foreach (System.Data.DataRow row in Model.Rows)
+				{
+					<div class="col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								@if (string.IsNullOrEmpty(row["Image"].ToString()))
+								{
+									<a href="~/Images/no-image.jpg" class="zoom" data-title="@row["Name"]" data-footer="@row["Description"]" data-type="image" data-toggle="lightbox">
+										<img src="~/Images/no-image.jpg" />
+									</a>
+								}
+								else
+								{
+									<a href="..@row["Image"]" class="zoom" data-title="@row["Name"]" data-footer="@row["Description"]" data-type="image" data-toggle="lightbox">
+										<img src="..@row["Image"]" />
+									</a>
+								}
+							</div>
+							<div class="panel-footer">
+								<h4>@row["Name"]</h4>
+							</div>
 						</div>
 					</div>
-				</div>
-			}
+				}
+			</div>
 		</div>
 
-		<div class="col-md-3 dish-type" style="position: fixed; left: 75%; text-align: center;">
+		<div class="col-md-3 dish-type" style="position: fixed; right: 0; text-align: center;">
 			<div class="list-group">
 				<div class="list-group-item">
 					@using (Html.BeginForm("ViewDish", "Dish", FormMethod.Get))
