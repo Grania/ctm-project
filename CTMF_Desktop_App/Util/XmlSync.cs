@@ -528,7 +528,6 @@ namespace CTMF_Desktop_App.Util
 						// not null value parse
 						int mealSetID = int.Parse(mealSetEl.Element("MealSetID").Value);
 						string name = mealSetEl.Element("Name").Value;
-						int usedTime = int.Parse(mealSetEl.Element("UsedTime").Value);
 						bool canEatMore = bool.Parse(mealSetEl.Element("CanEatMore").Value);
 						DateTime insertedDate = DateTime.Parse(mealSetEl.Element("InsertedDate").Value);
 						DateTime lastUpdated = DateTime.Parse(mealSetEl.Element("LastUpdated").Value);
@@ -538,11 +537,11 @@ namespace CTMF_Desktop_App.Util
 
 						if (insertedDate > lastSync)
 						{
-							mealSetTA.InsertWithID(mealSetID, name, usedTime, canEatMore, insertedDate, updatedBy, lastUpdated);
+							mealSetTA.InsertWithID(mealSetID, name, canEatMore, insertedDate, updatedBy, lastUpdated);
 							continue;
 						}
 
-						mealSetTA.Update(name, usedTime, canEatMore, insertedDate, updatedBy, lastUpdated, mealSetID);
+						mealSetTA.Update(name, canEatMore, insertedDate, updatedBy, lastUpdated, mealSetID);
 					}
 
 					// sync serving time table
@@ -557,23 +556,15 @@ namespace CTMF_Desktop_App.Util
 						string name = servingTimeEl.Element("Name").Value;
 						string a = servingTimeEl.Element("StartTime").Value;
 						TimeSpan startTime = XmlConvert.ToTimeSpan(servingTimeEl.Element("StartTime").Value);
+						TimeSpan endTime = XmlConvert.ToTimeSpan(servingTimeEl.Element("EndTime").Value);
 						DateTime insertedDate = DateTime.Parse(servingTimeEl.Element("InsertedDate").Value);
 						DateTime lastUpdated = DateTime.Parse(servingTimeEl.Element("LastUpdated").Value);
 
 						// nullable value parse
-						TimeSpan? endTime;
-						if (servingTimeEl.Element("EndTime") == null)
-						{
-							endTime = null;
-						}
-						else
-						{
-							endTime = XmlConvert.ToTimeSpan(servingTimeEl.Element("EndTime").Value);
-						}
-
 						if (insertedDate > lastSync)
 						{
 							servingTimeTA.InsertWithID(servingTimeID, name, startTime, endTime, insertedDate, lastUpdated);
+							continue;
 						}
 
 						servingTimeTA.Update(name, startTime, endTime, insertedDate, lastUpdated, servingTimeID);
@@ -613,17 +604,16 @@ namespace CTMF_Desktop_App.Util
 						int scheduleMealSetDetailID = int.Parse(scheduleMealSetDetailEl.Element("ScheduleMealSetDetailID").Value);
 						int mealSetID = int.Parse(scheduleMealSetDetailEl.Element("MealSetID").Value);
 						int scheduleID = int.Parse(scheduleMealSetDetailEl.Element("ScheduleID").Value);
-						string name = scheduleMealSetDetailEl.Element("Name").Value;
 						DateTime insertedDate = DateTime.Parse(scheduleMealSetDetailEl.Element("InsertedDate").Value);
 						DateTime lastUpdated = DateTime.Parse(scheduleMealSetDetailEl.Element("LastUpdated").Value);
 
 						if (insertedDate > lastSync)
 						{
-							scheduleMealSetDetailTA.InsertWithID(scheduleMealSetDetailID, mealSetID, scheduleID, name, insertedDate, lastUpdated);
+							scheduleMealSetDetailTA.InsertWithID(scheduleMealSetDetailID, mealSetID, scheduleID, insertedDate, lastUpdated);
 							continue;
 						}
 
-						scheduleMealSetDetailTA.Update(mealSetID, scheduleID, name, insertedDate, lastUpdated, scheduleMealSetDetailID);
+						scheduleMealSetDetailTA.Update(mealSetID, scheduleID, insertedDate, lastUpdated, scheduleMealSetDetailID);
 					}
 
 					// sync transaction type table
@@ -794,7 +784,7 @@ namespace CTMF_Desktop_App.Util
 					continue;
 				}
 
-				xmlData.Where(x=> x.Value == syncFileName).Single().Attribute("Active").Value = "0";
+				xmlData.Where(x => x.Value == syncFileName).Single().Attribute("Active").Value = "0";
 			}
 
 			xDoc.Save(_xmlConfigPath);

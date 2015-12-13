@@ -84,7 +84,7 @@ SELECT ScheduleID, Date, ServingTimeID, IsDayOn, InsertedDate, UpdatedBy, LastUp
                   </DbCommand>
                 </DeleteCommand>
               </DbSource>
-              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.Schedule" DbObjectType="Table" GenerateShortCommands="true" GeneratorSourceName="GetIDFromDateAndServingTime" Modifier="Public" Name="GetIDFromDateAndServingTime" QueryType="Scalar" ScalarCallRetval="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="GetIDFromDateAndServingTime">
+              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.Schedule" DbObjectType="Table" GenerateShortCommands="true" GeneratorSourceName="GetIDFromDateAndServingTime" Modifier="Public" Name="GetIDFromDateAndServingTime" QueryType="Scalar" ScalarCallRetval="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="GetIDFromDateAndServingTime">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>SELECT        TOP (1) ScheduleID
@@ -97,7 +97,7 @@ WHERE        (Date = @Date) AND (ServingTimeID = @ServingTimeID)</CommandText>
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertWithID" Modifier="Public" Name="InsertWithID" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="InsertWithID">
+              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertWithID" Modifier="Public" Name="InsertWithID" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="InsertWithID">
                 <InsertCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>SET IDENTITY_INSERT Schedule ON
@@ -195,8 +195,8 @@ SELECT Username, Name, TypeShortName, AmountOfMoney, LastUpdatedMoney, FingerPri
               <Mapping SourceColumn="InsertedDate" DataSetColumn="InsertedDate" />
               <Mapping SourceColumn="UpdatedBy" DataSetColumn="UpdatedBy" />
               <Mapping SourceColumn="LastUpdated" DataSetColumn="LastUpdated" />
-              <Mapping SourceColumn="LastUpdatedMoney" DataSetColumn="LastUpdatedMoney" />
               <Mapping SourceColumn="LastUpdatedFingerPrint" DataSetColumn="LastUpdatedFingerPrint" />
+              <Mapping SourceColumn="LastUpdatedMoney" DataSetColumn="LastUpdatedMoney" />
             </Mappings>
             <Sources>
               <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="CheckDuplicateKey" Modifier="Public" Name="CheckDuplicateKey" QueryType="Scalar" ScalarCallRetval="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="CheckDuplicateKey">
@@ -231,7 +231,10 @@ FROM         UserInfo</CommandText>
               <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.UserInfo" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetUserInfo" GetMethodModifier="Public" GetMethodName="GetUserInfo" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetUserInfo" UserSourceName="GetUserInfo">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT AmountOfMoney, FingerPosition, FingerPrintIMG, InsertedDate, IsActive, IsCafeteriaStaff, LastUpdated, LastUpdatedFingerPrint, LastUpdatedMoney, Name, TypeShortName, UpdatedBy, Username FROM UserInfo WHERE (Username = @Username)</CommandText>
+                    <CommandText>SELECT        Username, Name, TypeShortName, AmountOfMoney, LastUpdatedMoney, FingerPrintIMG, LastUpdatedFingerPrint, FingerPosition, IsCafeteriaStaff, IsActive, 
+                         InsertedDate, UpdatedBy, LastUpdated
+FROM            UserInfo
+WHERE        (Username = @Username)</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="Username" ColumnName="Username" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="nvarchar(254)" DbType="String" Direction="Input" ParameterName="@Username" Precision="0" ProviderType="NVarChar" Scale="0" Size="254" SourceColumn="Username" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
@@ -241,7 +244,10 @@ FROM         UserInfo</CommandText>
               <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.UserInfo" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetUserInfoWithoutFingerPrint" GeneratorSourceName="GetAmountOfMoney" GetMethodModifier="Public" GetMethodName="GetUserInfoWithoutFingerPrint" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetUserInfoWithoutFingerPrint" UserSourceName="GetUserInfoWithoutFingerPrint">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT AmountOfMoney, FingerPosition, FingerPrintIMG, InsertedDate, IsActive, IsCafeteriaStaff, LastUpdated, LastUpdatedFingerPrint, LastUpdatedMoney, Name, TypeShortName, UpdatedBy, Username FROM UserInfo WHERE (Username = @Username)</CommandText>
+                    <CommandText>SELECT        Username, Name, TypeShortName, AmountOfMoney, LastUpdatedMoney, LastUpdatedFingerPrint, FingerPosition, IsCafeteriaStaff, IsActive, InsertedDate, 
+                         UpdatedBy, LastUpdated
+FROM            UserInfo
+WHERE        (Username = @Username)</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="Username" ColumnName="Username" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="nvarchar(254)" DbType="String" Direction="Input" ParameterName="@Username" Precision="0" ProviderType="NVarChar" Scale="0" Size="254" SourceColumn="Username" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
@@ -258,30 +264,7 @@ WHERE     (LastUpdatedFingerPrint IS NOT NULL) AND (IsActive = 1) AND (TypeShort
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateByKey" Modifier="Public" Name="UpdateByKey" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy4" UserSourceName="UpdateByKey">
-                <UpdateCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>UPDATE [UserInfo] SET [Username] = @Username, [Name] = @Name, [TypeShortName] = @TypeShortName, [AmountOfMoney] = @AmountOfMoney, [LastUpdatedMoney] = @LastUpdatedMoney, [FingerPrintIMG] = @FingerPrintIMG, [LastUpdatedFingerPrint] = @LastUpdatedFingerPrint, [FingerPosition] = @FingerPosition, [IsCafeteriaStaff] = @IsCafeteriaStaff, [IsActive] = @IsActive, [InsertedDate] = @InsertedDate, [UpdatedBy] = @UpdatedBy, [LastUpdated] = @LastUpdated WHERE (([Username] = @Original_Username));</CommandText>
-                    <Parameters>
-                      <Parameter AllowDbNull="false" AutogeneratedName="Username" ColumnName="Username" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="nvarchar(254)" DbType="String" Direction="Input" ParameterName="@Username" Precision="0" ProviderType="NVarChar" Scale="0" Size="254" SourceColumn="Username" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="Name" ColumnName="Name" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="nvarchar(50)" DbType="String" Direction="Input" ParameterName="@Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="50" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="TypeShortName" ColumnName="TypeShortName" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="nvarchar(3)" DbType="String" Direction="Input" ParameterName="@TypeShortName" Precision="0" ProviderType="NVarChar" Scale="0" Size="3" SourceColumn="TypeShortName" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="AmountOfMoney" ColumnName="AmountOfMoney" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@AmountOfMoney" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="AmountOfMoney" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="LastUpdatedMoney" ColumnName="LastUpdatedMoney" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@LastUpdatedMoney" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="LastUpdatedMoney" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="FingerPrintIMG" ColumnName="FingerPrintIMG" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="image" DbType="Binary" Direction="Input" ParameterName="@FingerPrintIMG" Precision="0" ProviderType="Image" Scale="0" Size="2147483647" SourceColumn="FingerPrintIMG" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="LastUpdatedFingerPrint" ColumnName="LastUpdatedFingerPrint" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@LastUpdatedFingerPrint" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="LastUpdatedFingerPrint" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="FingerPosition" ColumnName="FingerPosition" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@FingerPosition" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="FingerPosition" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="IsCafeteriaStaff" ColumnName="IsCafeteriaStaff" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="bit" DbType="Boolean" Direction="Input" ParameterName="@IsCafeteriaStaff" Precision="0" ProviderType="Bit" Scale="0" Size="1" SourceColumn="IsCafeteriaStaff" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="IsActive" ColumnName="IsActive" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="bit" DbType="Boolean" Direction="Input" ParameterName="@IsActive" Precision="0" ProviderType="Bit" Scale="0" Size="1" SourceColumn="IsActive" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="InsertedDate" ColumnName="InsertedDate" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="UpdatedBy" ColumnName="UpdatedBy" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="nvarchar(254)" DbType="String" Direction="Input" ParameterName="@UpdatedBy" Precision="0" ProviderType="NVarChar" Scale="0" Size="254" SourceColumn="UpdatedBy" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="LastUpdated" ColumnName="LastUpdated" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="Original_Username" ColumnName="Username" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="nvarchar(254)" DbType="String" Direction="Input" ParameterName="@Original_Username" Precision="0" ProviderType="NVarChar" Scale="0" Size="254" SourceColumn="Username" SourceColumnNullMapping="false" SourceVersion="Original" />
-                    </Parameters>
-                  </DbCommand>
-                </UpdateCommand>
-              </DbSource>
-              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateFingerPrint" Modifier="Public" Name="UpdateFingerPrint" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy5" UserSourceName="UpdateFingerPrint">
+              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateFingerPrint" Modifier="Public" Name="UpdateFingerPrint" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy4" UserSourceName="UpdateFingerPrint">
                 <UpdateCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>UPDATE       UserInfo
@@ -296,12 +279,12 @@ WHERE        (Username = @Original_Username); </CommandText>
                   </DbCommand>
                 </UpdateCommand>
               </DbSource>
-              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateGeneric" Modifier="Public" Name="UpdateGeneric" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy6" UserSourceName="UpdateGeneric">
+              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateGeneric" Modifier="Public" Name="UpdateGeneric" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy5" UserSourceName="UpdateGeneric">
                 <UpdateCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>UPDATE       UserInfo
-SET                Name = @Name, TypeShortName = @TypeShortName, IsCafeteriaStaff = @IsCafeteriaStaff, IsActive = @IsActive, InsertedDate = @InsertedDate, 
-                         UpdatedBy = @UpdatedBy, LastUpdated = @LastUpdated
+SET                Name = @Name, TypeShortName = @TypeShortName, IsCafeteriaStaff = @IsCafeteriaStaff, IsActive = @IsActive, 
+                         InsertedDate = @InsertedDate, UpdatedBy = @UpdatedBy, LastUpdated = @LastUpdated
 WHERE        (Username = @Original_Username)</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="true" AutogeneratedName="Name" ColumnName="Name" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="nvarchar(50)" DbType="String" Direction="Input" ParameterName="@Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="50" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Current" />
@@ -316,7 +299,7 @@ WHERE        (Username = @Original_Username)</CommandText>
                   </DbCommand>
                 </UpdateCommand>
               </DbSource>
-              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateMoney" Modifier="Public" Name="UpdateMoney" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy7" UserSourceName="UpdateMoney">
+              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateMoney" Modifier="Public" Name="UpdateMoney" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy6" UserSourceName="UpdateMoney">
                 <UpdateCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>UPDATE       UserInfo
@@ -334,29 +317,21 @@ WHERE        (Username = @Original_Username)</CommandText>
           </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="MealSetTableAdapter" GeneratorDataComponentClassName="MealSetTableAdapter" Name="MealSet" UserDataComponentName="MealSetTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.MealSet" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="GetData">
+              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.MealSet" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="GetData">
                 <DeleteCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>DELETE FROM [dbo].[MealSet] WHERE (([MealSetID] = @Original_MealSetID) AND ([Name] = @Original_Name) AND ([UsedTime] = @Original_UsedTime) AND ([CanEatMore] = @Original_CanEatMore) AND ([InsertedDate] = @Original_InsertedDate) AND ((@IsNull_UpdatedBy = 1 AND [UpdatedBy] IS NULL) OR ([UpdatedBy] = @Original_UpdatedBy)) AND ([LastUpdated] = @Original_LastUpdated))</CommandText>
+                    <CommandText>DELETE FROM [MealSet] WHERE (([MealSetID] = @Original_MealSetID))</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_MealSetID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="MealSetID" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_UsedTime" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="UsedTime" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@Original_CanEatMore" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="CanEatMore" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@Original_InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_UpdatedBy" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="UpdatedBy" SourceColumnNullMapping="true" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_UpdatedBy" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="UpdatedBy" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@Original_LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Original" />
                     </Parameters>
                   </DbCommand>
                 </DeleteCommand>
                 <InsertCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>INSERT INTO [dbo].[MealSet] ([Name], [UsedTime], [CanEatMore], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (@Name, @UsedTime, @CanEatMore, @InsertedDate, @UpdatedBy, @LastUpdated);
-SELECT MealSetID, Name, UsedTime, CanEatMore, InsertedDate, UpdatedBy, LastUpdated FROM MealSet WHERE (MealSetID = SCOPE_IDENTITY())</CommandText>
+                    <CommandText>INSERT INTO [MealSet] ([Name], [CanEatMore], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (@Name, @CanEatMore, @InsertedDate, @UpdatedBy, @LastUpdated);
+SELECT MealSetID, Name, CanEatMore, InsertedDate, UpdatedBy, LastUpdated FROM MealSet WHERE (MealSetID = SCOPE_IDENTITY())</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@UsedTime" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="UsedTime" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@CanEatMore" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="CanEatMore" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@UpdatedBy" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="UpdatedBy" SourceColumnNullMapping="false" SourceVersion="Current" />
@@ -366,25 +341,23 @@ SELECT MealSetID, Name, UsedTime, CanEatMore, InsertedDate, UpdatedBy, LastUpdat
                 </InsertCommand>
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT MealSetID, Name, UsedTime, CanEatMore, InsertedDate, UpdatedBy, LastUpdated FROM dbo.MealSet</CommandText>
+                    <CommandText>SELECT        MealSetID, Name, CanEatMore, InsertedDate, UpdatedBy, LastUpdated
+FROM            MealSet</CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
                 <UpdateCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>UPDATE       MealSet
-SET                Name = @Name, UsedTime = @UsedTime, CanEatMore = @CanEatMore, InsertedDate = @InsertedDate, UpdatedBy = @UpdatedBy, 
-                         LastUpdated = @LastUpdated
-WHERE        (MealSetID = @MealSetID);        
-SELECT MealSetID, Name, UsedTime, CanEatMore, InsertedDate, UpdatedBy, LastUpdated FROM MealSet WHERE (MealSetID = @MealSetID)</CommandText>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE [MealSet] SET [Name] = @Name, [CanEatMore] = @CanEatMore, [InsertedDate] = @InsertedDate, [UpdatedBy] = @UpdatedBy, [LastUpdated] = @LastUpdated WHERE (([MealSetID] = @Original_MealSetID));
+SELECT MealSetID, Name, CanEatMore, InsertedDate, UpdatedBy, LastUpdated FROM MealSet WHERE (MealSetID = @MealSetID)</CommandText>
                     <Parameters>
-                      <Parameter AllowDbNull="false" AutogeneratedName="Name" ColumnName="Name" DataSourceName="CTMF_Sub.dbo.MealSet" DataTypeServer="nvarchar(50)" DbType="String" Direction="Input" ParameterName="@Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="50" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="UsedTime" ColumnName="UsedTime" DataSourceName="CTMF_Sub.dbo.MealSet" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@UsedTime" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="UsedTime" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="CanEatMore" ColumnName="CanEatMore" DataSourceName="CTMF_Sub.dbo.MealSet" DataTypeServer="bit" DbType="Boolean" Direction="Input" ParameterName="@CanEatMore" Precision="0" ProviderType="Bit" Scale="0" Size="1" SourceColumn="CanEatMore" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="InsertedDate" ColumnName="InsertedDate" DataSourceName="CTMF_Sub.dbo.MealSet" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="UpdatedBy" ColumnName="UpdatedBy" DataSourceName="CTMF_Sub.dbo.MealSet" DataTypeServer="nvarchar(254)" DbType="String" Direction="Input" ParameterName="@UpdatedBy" Precision="0" ProviderType="NVarChar" Scale="0" Size="254" SourceColumn="UpdatedBy" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="LastUpdated" ColumnName="LastUpdated" DataSourceName="CTMF_Sub.dbo.MealSet" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="MealSetID" ColumnName="MealSetID" DataSourceName="CTMF_Sub.dbo.MealSet" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@MealSetID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="MealSetID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@CanEatMore" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="CanEatMore" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@UpdatedBy" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="UpdatedBy" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_MealSetID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="MealSetID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="MealSetID" ColumnName="MealSetID" DataSourceName="CTMF_Sub.dbo.MealSet" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@MealSetID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="MealSetID" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
                   </DbCommand>
                 </UpdateCommand>
@@ -393,7 +366,6 @@ SELECT MealSetID, Name, UsedTime, CanEatMore, InsertedDate, UpdatedBy, LastUpdat
             <Mappings>
               <Mapping SourceColumn="MealSetID" DataSetColumn="MealSetID" />
               <Mapping SourceColumn="Name" DataSetColumn="Name" />
-              <Mapping SourceColumn="UsedTime" DataSetColumn="UsedTime" />
               <Mapping SourceColumn="CanEatMore" DataSetColumn="CanEatMore" />
               <Mapping SourceColumn="InsertedDate" DataSetColumn="InsertedDate" />
               <Mapping SourceColumn="UpdatedBy" DataSetColumn="UpdatedBy" />
@@ -414,14 +386,13 @@ SELECT MealSetID, Name, UsedTime, CanEatMore, InsertedDate, UpdatedBy, LastUpdat
                     <CommandText>SET IDENTITY_INSERT MealSet ON
 
 INSERT INTO MealSet
-                         (MealSetID, Name, UsedTime, CanEatMore, InsertedDate, UpdatedBy, LastUpdated)
-VALUES        (@MealSetID, @Name,@UsedTime,@CanEatMore,@InsertedDate,@UpdatedBy,@LastUpdated)
+                         (MealSetID, Name, CanEatMore, InsertedDate, UpdatedBy, LastUpdated)
+VALUES        (@MealSetID, @Name,@CanEatMore,@InsertedDate,@UpdatedBy,@LastUpdated)
 
 SET IDENTITY_INSERT MealSet OFF</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@MealSetID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="MealSetID" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@UsedTime" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="UsedTime" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@CanEatMore" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="CanEatMore" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@UpdatedBy" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="UpdatedBy" SourceColumnNullMapping="false" SourceVersion="Current" />
@@ -434,28 +405,22 @@ SET IDENTITY_INSERT MealSet OFF</CommandText>
           </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ScheduleMealSetDetailTableAdapter" GeneratorDataComponentClassName="ScheduleMealSetDetailTableAdapter" Name="ScheduleMealSetDetail" UserDataComponentName="ScheduleMealSetDetailTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.ScheduleMealSetDetail" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="GetData">
+              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.ScheduleMealSetDetail" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="GetData">
                 <DeleteCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>DELETE FROM [dbo].[ScheduleMealSetDetail] WHERE (([ScheduleMealSetDetailID] = @Original_ScheduleMealSetDetailID) AND ([MealSetID] = @Original_MealSetID) AND ([ScheduleID] = @Original_ScheduleID) AND ([Name] = @Original_Name) AND ([InsertedDate] = @Original_InsertedDate) AND ([LastUpdated] = @Original_LastUpdated))</CommandText>
+                    <CommandText>DELETE FROM [dbo].[ScheduleMealSetDetail] WHERE (([ScheduleMealSetDetailID] = @Original_ScheduleMealSetDetailID))</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ScheduleMealSetDetailID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ScheduleMealSetDetailID" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_MealSetID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="MealSetID" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ScheduleID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ScheduleID" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@Original_InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@Original_LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Original" />
                     </Parameters>
                   </DbCommand>
                 </DeleteCommand>
                 <InsertCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>INSERT INTO [dbo].[ScheduleMealSetDetail] ([MealSetID], [ScheduleID], [Name], [InsertedDate], [LastUpdated]) VALUES (@MealSetID, @ScheduleID, @Name, @InsertedDate, @LastUpdated);
-SELECT ScheduleMealSetDetailID, MealSetID, ScheduleID, Name, InsertedDate, LastUpdated FROM ScheduleMealSetDetail WHERE (ScheduleMealSetDetailID = SCOPE_IDENTITY())</CommandText>
+                    <CommandText>INSERT INTO [dbo].[ScheduleMealSetDetail] ([MealSetID], [ScheduleID], [InsertedDate], [LastUpdated]) VALUES (@MealSetID, @ScheduleID, @InsertedDate, @LastUpdated);
+SELECT ScheduleMealSetDetailID, MealSetID, ScheduleID, InsertedDate, LastUpdated FROM ScheduleMealSetDetail WHERE (ScheduleMealSetDetailID = SCOPE_IDENTITY())</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@MealSetID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="MealSetID" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ScheduleID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ScheduleID" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
@@ -463,23 +428,21 @@ SELECT ScheduleMealSetDetailID, MealSetID, ScheduleID, Name, InsertedDate, LastU
                 </InsertCommand>
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT ScheduleMealSetDetailID, MealSetID, ScheduleID, Name, InsertedDate, LastUpdated FROM dbo.ScheduleMealSetDetail</CommandText>
+                    <CommandText>SELECT ScheduleMealSetDetailID, MealSetID, ScheduleID, InsertedDate, LastUpdated FROM dbo.ScheduleMealSetDetail</CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
                 <UpdateCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>UPDATE       ScheduleMealSetDetail
-SET                MealSetID = @MealSetID, ScheduleID = @ScheduleID, Name = @Name, InsertedDate = @InsertedDate, LastUpdated = @LastUpdated
-WHERE        (ScheduleMealSetDetailID = @ScheduleMealSetDetailID); 
-SELECT ScheduleMealSetDetailID, MealSetID, ScheduleID, Name, InsertedDate, LastUpdated FROM ScheduleMealSetDetail WHERE (ScheduleMealSetDetailID = @ScheduleMealSetDetailID)</CommandText>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE [dbo].[ScheduleMealSetDetail] SET [MealSetID] = @MealSetID, [ScheduleID] = @ScheduleID, [InsertedDate] = @InsertedDate, [LastUpdated] = @LastUpdated WHERE (([ScheduleMealSetDetailID] = @Original_ScheduleMealSetDetailID));
+SELECT ScheduleMealSetDetailID, MealSetID, ScheduleID, InsertedDate, LastUpdated FROM ScheduleMealSetDetail WHERE (ScheduleMealSetDetailID = @ScheduleMealSetDetailID)</CommandText>
                     <Parameters>
-                      <Parameter AllowDbNull="false" AutogeneratedName="MealSetID" ColumnName="MealSetID" DataSourceName="CTMF_Sub.dbo.ScheduleMealSetDetail" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@MealSetID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="MealSetID" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="ScheduleID" ColumnName="ScheduleID" DataSourceName="CTMF_Sub.dbo.ScheduleMealSetDetail" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ScheduleID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ScheduleID" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="Name" ColumnName="Name" DataSourceName="CTMF_Sub.dbo.ScheduleMealSetDetail" DataTypeServer="nvarchar(1)" DbType="String" Direction="Input" ParameterName="@Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="1" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="InsertedDate" ColumnName="InsertedDate" DataSourceName="CTMF_Sub.dbo.ScheduleMealSetDetail" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="LastUpdated" ColumnName="LastUpdated" DataSourceName="CTMF_Sub.dbo.ScheduleMealSetDetail" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="ScheduleMealSetDetailID" ColumnName="ScheduleMealSetDetailID" DataSourceName="CTMF_Sub.dbo.ScheduleMealSetDetail" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ScheduleMealSetDetailID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ScheduleMealSetDetailID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@MealSetID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="MealSetID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ScheduleID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ScheduleID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ScheduleMealSetDetailID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ScheduleMealSetDetailID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="ScheduleMealSetDetailID" ColumnName="ScheduleMealSetDetailID" DataSourceName="CTMF_Sub.dbo.ScheduleMealSetDetail" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ScheduleMealSetDetailID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ScheduleMealSetDetailID" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
                   </DbCommand>
                 </UpdateCommand>
@@ -489,7 +452,6 @@ SELECT ScheduleMealSetDetailID, MealSetID, ScheduleID, Name, InsertedDate, LastU
               <Mapping SourceColumn="ScheduleMealSetDetailID" DataSetColumn="ScheduleMealSetDetailID" />
               <Mapping SourceColumn="MealSetID" DataSetColumn="MealSetID" />
               <Mapping SourceColumn="ScheduleID" DataSetColumn="ScheduleID" />
-              <Mapping SourceColumn="Name" DataSetColumn="Name" />
               <Mapping SourceColumn="InsertedDate" DataSetColumn="InsertedDate" />
               <Mapping SourceColumn="LastUpdated" DataSetColumn="LastUpdated" />
             </Mappings>
@@ -507,14 +469,13 @@ SELECT ScheduleMealSetDetailID, MealSetID, ScheduleID, Name, InsertedDate, LastU
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>SET IDENTITY_INSERT ScheduleMealSetDetail ON
 
-INSERT INTO [dbo].[ScheduleMealSetDetail] ([ScheduleMealSetDetailID], [MealSetID], [ScheduleID], [Name], [InsertedDate], [LastUpdated]) VALUES (@ScheduleMealSetDetailID, @MealSetID, @ScheduleID, @Name, @InsertedDate, @LastUpdated);
+INSERT INTO [dbo].[ScheduleMealSetDetail] ([ScheduleMealSetDetailID], [MealSetID], [ScheduleID], [InsertedDate], [LastUpdated]) VALUES (@ScheduleMealSetDetailID, @MealSetID, @ScheduleID, @InsertedDate, @LastUpdated);
 
 SET IDENTITY_INSERT ScheduleMealSetDetail OFF</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="" ColumnName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ScheduleMealSetDetailID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ScheduleMealSetDetailID" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@MealSetID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="MealSetID" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ScheduleID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ScheduleID" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
@@ -525,29 +486,18 @@ SET IDENTITY_INSERT ScheduleMealSetDetail OFF</CommandText>
           </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TransactionHistoryTableAdapter" GeneratorDataComponentClassName="TransactionHistoryTableAdapter" Name="TransactionHistory" UserDataComponentName="TransactionHistoryTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.TransactionHistory" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="GetData">
+              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.TransactionHistory" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="GetData">
                 <DeleteCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>DELETE FROM [dbo].[TransactionHistory] WHERE (([TransactionHistoryID] = @Original_TransactionHistoryID) AND ([Username] = @Original_Username) AND ([TransactionTypeID] = @Original_TransactionTypeID) AND ([Value] = @Original_Value) AND ([TransactionContent] = @Original_TransactionContent) AND ((@IsNull_ScheduleMealSetDetailID = 1 AND [ScheduleMealSetDetailID] IS NULL) OR ([ScheduleMealSetDetailID] = @Original_ScheduleMealSetDetailID)) AND ([IsAuto] = @Original_IsAuto) AND ([InsertedDate] = @Original_InsertedDate) AND ((@IsNull_UpdatedBy = 1 AND [UpdatedBy] IS NULL) OR ([UpdatedBy] = @Original_UpdatedBy)) AND ([LastUpdated] = @Original_LastUpdated))</CommandText>
+                    <CommandText>DELETE FROM [TransactionHistory] WHERE (([TransactionHistoryID] = @Original_TransactionHistoryID))</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_TransactionHistoryID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="TransactionHistoryID" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_Username" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Username" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_TransactionTypeID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="TransactionTypeID" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_Value" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="Value" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_TransactionContent" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="TransactionContent" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_ScheduleMealSetDetailID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ScheduleMealSetDetailID" SourceColumnNullMapping="true" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ScheduleMealSetDetailID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ScheduleMealSetDetailID" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@Original_IsAuto" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="IsAuto" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@Original_InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_UpdatedBy" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="UpdatedBy" SourceColumnNullMapping="true" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_UpdatedBy" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="UpdatedBy" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@Original_LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Original" />
                     </Parameters>
                   </DbCommand>
                 </DeleteCommand>
                 <InsertCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>INSERT INTO [dbo].[TransactionHistory] ([Username], [TransactionTypeID], [Value], [TransactionContent], [ScheduleMealSetDetailID], [IsAuto], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (@Username, @TransactionTypeID, @Value, @TransactionContent, @ScheduleMealSetDetailID, @IsAuto, @InsertedDate, @UpdatedBy, @LastUpdated);
+                    <CommandText>INSERT INTO [TransactionHistory] ([Username], [TransactionTypeID], [Value], [TransactionContent], [ScheduleMealSetDetailID], [IsAuto], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (@Username, @TransactionTypeID, @Value, @TransactionContent, @ScheduleMealSetDetailID, @IsAuto, @InsertedDate, @UpdatedBy, @LastUpdated);
 SELECT TransactionHistoryID, Username, TransactionTypeID, Value, TransactionContent, ScheduleMealSetDetailID, IsAuto, InsertedDate, UpdatedBy, LastUpdated FROM TransactionHistory WHERE (TransactionHistoryID = SCOPE_IDENTITY())</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Username" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Username" SourceColumnNullMapping="false" SourceVersion="Current" />
@@ -564,29 +514,27 @@ SELECT TransactionHistoryID, Username, TransactionTypeID, Value, TransactionCont
                 </InsertCommand>
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT TransactionHistoryID, Username, TransactionTypeID, Value, TransactionContent, ScheduleMealSetDetailID, IsAuto, InsertedDate, UpdatedBy, LastUpdated FROM dbo.TransactionHistory</CommandText>
+                    <CommandText>SELECT        TransactionHistoryID, Username, TransactionTypeID, Value, TransactionContent, ScheduleMealSetDetailID, IsAuto, InsertedDate, UpdatedBy, LastUpdated
+FROM            TransactionHistory</CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
                 <UpdateCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>UPDATE       TransactionHistory
-SET                Username = @Username, TransactionTypeID = @TransactionTypeID, Value = @Value, TransactionContent = @TransactionContent, 
-                         ScheduleMealSetDetailID = @ScheduleMealSetDetailID, IsAuto = @IsAuto, InsertedDate = @InsertedDate, UpdatedBy = @UpdatedBy, 
-                         LastUpdated = @LastUpdated
-WHERE        (TransactionHistoryID = @TransactionHistoryID);  
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE [TransactionHistory] SET [Username] = @Username, [TransactionTypeID] = @TransactionTypeID, [Value] = @Value, [TransactionContent] = @TransactionContent, [ScheduleMealSetDetailID] = @ScheduleMealSetDetailID, [IsAuto] = @IsAuto, [InsertedDate] = @InsertedDate, [UpdatedBy] = @UpdatedBy, [LastUpdated] = @LastUpdated WHERE (([TransactionHistoryID] = @Original_TransactionHistoryID));
 SELECT TransactionHistoryID, Username, TransactionTypeID, Value, TransactionContent, ScheduleMealSetDetailID, IsAuto, InsertedDate, UpdatedBy, LastUpdated FROM TransactionHistory WHERE (TransactionHistoryID = @TransactionHistoryID)</CommandText>
                     <Parameters>
-                      <Parameter AllowDbNull="false" AutogeneratedName="Username" ColumnName="Username" DataSourceName="CTMF_Sub.dbo.TransactionHistory" DataTypeServer="nvarchar(254)" DbType="String" Direction="Input" ParameterName="@Username" Precision="0" ProviderType="NVarChar" Scale="0" Size="254" SourceColumn="Username" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="TransactionTypeID" ColumnName="TransactionTypeID" DataSourceName="CTMF_Sub.dbo.TransactionHistory" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@TransactionTypeID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="TransactionTypeID" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="Value" ColumnName="Value" DataSourceName="CTMF_Sub.dbo.TransactionHistory" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@Value" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="Value" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="TransactionContent" ColumnName="TransactionContent" DataSourceName="CTMF_Sub.dbo.TransactionHistory" DataTypeServer="nvarchar(500)" DbType="String" Direction="Input" ParameterName="@TransactionContent" Precision="0" ProviderType="NVarChar" Scale="0" Size="500" SourceColumn="TransactionContent" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="ScheduleMealSetDetailID" ColumnName="ScheduleMealSetDetailID" DataSourceName="CTMF_Sub.dbo.TransactionHistory" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ScheduleMealSetDetailID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ScheduleMealSetDetailID" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="IsAuto" ColumnName="IsAuto" DataSourceName="CTMF_Sub.dbo.TransactionHistory" DataTypeServer="bit" DbType="Boolean" Direction="Input" ParameterName="@IsAuto" Precision="0" ProviderType="Bit" Scale="0" Size="1" SourceColumn="IsAuto" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="InsertedDate" ColumnName="InsertedDate" DataSourceName="CTMF_Sub.dbo.TransactionHistory" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="UpdatedBy" ColumnName="UpdatedBy" DataSourceName="CTMF_Sub.dbo.TransactionHistory" DataTypeServer="nvarchar(254)" DbType="String" Direction="Input" ParameterName="@UpdatedBy" Precision="0" ProviderType="NVarChar" Scale="0" Size="254" SourceColumn="UpdatedBy" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="LastUpdated" ColumnName="LastUpdated" DataSourceName="CTMF_Sub.dbo.TransactionHistory" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="TransactionHistoryID" ColumnName="TransactionHistoryID" DataSourceName="CTMF_Sub.dbo.TransactionHistory" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@TransactionHistoryID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="TransactionHistoryID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Username" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Username" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@TransactionTypeID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="TransactionTypeID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Value" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="Value" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@TransactionContent" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="TransactionContent" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ScheduleMealSetDetailID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ScheduleMealSetDetailID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@IsAuto" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="IsAuto" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@UpdatedBy" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="UpdatedBy" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_TransactionHistoryID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="TransactionHistoryID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="TransactionHistoryID" ColumnName="TransactionHistoryID" DataSourceName="CTMF_Sub.dbo.TransactionHistory" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@TransactionHistoryID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="TransactionHistoryID" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
                   </DbCommand>
                 </UpdateCommand>
@@ -629,8 +577,10 @@ WHERE        (Username = @Username) AND (InsertedDate &gt; @InsertedDate)</Comma
               <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertScalar" Modifier="Public" Name="InsertScalar" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="InsertScalar">
                 <InsertCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>INSERT INTO [dbo].[TransactionHistory] ([Username], [TransactionTypeID], [Value], [TransactionContent], [ScheduleMealSetDetailID], [IsAuto], [InsertedDate], [UpdatedBy], [LastUpdated]) VALUES (@Username, @TransactionTypeID, @Value, @TransactionContent, @ScheduleMealSetDetailID, @IsAuto, @InsertedDate, @UpdatedBy, @LastUpdated);
-                             SELECT        @@IDENTITY</CommandText>
+                    <CommandText>INSERT INTO TransactionHistory
+                         (Username, TransactionTypeID, Value, TransactionContent, ScheduleMealSetDetailID, IsAuto, InsertedDate, UpdatedBy, LastUpdated)
+VALUES        (@Username,@TransactionTypeID,@Value,@TransactionContent,@ScheduleMealSetDetailID,@IsAuto,@InsertedDate,@UpdatedBy,@LastUpdated); 
+SELECT @@IDENTITY</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="Username" ColumnName="Username" DataSourceName="CTMF_Sub.dbo.TransactionHistory" DataTypeServer="nvarchar(254)" DbType="String" Direction="Input" ParameterName="@Username" Precision="0" ProviderType="NVarChar" Scale="0" Size="254" SourceColumn="Username" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="TransactionTypeID" ColumnName="TransactionTypeID" DataSourceName="CTMF_Sub.dbo.TransactionHistory" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@TransactionTypeID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="TransactionTypeID" SourceColumnNullMapping="false" SourceVersion="Current" />
@@ -753,18 +703,12 @@ SET IDENTITY_INSERT TransactionType ON</CommandText>
           </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ServingTimeTableAdapter" GeneratorDataComponentClassName="ServingTimeTableAdapter" Name="ServingTime" UserDataComponentName="ServingTimeTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.ServingTime" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="GetData">
+              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.ServingTime" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="GetData">
                 <DeleteCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>DELETE FROM [dbo].[ServingTime] WHERE (([ServingTimeID] = @Original_ServingTimeID) AND ([Name] = @Original_Name) AND ([StartTime] = @Original_StartTime) AND ((@IsNull_EndTime = 1 AND [EndTime] IS NULL) OR ([EndTime] = @Original_EndTime)) AND ([InsertedDate] = @Original_InsertedDate) AND ([LastUpdated] = @Original_LastUpdated))</CommandText>
+                    <CommandText>DELETE FROM [dbo].[ServingTime] WHERE (([ServingTimeID] = @Original_ServingTimeID))</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ServingTimeID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ServingTimeID" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@Original_StartTime" Precision="0" ProviderType="Time" Scale="0" Size="0" SourceColumn="StartTime" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_EndTime" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="EndTime" SourceColumnNullMapping="true" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@Original_EndTime" Precision="0" ProviderType="Time" Scale="0" Size="0" SourceColumn="EndTime" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@Original_InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@Original_LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Original" />
                     </Parameters>
                   </DbCommand>
                 </DeleteCommand>
@@ -775,7 +719,7 @@ SELECT ServingTimeID, Name, StartTime, EndTime, InsertedDate, LastUpdated FROM S
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@StartTime" Precision="0" ProviderType="Time" Scale="0" Size="0" SourceColumn="StartTime" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@EndTime" Precision="0" ProviderType="Time" Scale="0" Size="0" SourceColumn="EndTime" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@EndTime" Precision="0" ProviderType="Time" Scale="0" Size="0" SourceColumn="EndTime" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
@@ -788,18 +732,17 @@ SELECT ServingTimeID, Name, StartTime, EndTime, InsertedDate, LastUpdated FROM S
                   </DbCommand>
                 </SelectCommand>
                 <UpdateCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>UPDATE       ServingTime
-SET                Name = @Name, StartTime = @StartTime, EndTime = @EndTime, InsertedDate = @InsertedDate, LastUpdated = @LastUpdated
-WHERE        (ServingTimeID = @ServingTimeID); 
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE [dbo].[ServingTime] SET [Name] = @Name, [StartTime] = @StartTime, [EndTime] = @EndTime, [InsertedDate] = @InsertedDate, [LastUpdated] = @LastUpdated WHERE (([ServingTimeID] = @Original_ServingTimeID));
 SELECT ServingTimeID, Name, StartTime, EndTime, InsertedDate, LastUpdated FROM ServingTime WHERE (ServingTimeID = @ServingTimeID)</CommandText>
                     <Parameters>
-                      <Parameter AllowDbNull="false" AutogeneratedName="Name" ColumnName="Name" DataSourceName="CTMF_Sub.dbo.ServingTime" DataTypeServer="nvarchar(50)" DbType="String" Direction="Input" ParameterName="@Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="50" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="StartTime" ColumnName="StartTime" DataSourceName="CTMF_Sub.dbo.ServingTime" DataTypeServer="time" DbType="Time" Direction="Input" ParameterName="@StartTime" Precision="0" ProviderType="Time" Scale="0" Size="3" SourceColumn="StartTime" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="EndTime" ColumnName="EndTime" DataSourceName="CTMF_Sub.dbo.ServingTime" DataTypeServer="time" DbType="Time" Direction="Input" ParameterName="@EndTime" Precision="0" ProviderType="Time" Scale="0" Size="3" SourceColumn="EndTime" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="InsertedDate" ColumnName="InsertedDate" DataSourceName="CTMF_Sub.dbo.ServingTime" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="LastUpdated" ColumnName="LastUpdated" DataSourceName="CTMF_Sub.dbo.ServingTime" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="ServingTimeID" ColumnName="ServingTimeID" DataSourceName="CTMF_Sub.dbo.ServingTime" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ServingTimeID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ServingTimeID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@StartTime" Precision="0" ProviderType="Time" Scale="0" Size="0" SourceColumn="StartTime" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@EndTime" Precision="0" ProviderType="Time" Scale="0" Size="0" SourceColumn="EndTime" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ServingTimeID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ServingTimeID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="ServingTimeID" ColumnName="ServingTimeID" DataSourceName="CTMF_Sub.dbo.ServingTime" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ServingTimeID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ServingTimeID" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
                   </DbCommand>
                 </UpdateCommand>
@@ -834,7 +777,7 @@ SET IDENTITY_INSERT ServingTime OFF</CommandText>
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ServingTimeID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ServingTimeID" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Name" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Name" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@StartTime" Precision="0" ProviderType="Time" Scale="0" Size="0" SourceColumn="StartTime" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@EndTime" Precision="0" ProviderType="Time" Scale="0" Size="0" SourceColumn="EndTime" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@EndTime" Precision="0" ProviderType="Time" Scale="0" Size="0" SourceColumn="EndTime" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
@@ -845,24 +788,12 @@ SET IDENTITY_INSERT ServingTime OFF</CommandText>
           </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="UserTypeTableAdapter" GeneratorDataComponentClassName="UserTypeTableAdapter" Name="UserType" UserDataComponentName="UserTypeTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.UserType" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="GetData">
+              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectName="CTMF_Sub.dbo.UserType" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="GetData">
                 <DeleteCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>DELETE FROM [dbo].[UserType] WHERE (([TypeShortName] = @Original_TypeShortName) AND ([TypeName] = @Original_TypeName) AND ([MealValue] = @Original_MealValue) AND ((@IsNull_MoreMealValue = 1 AND [MoreMealValue] IS NULL) OR ([MoreMealValue] = @Original_MoreMealValue)) AND ((@IsNull_Description = 1 AND [Description] IS NULL) OR ([Description] = @Original_Description)) AND ([CanDebt] = @Original_CanDebt) AND ([CanEatMore] = @Original_CanEatMore) AND ([InsertedDate] = @Original_InsertedDate) AND ((@IsNull_UpdatedBy = 1 AND [UpdatedBy] IS NULL) OR ([UpdatedBy] = @Original_UpdatedBy)) AND ([LastUpdated] = @Original_LastUpdated))</CommandText>
+                    <CommandText>DELETE FROM [dbo].[UserType] WHERE (([TypeShortName] = @Original_TypeShortName))</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_TypeShortName" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="TypeShortName" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_TypeName" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="TypeName" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_MealValue" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="MealValue" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_MoreMealValue" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="MoreMealValue" SourceColumnNullMapping="true" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_MoreMealValue" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="MoreMealValue" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_Description" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="Description" SourceColumnNullMapping="true" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_Description" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Description" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@Original_CanDebt" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="CanDebt" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@Original_CanEatMore" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="CanEatMore" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@Original_InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_UpdatedBy" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="UpdatedBy" SourceColumnNullMapping="true" SourceVersion="Original" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_UpdatedBy" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="UpdatedBy" SourceColumnNullMapping="false" SourceVersion="Original" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@Original_LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Original" />
                     </Parameters>
                   </DbCommand>
                 </DeleteCommand>
@@ -891,23 +822,21 @@ SELECT TypeShortName, TypeName, MealValue, MoreMealValue, Description, CanDebt, 
                   </DbCommand>
                 </SelectCommand>
                 <UpdateCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>UPDATE       UserType
-SET                TypeName = @TypeName, MealValue = @MealValue, MoreMealValue = @MoreMealValue, Description = @Description, CanDebt = @CanDebt, 
-                         CanEatMore = @CanEatMore, InsertedDate = @InsertedDate, UpdatedBy = @UpdatedBy, LastUpdated = @LastUpdated
-WHERE        (TypeShortName = @Original_TypeShortName);      
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE [dbo].[UserType] SET [TypeShortName] = @TypeShortName, [TypeName] = @TypeName, [MealValue] = @MealValue, [MoreMealValue] = @MoreMealValue, [Description] = @Description, [CanDebt] = @CanDebt, [CanEatMore] = @CanEatMore, [InsertedDate] = @InsertedDate, [UpdatedBy] = @UpdatedBy, [LastUpdated] = @LastUpdated WHERE (([TypeShortName] = @Original_TypeShortName));
 SELECT TypeShortName, TypeName, MealValue, MoreMealValue, Description, CanDebt, CanEatMore, InsertedDate, UpdatedBy, LastUpdated FROM UserType WHERE (TypeShortName = @TypeShortName)</CommandText>
                     <Parameters>
-                      <Parameter AllowDbNull="false" AutogeneratedName="TypeName" ColumnName="TypeName" DataSourceName="CTMF_Sub.dbo.UserType" DataTypeServer="nvarchar(50)" DbType="String" Direction="Input" ParameterName="@TypeName" Precision="0" ProviderType="NVarChar" Scale="0" Size="50" SourceColumn="TypeName" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="MealValue" ColumnName="MealValue" DataSourceName="CTMF_Sub.dbo.UserType" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@MealValue" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="MealValue" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="MoreMealValue" ColumnName="MoreMealValue" DataSourceName="CTMF_Sub.dbo.UserType" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@MoreMealValue" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="MoreMealValue" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="Description" ColumnName="Description" DataSourceName="CTMF_Sub.dbo.UserType" DataTypeServer="nvarchar(500)" DbType="String" Direction="Input" ParameterName="@Description" Precision="0" ProviderType="NVarChar" Scale="0" Size="500" SourceColumn="Description" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="CanDebt" ColumnName="CanDebt" DataSourceName="CTMF_Sub.dbo.UserType" DataTypeServer="bit" DbType="Boolean" Direction="Input" ParameterName="@CanDebt" Precision="0" ProviderType="Bit" Scale="0" Size="1" SourceColumn="CanDebt" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="CanEatMore" ColumnName="CanEatMore" DataSourceName="CTMF_Sub.dbo.UserType" DataTypeServer="bit" DbType="Boolean" Direction="Input" ParameterName="@CanEatMore" Precision="0" ProviderType="Bit" Scale="0" Size="1" SourceColumn="CanEatMore" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="InsertedDate" ColumnName="InsertedDate" DataSourceName="CTMF_Sub.dbo.UserType" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="true" AutogeneratedName="UpdatedBy" ColumnName="UpdatedBy" DataSourceName="CTMF_Sub.dbo.UserType" DataTypeServer="nvarchar(254)" DbType="String" Direction="Input" ParameterName="@UpdatedBy" Precision="0" ProviderType="NVarChar" Scale="0" Size="254" SourceColumn="UpdatedBy" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="LastUpdated" ColumnName="LastUpdated" DataSourceName="CTMF_Sub.dbo.UserType" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="Original_TypeShortName" ColumnName="TypeShortName" DataSourceName="CTMF_Sub.dbo.UserType" DataTypeServer="nvarchar(3)" DbType="String" Direction="Input" ParameterName="@Original_TypeShortName" Precision="0" ProviderType="NVarChar" Scale="0" Size="3" SourceColumn="TypeShortName" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@TypeShortName" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="TypeShortName" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@TypeName" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="TypeName" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@MealValue" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="MealValue" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@MoreMealValue" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="MoreMealValue" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Description" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="Description" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@CanDebt" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="CanDebt" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@CanEatMore" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="CanEatMore" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@InsertedDate" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="InsertedDate" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@UpdatedBy" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="UpdatedBy" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@LastUpdated" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_TypeShortName" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="TypeShortName" SourceColumnNullMapping="false" SourceVersion="Original" />
                     </Parameters>
                   </DbCommand>
                 </UpdateCommand>
@@ -945,6 +874,42 @@ WHERE        (TypeShortName = @TypeShortName)</CommandText>
                     <Parameters />
                   </DbCommand>
                 </DeleteCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="MealSetInScheduleDetailTableAdapter" GeneratorDataComponentClassName="MealSetInScheduleDetailTableAdapter" Name="MealSetInScheduleDetail" UserDataComponentName="MealSetInScheduleDetailTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectType="Unknown" GenerateMethods="Get" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="GetData">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT     SMSD.ScheduleMealSetDetailID, SMSD.ScheduleID, SMSD.MealSetID, MS.Name, MS.CanEatMore
+FROM         ScheduleMealSetDetail AS SMSD INNER JOIN
+                      MealSet AS MS ON SMSD.MealSetID = MS.MealSetID</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ScheduleMealSetDetailID" DataSetColumn="ScheduleMealSetDetailID" />
+              <Mapping SourceColumn="ScheduleID" DataSetColumn="ScheduleID" />
+              <Mapping SourceColumn="MealSetID" DataSetColumn="MealSetID" />
+              <Mapping SourceColumn="Name" DataSetColumn="Name" />
+              <Mapping SourceColumn="CanEatMore" DataSetColumn="CanEatMore" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectType="Unknown" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByScheduleID" GetMethodModifier="Public" GetMethodName="GetDataByScheduleID" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByScheduleID" UserSourceName="GetDataByScheduleID">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT     SMSD.ScheduleMealSetDetailID, SMSD.ScheduleID, SMSD.MealSetID, MS.Name, MS.CanEatMore
+FROM         ScheduleMealSetDetail AS SMSD INNER JOIN
+                      MealSet AS MS ON SMSD.MealSetID = MS.MealSetID
+WHERE     (SMSD.ScheduleID = @Schedule)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="Schedule" ColumnName="ScheduleID" DataSourceName="CTMF_Sub.dbo.ScheduleMealSetDetail" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@Schedule" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ScheduleID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
               </DbSource>
             </Sources>
           </TableAdapter>
@@ -995,43 +960,7 @@ WHERE        (UI.LastUpdated &gt; @FromDate1) OR
                          (UI.LastUpdatedFingerPrint IS NOT NULL) AND (UI.LastUpdatedFingerPrint &gt; @FromDate2)</CommandText>
                     <Parameters>
                       <Parameter AllowDbNull="false" AutogeneratedName="FromDate1" ColumnName="LastUpdated" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@FromDate1" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="LastUpdated" SourceColumnNullMapping="false" SourceVersion="Current" />
-                      <Parameter AllowDbNull="false" AutogeneratedName="FromDate2" ColumnName="LastUpdatedFingerPrint" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@FromDate2" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="LastUpdatedFingerPrint" SourceColumnNullMapping="false" SourceVersion="Current" />
-                    </Parameters>
-                  </DbCommand>
-                </SelectCommand>
-              </DbSource>
-            </Sources>
-          </TableAdapter>
-          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="MealSetInScheduleDetailTableAdapter" GeneratorDataComponentClassName="MealSetInScheduleDetailTableAdapter" Name="MealSetInScheduleDetail" UserDataComponentName="MealSetInScheduleDetailTableAdapter">
-            <MainSource>
-              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectType="Unknown" GenerateMethods="Get" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="GetData">
-                <SelectCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT     SMSD.ScheduleMealSetDetailID, SMSD.ScheduleID, SMSD.MealSetID, MS.Name, MS.CanEatMore
-FROM         ScheduleMealSetDetail AS SMSD INNER JOIN
-                      MealSet AS MS ON SMSD.MealSetID = MS.MealSetID</CommandText>
-                    <Parameters />
-                  </DbCommand>
-                </SelectCommand>
-              </DbSource>
-            </MainSource>
-            <Mappings>
-              <Mapping SourceColumn="ScheduleMealSetDetailID" DataSetColumn="ScheduleMealSetDetailID" />
-              <Mapping SourceColumn="ScheduleID" DataSetColumn="ScheduleID" />
-              <Mapping SourceColumn="MealSetID" DataSetColumn="MealSetID" />
-              <Mapping SourceColumn="Name" DataSetColumn="Name" />
-              <Mapping SourceColumn="CanEatMore" DataSetColumn="CanEatMore" />
-            </Mappings>
-            <Sources>
-              <DbSource ConnectionRef="CTMF_SubConnectionString (Settings)" DbObjectType="Unknown" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetDataByScheduleID" GetMethodModifier="Public" GetMethodName="GetDataByScheduleID" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataByScheduleID" UserSourceName="GetDataByScheduleID">
-                <SelectCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT     SMSD.ScheduleMealSetDetailID, SMSD.ScheduleID, SMSD.MealSetID, MS.Name, MS.CanEatMore
-FROM         ScheduleMealSetDetail AS SMSD INNER JOIN
-                      MealSet AS MS ON SMSD.MealSetID = MS.MealSetID
-WHERE     (SMSD.ScheduleID = @Schedule)</CommandText>
-                    <Parameters>
-                      <Parameter AllowDbNull="false" AutogeneratedName="Schedule" ColumnName="ScheduleID" DataSourceName="CTMF_Sub.dbo.ScheduleMealSetDetail" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@Schedule" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ScheduleID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="FromDate2" ColumnName="LastUpdatedFingerPrint" DataSourceName="CTMF_Sub.dbo.UserInfo" DataTypeServer="datetime" DbType="DateTime" Direction="Input" ParameterName="@FromDate2" Precision="0" ProviderType="DateTime" Scale="0" Size="8" SourceColumn="LastUpdatedFingerPrint" SourceColumnNullMapping="false" SourceVersion="Current" />
                     </Parameters>
                   </DbCommand>
                 </SelectCommand>
@@ -1103,8 +1032,8 @@ WHERE     (SMSD.ScheduleID = @Schedule)</CommandText>
                 </xs:simpleType>
               </xs:element>
               <xs:element name="LastUpdated" msprop:Generator_ColumnVarNameInTable="columnLastUpdated" msprop:Generator_ColumnPropNameInRow="LastUpdated" msprop:Generator_ColumnPropNameInTable="LastUpdatedColumn" msprop:Generator_UserColumnName="LastUpdated" type="xs:dateTime" />
-              <xs:element name="LastUpdatedMoney" msprop:Generator_ColumnVarNameInTable="columnLastUpdatedMoney" msprop:Generator_ColumnPropNameInRow="LastUpdatedMoney" msprop:Generator_ColumnPropNameInTable="LastUpdatedMoneyColumn" msprop:Generator_UserColumnName="LastUpdatedMoney" type="xs:dateTime" />
               <xs:element name="LastUpdatedFingerPrint" msprop:Generator_ColumnVarNameInTable="columnLastUpdatedFingerPrint" msprop:Generator_ColumnPropNameInRow="LastUpdatedFingerPrint" msprop:Generator_ColumnPropNameInTable="LastUpdatedFingerPrintColumn" msprop:Generator_UserColumnName="LastUpdatedFingerPrint" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="LastUpdatedMoney" msprop:Generator_ColumnVarNameInTable="columnLastUpdatedMoney" msprop:Generator_ColumnPropNameInRow="LastUpdatedMoney" msprop:Generator_ColumnPropNameInTable="LastUpdatedMoneyColumn" msprop:Generator_UserColumnName="LastUpdatedMoney" type="xs:dateTime" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -1119,7 +1048,6 @@ WHERE     (SMSD.ScheduleID = @Schedule)</CommandText>
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="UsedTime" msprop:Generator_ColumnVarNameInTable="columnUsedTime" msprop:Generator_ColumnPropNameInRow="UsedTime" msprop:Generator_ColumnPropNameInTable="UsedTimeColumn" msprop:Generator_UserColumnName="UsedTime" type="xs:int" />
               <xs:element name="CanEatMore" msprop:Generator_ColumnVarNameInTable="columnCanEatMore" msprop:Generator_ColumnPropNameInRow="CanEatMore" msprop:Generator_ColumnPropNameInTable="CanEatMoreColumn" msprop:Generator_UserColumnName="CanEatMore" type="xs:boolean" />
               <xs:element name="InsertedDate" msprop:Generator_ColumnVarNameInTable="columnInsertedDate" msprop:Generator_ColumnPropNameInRow="InsertedDate" msprop:Generator_ColumnPropNameInTable="InsertedDateColumn" msprop:Generator_UserColumnName="InsertedDate" type="xs:dateTime" />
               <xs:element name="UpdatedBy" msprop:Generator_ColumnVarNameInTable="columnUpdatedBy" msprop:Generator_ColumnPropNameInRow="UpdatedBy" msprop:Generator_ColumnPropNameInTable="UpdatedByColumn" msprop:Generator_UserColumnName="UpdatedBy" minOccurs="0">
@@ -1139,13 +1067,6 @@ WHERE     (SMSD.ScheduleID = @Schedule)</CommandText>
               <xs:element name="ScheduleMealSetDetailID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnScheduleMealSetDetailID" msprop:Generator_ColumnPropNameInRow="ScheduleMealSetDetailID" msprop:Generator_ColumnPropNameInTable="ScheduleMealSetDetailIDColumn" msprop:Generator_UserColumnName="ScheduleMealSetDetailID" type="xs:int" />
               <xs:element name="MealSetID" msprop:Generator_ColumnVarNameInTable="columnMealSetID" msprop:Generator_ColumnPropNameInRow="MealSetID" msprop:Generator_ColumnPropNameInTable="MealSetIDColumn" msprop:Generator_UserColumnName="MealSetID" type="xs:int" />
               <xs:element name="ScheduleID" msprop:Generator_ColumnVarNameInTable="columnScheduleID" msprop:Generator_ColumnPropNameInRow="ScheduleID" msprop:Generator_ColumnPropNameInTable="ScheduleIDColumn" msprop:Generator_UserColumnName="ScheduleID" type="xs:int" />
-              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="1" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
               <xs:element name="InsertedDate" msprop:Generator_ColumnVarNameInTable="columnInsertedDate" msprop:Generator_ColumnPropNameInRow="InsertedDate" msprop:Generator_ColumnPropNameInTable="InsertedDateColumn" msprop:Generator_UserColumnName="InsertedDate" type="xs:dateTime" />
               <xs:element name="LastUpdated" msprop:Generator_ColumnVarNameInTable="columnLastUpdated" msprop:Generator_ColumnPropNameInRow="LastUpdated" msprop:Generator_ColumnPropNameInTable="LastUpdatedColumn" msprop:Generator_UserColumnName="LastUpdated" type="xs:dateTime" />
             </xs:sequence>
@@ -1213,7 +1134,7 @@ WHERE     (SMSD.ScheduleID = @Schedule)</CommandText>
                 </xs:simpleType>
               </xs:element>
               <xs:element name="StartTime" msprop:Generator_ColumnVarNameInTable="columnStartTime" msprop:Generator_ColumnPropNameInRow="StartTime" msprop:Generator_ColumnPropNameInTable="StartTimeColumn" msprop:Generator_UserColumnName="StartTime" type="xs:duration" />
-              <xs:element name="EndTime" msprop:Generator_ColumnVarNameInTable="columnEndTime" msprop:Generator_ColumnPropNameInRow="EndTime" msprop:Generator_ColumnPropNameInTable="EndTimeColumn" msprop:Generator_UserColumnName="EndTime" type="xs:duration" minOccurs="0" />
+              <xs:element name="EndTime" msprop:Generator_ColumnVarNameInTable="columnEndTime" msprop:Generator_ColumnPropNameInRow="EndTime" msprop:Generator_ColumnPropNameInTable="EndTimeColumn" msprop:Generator_UserColumnName="EndTime" type="xs:duration" />
               <xs:element name="InsertedDate" msprop:Generator_ColumnVarNameInTable="columnInsertedDate" msprop:Generator_ColumnPropNameInRow="InsertedDate" msprop:Generator_ColumnPropNameInTable="InsertedDateColumn" msprop:Generator_UserColumnName="InsertedDate" type="xs:dateTime" />
               <xs:element name="LastUpdated" msprop:Generator_ColumnVarNameInTable="columnLastUpdated" msprop:Generator_ColumnPropNameInRow="LastUpdated" msprop:Generator_ColumnPropNameInTable="LastUpdatedColumn" msprop:Generator_UserColumnName="LastUpdated" type="xs:dateTime" />
             </xs:sequence>
@@ -1256,6 +1177,23 @@ WHERE     (SMSD.ScheduleID = @Schedule)</CommandText>
                 </xs:simpleType>
               </xs:element>
               <xs:element name="LastUpdated" msprop:Generator_ColumnVarNameInTable="columnLastUpdated" msprop:Generator_ColumnPropNameInRow="LastUpdated" msprop:Generator_ColumnPropNameInTable="LastUpdatedColumn" msprop:Generator_UserColumnName="LastUpdated" type="xs:dateTime" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="MealSetInScheduleDetail" msprop:Generator_TableClassName="MealSetInScheduleDetailDataTable" msprop:Generator_TableVarName="tableMealSetInScheduleDetail" msprop:Generator_TablePropName="MealSetInScheduleDetail" msprop:Generator_RowDeletingName="MealSetInScheduleDetailRowDeleting" msprop:Generator_RowChangingName="MealSetInScheduleDetailRowChanging" msprop:Generator_RowEvHandlerName="MealSetInScheduleDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="MealSetInScheduleDetailRowDeleted" msprop:Generator_UserTableName="MealSetInScheduleDetail" msprop:Generator_RowChangedName="MealSetInScheduleDetailRowChanged" msprop:Generator_RowEvArgName="MealSetInScheduleDetailRowChangeEvent" msprop:Generator_RowClassName="MealSetInScheduleDetailRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ScheduleMealSetDetailID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnScheduleMealSetDetailID" msprop:Generator_ColumnPropNameInRow="ScheduleMealSetDetailID" msprop:Generator_ColumnPropNameInTable="ScheduleMealSetDetailIDColumn" msprop:Generator_UserColumnName="ScheduleMealSetDetailID" type="xs:int" />
+              <xs:element name="ScheduleID" msprop:Generator_ColumnVarNameInTable="columnScheduleID" msprop:Generator_ColumnPropNameInRow="ScheduleID" msprop:Generator_ColumnPropNameInTable="ScheduleIDColumn" msprop:Generator_UserColumnName="ScheduleID" type="xs:int" />
+              <xs:element name="MealSetID" msprop:Generator_ColumnVarNameInTable="columnMealSetID" msprop:Generator_ColumnPropNameInRow="MealSetID" msprop:Generator_ColumnPropNameInTable="MealSetIDColumn" msprop:Generator_UserColumnName="MealSetID" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CanEatMore" msprop:Generator_ColumnVarNameInTable="columnCanEatMore" msprop:Generator_ColumnPropNameInRow="CanEatMore" msprop:Generator_ColumnPropNameInTable="CanEatMoreColumn" msprop:Generator_UserColumnName="CanEatMore" type="xs:boolean" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -1313,23 +1251,6 @@ WHERE     (SMSD.ScheduleID = @Schedule)</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="MealSetInScheduleDetail" msprop:Generator_TableClassName="MealSetInScheduleDetailDataTable" msprop:Generator_TableVarName="tableMealSetInScheduleDetail" msprop:Generator_TablePropName="MealSetInScheduleDetail" msprop:Generator_RowDeletingName="MealSetInScheduleDetailRowDeleting" msprop:Generator_RowChangingName="MealSetInScheduleDetailRowChanging" msprop:Generator_RowEvHandlerName="MealSetInScheduleDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="MealSetInScheduleDetailRowDeleted" msprop:Generator_UserTableName="MealSetInScheduleDetail" msprop:Generator_RowChangedName="MealSetInScheduleDetailRowChanged" msprop:Generator_RowEvArgName="MealSetInScheduleDetailRowChangeEvent" msprop:Generator_RowClassName="MealSetInScheduleDetailRow">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="ScheduleMealSetDetailID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnScheduleMealSetDetailID" msprop:Generator_ColumnPropNameInRow="ScheduleMealSetDetailID" msprop:Generator_ColumnPropNameInTable="ScheduleMealSetDetailIDColumn" msprop:Generator_UserColumnName="ScheduleMealSetDetailID" type="xs:int" />
-              <xs:element name="ScheduleID" msprop:Generator_ColumnVarNameInTable="columnScheduleID" msprop:Generator_ColumnPropNameInRow="ScheduleID" msprop:Generator_ColumnPropNameInTable="ScheduleIDColumn" msprop:Generator_UserColumnName="ScheduleID" type="xs:int" />
-              <xs:element name="MealSetID" msprop:Generator_ColumnVarNameInTable="columnMealSetID" msprop:Generator_ColumnPropNameInRow="MealSetID" msprop:Generator_ColumnPropNameInTable="MealSetIDColumn" msprop:Generator_UserColumnName="MealSetID" type="xs:int" />
-              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="CanEatMore" msprop:Generator_ColumnVarNameInTable="columnCanEatMore" msprop:Generator_ColumnPropNameInRow="CanEatMore" msprop:Generator_ColumnPropNameInTable="CanEatMoreColumn" msprop:Generator_UserColumnName="CanEatMore" type="xs:boolean" />
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">
@@ -1364,13 +1285,13 @@ WHERE     (SMSD.ScheduleID = @Schedule)</CommandText>
       <xs:selector xpath=".//mstns:UserType" />
       <xs:field xpath="mstns:TypeShortName" />
     </xs:unique>
-    <xs:unique name="Customer_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
-      <xs:selector xpath=".//mstns:Customer" />
-      <xs:field xpath="mstns:Username" />
-    </xs:unique>
     <xs:unique name="MealSetInScheduleDetail_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:MealSetInScheduleDetail" />
       <xs:field xpath="mstns:ScheduleMealSetDetailID" />
+    </xs:unique>
+    <xs:unique name="Customer_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Customer" />
+      <xs:field xpath="mstns:Username" />
     </xs:unique>
   </xs:element>
   <xs:annotation>
@@ -1385,12 +1306,12 @@ WHERE     (SMSD.ScheduleID = @Schedule)</CommandText>
       <msdata:Relationship name="FK_Schedule_ServingTime" msdata:parent="ServingTime" msdata:child="Schedule" msdata:parentkey="ServingTimeID" msdata:childkey="ServingTimeID" msprop:Generator_UserChildTable="Schedule" msprop:Generator_ChildPropName="GetScheduleRows" msprop:Generator_UserRelationName="FK_Schedule_ServingTime" msprop:Generator_ParentPropName="ServingTimeRow" msprop:Generator_RelationVarName="relationFK_Schedule_ServingTime" msprop:Generator_UserParentTable="ServingTime" />
       <msdata:Relationship name="FK_TransactionHistory_TransactionType" msdata:parent="TransactionType" msdata:child="TransactionHistory" msdata:parentkey="TransactionTypeID" msdata:childkey="TransactionTypeID" msprop:Generator_UserChildTable="TransactionHistory" msprop:Generator_ChildPropName="GetTransactionHistoryRows" msprop:Generator_UserRelationName="FK_TransactionHistory_TransactionType" msprop:Generator_ParentPropName="TransactionTypeRow" msprop:Generator_RelationVarName="relationFK_TransactionHistory_TransactionType" msprop:Generator_UserParentTable="TransactionType" />
       <msdata:Relationship name="FK_UserInfo_UserType" msdata:parent="UserType" msdata:child="UserInfo" msdata:parentkey="TypeShortName" msdata:childkey="TypeShortName" msprop:Generator_UserChildTable="UserInfo" msprop:Generator_ChildPropName="GetUserInfoRows" msprop:Generator_UserRelationName="FK_UserInfo_UserType" msprop:Generator_ParentPropName="UserTypeRow" msprop:Generator_RelationVarName="relationFK_UserInfo_UserType" msprop:Generator_UserParentTable="UserType" />
+      <msdata:Relationship name="FK_ScheduleMealSetDetail_MealSet1" msdata:parent="MealSetInScheduleDetail" msdata:child="ScheduleMealSetDetail" msdata:parentkey="MealSetID" msdata:childkey="MealSetID" msprop:Generator_UserChildTable="ScheduleMealSetDetail" msprop:Generator_ChildPropName="GetScheduleMealSetDetailRows" msprop:Generator_UserRelationName="FK_ScheduleMealSetDetail_MealSet1" msprop:Generator_RelationVarName="relationFK_ScheduleMealSetDetail_MealSet1" msprop:Generator_UserParentTable="MealSetInScheduleDetail" msprop:Generator_ParentPropName="MealSetInScheduleDetailRow" />
       <msdata:Relationship name="FK_Schedule_UserInfo1" msdata:parent="Customer" msdata:child="Schedule" msdata:parentkey="Username" msdata:childkey="UpdatedBy" msprop:Generator_UserChildTable="Schedule" msprop:Generator_ChildPropName="GetScheduleRows" msprop:Generator_UserRelationName="FK_Schedule_UserInfo1" msprop:Generator_RelationVarName="relationFK_Schedule_UserInfo1" msprop:Generator_UserParentTable="Customer" msprop:Generator_ParentPropName="CustomerRow" />
       <msdata:Relationship name="FK_MealSet_UserInfo1" msdata:parent="Customer" msdata:child="MealSet" msdata:parentkey="Username" msdata:childkey="UpdatedBy" msprop:Generator_UserChildTable="MealSet" msprop:Generator_ChildPropName="GetMealSetRows" msprop:Generator_UserRelationName="FK_MealSet_UserInfo1" msprop:Generator_RelationVarName="relationFK_MealSet_UserInfo1" msprop:Generator_UserParentTable="Customer" msprop:Generator_ParentPropName="CustomerRow" />
       <msdata:Relationship name="FK_TransactionHistory_UserInfo2" msdata:parent="Customer" msdata:child="TransactionHistory" msdata:parentkey="Username" msdata:childkey="Username" msprop:Generator_UserChildTable="TransactionHistory" msprop:Generator_ChildPropName="GetTransactionHistoryRowsByFK_TransactionHistory_UserInfo2" msprop:Generator_UserRelationName="FK_TransactionHistory_UserInfo2" msprop:Generator_RelationVarName="relationFK_TransactionHistory_UserInfo2" msprop:Generator_UserParentTable="Customer" msprop:Generator_ParentPropName="CustomerRowByFK_TransactionHistory_UserInfo2" />
       <msdata:Relationship name="FK_TransactionHistory_UserInfo11" msdata:parent="Customer" msdata:child="TransactionHistory" msdata:parentkey="Username" msdata:childkey="UpdatedBy" msprop:Generator_UserChildTable="TransactionHistory" msprop:Generator_ChildPropName="GetTransactionHistoryRowsByFK_TransactionHistory_UserInfo11" msprop:Generator_UserRelationName="FK_TransactionHistory_UserInfo11" msprop:Generator_RelationVarName="relationFK_TransactionHistory_UserInfo11" msprop:Generator_UserParentTable="Customer" msprop:Generator_ParentPropName="CustomerRowByFK_TransactionHistory_UserInfo11" />
       <msdata:Relationship name="FK_UserInfo_UserType1" msdata:parent="UserType" msdata:child="Customer" msdata:parentkey="TypeShortName" msdata:childkey="TypeShortName" msprop:Generator_UserChildTable="Customer" msprop:Generator_ChildPropName="GetCustomerRows" msprop:Generator_UserRelationName="FK_UserInfo_UserType1" msprop:Generator_ParentPropName="UserTypeRow" msprop:Generator_RelationVarName="relationFK_UserInfo_UserType1" msprop:Generator_UserParentTable="UserType" />
-      <msdata:Relationship name="FK_ScheduleMealSetDetail_MealSet1" msdata:parent="MealSetInScheduleDetail" msdata:child="ScheduleMealSetDetail" msdata:parentkey="MealSetID" msdata:childkey="MealSetID" msprop:Generator_UserChildTable="ScheduleMealSetDetail" msprop:Generator_ChildPropName="GetScheduleMealSetDetailRows" msprop:Generator_UserRelationName="FK_ScheduleMealSetDetail_MealSet1" msprop:Generator_RelationVarName="relationFK_ScheduleMealSetDetail_MealSet1" msprop:Generator_UserParentTable="MealSetInScheduleDetail" msprop:Generator_ParentPropName="MealSetInScheduleDetailRow" />
     </xs:appinfo>
   </xs:annotation>
 </xs:schema>

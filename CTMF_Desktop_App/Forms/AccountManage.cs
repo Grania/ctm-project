@@ -181,6 +181,17 @@ namespace CTMF_Desktop_App.Forms
 					, fingerPosition, userInfoRow.Field<bool>("IsCafeteriaStaff"), userInfoRow.Field<bool>("IsActive"), userInfoRow.Field<DateTime>("InsertedDate")
 					, userInfoRow.Field<string>("UpdatedBy"), userInfoRow.Field<DateTime>("LastUpdated"));
 				}
+
+				Home.LoadCustomerData();
+
+				
+				int? fingerPrintCount_ = (int?)(new UserInfoTableAdapter().GetUsingFingerPrintCout());
+				if (fingerPrintCount_ == null)
+				{
+					fingerPrintCount_ = 0;
+				}
+				Home.fingerPrintCount = fingerPrintCount_.ToString();
+				MainForm.homeForm.ReloadClientInfo();
 			}
 		}
 
@@ -294,6 +305,7 @@ namespace CTMF_Desktop_App.Forms
 			dataGridView.Rows.Clear();
 			dataGridView.Columns.Clear();
 			_isLoaded = false;
+			customerDT = null;
 			LoadForm();
 		}
 	}
