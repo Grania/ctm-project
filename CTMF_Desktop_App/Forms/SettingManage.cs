@@ -22,7 +22,15 @@ namespace CTMF_Desktop_App.Forms
 
 			bwSync = new BackgroundWorker();
 
-			lblLastSync.Text = XmlSync.GetLastSync().ToString("dd/MM/yyyy HH:mm:ss tt");
+			DateTime? lastSync = XmlSync.GetLastSync();
+			if(lastSync == null)
+			{
+				lblLastSync.Text = "";
+			}
+			else
+			{
+				lblLastSync.Text = XmlSync.GetLastSync().Value.ToString("dd/MM/yyyy HH:mm:ss tt");
+			}
 		}
 
 		private void btnResync_Click(object sender, EventArgs e)
@@ -78,7 +86,11 @@ namespace CTMF_Desktop_App.Forms
 			});
 			lblLastSync.Invoke((MethodInvoker)delegate
 			{
-				lblLastSync.Text = XmlSync.GetLastSync().ToString("dd/MM/yyyy HH:mm:ss tt");
+				DateTime? lastSync = XmlSync.GetLastSync();
+				if (lastSync != null)
+				{
+					lblLastSync.Text = XmlSync.GetLastSync().Value.ToString("dd/MM/yyyy HH:mm:ss tt");
+				}
 			});
 		}
 
@@ -106,7 +118,11 @@ namespace CTMF_Desktop_App.Forms
 			});
 			lblLastSync.Invoke((MethodInvoker)delegate
 			{
-				lblLastSync.Text = XmlSync.GetLastSync().ToString("dd/MM/yyyy HH:mm:ss tt");
+				DateTime? lastSync = XmlSync.GetLastSync();
+				if (lastSync != null)
+				{
+					lblLastSync.Text = XmlSync.GetLastSync().Value.ToString("dd/MM/yyyy HH:mm:ss tt");
+				}
 			});
 		}
 	}
