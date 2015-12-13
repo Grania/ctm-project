@@ -5,13 +5,11 @@ namespace CTMF_Website.Models
 	public class LoginViewModel
 	{
 		[Required(ErrorMessage = "Vui lòng nhập tên đăng nhập")]
-		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0} nhiều nhất {1} ký tự, ít nhất {2}")]
 		[Display(Name = "Tên đăng nhập")]
 		public string Username { get; set; }
 
 		[Required(ErrorMessage = "Vui lòng nhập mật khẩu.")]
 		[DataType(DataType.Password)]
-		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0} nhiều nhất {1} ký tự, ít nhất {2}")]
 		[Display(Name = "Mật khẩu")]
 		public string Password { get; set; }
 	}
