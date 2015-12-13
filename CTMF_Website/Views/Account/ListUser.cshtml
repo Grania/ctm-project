@@ -1,8 +1,47 @@
 ﻿@model System.Data.DataTable
 @{
 	ViewBag.Title = "ListUser";
-}
 
+	int maxPage = ViewBag.maxPage;
+	int curPage = ViewBag.curPage;
+	int amountPerPage = ViewBag.amountPerPage;
+}
+<script type="text/javascript">
+	$(document).ready(function () {
+		var selectedActive = '@(Request.QueryString["active"])';
+
+		if (selectedActive != '') {
+			$('#ddlActive option[value=' + selectedActive + ']').attr('selected', 'selected');
+		}
+
+		var maxPage = '@(maxPage)';
+		var curPage = '@(Request.QueryString["page"])';
+		maxPage = parseInt(maxPage);
+		for (i = 1; i <= maxPage; i++) {
+			if (curPage == i) {
+				$('#ddlPageSelect').append($('<option></option>').attr({ 'value': i, 'selected': 'selected' }).text(i));
+			} else {
+				$('#ddlPageSelect').append($('<option></option>').attr('value', i).text(i));
+			}
+		}
+
+		$('#btnGo').click(function () {
+			var page = $('#ddlPageSelect').val();
+
+			var selectedPage = '@(Request.QueryString["page"])';
+			var curHref = window.location.href;
+
+			if (selectedPage == '') {
+				curHref += '&page=' + page;
+			}
+			else {
+				curHref = curHref.replace('&page=' + selectedPage, '&page=' + page);
+			}
+
+			window.location.href = curHref;
+		});
+	});
+</script>
 <link href="~/CSS/table.css" rel="stylesheet" />
 <div class="container container-fix">
 	<fieldset>
@@ -17,10 +56,24 @@
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
 						</span>
-						<input type="text" class="form-control" name="username" placeholder="Tìm kiếm" style="max-width:300px;">
-						<input type="text" class="form-control" name="name" placeholder="Tìm kiếm" style="max-width:300px;">
-						<select id="ddlUserType"></select>
-						<select id="ddlRole">
+						<input type="hidden" name="amountPerPage" value="@Request.QueryString["amountPerPage"]"/>
+						<input type="text" class="form-control" name="username" placeholder="Tên đăng nhập" style="max-width:300px;" value="@Request.QueryString["username"]">
+						<input type="text" class="form-control" name="name" placeholder="Tên người dùng" style="max-width:300px;" value="@Request.QueryString["name"]">
+						<select id="ddlUserType" name="userType">
+							<option value="">Tất cả</option>
+							@foreach (KeyValuePair<string, string> pair in (List<KeyValuePair<string, string>>)ViewBag.userTypes)
+							{
+								if (pair.Key == Request.QueryString["userType"])
+								{
+									<option value="@pair.Key" selected>@pair.Value</option>
+								}
+								else
+								{
+									<option value="@pair.Key">@pair.Value</option>
+								}
+							}
+						</select>
+						<select id="ddlRole" name="role">
 							<option value="">Tất cả</option>
 							@foreach (KeyValuePair<int, string> pair in (List<KeyValuePair<int, string>>)ViewBag.roleList)
 							{
@@ -34,7 +87,7 @@
 								}
 							}
 						</select>
-						<select id="ddlActive">
+						<select id="ddlActive" name="active">
 							<option value="">Tất cả</option>
 							<option value="0">Chưa kích hoạt</option>
 							<option value="1">Đã kích hoạt</option>
@@ -42,6 +95,7 @@
 					</div>
 				}
 			</div>
+
 		</div>
 		<table class="table table-bordered table-hover table-condensed">
 			<thead>
@@ -57,14 +111,33 @@
 			</thead>
 			<tbody>
 				@{
-					int count = 0;
+					string page = Request.QueryString["page"];
+					string nextUrl, prevUrl;
+					if (String.IsNullOrWhiteSpace(page))
+					{
+						nextUrl = Request.Url.ToString() + "&page=2";
+						prevUrl = "#";
+					}
+					else
+					{
+						int page_;
+						if (!int.TryParse(page, out page_))
+						{
+							nextUrl = Request.Url.ToString() + "&page=2";
+							prevUrl = "#";
+						}
+						else
+						{
+							nextUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ + 1));
+							prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
+						}
+					}
 				}
 				@foreach (System.Data.DataRow row in Model.Rows)
 				{
-					count++;
 					string role = CTMF_Website.Util.AccountInfo.GetRoleNameVnese((int)row["Role"]);
 					<tr>
-						<td>@count</td>
+						<td>@row["RowNum"]</td>
 						<td>@row["Username"]</td>
 						<td>@row["Name"]</td>
 						<td>@row["TypeName"]</td>
@@ -92,10 +165,22 @@
 			<div>
 				<nav>
 					<ul class="pager">
-						<li><a href="#">Trước</a></li>
-						<li><a href="#">Sau</a></li>
+						@if (curPage != 1)
+						{
+							<li><a href="@prevUrl">Trước</a></li>
+						}
+						@if (curPage != maxPage)
+						{
+							<li><a href="@nextUrl">Sau</a></li>
+						}
 					</ul>
 				</nav>
+			</div>
+			<div>
+				Đi đến trang :
+				<select id="ddlPageSelect"></select>
+				/ @maxPage
+				<a class="btn btn-primary" id="btnGo">Đi</a>
 			</div>
 		</div>
 	</fieldset>

@@ -1,7 +1,6 @@
 ﻿@model System.Data.DataTable
 @{
 	ViewBag.Title = "ListTransaction";
-	Layout = "~/Views/Shared/_Layout.cshtml";
 
 	int maxPage = ViewBag.maxPage;
 	int curPage = ViewBag.curPage;
@@ -70,6 +69,7 @@
 							<span class="input-group-btn">
 								<button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
 							</span>
+							<input type="hidden" name="amountPerPage" value="@Request.QueryString["amountPerPage"]"/>
 							<input type="text" class="form-control" name="username" placeholder="Tìm kiếm" style="min-width:300px;" value="@Request.QueryString["username"]">
 							<select id="ddlTransactionType" name="transactionType">
 								<option value="0">Tất cả</option>
@@ -103,7 +103,6 @@
 				</thead>
 				<tbody>
 					@{
-						int count = 0;
 						string page = Request.QueryString["page"];
 						string nextUrl, prevUrl;
 						if (String.IsNullOrWhiteSpace(page))
@@ -125,11 +124,9 @@
 								prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
 							}
 						}
-
 					}
 					@foreach (System.Data.DataRow row in Model.Rows)
 					{
-						count++;
 						string date = ((DateTime)row["InsertedDate"]).ToString("dd/MM/yyyy");
 						<tr>
 							<td>@row["RowNum"]</td>

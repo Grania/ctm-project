@@ -254,6 +254,11 @@ namespace CTMF_Website.Controllers
 			string page = Request.QueryString["page"];
 			string amountPerPage = Request.QueryString["amountPerPage"];
 
+			if (String.IsNullOrWhiteSpace(userType))
+			{
+				userType = null;
+			}
+
 			int role_;
 			if (!int.TryParse(role, out role_))
 			{
@@ -291,16 +296,16 @@ namespace CTMF_Website.Controllers
 					+ "UserType ON UserInfo.TypeShortName = UserType.TypeShortName ";
 				string countQuery = "SELECT COUNT(UserInfo.Username) FROM UserInfo INNER JOIN Account " 
 					+ "ON UserInfo.Username = Account.Username ";
-				string conditionString = "";
+				string conditionQuery = "";
 
 				if (username != null || name != null || userType != null || role != null || active != null)
 				{
-					conditionString += "WHERE ";
+					conditionQuery += "WHERE ";
 					bool isFirst = false;
 
 					if (username != null)
 					{
-						conditionString += "UserInfo.Username like '%"+username+"%' ";
+						conditionQuery += "UserInfo.Username like '%"+username+"%' ";
 						isFirst = true;
 					}
 
@@ -308,46 +313,85 @@ namespace CTMF_Website.Controllers
 					{
 						if (isFirst)
 						{
-							conditionString += "AND ";
+							conditionQuery += "AND ";
 						}
-						conditionString += "UserInfo.Name like N'%"+name+"%' ";
+						conditionQuery += "UserInfo.Name like N'%"+name+"%' ";
+						isFirst = true;
 					}
 
 					if (userType != null)
 					{
 						if (isFirst)
 						{
-							conditionString += "AND ";
+							conditionQuery += "AND ";
 						}
-						conditionString += "UserInfo.TypeShortName = '" + userType + "' ";
+						conditionQuery += "UserInfo.TypeShortName = '" + userType + "' ";
+						isFirst = true;
 					}
 
 					if (role != null)
 					{
 						if (isFirst)
 						{
-							conditionString += "AND ";
+							conditionQuery += "AND ";
 						}
-						conditionString += "Account.Role = " + role + " ";
+						conditionQuery += "Account.Role = " + role + " ";
+						isFirst = true;
 					}
 
 					if (active != null)
 					{
 						if (isFirst)
 						{
-							conditionString += "AND ";
+							conditionQuery += "AND ";
 						}
-						conditionString += "";
+						conditionQuery += "UserInfo.IsActive = " + active + " ";
 					}
 				}
 
-				userDT = userInfoAdapter.GetData();
+				int minRowNum = ((page_ - 1) * amountPerPage_) + 1;
+				int maxRowNum = page_ * amountPerPage_;
+				query += conditionQuery;
+				query += ") AS UI WHERE UI.RowNum BETWEEN "+minRowNum+" AND "+maxRowNum+" ";
 
-				ViewBag.listRole = AccountInfo.GetRoleListVnese();
+				SqlCommand countCmd = new SqlCommand(countQuery + conditionQuery, userInfoAdapter.Connection);
+				SqlCommand getDataCmd = new SqlCommand(query, userInfoAdapter.Connection);
+				SqlDataAdapter getDataAdapter = new SqlDataAdapter(getDataCmd);
+
+				userInfoAdapter.Connection.Open();
+				int count = (int)countCmd.ExecuteScalar();
+
+				getDataAdapter.Fill(userDT);
+
+				int maxPage = (count / amountPerPage_);
+				if (count % amountPerPage_ != 0)
+				{
+					maxPage++;
+				}
+
+				ViewBag.maxPage = maxPage;
+				if (page_ > maxPage)
+				{
+					page_ = maxPage;
+				}
+
+				ViewBag.curPage = page_;
+				ViewBag.amountPerPage = amountPerPage_;
+
+				ViewBag.roleList = AccountInfo.GetRoleListVnese();
+
+				DataTable userTypeDT = new UserTypeTableAdapter().GetData();
+				List<KeyValuePair<string, string>> userTypes = new List<KeyValuePair<string, string>>();
+				foreach (DataRow row in userTypeDT.Rows)
+				{
+					userTypes.Add(new KeyValuePair<string, string>(row.Field<string>("TypeShortName"), row.Field<string>("TypeName")));
+				}
+				ViewBag.userTypes = userTypes;
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
+				return View("Error");
 			}
 
 			return View(userDT);
