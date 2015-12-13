@@ -451,7 +451,8 @@ namespace CTMF_Desktop_App.Forms
 			}
 			foreach (DataRow row in AccountManage.customerDT.Rows)
 			{
-				if (row.Field<bool>("IsActive") && row.Field<byte[]>("FingerPrintIMG") != null)
+				if (row.Field<bool>("IsActive") && row.Field<byte[]>("FingerPrintIMG") != null
+					&& row.Field<string>("TypeShortName") != "DF")
 				{
 					Customer customer = new Customer()
 					{
