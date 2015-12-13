@@ -11,7 +11,7 @@
 		<fieldset>
 			<legend class="title">Nạp tiền</legend>
 			@Html.AntiForgeryToken()
-			@Html.ValidationSummary(true)
+			@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
 			<div class="form-group" style="margin-top: 20px">
 				@Html.LabelFor(m => m.Username, new { @class = "control-label col-md-4" })
 				<div class="col-md-6">

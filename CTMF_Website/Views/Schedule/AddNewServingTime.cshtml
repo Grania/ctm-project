@@ -10,7 +10,7 @@
 	<fieldset>
 		<legend class="title">Thêm thời gian phục vụ</legend>
 		@Html.AntiForgeryToken()
-		@Html.ValidationSummary(true)
+		@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
 		<div class="form-group">
 			@Html.LabelFor(m => m.name, new { @class = "control-label col-md-4" })
 			<div class="col-md-4">

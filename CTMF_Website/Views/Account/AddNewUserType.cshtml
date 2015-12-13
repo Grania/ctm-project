@@ -9,7 +9,7 @@
 			@using (Html.BeginForm("AddNewUserType", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
 			{
 				@Html.AntiForgeryToken()
-				@Html.ValidationSummary(true)
+				@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
 				<div class="form-group" style="margin-top: 20px">
 					@Html.LabelFor(m => m.typeName, new { @class = "control-label col-sm-2" })
 					<div class="col-sm-5">

@@ -34,7 +34,7 @@
 		<fieldset>
 			<legend class="title">Thêm món ăn mới</legend>
 			@Html.AntiForgeryToken()
-			@Html.ValidationSummary(true)
+			@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
 			<div class="form-group">
 				<div class="col-sm-2">
 

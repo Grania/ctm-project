@@ -2,9 +2,7 @@
 
 <a href="@Url.Action("Register", "Account")" id="signup" class="btn btn-default"> <span class="glyphicon glyphicon-user"></span> Đăng ký</a>
 <button id="signin" class="btn btn-default" data-toggle="modal" data-target="#login"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</button>
-
-@*<button id="btn-login" class="btn btn-default" data-toggle="modal" data-target="#login"> <span class="glyphicon glyphicon-log-in"></span> Đăng nhập</button>
-<a href="~/Account/Register" id="btn-signup" class="btn btn-default"> <span class="glyphicon glyphicon-user"></span> Đăng ký</a>*@
+	
 <div id="login" class="modal fade" role="dialog">
 	<div class="modal-dialog" style="width:400px">
 		<div class="modal-content">
@@ -16,7 +14,7 @@
 				@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { ReturnUrl = ViewBag.ReturnUrl }))
 				{
 					@Html.AntiForgeryToken()
-					@Html.ValidationSummary(true)
+					@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
 					<div style="width:300px;margin:0px auto">
 						<div class="row" style="margin-bottom:10px">
 							<div>
@@ -52,7 +50,6 @@
 						</div>
 						<div class="row">
 							<input class="btn btn-primary" value="Đăng nhập" type="submit">
-							<button type="button" class="btn btn-danger">Google+</button>
 						</div>
 					</div>
 				}
