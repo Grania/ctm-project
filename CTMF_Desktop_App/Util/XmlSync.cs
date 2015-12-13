@@ -32,14 +32,14 @@ namespace CTMF_Desktop_App.Util
 			return syncAttr.Value;
 		}
 
-		internal static DateTime GetLastSync()
+		internal static DateTime? GetLastSync()
 		{
 			XDocument xDoc = XDocument.Load(_xmlConfigPath);
 
 			XAttribute lastSyncAttr = xDoc.Element("SyncServer").Attribute("LastSync");
 			if (lastSyncAttr == null)
 			{
-				throw new Exception("Cannot get LastSync value from config.xml");
+				return null;
 			}
 
 			string lastSyncStr = lastSyncAttr.Value;
@@ -340,7 +340,15 @@ namespace CTMF_Desktop_App.Util
 				xDoc = XDocument.Load(xmlPath);
 				newDataSetEl = xDoc.Element("NewDataSet");
 
-				lastSync = GetLastSync();
+				DateTime? lastSync_ = GetLastSync();
+				if (lastSync_ == null)
+				{
+					lastSync = new DateTime();
+				}
+				else
+				{
+					lastSync = lastSync_.Value;
+				}
 			}
 			catch (Exception ex)
 			{
