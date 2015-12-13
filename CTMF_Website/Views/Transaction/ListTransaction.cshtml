@@ -56,22 +56,30 @@
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 </script>
-<div class="container" style="background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
-	<legend class="table-title">Danh sách giao dịch</legend>
-	<div>
-		<div class="table-body">
-			<div style="margin-bottom:20px;">
-				<a href="~/Transaction/RechargeMoney" class="btn btn-primary">Nạp tiền</a>
-				<div class="pull-right">
-					<div class="input-group">
-						@using (Html.BeginForm("ListTransaction", "Transaction", FormMethod.Get))
-						{
-							<span class="input-group-btn">
-								<button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-							</span>
-							<input type="hidden" name="amountPerPage" value="@Request.QueryString["amountPerPage"]"/>
-							<input type="text" class="form-control" name="username" placeholder="Tìm kiếm" style="min-width:300px;" value="@Request.QueryString["username"]">
-							<select id="ddlTransactionType" name="transactionType">
+<div class="container container-fix">
+	<fieldset>
+		<legend class="table-title">Danh sách giao dịch</legend>
+		<div>
+			<div class="table-body">
+				<div class="row" style="margin-bottom:20px;">
+					<div class="col-md-1">
+						<a href="#" class="btn btn-success">Rút tiền</a>
+					</div>
+					<div class="col-md-2">
+						<a href="~/Transaction/RechargeMoney" class="btn btn-primary">Nạp tiền</a>
+					</div>
+					@using (Html.BeginForm("ListTransaction", "Transaction", FormMethod.Get))
+					{
+						<div>
+							<input type="hidden" name="amountPerPage" value="@Request.QueryString["amountPerPage"]" />
+						</div>
+
+						<div class="col-md-3">
+							<input type="text" class="form-control" name="username" placeholder="Tên đăng nhập" value="@Request.QueryString["username"]">
+						</div>
+
+						<div class="col-md-3">
+							<select class="form-control" id="ddlTransactionType" name="transactionType">
 								<option value="0">Tất cả</option>
 								@foreach (KeyValuePair<int, string> entity in (List<KeyValuePair<int, string>>)ViewBag.transactionTypes)
 								{
@@ -85,88 +93,95 @@
 									}
 								}
 							</select>
-							<input type="text" class="form-control" name="date" placeholder="Ngày" style="min-width: 300px;" id="txtDate" value="@Request.QueryString["date"]">
-						}
-					</div>
+						</div>
+
+						<div class="col-md-2">
+							<input type="text" class="form-control" name="date" placeholder="Ngày" id="txtDate" value="@Request.QueryString["date"]">
+						</div>
+
+						<div class="col-md-1">
+							<button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+						</div>
+					}
 				</div>
-			</div>
-			<table class="table table-bordered table-hover table-condensed">
-				<thead>
-					<tr>
-						<th>STT</th>
-						<th>Tên đăng nhập</th>
-						<th>Loại giao dịch</th>
-						<th>Giá trị giao dịch</th>
-						<th>Ngày giao dịch</th>
-						<th>Quản lý</th>
-					</tr>
-				</thead>
-				<tbody>
-					@{
-						string page = Request.QueryString["page"];
-						string nextUrl, prevUrl;
-						if (String.IsNullOrWhiteSpace(page))
-						{
-							nextUrl = Request.Url.ToString() + "&page=2";
-							prevUrl = "#";
-						}
-						else
-						{
-							int page_;
-							if (!int.TryParse(page, out page_))
+				<table class="table table-bordered table-hover table-condensed">
+					<thead>
+						<tr>
+							<th>STT</th>
+							<th>Tên đăng nhập</th>
+							<th>Loại giao dịch</th>
+							<th>Giá trị giao dịch</th>
+							<th>Ngày giao dịch</th>
+							<th>Quản lý</th>
+						</tr>
+					</thead>
+					<tbody>
+						@{
+							string page = Request.QueryString["page"];
+							string nextUrl, prevUrl;
+							if (String.IsNullOrWhiteSpace(page))
 							{
 								nextUrl = Request.Url.ToString() + "&page=2";
 								prevUrl = "#";
 							}
 							else
 							{
-								nextUrl = Request.Url.ToString().Replace("&page=" + page ,"&page=" + (page_ + 1));
-								prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
+								int page_;
+								if (!int.TryParse(page, out page_))
+								{
+									nextUrl = Request.Url.ToString() + "&page=2";
+									prevUrl = "#";
+								}
+								else
+								{
+									nextUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ + 1));
+									prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
+								}
 							}
 						}
-					}
-					@foreach (System.Data.DataRow row in Model.Rows)
-					{
-						string date = ((DateTime)row["InsertedDate"]).ToString("dd/MM/yyyy");
-						<tr>
-							<td>@row["RowNum"]</td>
-							<td>@row["Username"]</td>
-							<td>@row["Name"]</td>
-							<td>@row["Value"]</td>
-							<td>@date</td>
-							<td>
-								<div>
-									<a href="@Url.Action("DetailTransaction", "Transaction", new { TransID = @row["TransactionHistoryID"] })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
-									<a href="@Url.Action("EditTransaction", "Transaction", new {TransID = @row["TransactionHistoryID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-									<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>
-								</div>
-							</td>
-						</tr>
-					}
-				</tbody>
-			</table>
-		</div>
-		<div id="footer">
-			<div>
-				<nav>
-					<ul class="pager">
-						@if (curPage != 1)
+						@foreach (System.Data.DataRow row in Model.Rows)
 						{
-							<li><a href="@prevUrl">Trước</a></li>
+							string date = ((DateTime)row["InsertedDate"]).ToString("dd/MM/yyyy");
+							<tr>
+								<td>@row["RowNum"]</td>
+								<td>@row["Username"]</td>
+								<td>@row["Name"]</td>
+								<td>@row["Value"]</td>
+								<td>@date</td>
+								<td>
+									<div>
+										<a href="@Url.Action("DetailTransaction", "Transaction", new { TransID = @row["TransactionHistoryID"] })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
+										<a href="@Url.Action("EditTransaction", "Transaction", new {TransID = @row["TransactionHistoryID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+										<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>
+									</div>
+								</td>
+							</tr>
 						}
-						@if (curPage != maxPage)
-						{
-							<li><a href="@nextUrl">Sau</a></li>
-						}
-					</ul>
-				</nav>
+					</tbody>
+				</table>
 			</div>
-			<div>
-				Đi đến trang :
-				<select id="ddlPageSelect"></select>
-				/ @maxPage
-				<a class="btn btn-primary" id="btnGo">Đi</a>
+			<div id="footer">
+				<div>
+					<nav>
+						<ul class="pager">
+							@if (curPage != 1)
+							{
+								<li><a href="@prevUrl">Trước</a></li>
+							}
+							@if (curPage != maxPage)
+							{
+								<li><a href="@nextUrl">Sau</a></li>
+							}
+						</ul>
+					</nav>
+				</div>
+				<div>
+					Đi đến trang :
+					<select id="ddlPageSelect"></select>
+					/ @maxPage
+					<a class="btn btn-primary" id="btnGo">Đi</a>
+				</div>
 			</div>
 		</div>
-	</div>
+	</fieldset>
 </div>

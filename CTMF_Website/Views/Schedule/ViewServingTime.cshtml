@@ -11,22 +11,27 @@
 <link href="~/CSS/table.css" rel="stylesheet" />
 <div class="container container-fix">
 	<fieldset>
-		<legend class="table-title">Quản lý thời gian phục vụ</legend>
+		<legend class="title">Quản lý thời gian phục vụ</legend>
 		<div>
 			<div class="table-body">
 				<div style="margin-bottom:20px;">
+					<a href="AddNewServingTime" class="btn btn-primary">Thêm thời gian phục vụ</a>
 					<div class="pull-right">
 						@using (Html.BeginForm("ViewServingTime", "Schedule", FormMethod.Get))
 						{
+							<div id="custom-search-input">
 							<div class="input-group">
+								<input type="text" name="search" class="search-query form-control" placeholder="Tìm kiếm" />
 								<span class="input-group-btn">
-									<button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+									<button class="btn btn-danger" type="submit">
+										<span class=" glyphicon glyphicon-search"></span>
+									</button>
 								</span>
+							</div>
 							</div>
 						}
 					</div>
 				</div>
-				<tr><a href="AddNewServingTime" class="btn btn-primary">Thêm thông tin mới</a></tr>
 				<table class="table table-bordered table-hover table-condensed">
 					<thead>
 						<tr>

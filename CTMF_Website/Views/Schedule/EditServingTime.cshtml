@@ -1,52 +1,51 @@
 ﻿@model CTMF_Website.Models.ServingTimeModel
 @{
-    ViewBag.Title = "EditServingTime";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "EditServingTime";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<div class="addForm">
-	<h2>Sửa thời gian phục vụ</h2>
-	<div class="container">
-		@using (Html.BeginForm("EditServingTime", "Schedule", new {servingTimeID = Model.servingTimeID}, FormMethod.Post, new { @class = "form-horizontal" }))
-		{
+<div class="container container-fix">
+	@using (Html.BeginForm("EditServingTime", "Schedule", new { servingTimeID = Model.servingTimeID }, FormMethod.Post, new { @class = "form-horizontal" }))
+	{
+		<fieldset>
+			<legend class="title">Cập nhật thời gian phục vụ</legend>
 			@Html.AntiForgeryToken()
 			@Html.ValidationSummary(true)
 			@Html.HiddenFor(m => m.insertDate)
 			@Html.HiddenFor(m => m.lastUpdate)
 			<div class="form-group">
-				@Html.LabelFor(m => m.name, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
+				@Html.LabelFor(m => m.name, new { @class = "control-label col-md-4" })
+				<div class="col-md-4">
 					@Html.TextBoxFor(m => m.name, new { @class = "form-control" })
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2">
+				<div class="col-md-4">
 
 				</div>
-				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.startTime, String.Empty, new { @style = "color:red" })</div>
+				<div class="col-md-4">@Html.ValidationMessageFor(model => model.startTime, String.Empty, new { @style = "color:red" })</div>
 			</div>
 			<div class="form-group" style="margin-top: 20px">
-				@Html.LabelFor(m => m.startTime, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
+				@Html.LabelFor(m => m.startTime, new { @class = "control-label col-md-4" })
+				<div class="col-md-4">
 					@Html.TextBoxFor(m => m.startTime, new { @class = "form-control", @placeholder = "HH/MM" })
 				</div>
 			</div>
 			<div class="form-group" style="margin-top: 20px">
-				@Html.LabelFor(m => m.endTime, new { @class = "control-label col-sm-2" })
-				<div class="col-sm-5">
+				@Html.LabelFor(m => m.endTime, new { @class = "control-label col-md-4" })
+				<div class="col-md-4">
 					@Html.TextBoxFor(m => m.endTime, new { @class = "form-control", @placeholder = "HH/MM" })
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-2">
+				<label class="col-md-4 control-label"></label>
+				<div class="col-md-2">
 					<input type="submit" class="btn btn-primary" value="Cập nhật">
 				</div>
-				<div class="col-sm-2">
+				<div class="col-md-2">
 					<a href="~/Schedule/ViewServingTime" class="btn btn-danger">Hủy</a>
 				</div>
 			</div>
-		}
-	</div>
+		</fieldset>
+	}
 </div>
-

@@ -26,9 +26,33 @@
 		});
 	});
 
+
+	$(function () {
+		var formTop = $('.sticky').offset().top;
+		$(window).scroll(function () {
+
+			var windowTop = $(window).scrollTop() + 100;
+			var formWidth = $('.sticky').width();
+			var fluidVal = (formWidth / $(window).width()) * 100;
+
+			if (formTop < windowTop) {
+				$('.formwrap').css({
+					position: 'fixed',
+					top: 100,
+					width: fluidVal + "%",
+				});
+			} else {
+				$('.formwrap').css({
+					position: 'static',
+					width: '100%',
+				});
+			}
+		});
+	});
+
 </script>
 
-<div class="container" style="width: 90% !important">
+<div class="container" style="width: 90% !important; margin-top:50px;">
 	<div class="row">
 		<div class="col-md-9">
 			<div class="row">
@@ -59,8 +83,8 @@
 			</div>
 		</div>
 
-		<div class="col-md-3 dish-type" style="position: fixed; right: 0; text-align: center;">
-			<div class="list-group">
+		<div class="col-md-3 sticky" style="text-align: center;">
+			<div class="list-group formwrap">
 				<div class="list-group-item">
 					@using (Html.BeginForm("ViewDish", "Dish", FormMethod.Get))
 					{

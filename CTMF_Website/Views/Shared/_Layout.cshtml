@@ -29,6 +29,25 @@
 						$(this).toggleClass('open');
 					});
 		});
+
+		//$(function () {
+		//	var formTop = $('.sidebar').offset().top;
+		//	$(window).scroll(function () {
+		//		var windowTop = $(window).scrollTop() + 100;
+
+		//		if (formTop < windowTop) {
+		//			$('.main-menu').css({
+		//				position: 'fixed',
+		//				top: 100,
+		//			});
+		//		} else {
+		//			$('.main-menu').css({
+		//				position: 'fixed',
+		//				top: '510px',
+		//			});
+		//		}
+		//	});
+		//});
 	</script>
 </head>
 @{
@@ -99,129 +118,177 @@
 				</div>
 			</div>
 		</nav>
-	</header>
-	<nav class="main-menu">
-		<ul>
-			<li>
-				<a href="@Url.Action("HomePage", "Home")">
-					<i class="fa fa-2x"><span class="glyphicon glyphicon-home"></span></i>
-					<span class="nav-text">
-						Trang chủ
-					</span>
-				</a>
-			</li>
-			<li>
-				<a href="@Url.Action("ViewDish", "Dish")">
-					<i class="fa fa-2x"><span class="glyphicon glyphicon-th-list"></span></i>
-					<span class="nav-text">
-						Danh sách món ăn
-					</span>
-				</a>
-			</li>
-			@if (Request.IsAuthenticated)
-			{
-				<li>
-					<a href="@Url.Action("Schedule", "Schedule")">
-						<i class="fa fa-2x"><span class="glyphicon glyphicon-calendar"></span></i>
-						<span class="nav-text">
-							Biểu lịch
-						</span>
-					</a>
-				</li>
-			}
-			<li>
-				<a href="@Url.Action("ViewAnnounce", "Announce")">
-					<i class="fa fa-2x"><span class="glyphicon glyphicon-bullhorn"></span></i>
-					<span class="nav-text">
-						Tin tức
-					</span>
-				</a>
-			</li>
-			@if (Request.IsAuthenticated && role.Equals("4"))
-			{
-				<li class="has-subnav">
-					<a href="@Url.Action("ListUser", "Account")">
-						<i class="fa fa-2x"><span class="glyphicon glyphicon-user"></span></i>
-						<span class="nav-text">
-							Quản lý người dùng
-						</span>
-					</a>
-				</li>
-			}
-			@if (Request.IsAuthenticated && role.Equals("3"))
-			{
-				<li class="dropdown">
-					<a style="cursor: pointer">
-						<i class="fa fa-2x"><span class="glyphicon glyphicon-list-alt"></span></i>
-						<span class="nav-text">
-							Quản lý
-							<span class="caret"></span>
-						</span>
-					</a>
-					<div class="dropdown-menu" style="border-radius: 0">
-						<ul>
-							<li>
-								<a href="@Url.Action("ListDish", "Dish")">
-									<i class="fa fa-2x"></i>
-									<span class="nav-text">
-										Quản lý món ăn
-									</span>
-								</a>
-							</li>
-							<li>
-								<a href="@Url.Action("ListMealSet", "MealSet")">
-									<i class="fa fa-2x"></i>
-									<span class="nav-text">
-										Quản lý suất ăn
-									</span>
-								</a>
-							</li>
-							<li>
-								<a href="@Url.Action("ListSchedule", "Schedule")">
-									<i class="fa fa-2x"></i>
-									<span class="nav-text">
-										Quản lý biểu lịch
-									</span>
-								</a>
-							</li>
-							<li>
-								<a href="@Url.Action("ViewServingTime", "Schedule")">
-									<i class="fa fa-2x"></i>
-									<span class="nav-text">
-										Thời gian phục vụ
-									</span>
-								</a>
-							</li>
-							<li>
-								<a href="@Url.Action("ViewAnnounce", "Announce")">
-									<i class="fa fa-2x"></i>
-									<span class="nav-text">
-										Quản lý tin tức
-									</span>
-								</a>
-							</li>
-							<li>
-								<a href="@Url.Action("ListTransaction", "Transaction")">
-									<i class="fa fa-2x"></i>
-									<span class="nav-text">
-										Quản lý giao dịch
-									</span>
-								</a>
-							</li>
-							<li>
-								<a href="@Url.Action("Index", "Report")">
-									<i class="fa fa-2x"></i>
-									<span class="nav-text">
-										Thống kê
-									</span>
-								</a>
-							</li>
+		@*<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavbar" aria-expanded="false">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="@Url.Action("HomePage", "Home")" class="navbar-brand">Cafeteria</a>
+				</div>
+
+
+				<div class="collapse navbar-collapse" id="myNavbar">
+					@if (title.Equals("HomePage"))
+					{
+						<ul class="nav navbar-nav">
+							<li><a href="#about">Giới thiệu</a></li>
+							<li><a href="#product">Sản phẩm</a></li>
+							<li><a href="#team">Nhóm phát triển</a></li>
 						</ul>
+					}
+				</div>
+			</div>
+		</nav>*@
+
+		@*<div style="margin-bottom: 50px;">
+			<div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+				<div class='carousel-outer'>
+					<div class="carousel-inner" role="listbox">
+						<div class="item active">
+							<img src="~/Images/Pic1.jpg" style="">
+						</div>
+
+						<div class="item">
+							<img src="~/Images/Pic2.jpg" style="">
+						</div>
+
+						<div class="item">
+							<img src="~/Images/Pic3.jpg" style="">
+						</div>
 					</div>
+				</div>
+			</div>
+		</div>*@
+
+	</header>
+	<div class="sidebar">
+		<nav class="main-menu">
+			<ul>
+				<li>
+					<a href="@Url.Action("HomePage", "Home")">
+						<i class="fa fa-2x"><span class="glyphicon glyphicon-home"></span></i>
+						<span class="nav-text">
+							Trang chủ
+						</span>
+					</a>
 				</li>
-			}
-		</ul>
-	</nav>
+				<li>
+					<a href="@Url.Action("ViewDish", "Dish")">
+						<i class="fa fa-2x"><span class="glyphicon glyphicon-th-list"></span></i>
+						<span class="nav-text">
+							Danh sách món ăn
+						</span>
+					</a>
+				</li>
+				@if (Request.IsAuthenticated)
+				{
+					<li>
+						<a href="@Url.Action("Schedule", "Schedule")">
+							<i class="fa fa-2x"><span class="glyphicon glyphicon-calendar"></span></i>
+							<span class="nav-text">
+								Biểu lịch
+							</span>
+						</a>
+					</li>
+				}
+				<li>
+					<a href="@Url.Action("ViewAnnounce", "Announce")">
+						<i class="fa fa-2x"><span class="glyphicon glyphicon-bullhorn"></span></i>
+						<span class="nav-text">
+							Tin tức
+						</span>
+					</a>
+				</li>
+				@if (Request.IsAuthenticated && role.Equals("4"))
+				{
+					<li class="has-subnav">
+						<a href="@Url.Action("ListUser", "Account")">
+							<i class="fa fa-2x"><span class="glyphicon glyphicon-user"></span></i>
+							<span class="nav-text">
+								Quản lý người dùng
+							</span>
+						</a>
+					</li>
+				}
+				@if (Request.IsAuthenticated && role.Equals("3"))
+				{
+					<li class="dropdown">
+						<a style="cursor: pointer">
+							<i class="fa fa-2x"><span class="glyphicon glyphicon-list-alt"></span></i>
+							<span class="nav-text">
+								Quản lý
+								<span class="caret"></span>
+							</span>
+						</a>
+						<div class="dropdown-menu" style="border-radius: 0">
+							<ul>
+								<li>
+									<a href="@Url.Action("ListDish", "Dish")">
+										<i class="fa fa-2x"></i>
+										<span class="nav-text">
+											Quản lý món ăn
+										</span>
+									</a>
+								</li>
+								<li>
+									<a href="@Url.Action("ListMealSet", "MealSet")">
+										<i class="fa fa-2x"></i>
+										<span class="nav-text">
+											Quản lý suất ăn
+										</span>
+									</a>
+								</li>
+								<li>
+									<a href="@Url.Action("ListSchedule", "Schedule")">
+										<i class="fa fa-2x"></i>
+										<span class="nav-text">
+											Quản lý biểu lịch
+										</span>
+									</a>
+								</li>
+								<li>
+									<a href="@Url.Action("ViewServingTime", "Schedule")">
+										<i class="fa fa-2x"></i>
+										<span class="nav-text">
+											Thời gian phục vụ
+										</span>
+									</a>
+								</li>
+								<li>
+									<a href="@Url.Action("ViewAnnounce", "Announce")">
+										<i class="fa fa-2x"></i>
+										<span class="nav-text">
+											Quản lý tin tức
+										</span>
+									</a>
+								</li>
+								<li>
+									<a href="@Url.Action("ListTransaction", "Transaction")">
+										<i class="fa fa-2x"></i>
+										<span class="nav-text">
+											Quản lý giao dịch
+										</span>
+									</a>
+								</li>
+								<li>
+									<a href="@Url.Action("Index", "Report")">
+										<i class="fa fa-2x"></i>
+										<span class="nav-text">
+											Thống kê
+										</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+				}
+			</ul>
+		</nav>
+	</div>
 	@RenderBody()
 	<footer>
 		<div class="container">
