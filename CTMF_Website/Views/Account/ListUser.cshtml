@@ -32,7 +32,12 @@
 			var curHref = window.location.href;
 
 			if (selectedPage == '') {
-				curHref += '&page=' + page;
+				var queryCount = '@(Request.QueryString.Count)';
+				if (queryCount == 0) {
+					curHref += '?page=' + page;
+				} else {
+					curHref += '&page=' + page;
+				}
 			}
 			else {
 				curHref = curHref.replace('&page=' + selectedPage, '&page=' + page);
