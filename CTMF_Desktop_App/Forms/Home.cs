@@ -540,7 +540,7 @@ namespace CTMF_Desktop_App.Forms
 
 						if (lastUpdated > lastUpdatedFingerPrintDB)
 						{
-							if (isActive || typeShortName != Customer.DefaultTypeShortName)
+							if (isActive && typeShortName != Customer.DefaultTypeShortName)
 							{
 								int mealValue = row.Field<int>("MealValue");
 								bool canDebt = row.Field<bool>("CanDebt");
@@ -557,17 +557,20 @@ namespace CTMF_Desktop_App.Forms
 								}
 								else
 								{
-									//insert customer
-									fingerPrintDB.Add(new Customer()
+									if (lastUpdatedFingerPrint != null)
 									{
-										Username = username,
-										TypetShortName = typeShortName,
-										MealValue = mealValue,
-										CanDebt = canDebt,
-										CanEatMore = canEatMore,
-										MoreMealValue = moreMealValue
-									});
-									index = fingerPrintDB.Count - 1;
+										//insert customer
+										fingerPrintDB.Add(new Customer()
+										{
+											Username = username,
+											TypetShortName = typeShortName,
+											MealValue = mealValue,
+											CanDebt = canDebt,
+											CanEatMore = canEatMore,
+											MoreMealValue = moreMealValue
+										});
+										index = fingerPrintDB.Count - 1;
+									}
 								}
 							}
 							else
@@ -591,6 +594,8 @@ namespace CTMF_Desktop_App.Forms
 
 							fingerPrintDB[index].Fingerprints = new List<Fingerprint>();
 							fingerPrintDB[index].Fingerprints.Add(fp);
+							afis.Extract(fingerPrintDB[index]);
+
 						}
 					}
 				}
