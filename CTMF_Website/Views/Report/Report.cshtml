@@ -10,12 +10,18 @@
 		$('#txtFromDate').datepicker({
 			"option": $.datepicker.regional['vn-VN'],
 			changeMonth: true,
-			changeYear: true
+			changeYear: true,
+			onClose: function (selectedDate) {
+				$("#txtToDate").datepicker("option", "minDate", selectedDate);
+			}
 		});
 		$('#txtToDate').datepicker({
 			"option": $.datepicker.regional['vn-VN'],
 			changeMonth: true,
-			changeYear: true
+			changeYear: true,
+			onClose: function (selectedDate) {
+				$("#txtFromDate").datepicker("option", "maxDate", selectedDate);
+			}
 		});
 
 		var error = '@Html.Raw(ViewBag.error)';
