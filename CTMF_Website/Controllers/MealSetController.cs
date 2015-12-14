@@ -19,6 +19,8 @@ namespace CTMF_Website.Controllers
 		[AllowAnonymous]
 		public ActionResult ListMealSet(string search, string filter)
 		{
+			ViewBag.notExistMealSet = "";
+
 			MealSetTableAdapter mealSetAdapter = new MealSetTableAdapter();
 			try
 			{
@@ -32,7 +34,10 @@ namespace CTMF_Website.Controllers
 			if (!(string.IsNullOrEmpty(search) && string.IsNullOrEmpty(filter)))
 			{
 				int type = -1;
-				int.TryParse(filter, out type);
+				if (!string.IsNullOrEmpty(filter))
+				{
+					int.TryParse(filter, out type);
+				}
 
 				string name = search;
 				if (name == null)
@@ -40,12 +45,32 @@ namespace CTMF_Website.Controllers
 					name = String.Empty;
 				}
 
+				bool type_ = false;
+				if (type == 1)
+				{
+					type_ = true;
+				}
 				var result = from row in mealSetDT.AsEnumerable()
 							 where (name == String.Empty ? true : StringExtensions.ContainsInsensitive(row.Field<string>("Name"), name))
-							 && (type < 1 ? true : row.Field<int>("DishTypeID") == type)
+							 && (type < 0 ? true : row.Field<bool>("CanEatMore") == type_)
 							 select row;
 
-				return View(result.CopyToDataTable());
+				try
+				{
+					return View(result.CopyToDataTable());
+				}
+				catch (Exception ex)
+				{
+					if (string.IsNullOrEmpty(search))
+					{
+						ViewBag.notExistMealSet = "Không tìm thấy kết quả nào";
+					}
+					else
+					{
+						ViewBag.notExistMealSet = "Không tìm thấy kết quả nào với từ khóa: " + search;
+					}
+					Log.ErrorLog(ex.Message);
+				}
 			}
 
 			return View(mealSetDT);

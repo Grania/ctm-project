@@ -18,6 +18,7 @@ namespace CTMF_Website.Controllers
 		[AllowAnonymous]
 		public ActionResult ViewDish(string search, string filter)
 		{
+			ViewBag.notExistDish = "";
 
 			DishTypeTableAdapter dishTypeAdapter = new DishTypeTableAdapter();
 			DataTable dishTypeDT = dishTypeAdapter.GetData();
@@ -50,8 +51,22 @@ namespace CTMF_Website.Controllers
 							 where (name == String.Empty ? true : StringExtensions.ContainsInsensitive(row.Field<string>("Name"), name))
 							 && (type < 1 ? true : row.Field<int>("DishTypeID") == type)
 							 select row;
-
-				return View(result.CopyToDataTable());
+				try
+				{
+					return View(result.CopyToDataTable());
+				}
+				catch (Exception ex)
+				{
+					if (string.IsNullOrEmpty(search))
+					{
+						ViewBag.notExistMealSet = "Không tìm thấy kết quả nào";
+					}
+					else
+					{
+						ViewBag.notExistMealSet = "Không tìm thấy kết quả nào với từ khóa: " + search;
+					}
+					Log.ErrorLog(ex.Message);
+				}
 			}
 
 			return View(dishDT);
@@ -60,6 +75,21 @@ namespace CTMF_Website.Controllers
 		[AllowAnonymous]
 		public ActionResult ListDish(string search, string filter)
 		{
+			ViewBag.notExistDish = "";
+
+			DishTypeTableAdapter dishTypeAdapter = new DishTypeTableAdapter();
+			DataTable dishTypeDT = dishTypeAdapter.GetData();
+
+			List<SelectListItem> items = new List<SelectListItem>();
+
+			items.Add(new SelectListItem { Text = "Tất Cả", Value = "" });
+
+			foreach (DataRow row in dishTypeDT.Rows)
+			{
+				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["DishTypeID"].ToString() });
+			}
+			ViewData["DishType"] = items;
+
 			DishInfoDetailTableAdapter adapter = new DishInfoDetailTableAdapter();
 
 			try
@@ -87,7 +117,22 @@ namespace CTMF_Website.Controllers
 							 && (type < 1 ? true : row.Field<int>("DishTypeID") == type)
 							 select row;
 
-				return View(result.CopyToDataTable());
+				try
+				{
+					return View(result.CopyToDataTable());
+				}
+				catch (Exception ex)
+				{
+					if (string.IsNullOrEmpty(search))
+					{
+						ViewBag.notExistMealSet = "Không tìm thấy kết quả nào";
+					}
+					else
+					{
+						ViewBag.notExistMealSet = "Không tìm thấy kết quả nào với từ khóa: " + search;
+					}
+					Log.ErrorLog(ex.Message);
+				}
 			}
 
 			return View(dishDT);

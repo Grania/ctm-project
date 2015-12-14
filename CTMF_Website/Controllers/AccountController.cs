@@ -281,8 +281,8 @@ namespace CTMF_Website.Controllers
 			int amountPerPage_;
 			if (!int.TryParse(amountPerPage, out amountPerPage_))
 			{
-				amountPerPage = "50";
-				amountPerPage_ = 50;
+				amountPerPage = "10";
+				amountPerPage_ = 10;
 			}
 
 			try

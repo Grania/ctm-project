@@ -111,8 +111,8 @@ namespace CTMF_Website.Controllers
 			int amountPerPage_;
 			if (!int.TryParse(amountPerPage, out amountPerPage_))
 			{
-				amountPerPage = "50";
-				amountPerPage_ = 50;
+				amountPerPage = "10";
+				amountPerPage_ = 10;
 			}
 
 			try
@@ -334,11 +334,12 @@ namespace CTMF_Website.Controllers
 				detail.InsertedDate = (DateTime)data["InsertedDate"];
 				detail.UpdatedBy = (string)data["UpdatedBy"];
 				detail.LastUpdated = (DateTime)data["LastUpdated"];
-				detail.DishName = (string)data["DishName"];
+				detail.MealSetName = data["MealSetName"].ToString();
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
+				return RedirectToAction("ListTransaction", "Transaction");
 			}
 			return View(detail);
 		}
