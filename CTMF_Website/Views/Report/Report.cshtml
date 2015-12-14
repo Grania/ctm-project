@@ -35,42 +35,66 @@
 		<legend class="title">Lấy báo cáo</legend>
 		@using (Html.BeginForm("Report", "Report", FormMethod.Get))
 		{
-			<div>
-				<div class="col-md-2">
-					<input type="text" class="form-control" name="frmDate" placeholder="Bắt đầu từ" id="txtFromDate" value="@Request.QueryString["fromDate"]">
-				</div><div class="col-md-2">
-					<input type="text" class="form-control" name="tDate" placeholder="Đến" id="txtToDate" value="@Request.QueryString["toDate"]">
+			<div class="row">
+				<form class="form-horizontal">
+					<div class="form-group col-md-6" style="margin-top: 100px;">
+						<table>
+							<tr>
+								<td>
+									<label class="control-label">Từ ngày </label>
+								</td>
+								<td>
+									<input type="text" class="form-control" name="frmDate" placeholder="Bắt đầu từ" id="txtFromDate" value="@Request.QueryString["fromDate"]">
+								</td>
+								<td>
+									<label class="control-label"> Đến ngày </label>
+								</td>
+								<td>
+									<input type="text" class="form-control" name="tDate" placeholder="Đến" id="txtToDate" value="@Request.QueryString["toDate"]">
+								</td>
+							</tr>
+						</table>
+					</div>
+					@*<div class="form-group col-md-3" >
+						<label class="control-label">Từ ngày</label>
+						<input type="text" class="form-control" name="frmDate" placeholder="Bắt đầu từ" id="txtFromDate" value="@Request.QueryString["fromDate"]">
+					</div>
+					<div class="form-group col-md-3">
+						<label class="control-label">Đến ngày</label>
+						<input type="text" class="form-control" name="tDate" placeholder="Đến" id="txtToDate" value="@Request.QueryString["toDate"]">
+					</div>*@
+				</form>
+				<div class="col-md-5">
+					<table class="table table-condensed">
+						<tr>
+							<td>Lịch sử giao dịch</td>
+							<td><button class="btn btn-link" type="submit" name="id" value="1"><span class="glyphicon glyphicon-download-alt"></span> Tải về</button></td>
+						</tr>
+						<tr>
+							<td>Lịch sử ăn</td>
+							<td><button class="btn btn-link" type="submit" name="id" value="2"><span class="glyphicon glyphicon-download-alt"></span> Tải về</button></td>
+						</tr>
+						<tr>
+							<td>Thống kế lượt ăn theo bữa</td>
+							<td><button class="btn btn-link" type="submit" name="id" value="3"><span class="glyphicon glyphicon-download-alt"></span> Tải về</button></td>
+						</tr>
+						<tr>
+							<td>Thông kê suất ăn được sử dụng</td>
+							<td><button class="btn btn-link" type="submit" name="id" value="4"><span class="glyphicon glyphicon-download-alt"></span> Tải về</button></td>
+						</tr>
+						<tr>
+							<td>Thống kê món ăn được sử dụng</td>
+							<td><button class="btn btn-link" type="submit" name="id" value="5"><span class="glyphicon glyphicon-download-alt"></span> Tải về</button></td>
+						</tr>
+						<tr>
+							<td>Thống kê người dùng đang nợ tiền<br />(Không phụ thuộc vào thời gian)</td>
+							<td><button class="btn btn-link" type="submit" name="id" value="6"><span class="glyphicon glyphicon-download-alt"></span> Tải về</button></td>
+						</tr>
+					</table>
 				</div>
-				<table>
-					<tr>
-						<td>Lịch sử giao dịch</td>
-						<td><button type="submit" name="id" value="1">Tải về</button></td>
-					</tr>
-					<tr>
-						<td>Lịch sử ăn</td>
-						<td><button type="submit" name="id" value="2">Tải về</button></td>
-					</tr>
-					<tr>
-						<td>Thống kế lượt ăn theo bữa</td>
-						<td><button type="submit" name="id" value="3">Tải về</button></td>
-					</tr>
-					<tr>
-						<td>Thông kê suất ăn được sử dụng</td>
-						<td><button type="submit" name="id" value="4">Tải về</button></td>
-					</tr>
-					<tr>
-						<td>Thống kê món ăn được sử dụng</td>
-						<td><button type="submit" name="id" value="5">Tải về</button></td>
-					</tr>
-					<tr>
-						<td>Thống kê người dùng đang nợ tiền<br />(Không phụ thuộc vào thời gian)</td>
-						<td><button type="submit" name="id" value="6">Tải về</button></td>
-					</tr>
-
-				</table>
-				<div class="pull-right">
+				@*<div class="pull-right">
 					<a href="@Url.Action("Test", "Report")"><span class="glyphicon glyphicon-download-alt"></span>Tải báo cáo</a>
-				</div>
+				</div>*@
 			</div>
 		}
 	</fieldset>
