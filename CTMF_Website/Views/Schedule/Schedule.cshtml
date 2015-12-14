@@ -1,10 +1,23 @@
 ﻿@{
 	ViewBag.Title = "Schedule";
 }
+<style>
+	.notatend-table > tbody > tr > td:nth-child(1) {
+		width: 20px;
+		border: 1px solid black;
+	}
+</style>
+<script src="~/Scripts/ekko-lightbox.js"></script>
 <link rel="stylesheet" href="~/CSS/Schedule.css" />
+
 <script type="text/javascript">
 	$(document).ready(function () {
 		initCalendar();
+
+		$(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
+			event.preventDefault();
+			$(this).ekkoLightbox();
+		});
 	});
 
 	var $divDateMap;
@@ -24,33 +37,51 @@
 			overflow: 'hidden'
 		});
 
-
 		var parentWidth = $divContainer.width();
 		var parentHeight = $divContainer.height();
 		var parentTop = $divContainer.position().top;
 
-		if (parentWidth * 10 > parentHeight * 16) {
-			$div.height(parentHeight);
-			$div.width(parentHeight * 1.6);
+		//if (parentWidth * 10 > parentHeight * 16) {
+		//	$div.height(parentHeight);
+		//	$div.width(parentHeight * 1.6);
 
-			$div.css({
-				top: parentTop,
-				left: ($divContainer.width() - parentHeight * 1.6) / 2,
-				'border-top-width': '0px',
-				'border-bottom-width': '0px'
-			});
-		}
-		else {
-			$div.width(parentWidth);
-			$div.height(parentWidth / 16 * 10);
+		//	$div.css({
+		//		top: parentTop,
+		//		left: ($divContainer.width() - parentHeight * 1.6) / 2,
+		//		'border-top-width': '0px',
+		//		'border-bottom-width': '0px'
+		//	});
+		//}
+		//else {
+		//	$div.width(parentWidth);
+		//	$div.height(parentWidth / 16 * 10);
 
-			$div.css({
-				top: ($divContainer.height() - (parentWidth / 16 * 10)) / 2,
-				left: 0,
-				'border-left-width': '0px',
-				'border-right-width': '0px'
-			});
-		}
+		//	$div.css({
+		//		top: ($divContainer.height() - (parentWidth / 16 * 10)) / 2,
+		//		left: 0,
+		//		'border-left-width': '0px',
+		//		'border-right-width': '0px'
+		//	});
+		//}
+
+		$div.width(476.8);
+		$div.height(300);
+
+		var $divEatingDetail = $('#eating-detail');
+		$divEatingDetail.css({
+			position: 'absolute',
+			width: $divContainer.width() - $div.width(),
+			height: 50,
+			top: $divContainer.offset().top,
+			left: ($divContainer.position().left + $div.width() + 1) + 'px'
+		});
+
+		$div.css({
+			top: $divContainer.offset().top,
+			left: $divContainer.offset().left,
+			'border-top-width': '0px',
+			'border-bottom-width': '0px'
+		});
 
 		//init for calendar content
 		var $divContent = $div.find('#calendar-content');
@@ -77,7 +108,7 @@
 		for (i = 0; i < divsHeader.length; i++) {
 			(function () {
 				$(divsHeader[i]).css({
-					'font-size': contentChildHeight * 0.8,
+					'font-size': contentChildHeight * 0.7,
 					top: 0,
 					left: i * contentChildWidth
 				});
@@ -134,7 +165,7 @@
 			left: divContentWidth,
 			'border-bottom': '1px solid black',
 			'text-align': 'center',
-			'font-size': divMonthPickerHeight * 0.35,
+			'font-size': divMonthPickerHeight * 0.3,
 			width: divMonthPickerWidth,
 			height: divMonthPickerHeight
 		});
@@ -147,6 +178,27 @@
 			'font-size': divMonthPickerHeight * 0.18,
 			height: divMonthPickerHeight * 0.35
 		});
+
+		var $divNotatened = $('#calendar-annotated');
+		$divNotatened.css({
+			position: 'absolute',
+			top: divMonthPickerHeight,
+			left: divContentWidth,
+			width: $div.width() - divContentWidth,
+			height: $div.height() - divMonthPickerHeight,
+		});
+		//alert(parentWidth +';' + divContentWidth);
+
+		var $spanNotatend = $('<span></span>').text('Chú thích');
+		$divNotatened.append($spanNotatend);
+
+		var $tableNotatend = $('<Table></Table>').attr('class', 'notatend-table')
+		.css({ 'margin': ' 2px 0px 0px 2px' })
+		.append('<tr><td bgcolor="' + getColorFromChar('N') + '"><td>Chưa đặt lịch</td></tr>')
+		.append('<tr><td bgcolor="' + getColorFromChar('0') + '"><td>Đã đặt lịch</tr>')
+		.append('<tr><td bgcolor="' + getColorFromChar('1') + '"><td>Ngày đã ăn</tr>')
+		.append('<tr><td bgcolor="' + getColorFromChar('X') + '"><td>Ngày nghỉ</tr>');
+		$divNotatened.append($tableNotatend);
 
 		$ddlMonth.change(function () {
 			var selectedYear = parseInt($ddlYear.val().toString());
@@ -344,7 +396,52 @@
 					data: { selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: selectedYear },
 					tranditional: true,
 					success: function (data) {
-						
+						if (data == 'error') {
+							alert('Có lỗi khi lấy dữ liệu');
+							return false;
+						}
+
+						if (!$('#eating-detail').hasClass('is-filled')) {
+							fillEatingDetail();
+						}
+
+						$('.serving-time-table tr').empty();
+						$('.span-day-off').empty();
+
+						var label = 65;
+						var schedule = data.result;
+						for (j = 0; j < schedule.length; j++) {
+							var $table = $('#serving-time-table-' + schedule[j].ServingTimeID);
+
+							if (schedule[j].MealSetID != null) {
+								var $tr = $('<tr></tr>');
+								$tr.append($('<td></td>').text(String.fromCharCode(label)))
+									.append($('<td></td>').append('<a href="' + '..' + schedule[j].Image + '" class="zoom" data-title="' + schedule[j].Name + '" data-footer="' + schedule[j].Description + '" data-type="image" data-toggle="lightbox">' + schedule[j].Name + '</a>'));
+
+								//if (schedule[j].Image == null) {
+								//	$tr.append($('<td></td>').append('<img src="../Images/no-image.jpg" height="150px" width="150px">'));
+								//} else {
+								//	$tr.append($('<td></td>').append($('<img></img>').attr('src', '..' + schedule[j].Image)
+								//		.css({
+								//			height: '150px',
+								//			width: '150px'
+								//		})));
+								//}
+
+								$tr.append($('<td></td>').text(schedule[j].Description));
+
+								label++;
+
+								$table.append($tr);
+							}
+							else if (!schedule[j].IsDayOn) {
+								var $header = $('#date-detail-header-' + schedule[j].ServingTimeID);
+
+								var $span = $('<span></span>').text('(Nghỉ)').attr('class', 'span-day-off');
+								$header.children('.span-eating-time').append($span);
+								//$table.append('<tr><td></td><td></td><td><h2>Nghỉ</h2></td><td></td></tr>')
+							}
+						}
 					}
 				});
 			}
@@ -425,28 +522,75 @@
 	function enableCalendar() {
 		$('.ctmf-calendar-transbox').remove();
 	}
+
+	function fillEatingDetail() {
+		$.ajax({
+			url: '@Url.Action("GetEatingTime", "Schedule")',
+			async: false,
+			success: function (data) {
+				if (data == 'error') {
+					alert('Có lỗi khi lấy dữ liệu.');
+					return false;
+				}
+
+				var $divDateDetail = $('#eating-detail');
+				var servingTime = data.servingTime;
+				for (j = 0; j < servingTime.length; j++) {
+					var $header = $('<div></div>').attr({
+						'class': 'date-detail-header',
+						'id': 'date-detail-header-' + servingTime[j].ServingTimeID
+					});
+
+					var $span = $('<span></span>').css({
+						'font-size': '18px'
+					}).attr('class', 'span-eating-time').text(servingTime[j].Name + " Thời gian:" + servingTime[j].StartTimeStr
+						+ (servingTime[j].EndTimeStr == null ? "" : "-" + servingTime[j].EndTimeStr));
+
+					var $table = $('<table></table>').css({
+						width: '100%',
+						'border-collapse': 'collapse',
+						border: '1px solid black'
+					}).attr('id', 'serving-time-table-' + servingTime[j].ServingTimeID)
+						.attr('class', 'serving-time-table table table-bordered')
+						.append('<col width="5%"/><col width="25%"/><col width="45%"/>');
+					// [label] [name] [image] [description]
+
+					$header.append($span);
+
+					$divDateDetail.append($header);
+					$divDateDetail.append($table);
+				}
+
+				$divDateDetail.addClass('is-filled');
+			}
+		});
+	}
 </script>
-
-<div class="well container">
-	<div id="container" style="width: 100%; height: 300px; top: 200px; border: 1px solid black;">
-		<div id="calendar" class="ctmf-cal">
-			<div id="calendar-content">
-				<div id="header-2" class="ctmf-cal-header"></div>
-				<div id="header-3" class="ctmf-cal-header"></div>
-				<div id="header-4" class="ctmf-cal-header"></div>
-				<div id="header-5" class="ctmf-cal-header"></div>
-				<div id="header-6" class="ctmf-cal-header"></div>
-				<div id="header-7" class="ctmf-cal-header"></div>
-				<div id="header-cn" class="ctmf-cal-header"></div>
+<div class="container container-fix">
+	<fieldset>
+		<legend class="table-title">Danh sách giao dịch</legend>
+		<div class="table-body">
+			<div id="container" style="width: 100%; height: 300px; top: 200px;">
+				<div id="calendar" class="ctmf-cal">
+					<div id="calendar-content">
+						<div id="header-2" class="ctmf-cal-header"></div>
+						<div id="header-3" class="ctmf-cal-header"></div>
+						<div id="header-4" class="ctmf-cal-header"></div>
+						<div id="header-5" class="ctmf-cal-header"></div>
+						<div id="header-6" class="ctmf-cal-header"></div>
+						<div id="header-7" class="ctmf-cal-header"></div>
+						<div id="header-cn" class="ctmf-cal-header"></div>
+					</div>
+					<div id="calendar-month-picker" style="border-top: 1px solid black">
+						<span class="month-picker-text">Chọn tháng, năm</span>
+						<br />
+						<select id="calendar-month-picker-month" class="ctmf-cal-month-picker-ddl"></select>
+						<select id="calendar-month-picker-year" class="ctmf-cal-month-picker-ddl"></select>
+					</div>
+					<div id="calendar-annotated" style="border-bottom: 1px solid black"></div>
+				</div>
+				<div id="eating-detail" style="margin-left: 4px;"></div>
 			</div>
-			<div id="calendar-month-picker">
-				Chọn tháng, năm
-				<br />
-				<select id="calendar-month-picker-month" class="ctmf-cal-month-picker-ddl"></select>
-				<select id="calendar-month-picker-year" class="ctmf-cal-month-picker-ddl"></select>
-			</div>
-
 		</div>
-
-	</div>
+	</fieldset>
 </div>
