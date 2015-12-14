@@ -59,11 +59,11 @@ namespace CTMF_Website.Controllers
 				{
 					if (string.IsNullOrEmpty(search))
 					{
-						ViewBag.notExistMealSet = "Không tìm thấy kết quả nào";
+						ViewBag.notExistDish = "Không tìm thấy kết quả nào";
 					}
 					else
 					{
-						ViewBag.notExistMealSet = "Không tìm thấy kết quả nào với từ khóa: " + search;
+						ViewBag.notExistDish = "Không tìm thấy kết quả nào với từ khóa: " + search;
 					}
 					Log.ErrorLog(ex.Message);
 				}
@@ -125,11 +125,11 @@ namespace CTMF_Website.Controllers
 				{
 					if (string.IsNullOrEmpty(search))
 					{
-						ViewBag.notExistMealSet = "Không tìm thấy kết quả nào";
+						ViewBag.notExistDish = "Không tìm thấy kết quả nào";
 					}
 					else
 					{
-						ViewBag.notExistMealSet = "Không tìm thấy kết quả nào với từ khóa: " + search;
+						ViewBag.notExistDish = "Không tìm thấy kết quả nào với từ khóa: " + search;
 					}
 					Log.ErrorLog(ex.Message);
 				}
