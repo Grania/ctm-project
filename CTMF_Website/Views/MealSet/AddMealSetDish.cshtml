@@ -48,9 +48,9 @@
 	$(document).ready(function () {
 		setRemoveEvent();
 
-		var notExist = '@(ViewBag.notExistDish)';
+		var notExist = '@(ViewBag.notExistMealSet)';
 		if (notExist != '') {
-			alert('@Html.Raw(ViewBag.notExistDish)');
+			alert('@Html.Raw(ViewBag.notExistMealSet)');
 		}
 	})
 
@@ -132,12 +132,12 @@
 			@using (Html.BeginForm("AddMealSetDish", "MealSet", FormMethod.Get))
 			{
 				@Html.HiddenFor(m => m.MealSetID)
-				<table>
+				<table style="margin-bottom: 10px;">
 					<tr>
 						<td>
 								<div id="custom-search-input">
 									<div class="input-group">
-										<input type="text" name="search" class="search-query form-control" placeholder="Tìm kiếm" />
+										<input type="text" name="search" class="search-query form-control" placeholder="Nhập từ khóa" />
 										<span class="input-group-btn">
 											<button class="btn btn-danger" type="submit">
 												<span class=" glyphicon glyphicon-search"></span>
