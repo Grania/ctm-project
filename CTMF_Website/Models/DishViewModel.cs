@@ -39,4 +39,21 @@ namespace CTMF_Website.Models
 		[Display(Name = "Hình Ảnh")]
 		public string Image { get; set; }
 	}
+
+	public class DetailDishModel
+	{
+		public int DishID { get; set; }
+
+		[Display(Name = "Tên món ăn")]
+		public string Dishname { get; set; }
+
+		[Display(Name = "Loại món ăn")]
+		public string DishTypeName { get; set; }
+
+		[Display(Name = "Mô tả")]
+		public string Description { get; set; }
+
+		[Display(Name = "Hình Ảnh")]
+		public string Image { get; set; }
+	}
 }

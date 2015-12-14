@@ -9,12 +9,12 @@ namespace CTMF_Website.Models
 	public class UserTypeModel
 	{
 		[Required(ErrorMessage = "Vui lòng nhập  tên viết tắt")]
-		[StringLength(3, MinimumLength = 1, ErrorMessage = "{0}, {1}, {2}")]
+		[StringLength(3, MinimumLength = 1, ErrorMessage = "{0} tối đa {1} ký tự, tối thiểu {2} ký tự")]
 		[Display(Name = "Tên viết tắt")]
 		public string typeShortName { get; set; }
 
 		[Required(ErrorMessage = "Vui lòng nhập tên loại người dùng")]
-		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0}, {1}, {2}")]
+		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0} tối đa {1} ký tự, tối thiểu {2} ký tự")]
 		[RegularExpression(@"^(?![_. 0-9])[^!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`0-9]+(?<![_. 0-9])$", ErrorMessage = "Tên sai định dạng")]
 		[Display(Name = "Tên loại người dùng")]
 		public string typeName { get; set; }
