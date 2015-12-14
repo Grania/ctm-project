@@ -76,7 +76,7 @@
 							<td>@row["TypeName"]</td>
 							<td>
 								<div class="">
-									<button class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></button>
+									<a href="@Url.Action("DetailDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
 									<a href="@Url.Action("EditDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
 									<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>
 								</div>

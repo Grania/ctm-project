@@ -1,0 +1,54 @@
+﻿@using CTMF_Website.Models
+@model DetailDishModel
+
+@{
+	ViewBag.Title = "DetailDish";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+	List<SelectListItem> items = (List<SelectListItem>)ViewData["DishType"];
+}
+
+<div class="container container-fix" style="width: 75% !important">
+	@using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal" }))
+	{
+		<fieldset>
+			<legend class="title">Thông tin món ăn</legend>
+			<div class="form-group">
+				<div class="col-md-4">
+
+				</div>
+				<div class="col-md-4">
+					@if (string.IsNullOrEmpty(Model.Image))
+					{
+						<img src="~/Images/no-image.jpg" id="dish-img" style="width:300px;">
+					}
+					else
+					{
+						<img id="dish-img" src="..@Model.Image" style="width:300px;" />
+					}
+				</div>
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.DishTypeName, new { @class = "control-label col-md-4" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.DishTypeName, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.Dishname, new { @class = "control-label col-md-4" })
+				<div class="col-md-4">
+					@Html.TextBoxFor(m => m.Dishname, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.Description, new { @class = "control-label col-md-4" })
+				<div class="col-md-5">
+					@Html.TextAreaFor(m => m.Description, new { @class = "form-control", @readonly = "readonly" })
+				</div>
+			</div>
+			<a class="btn btn-warning" style="margin-bottom: 20px;" onclick="javascript:window.history.back()"><span class="glyphicon glyphicon-arrow-left"></span> Quay Lại</a>
+		</fieldset>
+	}
+</div>
