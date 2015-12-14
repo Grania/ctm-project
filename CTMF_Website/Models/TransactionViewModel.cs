@@ -85,7 +85,7 @@ namespace CTMF_Website.Models
 		public DateTime LastUpdated { get; set; }
 
 		[Display(Name = "Tên suất ăn")]
-		public string DishName { get; set; }
+		public string MealSetName { get; set; }
 
 
 		public object TransactionTypeID { get; set; }
