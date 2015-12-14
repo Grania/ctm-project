@@ -1,0 +1,71 @@
+﻿@{
+	ViewBag.Title = "Report";
+}
+<link href="~/CSS/table.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/CSS/jquery-ui.css" />
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/datepicker-vi-VN.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#txtFromDate').datepicker({
+			"option": $.datepicker.regional['vn-VN'],
+			changeMonth: true,
+			changeYear: true
+		});
+		$('#txtToDate').datepicker({
+			"option": $.datepicker.regional['vn-VN'],
+			changeMonth: true,
+			changeYear: true
+		});
+
+		var error = '@Html.Raw(ViewBag.error)';
+		if (error != '') {
+			alert(error);
+		}
+	});
+</script>
+<div class="container container-fix">
+	<fieldset>
+		<legend class="title">Lấy báo cáo</legend>
+		@using (Html.BeginForm("Report", "Report", FormMethod.Get))
+		{
+			<div>
+				<div class="col-md-2">
+					<input type="text" class="form-control" name="frmDate" placeholder="Bắt đầu từ" id="txtFromDate" value="@Request.QueryString["fromDate"]">
+				</div><div class="col-md-2">
+					<input type="text" class="form-control" name="tDate" placeholder="Đến" id="txtToDate" value="@Request.QueryString["toDate"]">
+				</div>
+				<table>
+					<tr>
+						<td>Lịch sử giao dịch</td>
+						<td><button type="submit" name="id" value="1">Tải về</button></td>
+					</tr>
+					<tr>
+						<td>Lịch sử ăn</td>
+						<td><button type="submit" name="id" value="2">Tải về</button></td>
+					</tr>
+					<tr>
+						<td>Thống kế lượt ăn theo bữa</td>
+						<td><button type="submit" name="id" value="3">Tải về</button></td>
+					</tr>
+					<tr>
+						<td>Thông kê suất ăn được sử dụng</td>
+						<td><button type="submit" name="id" value="4">Tải về</button></td>
+					</tr>
+					<tr>
+						<td>Thống kê món ăn được sử dụng</td>
+						<td><button type="submit" name="id" value="5">Tải về</button></td>
+					</tr>
+					<tr>
+						<td>Thống kê người dùng đang nợ tiền<br />(Không phụ thuộc vào thời gian)</td>
+						<td><button type="submit" name="id" value="6">Tải về</button></td>
+					</tr>
+
+				</table>
+				<div class="pull-right">
+					<a href="@Url.Action("Test", "Report")"><span class="glyphicon glyphicon-download-alt"></span>Tải báo cáo</a>
+				</div>
+			</div>
+		}
+	</fieldset>
+</div>
