@@ -77,6 +77,12 @@ namespace CTMF_Website.Controllers
 				}
 			}
 
+			if (fromDate <= toDate)
+			{
+				ViewBag.error = "Không thể lấy thống kê";
+				return View();
+			}
+
 			//Lịch sử giao dịch
 			if (ID == 1)
 			{
