@@ -334,7 +334,8 @@ namespace CTMF_Website.Controllers
 				detail.InsertedDate = (DateTime)data["InsertedDate"];
 				detail.UpdatedBy = (string)data["UpdatedBy"];
 				detail.LastUpdated = (DateTime)data["LastUpdated"];
-				detail.MealSetName = data["MealSetName"].ToString();
+				//detail.MealSetName = data.Field<string>("MealSetName");
+				detail.MealSetName = data["DishName"].ToString();
 			}
 			catch (Exception ex)
 			{

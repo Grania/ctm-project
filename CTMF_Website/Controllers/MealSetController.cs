@@ -77,6 +77,26 @@ namespace CTMF_Website.Controllers
 		}
 
 		[AllowAnonymous]
+		public ActionResult DetailMealSet(string mealSetID)
+		{
+			int id = int.Parse(mealSetID);
+			MealSetDishInfoTableAdapter mealSetDishInfoAdapter = new MealSetDishInfoTableAdapter();
+			ViewData["listMealSetDish"] = mealSetDishInfoAdapter.GetDataByMealSetID(id);
+
+			MealSetTableAdapter mealSetAdapter = new MealSetTableAdapter();
+			EditMealSetModel model = new EditMealSetModel();
+			DataTable mealSetDT = mealSetAdapter.GetDataByMealSetID(id);
+
+			model.MealSetID = id;
+			model.MealSetName = mealSetDT.Rows[0]["Name"].ToString();
+			model.Description = mealSetDT.Rows[0]["Description"].ToString();
+			model.Image = mealSetDT.Rows[0]["Image"].ToString();
+			model.CanEatMore = (bool)mealSetDT.Rows[0]["CanEatMore"];
+
+			return View(model);
+		}
+
+		[AllowAnonymous]
 		public ActionResult AddMealSet()
 		{
 			ViewBag.CheckRunTimes = "1";

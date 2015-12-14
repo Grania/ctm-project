@@ -12,15 +12,12 @@ namespace CTMF_Website.Controllers
 {
 	public class AnnounceController : Controller
 	{
-		//
-		// GET: /Announce/
 
 		public ActionResult Index()
 		{
 			return View();
 		}
 
-		//GET:/List Announce
 		[AllowAnonymous]
 		public ActionResult ViewAnnounce()
 		{

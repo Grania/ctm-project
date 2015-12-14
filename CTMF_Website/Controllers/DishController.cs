@@ -139,6 +139,23 @@ namespace CTMF_Website.Controllers
 		}
 
 		[AllowAnonymous]
+		public ActionResult DetailDish(string dishID)
+		{
+
+			int id = int.Parse(dishID);
+			DetailDishModel model = new DetailDishModel();
+			DishInfoDetailTableAdapter dishAdapter = new DishInfoDetailTableAdapter();
+			DataTable dishDT = dishAdapter.GetDataByDishID(id);
+			model.DishID = id;
+			model.Dishname = dishDT.Rows[0]["Name"].ToString();
+			model.DishTypeName = dishDT.Rows[0]["TypeName"].ToString();
+			model.Description = dishDT.Rows[0]["Description"].ToString();
+			model.Image = dishDT.Rows[0]["Image"].ToString();
+
+			return View(model);
+		}
+
+		[AllowAnonymous]
 		public ActionResult AddDish()
 		{
 			DishTypeTableAdapter dishTypeAdapter = new DishTypeTableAdapter();
