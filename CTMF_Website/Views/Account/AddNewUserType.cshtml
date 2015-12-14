@@ -10,8 +10,12 @@
 			<legend class="title">Thêm loại người dùng</legend>
 			@Html.AntiForgeryToken()
 			@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
+			<div class="pull-right">
+				<span style="color:red">* </span><b>: thông tin bắt buộc</b>
+			</div>
+
 			<div class="form-group" style="margin-top: 20px">
-				@Html.LabelFor(m => m.typeName, new { @class = "control-label col-md-4" })
+				@Html.LabelFor(m => m.typeName, new { @class = "control-label col-md-4" })<span style="color:red">*</span>
 				<div class="col-md-4">
 					@Html.TextBoxFor(m => m.typeName, new { @class = "form-control" })
 				</div>
@@ -26,7 +30,7 @@
 			</div>
 
 			<div class="form-group">
-				@Html.LabelFor(m => m.typeShortName, new { @class = "control-label col-md-4" })
+				@Html.LabelFor(m => m.typeShortName, new { @class = "control-label col-md-4" })<span style="color:red">*</span>
 				<div class="col-md-4">
 					@Html.TextBoxFor(m => m.typeShortName, new { @class = "form-control" })
 				</div>
@@ -39,7 +43,7 @@
 			</div>
 
 			<div class="form-group" style="margin-top: 20px">
-				@Html.LabelFor(m => m.mealValue, new { @class = "control-label col-md-4" })
+				@Html.LabelFor(m => m.mealValue, new { @class = "control-label col-md-4" })<span style="color:red">*</span>
 				<div class="col-md-4">
 					@Html.TextBoxFor(m => m.mealValue, new { @class = "form-control", @placeholder = "" })
 				</div>
