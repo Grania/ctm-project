@@ -2,6 +2,13 @@
 @{
 	ViewBag.Title = "DetailUser";
 }
+
+<script>
+	function goBack() {
+		window.history.back();
+	}
+</script>
+
 @{
 	string role = "";
 	if (Model.Role.Equals(1))
@@ -44,14 +51,12 @@
 				</div>
 			</div>
 
-			<!-- Text input-->
 
 			<div class="form-group">
 				<label class="col-md-4 control-label">Họ Tên</label>
 				<div class="col-md-4 inputGroupContainer">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-						@*<input name="first_name" placeholder="Password" class="form-control" type="password">*@
 						@Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
 					</div>
 				</div>
@@ -65,14 +70,11 @@
 				</div>
 			</div>
 
-			<!-- Text input-->
-
 			<div class="form-group">
 				<label class="col-md-4 control-label">E-Mail</label>
 				<div class="col-md-4 inputGroupContainer">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-						@*<input name="first_name" placeholder="Password" class="form-control" type="password">*@
 						@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
 					</div>
 				</div>
@@ -86,13 +88,11 @@
 				</div>
 			</div>
 
-			<!-- Text input-->
 			<div class="form-group">
 				<label class="col-md-4 control-label">Loại người dùng</label>
 				<div class="col-md-4 inputGroupContainer">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-						@*<input name="email" placeholder="E-Mail Address" class="form-control" type="text">*@
 						@Html.TextBoxFor(m => m.TypeName, new { @class = "form-control", @readonly = "readonly" })
 					</div>
 				</div>
@@ -105,9 +105,6 @@
 					</div>
 				</div>
 			</div>
-
-
-			<!-- Text input-->
 
 			<div class="form-group">
 				<label class="col-md-4 control-label">Số dư tài khoản</label>
@@ -126,6 +123,7 @@
 					</div>
 				</div>
 			</div>
+			<a class="btn btn-warning" style="margin-bottom: 20px;" onclick="javascript:window.history.back()"><span class="glyphicon glyphicon-arrow-left"></span> Quay Lại</a>
 		</fieldset>
 	}
 </div>

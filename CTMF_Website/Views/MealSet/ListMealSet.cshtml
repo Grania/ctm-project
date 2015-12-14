@@ -6,28 +6,59 @@
 }
 
 <link href="~/CSS/table.css" rel="stylesheet" />
+
+@{
+	List<SelectListItem> items = new List<SelectListItem>();
+
+	items.Add(new SelectListItem { Text = "Tất Cả", Value = "" });
+	items.Add(new SelectListItem { Text = "Có ăn thêm", Value = "1" });
+	items.Add(new SelectListItem { Text = "Không ăn thêm", Value = "0" });
+}
+
+<script>
+	$(document).ready(function () {
+		var notExist = '@Html.Raw(ViewBag.notExistMealSet)';
+		if (notExist != '') {
+			alert(notExist);
+		}
+	});
+</script>
+
 <div class="container container-fix">
 	<fieldset>
 		<legend class="title">Quản lý suất ăn</legend>
 		<div>
 			<div class="table-body">
-				<div style="margin-bottom:20px;">
-					<a href="~/MealSet/AddMealSet" class="btn btn-primary">Thêm suất ăn mới</a>
-					<div class="pull-right">
-						@using (Html.BeginForm("ListMealSet", "MealSet", FormMethod.Get))
-						{
-							<div id="custom-search-input">
-							<div class="input-group">
-								<input type="text" name="search" class="search-query form-control" placeholder="Tìm kiếm" />
-								<span class="input-group-btn">
-									<button class="btn btn-danger" type="submit">
-										<span class=" glyphicon glyphicon-search"></span>
-									</button>
-								</span>
-							</div>
-							</div>
-						}
+				<div class="row" style="margin-bottom:20px;">
+					<div class="col-md-3">
+						<a href="~/MealSet/AddMealSet" class="btn btn-primary">Thêm suất ăn mới</a>
 					</div>
+
+					<div class="col-md-3">
+
+					</div>
+
+
+					@using (Html.BeginForm("ListMealSet", "MealSet", FormMethod.Get))
+					{
+						<div class="col-md-3">
+							<div id="custom-search-input">
+								<div class="input-group">
+									<input type="text" name="search" class="search-query form-control" placeholder="Tìm kiếm" />
+									<span class="input-group-btn">
+										<button class="btn btn-danger" type="submit">
+											<span class=" glyphicon glyphicon-search"></span>
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							@Html.DropDownList("filter", new SelectList(items, "Value", "Text"), new { @class = "form-control" })
+						</div>
+					}
+
 				</div>
 				<table class="table table-bordered table-hover table-condensed">
 					<thead>
@@ -69,7 +100,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div id="footer">
+			@*<div id="footer">
 				<div>
 					<nav>
 						<ul class="pager">
@@ -78,7 +109,7 @@
 						</ul>
 					</nav>
 				</div>
-			</div>
+			</div>*@
 		</div>
 	</fieldset>
 </div>

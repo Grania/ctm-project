@@ -2,17 +2,40 @@
 @{
 	ViewBag.Title = "ListDish";
 }
+
 <link href="~/CSS/table.css" rel="stylesheet" />
+
+@{
+	List<SelectListItem> items = (List<SelectListItem>)ViewData["DishType"];
+}
+
+
+<script>
+	$(document).ready(function () {
+		var notExist = '@(ViewBag.notExistDish)';
+		if (notExist != '') {
+			alert('@Html.Raw(ViewBag.notExistDish)');
+		}
+	});
+</script>
 
 <div class="container container-fix">
 	<fieldset>
 		<legend class="title">Quản lý món ăn</legend>
 		<div class="table-body">
-			<div style="margin-bottom:20px;">
-				<a href="~/Dish/AddDish" class="btn btn-primary">Thêm món ăn mới</a>
-				<div class="pull-right">
-					@using (Html.BeginForm("ListDish", "Dish", FormMethod.Get))
-					{
+			<div class="row" style="margin-bottom:20px;">
+				<div class="col-md-3">
+					<a href="~/Dish/AddDish" class="btn btn-primary">Thêm món ăn mới</a>
+				</div>
+
+				<div class="col-md-3">
+
+				</div>
+
+
+				@using (Html.BeginForm("ListDish", "Dish", FormMethod.Get))
+				{
+					<div class="col-md-3">
 						<div id="custom-search-input">
 							<div class="input-group">
 								<input type="text" name="search" class="search-query form-control" placeholder="Tìm kiếm" />
@@ -23,8 +46,13 @@
 								</span>
 							</div>
 						</div>
-					}
-				</div>
+					</div>
+
+					<div class="col-md-3">
+						@Html.DropDownList("filter", new SelectList(items, "Value", "Text"), new { @class = "form-control" })
+					</div>
+				}
+
 			</div>
 			<table class="table table-bordered table-hover table-condensed">
 				<thead>
@@ -58,15 +86,15 @@
 				</tbody>
 			</table>
 		</div>
-		<div id="footer">
-			<div>
-				<nav>
-					<ul class="pager">
-						<li><a href="#">Previous</a></li>
-						<li><a href="#">Next</a></li>
-					</ul>
-				</nav>
-			</div>
-		</div>
+		@*<div id="footer">
+				<div>
+					<nav>
+						<ul class="pager">
+							<li><a href="#">Previous</a></li>
+							<li><a href="#">Next</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>*@
 	</fieldset>
 </div>

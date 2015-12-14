@@ -3,6 +3,23 @@
 	ViewBag.Title = "ListSchedule";
 }
 
+<style>
+	.serving-time-table {
+	}
+
+	.date-detail-header {
+		margin: 10px;
+	}
+
+	.span-day-off{
+		margin-left: 10px;
+		color: red;
+	}
+
+	.ctmf-select-day{
+		cursor: pointer;
+	}
+</style>
 <script type="text/javascript">
 	var $dayArray;
 	var _selectedDay;
@@ -101,6 +118,7 @@
 							}
 
 							$('.serving-time-table tr').empty();
+							$('.span-day-off').empty();
 
 							var label = 65;
 							var schedule = result.result;
@@ -129,9 +147,11 @@
 									$table.append($tr);
 								}
 								else if (!schedule[j].IsDayOn) {
-									var $table = $('#serving-time-table-' + schedule[j].ServingTimeID);
+									var $header = $('#date-detail-header-' + schedule[j].ServingTimeID);
 
-									$table.append('<tr><td></td><td></td><td><h2>Nghỉ</h2></td><td></td></tr>')
+									var $span = $('<span></span>').text('(Nghỉ)').attr('class', 'span-day-off');
+									$header.children('.span-eating-time').append($span);
+									//$table.append('<tr><td></td><td></td><td><h2>Nghỉ</h2></td><td></td></tr>')
 								}
 							}
 						}
@@ -154,9 +174,14 @@
 				var $divDateDetail = $('#date-detail');
 				var servingTime = data.servingTime;
 				for (j = 0; j < servingTime.length; j++) {
+					var $header = $('<div></div>').attr({
+						'class': 'date-detail-header',
+						'id': 'date-detail-header-' + servingTime[j].ServingTimeID
+					});
+
 					var $span = $('<span></span>').css({
 						'font-size': '25px'
-					}).text(servingTime[j].Name + " Thời gian:" + servingTime[j].StartTimeStr
+					}).attr('class', 'span-eating-time').text(servingTime[j].Name + " Thời gian:" + servingTime[j].StartTimeStr
 						+ (servingTime[j].EndTimeStr == null ? "" : "-" + servingTime[j].EndTimeStr));
 
 					var $addDiv = $('<div></div>').attr('value', servingTime[j].ServingTimeID)
@@ -171,12 +196,14 @@
 						'border-collapse': 'collapse',
 						border: '1px solid black'
 					}).attr('id', 'serving-time-table-' + servingTime[j].ServingTimeID)
-						.attr('class', 'serving-time-table')
+						.attr('class', 'serving-time-table table table-bordered')
 						.append('<col width="5%"/><col width="25%"/><col width="25%"/><col width="45%"/>');
 					// [label] [name] [image] [description]
 
-					$divDateDetail.append($span);
-					$divDateDetail.append($addDiv);
+					$header.append($span);
+					$header.append($addDiv);
+
+					$divDateDetail.append($header);
 					$divDateDetail.append($table);
 				}
 
@@ -185,7 +212,7 @@
 		});
 	}
 
-	
+
 
 	function setAddDivEvent($div) {
 		$div.click(function () {
@@ -222,7 +249,7 @@
 				height: '30px',
 				border: '1px solid black',
 				'line-height': '30px'
-			}).text('Ngày ' + (date.getDate()));
+			}).attr('class','ctmf-select-day').text('Ngày ' + (date.getDate()));
 
 			$day.append($('<span></span>').css({
 				float: 'right'
@@ -295,14 +322,14 @@
 		<legend class="table-title">Quản lý lịch ăn</legend>
 		<div>
 			<div class="table-body">
-				<div id="schedule-date-list" style="width:30%; height: 500px; border: 1px solid black; float: left">
+				<div id="schedule-date-list" style="width:30%; height: 501.3px; border: 1px solid black; float: left; margin-bottom: 10px;">
 					<div id="schedule-month-picker" style="width: 100%; height: 30px; border: 1px solid black; border-width: 0px 0px 1px 0px; text-align: center; line-height: 30px">
 						<select id="schedule-month-ddl"></select>
 						<select id="schedule-year-ddl"></select>
 					</div>
 					<div id="schedule-day-list" style="overflow-y: auto; width: 100%; height: 470px"></div>
 				</div>
-				<div id="date-detail" style="width: 70%; border: 1px solid black; float: right">
+				<div id="date-detail" style="width: 70%; border: 1px solid black; float: right; margin-bottom: 10px;">
 				</div>
 			</div>
 		</div>

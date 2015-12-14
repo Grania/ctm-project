@@ -126,8 +126,16 @@
 							string nextUrl, prevUrl;
 							if (String.IsNullOrWhiteSpace(page))
 							{
-								nextUrl = Request.Url.ToString() + "&page=2";
-								prevUrl = "#";
+								if (Request.QueryString.Count == 0)
+								{
+									nextUrl = Request.Url.ToString() + "?page=2";
+									prevUrl = "#";
+								}
+								else
+								{
+									nextUrl = Request.Url.ToString() + "&page=2";
+									prevUrl = "#";
+								}
 							}
 							else
 							{
@@ -141,26 +149,29 @@
 								{
 									nextUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ + 1));
 									prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
+
+									nextUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ + 1));
+									prevUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ - 1));
 								}
 							}
 						}
 						@foreach (System.Data.DataRow row in Model.Rows)
 						{
 							string date = ((DateTime)row["InsertedDate"]).ToString("dd/MM/yyyy");
-								<tr>
-									<td>@row["RowNum"]</td>
-									<td>@row["Username"]</td>
-									<td>@row["Name"]</td>
-									<td>@row["Value"]</td>
-									<td>@date</td>
-									<td>
-										<div>
-											<a href="@Url.Action("DetailTransaction", "Transaction", new { TransID = @row["TransactionHistoryID"] })" class="btn btn-link" title="Chi tiết">Chi tiết</a>
-											@*<a href="@Url.Action("EditTransaction", "Transaction", new {TransID = @row["TransactionHistoryID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>*@
-											@*<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>*@
-										</div>
-									</td>
-								</tr>
+							<tr>
+								<td>@row["RowNum"]</td>
+								<td>@row["Username"]</td>
+								<td>@row["Name"]</td>
+								<td>@row["Value"]</td>
+								<td>@date</td>
+								<td>
+									<div>
+										<a href="@Url.Action("DetailTransaction", "Transaction", new { TransID = @row["TransactionHistoryID"] })" class="btn btn-link" title="Chi tiết">Chi tiết</a>
+										@*<a href="@Url.Action("EditTransaction", "Transaction", new {TransID = @row["TransactionHistoryID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>*@
+										@*<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>*@
+									</div>
+								</td>
+							</tr>
 						}
 					</tbody>
 				</table>
@@ -169,7 +180,7 @@
 				<div>
 					<nav>
 						<ul class="pager">
-							@if (curPage != 1)
+							@if (maxPage != 0 && curPage != 1)
 							{
 								<li><a href="@prevUrl">Trước</a></li>
 							}
@@ -180,7 +191,7 @@
 						</ul>
 					</nav>
 				</div>
-				<div>
+				<div style="margin-bottom:20px;">
 					Đi đến trang :
 					<select id="ddlPageSelect"></select>
 					/ @maxPage

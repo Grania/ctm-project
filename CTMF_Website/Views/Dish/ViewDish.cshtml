@@ -8,10 +8,16 @@
 
 @{
 	System.Data.DataTable dishType = (System.Data.DataTable)ViewData["DishType"];
+	string notExistDish = ViewBag.notExistDish;
 }
 
 <script>
 	$(document).ready(function () {
+		var notExist = '@(notExistDish)';
+		if (notExist != '') {
+			alert('@Html.Raw(notExistDish)');
+		}
+
 		$('i.glyphicon-thumbs-up, i.glyphicon-thumbs-down').click(function () {
 			var $this = $(this),
 			c = $this.data('count');

@@ -9,62 +9,77 @@
 	string _typeShortName;
 }
 
+<script>
+	function goBack() {
+		window.history.back();
+	}
+</script>
+
 <link href="~/CSS/table.css" rel="stylesheet" />
 <div class="container container-fix">
-	<legend class="table-title">Thêm loại người dùng</legend>
-	<div style="margin-bottom:20px;">
-		<a href="AddNewUserType" class="btn btn-primary">Thêm loại người dùng</a>
+	<fieldset>
+		<legend class="table-title">Thêm loại người dùng</legend>
+		<div style="margin-bottom:20px;">
+			<a href="AddNewUserType" class="btn btn-primary">Thêm loại người dùng</a>
 
-	</div>
-	<table class="table table-bordered table-hover table-condensed">
-		<thead>
-			<tr>
-				<th>STT</th>
-				<th>Tên loại người dùng </th>
-				<th>Tên viết tắt</th>
-				<th>Tiền ăn mỗi bữa</th>
-				<th>Tiền ăn thêm</th>
-				<th>Mô tả chi tiết</th>
-				<th>Nợ tín dụng</th>
-				<th>Ăn thêm</th>
-				<th>Quản lý</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (System.Data.DataRow row in Model.Rows)
-			{
-				count++;
-				_typeShortName = row["TypeShortName"].ToString();
-				if (!_typeShortName.Equals("DF"))
+		</div>
+		<table class="table table-bordered table-hover table-condensed">
+			<thead>
+				<tr>
+					<th>STT</th>
+					<th>Tên loại người dùng </th>
+					<th>Tên viết tắt</th>
+					<th>Tiền ăn mỗi bữa</th>
+					<th>Tiền ăn thêm</th>
+					<th>Mô tả chi tiết</th>
+					<th>Nợ tín dụng</th>
+					<th>Ăn thêm</th>
+					<th>Quản lý</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (System.Data.DataRow row in Model.Rows)
 				{
-					<tr>
-						<td>@(count-1)</td>
-						<td>@row["TypeName"]</td>
-						<td>@row["TypeShortName"]</td>
-						<td>@row["MealValue"]</td>
-						<td>@row["MoreMealValue"]</td>
-						<td>@row["Description"]</td>
-						<td>@row["CanDebt"]</td>
-						<td>@row["CanEatMore"]</td>
-						<td>
-							<div>
-								<a href="@Url.Action("DetailsUserType", "Account", new { typeShortName = _typeShortName })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
-								<a href="@Url.Action("EditUserType", "Account", new { typeShortName = _typeShortName })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-								<a href="@Url.Action("DeleteUserType", "Account", new { typeShortName = _typeShortName })" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>
-							</div>
-						</td>
-					</tr>
+					count++;
+					_typeShortName = row["TypeShortName"].ToString();
+					if (!_typeShortName.Equals("DF"))
+					{
+						<tr>
+							<td>@(count - 1)</td>
+							<td>@row["TypeName"]</td>
+							<td>@row["TypeShortName"]</td>
+							<td>@row["MealValue"]</td>
+							<td>@row["MoreMealValue"]</td>
+							<td>@row["Description"]</td>
+							@if (row["CanDebt"].Equals(true))
+							{
+								<td><span style="color: #10CB10" class="glyphicon glyphicon-ok"></span></td>
+							}
+							else
+							{
+								<td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+							}
+							@if (row["CanEatMore"].Equals(true))
+							{
+								<td><span style="color: #10CB10" class="glyphicon glyphicon-ok"></span></td>
+							}
+							else
+							{
+								<td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+							}
+							<td>
+								<div>
+									<a href="@Url.Action("DetailsUserType", "Account", new { typeShortName = _typeShortName })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
+									<a href="@Url.Action("EditUserType", "Account", new { typeShortName = _typeShortName })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a href="@Url.Action("DeleteUserType", "Account", new { typeShortName = _typeShortName })" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>
+								</div>
+							</td>
+						</tr>
+					}
 				}
-
-			}
-		</tbody>
-	</table>
-</div>
-<div id="footer">
-	<div>
-		<nav>
-			<ul class="pager"></ul>
-		</nav>
-	</div>
+			</tbody>
+		</table>
+		<a href="@Url.Action("ListUser", "Account")" class="btn btn-warning" style="margin-bottom: 20px;"><span class="glyphicon glyphicon-arrow-left"></span> Quay Lại</a>
+	</fieldset>
 </div>
 

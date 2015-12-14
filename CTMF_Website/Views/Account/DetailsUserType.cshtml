@@ -47,24 +47,17 @@
 		<div class="form-group">
 			<div class="col-md-4 control-label">@Html.LabelFor(m => m.canDebt)</div>
 			<div class="col-md-1">
-					@Html.CheckBoxFor(m => m.canDebt, new { @class = "form-control", @readonly = "readonly" })
+					@Html.CheckBoxFor(m => m.canDebt, new { @class = "form-control", @disabled = "disabled" })
 			</div>
 		</div>
 
 		<div class="form-group">
 			<div class="col-md-4 control-label">@Html.LabelFor(m => m.canEatMore)</div>
 			<div class="col-md-1">
-					@Html.CheckBoxFor(m => m.canEatMore, new { @class = "form-control", @readonly = "readonly" })
+					@Html.CheckBoxFor(m => m.canEatMore, new { @class = "form-control", @disabled = "disabled" })
 			</div>
 		</div>
-		<div class="form-group">
-			<label class="col-md-4 control-label"></label>
-			<div class="col-md-4 inputGroupContainer">
-				<div class="input-group">
-
-				</div>
-			</div>
-		</div>
+		<a class="btn btn-warning" style="margin-bottom: 20px;" onclick="javascript:window.history.back()"><span class="glyphicon glyphicon-arrow-left"></span> Quay Lại</a>
 	</fieldset>
 }
 </div>

@@ -41,6 +41,7 @@
 			}
 			else {
 				curHref = curHref.replace('&page=' + selectedPage, '&page=' + page);
+				curHref = curHref.replace('?page=' + selectedPage, '?page=' + page);
 			}
 
 			window.location.href = curHref;
@@ -51,20 +52,25 @@
 <div class="container container-fix">
 	<fieldset>
 		<legend class="table-title">Quản lý người dùng</legend>
-		<div style="margin-bottom:20px;">
-			@*<a href="~/Account/AddUser" class="btn btn-primary">Thêm người dùng mới</a>*@
+		<div style="width:100%; margin-bottom:20px;">
 			<a href="~/Account/ViewUserType" class="btn btn-default">Quản lý loại người dùng</a>
-			<div class="pull-right">
+		</div>
+		<div style="margin-bottom: 20px;">
+			<div class="row">
 				@using (Html.BeginForm("ListUser", "Account", FormMethod.Get))
 				{
-					<div class="input-group">
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-						</span>
-						<input type="hidden" name="amountPerPage" value="@Request.QueryString["amountPerPage"]"/>
+					<input type="hidden" name="amountPerPage" value="@Request.QueryString["amountPerPage"]" />
+					
+					<div class="col-md-2">
 						<input type="text" class="form-control" name="username" placeholder="Tên đăng nhập" style="max-width:300px;" value="@Request.QueryString["username"]">
+					</div>
+
+					<div class="col-md-2">
 						<input type="text" class="form-control" name="name" placeholder="Tên người dùng" style="max-width:300px;" value="@Request.QueryString["name"]">
-						<select id="ddlUserType" name="userType">
+					</div>
+
+					<div class="col-md-2">
+						<select class="form-control" id="ddlUserType" name="userType">
 							<option value="">Tất cả</option>
 							@foreach (KeyValuePair<string, string> pair in (List<KeyValuePair<string, string>>)ViewBag.userTypes)
 							{
@@ -78,7 +84,10 @@
 								}
 							}
 						</select>
-						<select id="ddlRole" name="role">
+					</div>
+
+					<div class="col-md-2">
+						<select class="form-control" id="ddlRole" name="role">
 							<option value="">Tất cả</option>
 							@foreach (KeyValuePair<int, string> pair in (List<KeyValuePair<int, string>>)ViewBag.roleList)
 							{
@@ -92,15 +101,20 @@
 								}
 							}
 						</select>
-						<select id="ddlActive" name="active">
+					</div>
+					<div class="col-md-2">
+						<select class="form-control" id="ddlActive" name="active">
 							<option value="">Tất cả</option>
 							<option value="0">Chưa kích hoạt</option>
 							<option value="1">Đã kích hoạt</option>
 						</select>
 					</div>
+
+					<div class="col-md-1">
+						<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+					</div>
 				}
 			</div>
-
 		</div>
 		<table class="table table-bordered table-hover table-condensed">
 			<thead>
@@ -120,8 +134,16 @@
 					string nextUrl, prevUrl;
 					if (String.IsNullOrWhiteSpace(page))
 					{
-						nextUrl = Request.Url.ToString() + "&page=2";
-						prevUrl = "#";
+						if (Request.QueryString.Count == 0)
+						{
+							nextUrl = Request.Url.ToString() + "?page=2";
+							prevUrl = "#";
+						}
+						else
+						{
+							nextUrl = Request.Url.ToString() + "&page=2";
+							prevUrl = "#";
+						}
 					}
 					else
 					{
@@ -135,6 +157,9 @@
 						{
 							nextUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ + 1));
 							prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
+
+							nextUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ + 1));
+							prevUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ - 1));
 						}
 					}
 				}
@@ -170,7 +195,7 @@
 			<div>
 				<nav>
 					<ul class="pager">
-						@if (curPage != 1)
+						@if (maxPage != 0 && curPage != 1)
 						{
 							<li><a href="@prevUrl">Trước</a></li>
 						}
@@ -181,7 +206,7 @@
 					</ul>
 				</nav>
 			</div>
-			<div>
+			<div style="margin-bottom:20px;">
 				Đi đến trang :
 				<select id="ddlPageSelect"></select>
 				/ @maxPage
