@@ -154,7 +154,7 @@ namespace CTMF_Desktop_App
 			{
 				if (!customer.CanDebt)
 				{
-					return "Tai khoan da het tien";
+					return "TK da het tien";
 				}
 			}
 

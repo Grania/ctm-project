@@ -262,6 +262,8 @@ namespace CTMF_Desktop_App.Forms
 						DeviceControl.setLCDText(device.serial, matchCus.TypetShortName + ":" + matchCus.Username
 							+ "\n" + alert);
 
+						device.eatMoreFlag = false;
+
 						Thread.Sleep(1500);
 					}
 				}
