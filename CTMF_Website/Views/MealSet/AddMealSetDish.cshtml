@@ -8,6 +8,8 @@
 @{
 	System.Data.DataTable listDish = ViewData["listDish"] as System.Data.DataTable;
 	System.Data.DataTable listMealSetDish = ViewData["listMealSetDish"] as System.Data.DataTable;
+	List<SelectListItem> items = ViewData["DishType"] as List<SelectListItem>;
+	
 
 	string max = (string)(Session["maxMealsetDish"]);
 	string exist = (string)(Session["existMealsetDish"]);
@@ -45,6 +47,11 @@
 <script>
 	$(document).ready(function () {
 		setRemoveEvent();
+
+		var notExist = '@(ViewBag.notExistDish)';
+		if (notExist != '') {
+			alert('@Html.Raw(ViewBag.notExistDish)');
+		}
 	})
 
 	function setRemoveEvent() {
@@ -115,9 +122,6 @@
 									</td>
 								</tr>
 							}
-							@*<tr id="mealset-dish">
-
-								</tr>*@
 						</tbody>
 					</table>
 				</div>
@@ -125,6 +129,29 @@
 		</div>
 
 		<div class="col-md-8">
+			@using (Html.BeginForm("AddMealSetDish", "MealSet", FormMethod.Get))
+			{
+				@Html.HiddenFor(m => m.MealSetID)
+				<table>
+					<tr>
+						<td>
+								<div id="custom-search-input">
+									<div class="input-group">
+										<input type="text" name="search" class="search-query form-control" placeholder="Tìm kiếm" />
+										<span class="input-group-btn">
+											<button class="btn btn-danger" type="submit">
+												<span class=" glyphicon glyphicon-search"></span>
+											</button>
+										</span>
+									</div>
+								</div>
+						</td>
+						<td>
+								@Html.DropDownList("filter", new SelectList(items, "Value", "Text"), new { @class = "form-control" })
+						</td>
+					</tr>
+				</table>
+			}
 			<div class="row">
 				@foreach (System.Data.DataRow row in listDish.Rows)
 				{
