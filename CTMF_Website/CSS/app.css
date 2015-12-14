@@ -398,8 +398,11 @@ nav {
 }
 
 .modal-footer {
+	max-height: 100px;
 	text-align: center !important;
 	font: 400 normal 1.125em "Roboto",Arial,Verdana,sans-serif;
+	overflow:scroll !important;
+	word-wrap: break-word;
 }
 
 .ekko-lightbox-container {
