@@ -89,9 +89,9 @@
 								}
 								<td>
 									<div>
-										<button class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></button>
+										<a href="@Url.Action("DetailMealSet", "MealSet", new {mealSetID = @row["MealSetID"] })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
 										<a href="@Url.Action("EditMealSet", "MealSet", new {mealSetID = @row["MealSetID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-										<a href="@Url.Action("AddMealSetDish", "MealSet", new { mealSetID = @row["MealSetID"] })" class="btn btn-success" title="Thêm"><span class="glyphicon glyphicon-plus"></span></a>
+										<a href="@Url.Action("AddMealSetDish", "MealSet", new { mealSetID = @row["MealSetID"] })" class="btn btn-success" title="Thêm món ăn"><span class="glyphicon glyphicon-plus"></span></a>
 										<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>
 									</div>
 								</td>

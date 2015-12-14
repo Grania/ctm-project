@@ -1,0 +1,78 @@
+﻿@model CTMF_Website.Models.EditMealSetModel
+
+@{
+	ViewBag.Title = "DetailMealSet";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+	System.Data.DataTable listMealSetDish = ViewData["listMealSetDish"] as System.Data.DataTable;
+}
+
+<script src="~/Scripts/ekko-lightbox.js"></script>
+
+<script>
+	$(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
+		event.preventDefault();
+		$(this).ekkoLightbox();
+	});
+</script>
+
+<div class="container" style="width: 85% !important">
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="panel panel-default">
+				<div class="panel-footer">
+					<h4>@Model.MealSetName</h4>
+				</div>
+				<div class="panel-body">
+					@if (string.IsNullOrEmpty(Model.Image.ToString()))
+					{
+						<a href="~/Images/no-image.jpg" class="zoom" data-title="@Model.MealSetName" data-footer="@Model.Description" data-type="image" data-toggle="lightbox">
+							<img src="~/Images/no-image.jpg" />
+						</a>
+					}
+					else
+					{
+						<a href="..@Model.Image" class="zoom" data-title="@Model.MealSetName" data-footer="@Model.Description" data-type="image" data-toggle="lightbox">
+							<img src="..@Model.Image" />
+						</a>
+					}
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-8">
+			<fieldset>
+				<legend class="title">Các món ăn trong: @Model.MealSetName</legend>
+				<div class="row">
+					@foreach (System.Data.DataRow row in listMealSetDish.Rows)
+					{
+						<div class="col-sm-4">
+							<div class="panel panel-default">
+								<div class="panel-footer">
+									<h4>@row["DishName"]</h4>
+								</div>
+								<div class="panel-body" style="height:150px;">
+									@if (string.IsNullOrEmpty(row["DishImage"].ToString()))
+									{
+										<a href="~/Images/no-image.jpg" class="zoom" data-title="@row["DishName"]" data-footer="@row["DishDescription"]" data-type="image" data-toggle="lightbox">
+											<img src="~/Images/no-image.jpg" style="height:150px;" />
+										</a>
+									}
+									else
+									{
+										<a href="..@row["DishImage"]" class="zoom" data-title="@row["DishName"]" data-footer="@row["DishDescription"]" data-type="image" data-toggle="lightbox">
+											<img src="..@row["DishImage"]" style="height:150px;" />
+										</a>
+									}
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+				<a class="btn btn-warning" style="margin-bottom: 20px;" onclick="javascript:window.history.back()"><span class="glyphicon glyphicon-arrow-left"></span> Quay Lại</a>
+			</fieldset>
+		</div>
+	</div>
+</div>
