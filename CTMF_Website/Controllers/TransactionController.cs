@@ -63,6 +63,86 @@ namespace CTMF_Website.Controllers
 		}
 
 		[AllowAnonymous]
+		public ActionResult WithdrawMoney()
+		{
+
+			return View();
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult WithdrawMoney(WithdrawMoney model)
+		{
+			ViewBag.message = "";
+
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+			string updateBy = AccountInfo.GetUserName(Request);
+			string username = model.Username;
+			int withDrawMoney = model.AmountOfMoney;
+			int transactionType = 3;
+			string transactionContent = "Rút tiền";
+
+			UserinfoModel userinfo = new UserinfoModel();
+			DataTable userInfoDataTable = new DataTable();
+			UserInfoDetailTableAdapter userInfoDetailAdapter = new UserInfoDetailTableAdapter();
+			UserInfoTableAdapter userInfoAdapter = new UserInfoTableAdapter();
+			userInfoDataTable = userInfoAdapter.GetDataByUsername(username);
+			string userTypeName = null;
+			string email = null;
+			if (!string.IsNullOrEmpty(userInfoDataTable.Rows[0]["TypeShortName"].ToString()))
+			{
+				userInfoDataTable = userInfoDetailAdapter.GetDataByUsername(username);
+				userTypeName = (string)userInfoDataTable.Rows[0]["TypeName"];
+				email = userInfoDataTable.Rows[0]["Email"].ToString();
+			}
+			else
+			{
+				AccountTableAdapter accountAdapter = new AccountTableAdapter();
+				DataTable accountDataTable = new DataTable();
+				accountDataTable = accountAdapter.GetDataByUsername(username);
+				email = accountDataTable.Rows[0]["Email"].ToString();
+			}
+			DateTime date = DateTime.Parse(userInfoDataTable.Rows[0]["LastUpdatedMoney"].ToString());
+			int amountOfMoney = (int)userInfoDataTable.Rows[0]["AmountOfMoney"];
+
+			TransactionHistoryTableAdapter transactionAdapter = new TransactionHistoryTableAdapter();
+			int? money = transactionAdapter.GetCurrentMoney(username, date);
+			if (money == null)
+			{
+				money = 0;
+			}
+
+			amountOfMoney += money.Value;
+
+			if (withDrawMoney > amountOfMoney)
+			{
+				ViewBag.message = "Giao dịch thất bại! Số dư trong tài khoản không đủ để thực hiện giao dịch";
+				return View(model);
+			}
+			else
+			{
+				try
+				{
+					string transactionID = transactionAdapter.RechargeMoneyScalar(username, transactionType, amountOfMoney, transactionContent, null, false, date, updateBy, date).ToString();
+					int id = int.Parse(transactionID);
+					XmlSync.SaveTransactionHistoryXml(id, username, transactionType, amountOfMoney, transactionContent, null, false, date, updateBy, date, null);
+				}
+				catch (Exception ex)
+				{
+					Log.ErrorLog(ex.Message);
+				}
+
+				ViewBag.message = "Giao dịch thành công!";
+				return View(model);
+			}
+		}
+
+		[AllowAnonymous]
 		public ActionResult ListTransaction()
 		{
 			TransactionHistoryListTableAdapter transactionAdapter

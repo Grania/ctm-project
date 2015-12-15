@@ -515,18 +515,18 @@ namespace CTMF_Website.Controllers
 			{
 				int test = MealSetAdapter.Delete(mealSetID);
 
-				if (!string.IsNullOrEmpty(MealSetData.Rows[0]["Image"].ToString()))
+				if (!string.IsNullOrEmpty(MealSetData.Rows[0]["Name"].ToString()))
 				{
-					var deleteFilePath = AppDomain.CurrentDomain.BaseDirectory + MealSetData.Rows[0]["Image"].ToString();
+					var deleteFilePath = AppDomain.CurrentDomain.BaseDirectory + MealSetData.Rows[0]["Name"].ToString();
 					System.IO.File.Delete(deleteFilePath);
 				}
 
-				ViewBag.successMessage = "Xóa thành công suất ăn: " + MealSetData.Rows[0]["Image"].ToString();
+				ViewBag.successMessage = "Xóa thành công suất ăn: " + MealSetData.Rows[0]["Name"].ToString();
 
 			}
 			catch (Exception ex)
 			{
-				ViewBag.successMessage = "Suất ăn: " + MealSetData.Rows[0]["Image"].ToString() + "đang được sử dụng.Xin kiểm tra lại trước khi xóa!";
+				ViewBag.successMessage = "Suất ăn: " + MealSetData.Rows[0]["Name"].ToString() + "đang được sử dụng.Xin kiểm tra lại trước khi xóa!";
 				Log.ErrorLog(ex.Message);
 			}
 
