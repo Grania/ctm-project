@@ -13,6 +13,7 @@
 	items.Add(new SelectListItem { Text = "Tất Cả", Value = "" });
 	items.Add(new SelectListItem { Text = "Có ăn thêm", Value = "1" });
 	items.Add(new SelectListItem { Text = "Không ăn thêm", Value = "0" });
+
 }
 
 <script>
@@ -20,6 +21,11 @@
 		var notExist = '@Html.Raw(ViewBag.notExistMealSet)';
 		if (notExist != '') {
 			alert(notExist);
+		}
+
+		var successMessage = '@Html.Raw(ViewBag.successMessage)';
+		if (successMessage != '') {
+			alert(successMessage);
 		}
 	});
 </script>
@@ -76,40 +82,45 @@
 						@foreach (System.Data.DataRow row in Model.Rows)
 						{
 							count++;
-							<tr>
-								<td>@count</td>
-								<td>@row["Name"]</td>
-								@if (row["CanEatMore"].Equals(true))
-								{
-									<td><span style="color: #10CB10" class="glyphicon glyphicon-ok"></span></td>
-								}
-								else
-								{
-									<td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
-								}
-								<td>
-									<div>
-										<a href="@Url.Action("DetailMealSet", "MealSet", new {mealSetID = @row["MealSetID"] })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
-										<a href="@Url.Action("EditMealSet", "MealSet", new {mealSetID = @row["MealSetID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-										<a href="@Url.Action("AddMealSetDish", "MealSet", new { mealSetID = @row["MealSetID"] })" class="btn btn-success" title="Thêm món ăn"><span class="glyphicon glyphicon-plus"></span></a>
-										<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>
-									</div>
-								</td>
-							</tr>
+							using (Html.BeginForm("DeleteMealSet", "MealSet", new { mealSetID = @row["MealSetID"] }, FormMethod.Post, new { id = @row["MealSetID"] }))
+							{
+								<tr>
+									<td>@count</td>
+									<td>@row["Name"]</td>
+									@if (row["CanEatMore"].Equals(true))
+									{
+										<td><span style="color: #10CB10" class="glyphicon glyphicon-ok"></span></td>
+									}
+									else
+									{
+										<td><span style="color:red" class="glyphicon glyphicon-remove"></span></td>
+									}
+									<td>
+										<div>
+											<a href="@Url.Action("DetailMealSet", "MealSet", new {mealSetID = @row["MealSetID"] })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
+											<a href="@Url.Action("EditMealSet", "MealSet", new {mealSetID = @row["MealSetID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+											<a href="@Url.Action("AddMealSetDish", "MealSet", new { mealSetID = @row["MealSetID"] })" class="btn btn-success" title="Thêm món ăn"><span class="glyphicon glyphicon-plus"></span></a>
+											<a href="javascript:document.getElementById('@row["MealSetID"]').submit()" onclick="return confirm('Bạn có chắc chắn muốn xóa suất ăn: @row["Name"]')" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>
+
+											@*<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>*@
+										</div>
+									</td>
+								</tr>
+							}
 						}
 					</tbody>
 				</table>
 			</div>
 			@*<div id="footer">
-				<div>
-					<nav>
-						<ul class="pager">
-							<li><a href="#">Previous</a></li>
-							<li><a href="#">Next</a></li>
-						</ul>
-					</nav>
-				</div>
-			</div>*@
+					<div>
+						<nav>
+							<ul class="pager">
+								<li><a href="#">Previous</a></li>
+								<li><a href="#">Next</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>*@
 		</div>
 	</fieldset>
 </div>
