@@ -240,6 +240,7 @@ namespace CTMF_Website.Controllers
 				{
 					ScheduleJsonModel model = new ScheduleJsonModel();
 					model.MealSetID = row.Field<int?>("MealSetID");
+					model.ScheduleMealSetDetailID = row.Field<int?>("ScheduleMealSetDetailID");
 					model.Name = row.Field<string>("Name");
 					model.Image = row.Field<string>("Image");
 					model.Description = row.Field<string>("Description");
@@ -354,6 +355,79 @@ namespace CTMF_Website.Controllers
 				Log.ErrorLog(ex.Message);
 				return Json("error", JsonRequestBehavior.AllowGet);
 			}
+		}
+
+		[AllowAnonymous]
+		public JsonResult GetEatList(int selectedDay, int selectedMonth, int selectedYear)
+		{
+			try
+			{
+				DateTime selectedDate = DateTime.Parse(selectedYear + "-" + selectedMonth + "-" + selectedDay);
+				DateTime endDate = selectedDate.AddDays(1).AddTicks(-1);
+
+				DataTable dt = new UserEatTableAdapter().GetData(AccountInfo.GetUserName(Request), selectedDate, selectedDate, endDate);
+
+				List<UserEatJsonModel> result = new List<UserEatJsonModel>();
+				int Unrecord = 0;
+				foreach(DataRow row in dt.Rows){
+					result.Add(new UserEatJsonModel(){
+						ScheduleMealSetDetailID = row.Field<int?>("ScheduleMealSetDetailID")
+					});
+
+					if (row.Field<int?>("ScheduleMealSetDetailID") == null)
+					{
+						Unrecord++;
+					}
+				}
+
+				return Json(new { result = result, Unrecord = Unrecord}, JsonRequestBehavior.AllowGet);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				return Json("error", JsonRequestBehavior.AllowGet);
+			}
+		}
+
+		[AllowAnonymous]
+		[HttpGet]
+		public ActionResult GetMealSetModal(string MealSetID)
+		{
+			int mealSetID;
+
+			if (String.IsNullOrWhiteSpace(MealSetID) || !int.TryParse(MealSetID, out mealSetID))
+			{
+				return RedirectToAction("Schedule", "Schedule");
+			}
+
+			MealSetDishDetailModel model = new MealSetDishDetailModel();
+
+			DataTable dt = new MealSetDishInfoTableAdapter().GetDataByMealSetID(mealSetID);
+			if (dt.Rows.Count > 0)
+			{
+				model.MealSetName = dt.Rows[0].Field<string>("MealSetName");
+				model.MealSetImage = ".." + dt.Rows[0].Field<string>("MealSetImage");
+
+				model.DishNameImage = new List<KeyValuePair<string, string>>();
+
+				foreach (DataRow row in dt.Rows)
+				{
+					string dishImage = row.Field<string>("DishImage");
+					if (dishImage == null)
+					{
+						dishImage = AppDomain.CurrentDomain.BaseDirectory + "..\\Images\\no-image.jpg";
+					}
+					else
+					{
+						dishImage = ".." + dishImage;
+					}
+
+					model.DishNameImage.Add(new KeyValuePair<string, string>(row.Field<string>("DishName"),
+						dishImage));
+				}
+			}
+
+			return PartialView(model);
 		}
 
 		[AllowAnonymous]
@@ -653,7 +727,6 @@ namespace CTMF_Website.Controllers
 		{
 			return View();
 		}
-
 
 		[AllowAnonymous]
 		[HttpPost]

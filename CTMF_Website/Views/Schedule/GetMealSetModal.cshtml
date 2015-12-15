@@ -1,0 +1,47 @@
+﻿@model CTMF_Website.Models.MealSetDishDetailModel
+@{
+	ViewBag.Title = "GetMealSetModal";
+	double imgHeight = 658 / Model.DishNameImage.Count;
+	string withPx = imgHeight.ToString() + "px";
+}
+<script type="text/javascript">
+	$(document).ready(function () {
+		var tableWidth = 658;
+		var num = '@(Model.DishNameImage.Count)';
+		num = parseInt(num);
+		//alert(tableWidth + ' ' + num);
+		//$('.dishs').css({
+		//	'width': (tableWidth / num)
+		//});
+		//$('.dishs-tr').css({
+		//	'height': '120px'
+		//});
+		//$('.name-tr').css({
+		//	'height': '30px'
+		//});
+	});
+</script>
+<table style="width: 100%">
+	<tr>
+		<td style="text-align:center">
+			<img src="@Model.MealSetImage" style="height: 250px" />
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center">@Model.MealSetName</td>
+	</tr>
+</table>
+<table style="width: 100%" id="dish-table">
+	<tr class="dishs-tr">
+		@foreach (KeyValuePair<string, string> pair in Model.DishNameImage)
+		{
+			<td style="height: 110px"><img src="@pair.Value" class="dishs" style="width: @withPx ; height: 110px" /></td>
+		}
+	</tr>
+	<tr class="name-tr">
+		@foreach (KeyValuePair<string, string> pair in Model.DishNameImage)
+		{
+			<td style="text-align:center">@pair.Key</td>
+		}
+	</tr>
+</table>

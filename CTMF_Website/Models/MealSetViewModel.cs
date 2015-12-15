@@ -58,4 +58,13 @@ namespace CTMF_Website.Models
 
 		public string DishImage { get; set; }
 	}
+
+	public class MealSetDishDetailModel
+	{
+		public string MealSetName { get; set; }
+
+		public string MealSetImage { get; set; }
+
+		public List<KeyValuePair<string, string>> DishNameImage;
+	}
 }

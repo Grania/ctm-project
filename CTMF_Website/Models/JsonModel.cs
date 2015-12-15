@@ -9,6 +9,8 @@ namespace CTMF_Website.Models
 	{
 		public int? MealSetID { get; set; }
 
+		public int? ScheduleMealSetDetailID { get; set; }
+
 		public string Name { get; set; }
 
 		public string Image { get; set; }
@@ -38,5 +40,10 @@ namespace CTMF_Website.Models
 		public int MealSetID { get; set; }
 
 		public string Name { get; set; }
+	}
+
+	public class UserEatJsonModel
+	{
+		public int? ScheduleMealSetDetailID { get; set; }
 	}
 }

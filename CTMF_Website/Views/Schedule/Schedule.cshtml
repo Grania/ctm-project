@@ -14,10 +14,10 @@
 	$(document).ready(function () {
 		initCalendar();
 
-		$(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
-			event.preventDefault();
-			$(this).ekkoLightbox();
-		});
+		//$(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
+		//	event.preventDefault();
+		//	$(this).ekkoLightbox();
+		//});
 	});
 
 	var $divDateMap;
@@ -391,6 +391,24 @@
 				var selectedMonth = parseInt($('#calendar-month-picker-month').val().toString());
 				var selectedYear = parseInt($('#calendar-month-picker-year').val().toString());
 
+				var listScheduleMealSetID = new Array();
+				var unrecord = 0;
+				$.ajax({
+					url: '@Url.Action("GetEatList", "Schedule")',
+					data: { selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: selectedYear },
+					tranditional: true,
+					async: false,
+					success: function (result) {
+						if (result == 'error') {
+							alert('Có lỗi khi lấy dữ liệu');
+							return false;
+						}
+
+						listScheduleMealSetID = result.result;
+						unrecord = result.Unrecord;
+					}
+				});
+
 				$.ajax({
 					url: '@Url.Action("GetScheduleDateDetail", "Schedule")',
 					data: { selectedDay: selectedDay, selectedMonth: selectedMonth, selectedYear: selectedYear },
@@ -407,6 +425,12 @@
 
 						$('.serving-time-table tr').empty();
 						$('.span-day-off').empty();
+						$('#unrecord-span').remove();
+
+						if (unrecord != 0) {
+							$('.date-detail-header').first().before($('<span></span>').attr('id', 'unrecord-span').css({'font-size': '18px'}).text('Không được ghi nhận vào bữa:' + unrecord));
+						}
+
 
 						var label = 65;
 						var schedule = data.result;
@@ -415,18 +439,33 @@
 
 							if (schedule[j].MealSetID != null) {
 								var $tr = $('<tr></tr>');
-								$tr.append($('<td></td>').text(String.fromCharCode(label)))
-									.append($('<td></td>').append('<a href="' + '..' + schedule[j].Image + '" class="zoom" data-title="' + schedule[j].Name + '" data-footer="' + schedule[j].Description + '" data-type="image" data-toggle="lightbox">' + schedule[j].Name + '</a>'));
+								$tr.append($('<td></td>').text(String.fromCharCode(label)));
 
-								//if (schedule[j].Image == null) {
-								//	$tr.append($('<td></td>').append('<img src="../Images/no-image.jpg" height="150px" width="150px">'));
-								//} else {
-								//	$tr.append($('<td></td>').append($('<img></img>').attr('src', '..' + schedule[j].Image)
-								//		.css({
-								//			height: '150px',
-								//			width: '150px'
-								//		})));
-								//}
+								var found = false;
+								for (index = 0; index < listScheduleMealSetID.length; index++) {
+									if (listScheduleMealSetID[index].ScheduleMealSetDetailID == schedule[j].ScheduleMealSetDetailID) {
+										$tr.children('td').css({ 'border-color': 'red' }).attr('title', 'Suất đã ăn');
+										found = true;
+										break;
+									}
+								}
+
+								var $a = $('<a></a>').attr({
+									'href': '#',
+									'class': 'show-meal-set-modal',
+									'data-url': '@(Url.Action("GetMealSetModal"))' + '?MealSetID=' + schedule[j].MealSetID,
+								}).text(schedule[j].Name);
+
+								$a.click(function () {
+									var url = $(this).attr('data-url');
+
+									$.get(url, function (data) {
+										$('#meal-set-container').html(data);
+										$('#dishModal').modal('show');
+									});
+								});
+
+								$tr.append($('<td></td>').append($a));
 
 								$tr.append($('<td></td>').text(schedule[j].Description));
 
@@ -439,7 +478,6 @@
 
 								var $span = $('<span></span>').text('(Nghỉ)').attr('class', 'span-day-off');
 								$header.children('.span-eating-time').append($span);
-								//$table.append('<tr><td></td><td></td><td><h2>Nghỉ</h2></td><td></td></tr>')
 							}
 						}
 					}
@@ -535,6 +573,7 @@
 
 				var $divDateDetail = $('#eating-detail');
 				var servingTime = data.servingTime;
+
 				for (j = 0; j < servingTime.length; j++) {
 					var $header = $('<div></div>').attr({
 						'class': 'date-detail-header',
@@ -566,31 +605,47 @@
 		});
 	}
 </script>
+<link href="~/CSS/table.css" rel="stylesheet" />
 <div class="container container-fix">
 	<fieldset>
 		<legend class="table-title">Danh sách giao dịch</legend>
-		<div class="table-body">
-			<div id="container" style="width: 100%; height: 300px; top: 200px;">
-				<div id="calendar" class="ctmf-cal">
-					<div id="calendar-content">
-						<div id="header-2" class="ctmf-cal-header"></div>
-						<div id="header-3" class="ctmf-cal-header"></div>
-						<div id="header-4" class="ctmf-cal-header"></div>
-						<div id="header-5" class="ctmf-cal-header"></div>
-						<div id="header-6" class="ctmf-cal-header"></div>
-						<div id="header-7" class="ctmf-cal-header"></div>
-						<div id="header-cn" class="ctmf-cal-header"></div>
+		<div>
+			<div class="table-body">
+				<div id="container" style="width: 100%; height: 300px; top: 200px;">
+					<div id="calendar" class="ctmf-cal">
+						<div id="calendar-content">
+							<div id="header-2" class="ctmf-cal-header"></div>
+							<div id="header-3" class="ctmf-cal-header"></div>
+							<div id="header-4" class="ctmf-cal-header"></div>
+							<div id="header-5" class="ctmf-cal-header"></div>
+							<div id="header-6" class="ctmf-cal-header"></div>
+							<div id="header-7" class="ctmf-cal-header"></div>
+							<div id="header-cn" class="ctmf-cal-header"></div>
+						</div>
+						<div id="calendar-month-picker" style="border-top: 1px solid black">
+							<span class="month-picker-text">Chọn tháng, năm</span>
+							<br />
+							<select id="calendar-month-picker-month" class="ctmf-cal-month-picker-ddl"></select>
+							<select id="calendar-month-picker-year" class="ctmf-cal-month-picker-ddl"></select>
+						</div>
+						<div id="calendar-annotated" style="border-bottom: 1px solid black"></div>
 					</div>
-					<div id="calendar-month-picker" style="border-top: 1px solid black">
-						<span class="month-picker-text">Chọn tháng, năm</span>
-						<br />
-						<select id="calendar-month-picker-month" class="ctmf-cal-month-picker-ddl"></select>
-						<select id="calendar-month-picker-year" class="ctmf-cal-month-picker-ddl"></select>
-					</div>
-					<div id="calendar-annotated" style="border-bottom: 1px solid black"></div>
+					<div id="eating-detail" style="margin-left: 4px;"></div>
 				</div>
-				<div id="eating-detail" style="margin-left: 4px;"></div>
+				<div id="dishModal" class="modal fade" role="dialog">
+					<div class="modal-dialog" style="width:700px">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title" style="text-align: center; font-weight: bold; font-size: 1.4em; text-transform: uppercase; color: #B00622">Suất ăn</h4>
+							</div>
+							<div class="modal-body" id="meal-set-container">
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+
 	</fieldset>
 </div>
