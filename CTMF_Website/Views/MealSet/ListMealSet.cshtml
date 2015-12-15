@@ -101,8 +101,6 @@
 											<a href="@Url.Action("EditMealSet", "MealSet", new {mealSetID = @row["MealSetID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
 											<a href="@Url.Action("AddMealSetDish", "MealSet", new { mealSetID = @row["MealSetID"] })" class="btn btn-success" title="Thêm món ăn"><span class="glyphicon glyphicon-plus"></span></a>
 											<a href="javascript:document.getElementById('@row["MealSetID"]').submit()" onclick="return confirm('Bạn có chắc chắn muốn xóa suất ăn: @row["Name"]')" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>
-
-											@*<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>*@
 										</div>
 									</td>
 								</tr>

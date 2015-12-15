@@ -70,7 +70,7 @@
 				<div class="row" style="margin-bottom:20px;">
 					<div class="col-md-3">
 						<a href="~/Transaction/RechargeMoney" class="btn btn-primary">Nạp tiền</a>
-						<a href="#" class="btn btn-success">Rút tiền</a>
+						<a href="@Url.Action("WithdrawMoney","Transaction")" class="btn btn-success">Rút tiền</a>
 					</div>
 
 					@using (Html.BeginForm("ListTransaction", "Transaction", FormMethod.Get))
