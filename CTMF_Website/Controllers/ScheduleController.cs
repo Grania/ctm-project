@@ -14,19 +14,19 @@ namespace CTMF_Website.Controllers
 {
 	public class ScheduleController : Controller
 	{
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		public ActionResult Schedule()
 		{
 			return View();
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		public ActionResult ListSchedule()
 		{
 			return View();
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		public JsonResult GetDateRange()
 		{
 			ScheduleTableAdapter scheduleAdapter = new ScheduleTableAdapter();
@@ -52,7 +52,7 @@ namespace CTMF_Website.Controllers
 			return Json(dateMinMax, JsonRequestBehavior.AllowGet);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		public JsonResult GetEatingTime()
 		{
 			try
@@ -92,7 +92,7 @@ namespace CTMF_Website.Controllers
 			}
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		public JsonResult GetMeatSetForDDL()
 		{
 			try
@@ -121,7 +121,7 @@ namespace CTMF_Website.Controllers
 			}
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		public JsonResult GetScheduleData(int selectedMonth, int selectedYear)
 		{
 			string username = AccountInfo.GetUserName(Request);
@@ -220,7 +220,7 @@ namespace CTMF_Website.Controllers
 			return Json(new { value = sb.ToString() }, JsonRequestBehavior.AllowGet);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		public JsonResult GetScheduleDateDetail(int selectedDay, int selectedMonth, int selectedYear)
 		{
 			try
@@ -260,7 +260,7 @@ namespace CTMF_Website.Controllers
 			}
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		public JsonResult GetScheduleMonthDetail(int selectedMonth, int selectedYear)
 		{
 			try
@@ -327,7 +327,7 @@ namespace CTMF_Website.Controllers
 			}
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		public JsonResult GetScheduleID(int selectedDay, int selectedMonth, int selectedYear, int ServingTimeID)
 		{
 			try
@@ -357,7 +357,7 @@ namespace CTMF_Website.Controllers
 			}
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		public JsonResult GetEatList(int selectedDay, int selectedMonth, int selectedYear)
 		{
 			try
@@ -389,7 +389,7 @@ namespace CTMF_Website.Controllers
 			}
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		[HttpGet]
 		public ActionResult GetMealSetModal(string MealSetID)
 		{
@@ -430,7 +430,8 @@ namespace CTMF_Website.Controllers
 			return PartialView(model);
 		}
 
-		[AllowAnonymous]
+		// tu day tro xuong
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult EditSchedule()
 		{
 			try
@@ -464,7 +465,7 @@ namespace CTMF_Website.Controllers
 			}
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public JsonResult AddScheduleMealSet(int mealSetID, int scheduleID, bool isDayOn)
 		{
 			//if isDayOn = true, just insert into ScheduleMealSetDetail
@@ -546,7 +547,7 @@ namespace CTMF_Website.Controllers
 			}
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public JsonResult RemoveScheduleMealSet(int scheduleMealSetDetailID)
 		{
 			try
@@ -570,7 +571,7 @@ namespace CTMF_Website.Controllers
 			}
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public JsonResult SetIsDayOn(bool isDayOn, int scheduleID)
 		{
 			ScheduleMealSetDetailTableAdapter scheduleMealSetDetailTA = new ScheduleMealSetDetailTableAdapter();
@@ -627,7 +628,7 @@ namespace CTMF_Website.Controllers
 		}
 
 		//Serving time controller
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult ViewServingTime()
 		{
 			DataTable dataTable = new DataTable();
@@ -648,7 +649,7 @@ namespace CTMF_Website.Controllers
 			return View(dataTable);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult EditServingTime(string servingTimeID)
 		{
 			int servingTimeId = Convert.ToInt32(servingTimeID);
@@ -677,7 +678,7 @@ namespace CTMF_Website.Controllers
 			return View(servingTimeModel);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		[HttpPost]
 		public ActionResult EditServingTime(ServingTimeModel servingTimeModel, string servingTimeID)
 		{
@@ -704,7 +705,7 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("ViewServingTime", "Schedule");
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult DeleteServingTime(string servingTimeID)
 		{
 			ServingTimeTableAdapter servingTimeTableAdapter = new ServingTimeTableAdapter();
@@ -722,13 +723,13 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("ViewServingTime", "Schedule");
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult AddNewServingTime()
 		{
 			return View();
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddNewServingTime(ServingTimeModel servingTimeModel)

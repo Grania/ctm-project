@@ -15,7 +15,7 @@ namespace CTMF_Website.Controllers
 	{
 		DataTable dishDT = new DataTable();
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		public ActionResult ViewDish(string search, string filter)
 		{
 			ViewBag.notExistDish = "";
@@ -72,7 +72,7 @@ namespace CTMF_Website.Controllers
 			return View(dishDT);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult ListDish(string search, string filter)
 		{
 			ViewBag.notExistDish = "";
@@ -138,7 +138,7 @@ namespace CTMF_Website.Controllers
 			return View(dishDT);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult DetailDish(string dishID)
 		{
 
@@ -155,7 +155,7 @@ namespace CTMF_Website.Controllers
 			return View(model);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult AddDish()
 		{
 			DishTypeTableAdapter dishTypeAdapter = new DishTypeTableAdapter();
@@ -172,7 +172,7 @@ namespace CTMF_Website.Controllers
 			return View();
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddDish(DishViewModel model)
@@ -243,7 +243,8 @@ namespace CTMF_Website.Controllers
 
 		private static readonly string _tempPath = AppDomain.CurrentDomain.BaseDirectory + "\\Temp\\";
 		private static readonly string _sourcePath = AppDomain.CurrentDomain.BaseDirectory + "\\Images\\DishImages\\";
-		[AllowAnonymous]
+
+		[Authorize(Roles = ("Manager"))]
 		[HttpPost]
 		public JsonResult UploadImage()
 		{
@@ -343,7 +344,7 @@ namespace CTMF_Website.Controllers
 			}
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult EditDish(string dishID)
 		{
 			DishTypeTableAdapter dishTypeAdapter = new DishTypeTableAdapter();
@@ -369,7 +370,7 @@ namespace CTMF_Website.Controllers
 
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult EditDish(EditDishModel model)
@@ -448,6 +449,7 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("ListDish", "Dish");
 		}
 
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult DeleteDish(int dishID)
 		{
 			try

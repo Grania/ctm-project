@@ -12,7 +12,7 @@ namespace CTMF_Website.Controllers
 {
 	public class ReportController : Controller
 	{
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult Test()
 		{
 			DateTime monthBegin = DateTime.Parse("2015-12-1");
@@ -22,7 +22,7 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("Index", "Report");
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult Report(string id, string frmDate, string tDate)
 		{
 			if (id == null)
@@ -77,7 +77,7 @@ namespace CTMF_Website.Controllers
 				}
 			}
 
-			if (fromDate <= toDate)
+			if (fromDate > toDate)
 			{
 				ViewBag.error = "Không thể lấy thống kê";
 				return View();

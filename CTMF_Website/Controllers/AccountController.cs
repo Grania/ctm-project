@@ -15,9 +15,8 @@ namespace CTMF_Website.Controllers
 	public class AccountController : Controller
 	{
 		[AllowAnonymous]
-		public ActionResult Login(string returnUrl)
+		public ActionResult Login( )
 		{
-			ViewBag.ReturnUrl = returnUrl;
 			return View();
 		}
 
@@ -27,7 +26,7 @@ namespace CTMF_Website.Controllers
 			return View();
 		}
 
-
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		public ActionResult UserInfo()
 		{
 			string username = AccountInfo.GetUserName(Request);
@@ -76,7 +75,7 @@ namespace CTMF_Website.Controllers
 		[AllowAnonymous]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Login(LoginViewModel model, string returnUrl)
+		public ActionResult Login(LoginViewModel model)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -103,7 +102,7 @@ namespace CTMF_Website.Controllers
 
 			try
 			{
-				string role = dt.Rows[0]["Role"].ToString();
+				string role = AccountInfo.GetRoleNameEnglish(dt.Rows[0].Field<int>("Role"));
 				FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
 				1,
 				username,
@@ -122,20 +121,7 @@ namespace CTMF_Website.Controllers
 				Log.ErrorLog(ex.Message);
 			}
 
-			//return RedirectToAction("HomePage", "Home");
-			return RedirectToLocal(returnUrl);
-		}
-
-		private ActionResult RedirectToLocal(string returnUrl)
-		{
-			if (Url.IsLocalUrl(returnUrl))
-			{
-				return Redirect(returnUrl);
-			}
-			else
-			{
-				return RedirectToAction("HomePage", "Home");
-			}
+			return RedirectToAction("HomePage", "Home");
 		}
 
 		[AllowAnonymous]
@@ -163,7 +149,7 @@ namespace CTMF_Website.Controllers
 			return View();
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult ChangePassword(ChangePassword model)
@@ -284,7 +270,7 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("HomePage", "Home");
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = "Administrator")]
 		public ActionResult ListUser()
 		{
 			UserInfoDetailTableAdapter userInfoAdapter = new UserInfoDetailTableAdapter();
@@ -442,7 +428,7 @@ namespace CTMF_Website.Controllers
 			return View(userDT);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = "Administrator")]
 		public ActionResult AddUser()
 		{
 			UserTypeTableAdapter userTypeAdapter = new UserTypeTableAdapter();
@@ -457,91 +443,7 @@ namespace CTMF_Website.Controllers
 			return View();
 		}
 
-		[AllowAnonymous]
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult AddUser(UserInfoDetailModel model)
-		{
-			UserTypeTableAdapter userTypeAdapter = new UserTypeTableAdapter();
-			DataTable userTypeDT = userTypeAdapter.GetData();
-
-			List<SelectListItem> items = new List<SelectListItem>();
-			foreach (DataRow row in userTypeDT.Rows)
-			{
-				items.Add(new SelectListItem { Text = row["TypeName"].ToString(), Value = row["TypeShortName"].ToString() });
-			}
-			ViewData["UserType"] = items;
-
-			if (!ModelState.IsValid)
-			{
-				return View();
-			}
-
-			string updateBy = AccountInfo.GetUserName(Request);
-			string username = model.Username;
-			string password = model.Password;
-			string name = model.Name;
-			string email = model.Email;
-			string userTypeID = model.UserTypeID;
-			int role = model.Role;
-			bool isCafeteria = false;
-			if (role == 2)
-			{
-				isCafeteria = true;
-			}
-			DateTime date = DateTime.Now;
-
-			string errormsg = null;
-
-			UserInfoTableAdapter userInfoAdapter = new UserInfoTableAdapter();
-			DataTable userInfoDT = userInfoAdapter.GetDataByUsername(username);
-
-			if (userInfoDT.Rows.Count == 1)
-			{
-				errormsg += "Tên đăng nhập ";
-			}
-
-			if (!string.IsNullOrEmpty(email))
-			{
-				AccountTableAdapter AccountAdapter = new AccountTableAdapter();
-				DataTable AccountDT = AccountAdapter.GetDataByEmail(email);
-
-				if (AccountDT.Rows.Count == 1)
-				{
-					if (errormsg != null)
-					{
-						errormsg += ", Email ";
-					}
-					else errormsg += "Email ";
-				}
-			}
-
-			if (errormsg != null)
-			{
-				errormsg += "đã tồn tại!";
-				ModelState.AddModelError("", errormsg);
-				return View(model);
-			}
-			else
-			{
-				try
-				{
-					userInfoAdapter.InsertUserInfo(username, name, userTypeID, 0, date, null, null, null, isCafeteria, false, date, updateBy, date);
-					Log.ActivityLog("Insert into UserInfo: Username = " + username);
-					AccountTableAdapter AccountAdapter = new AccountTableAdapter();
-					AccountAdapter.Insert(username, password, email, role);
-					Log.ActivityLog("Insert into Account: Username = " + username);
-				}
-				catch (Exception ex)
-				{
-					Log.ErrorLog(ex.Message);
-				}
-			}
-
-			return RedirectToAction("ListUser", "Account");
-		}
-
-		[AllowAnonymous]
+		[Authorize(Roles = "Administrator")]
 		public ActionResult EditUser(string username)
 		{
 			UserTypeTableAdapter userTypeAdapter = new UserTypeTableAdapter();
@@ -568,7 +470,7 @@ namespace CTMF_Website.Controllers
 			return View(userInfo);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = "Administrator")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult EditUser(EditUserModel model)
@@ -666,7 +568,7 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("ListUser", "Account");
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = "Administrator")]
 		public ActionResult DetailUser(string username)
 		{
 			UserinfoModel userinfo = new UserinfoModel();
@@ -694,7 +596,7 @@ namespace CTMF_Website.Controllers
 			return View(userinfo);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = "Administrator")]
 		public ActionResult ViewUserType()
 		{
 			DataTable dataTable = new DataTable();
@@ -714,7 +616,7 @@ namespace CTMF_Website.Controllers
 			return View(dataTable);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = "Administrator")]
 		public ActionResult DetailsUserType(string typeShortName)
 		{
 			UserTypeTableAdapter userTypeDataTableAdapter = new UserTypeTableAdapter();
@@ -772,7 +674,7 @@ namespace CTMF_Website.Controllers
 			return View(userTypeModel);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = "Administrator")]
 		[HttpPost]
 		public ActionResult EditUserType(UserTypeModel userTypeModel, string typeShortName)
 		{
@@ -806,12 +708,13 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("ViewUserType", "Account");
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = "Administrator")]
 		public ActionResult AddNewUserType()
 		{
 			return View();
 		}
-		[AllowAnonymous]
+
+		[Authorize(Roles = "Administrator")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddNewUserType(UserTypeModel userTypeModel)

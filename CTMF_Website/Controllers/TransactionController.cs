@@ -13,13 +13,13 @@ namespace CTMF_Website.Controllers
 	{
 		DataTable transactionDT = new DataTable();
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult RechargeMoney()
 		{
 			return View();
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult RechargeMoney(RechargeMoney model)
@@ -62,14 +62,14 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("ListTransaction", "Transaction");
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult WithdrawMoney()
 		{
 
 			return View();
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult WithdrawMoney(WithdrawMoney model)
@@ -142,7 +142,7 @@ namespace CTMF_Website.Controllers
 			}
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult ListTransaction()
 		{
 			TransactionHistoryListTableAdapter transactionAdapter
@@ -286,7 +286,7 @@ namespace CTMF_Website.Controllers
 			return View(transactionDT);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult TransactionHistory()
 		{
 			TransactionHistoryListTableAdapter transactionAdapter
@@ -304,7 +304,7 @@ namespace CTMF_Website.Controllers
 			return View(transactionDT);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult EditTransaction(string TransID)
 		{
 			TransactionHistoryTableAdapter adapter = new TransactionHistoryTableAdapter();
@@ -347,7 +347,7 @@ namespace CTMF_Website.Controllers
 			return View(model);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult EditTransaction(EditTransaction model)
@@ -393,7 +393,7 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("ListTransaction", "Transaction");
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult DetailTransaction(string TransID)
 		{
 			TransactionHistoryDetailTableAdapter transactionDetail = new TransactionHistoryDetailTableAdapter();

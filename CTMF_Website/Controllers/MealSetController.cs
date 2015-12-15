@@ -16,7 +16,7 @@ namespace CTMF_Website.Controllers
 	{
 		DataTable mealSetDT = new DataTable();
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult ListMealSet(string search, string filter)
 		{
 			ViewBag.successMessage = "";
@@ -78,7 +78,7 @@ namespace CTMF_Website.Controllers
 			return View(mealSetDT);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult DetailMealSet(string mealSetID)
 		{
 			int id = int.Parse(mealSetID);
@@ -98,14 +98,14 @@ namespace CTMF_Website.Controllers
 			return View(model);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult AddMealSet()
 		{
 			ViewBag.CheckRunTimes = "1";
 			return View();
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddMealSet(MealSetViewModel model)
@@ -172,6 +172,7 @@ namespace CTMF_Website.Controllers
 		private static readonly string _tempPath = AppDomain.CurrentDomain.BaseDirectory + "\\Temp\\";
 		private static readonly string _sourcePath = AppDomain.CurrentDomain.BaseDirectory + "\\Images\\MealSetImages\\";
 
+		[Authorize(Roles = ("Manager"))]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public JsonResult UploadImage()
@@ -269,7 +270,7 @@ namespace CTMF_Website.Controllers
 			}
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult EditMealSet(string mealSetID)
 		{
 			int id = int.Parse(mealSetID);
@@ -353,7 +354,7 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("ListMealSet", "MealSet");
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult AddMealSetDish(string mealSetID, string search, string filter)
 		{
 			Session["maxMealsetDish"] = "";
@@ -438,6 +439,7 @@ namespace CTMF_Website.Controllers
 			return View(model);
 		}
 
+		[Authorize(Roles = ("Manager"))]
 		public PartialViewResult Add(string mealSetID, string dishID)
 		{
 			int dish = int.Parse(dishID);
@@ -505,6 +507,7 @@ namespace CTMF_Website.Controllers
 			return PartialView("_MealSetDish", model);
 		}
 
+		[Authorize(Roles = ("Manager"))]
 		[HttpPost]
 		public ActionResult DeletemealSet(int mealSetID)
 		{
