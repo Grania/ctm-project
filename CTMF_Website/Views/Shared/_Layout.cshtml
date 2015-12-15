@@ -72,7 +72,7 @@
 						@if (Request.IsAuthenticated)
 						{
 							<div class="dropdown">
-								<button id="btn-user-info" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<button id="btn-user-info" class="btn btn-default">
 									@username
 									<span class="caret"></span>
 								</button>
@@ -84,12 +84,17 @@
 										<a href="@Url.Action("TransactionHistory", "Transaction")" class="btn btn-link">Lịch sử giao dịch</a>
 									</li>
 									<li>
+										<a href="@Url.Action("ChangePassword", "Account")" class="btn btn-link">Đổi mật khẩu</a>
+									</li>
+									<li>
 										@using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
 										{
 											@Html.AntiForgeryToken()
-											@*<a href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a>*@
-											<input type="submit" class="btn btn-link" value="Đăng xuất" />
+											@*<input type="submit" class="btn btn-link" value="Đăng xuất" />*@
 										}
+										<a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-link">
+											Đăng xuất
+										</a>
 									</li>
 								</ul>
 							</div>
@@ -128,7 +133,6 @@
 				</div>
 			</div>
 		</nav>-->
-
 		<!--<div style="margin-bottom: 50px;">
 			<div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">
 				<div class='carousel-outer'>

@@ -70,18 +70,23 @@
 					@foreach (System.Data.DataRow row in Model.Rows)
 					{
 						count++;
-						<tr>
-							<td>@count</td>
-							<td>@row["Name"]</td>
-							<td>@row["TypeName"]</td>
-							<td>
-								<div class="">
-									<a href="@Url.Action("DetailDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
-									<a href="@Url.Action("EditDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-									<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>
-								</div>
-							</td>
-						</tr>
+						using (Html.BeginForm("DeleteDish", "Dish", new { dishID = @row["DishID"] }, FormMethod.Post, new { id = @row["DishID"] }))
+						{
+							<tr>
+								<td>@count</td>
+								<td>@row["Name"]</td>
+								<td>@row["TypeName"]</td>
+								<td>
+									<div class="">
+										<a href="@Url.Action("DetailDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
+										<a href="@Url.Action("EditDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+										<a href="javascript:document.getElementById('@row["DishID"]').submit()" onclick="return confirm('Bạn có chắc chắn muốn xóa món: @row["Name"]')" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>
+
+										@*<a href="@Url.Action("DeleteDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>*@
+									</div>
+								</td>
+							</tr>
+						}
 					}
 				</tbody>
 			</table>
