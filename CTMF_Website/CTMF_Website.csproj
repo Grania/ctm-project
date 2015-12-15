@@ -284,6 +284,7 @@
     <Content Include="Views\Schedule\EditSchedule.cshtml" />
     <Content Include="Views\Schedule\ListSchedule.cshtml" />
     <Content Include="Views\Report\Report.cshtml" />
+    <Content Include="Views\Schedule\GetMealSetModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\log\" />

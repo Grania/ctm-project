@@ -136,6 +136,8 @@ namespace CTMF_Website {
         
         private global::System.Data.DataRelation relationFK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1;
         
+        private global::System.Data.DataRelation relationFK_SCHEDULE_MEAL_SET_SCHEDULE2;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -884,6 +886,7 @@ namespace CTMF_Website {
             this.relationFK_MEAL_DISH_DISH2 = this.Relations["FK_MEAL_DISH_DISH2"];
             this.relationFK_ACCOUNT_USER_INFO1 = this.Relations["FK_ACCOUNT_USER_INFO1"];
             this.relationFK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1 = this.Relations["FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1"];
+            this.relationFK_SCHEDULE_MEAL_SET_SCHEDULE2 = this.Relations["FK_SCHEDULE_MEAL_SET_SCHEDULE2"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1066,6 +1069,10 @@ namespace CTMF_Website {
                         this.tableUserEat.ScheduleMealSetDetailIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableTransactionHistory.ScheduleMealSetDetailIDColumn}, false);
             this.Relations.Add(this.relationFK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1);
+            this.relationFK_SCHEDULE_MEAL_SET_SCHEDULE2 = new global::System.Data.DataRelation("FK_SCHEDULE_MEAL_SET_SCHEDULE2", new global::System.Data.DataColumn[] {
+                        this.tableScheduleMonthForUser.ScheduleIDColumn}, new global::System.Data.DataColumn[] {
+                        this.tableScheduleMealSetDetail.ScheduleIDColumn}, false);
+            this.Relations.Add(this.relationFK_SCHEDULE_MEAL_SET_SCHEDULE2);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -10914,6 +10921,17 @@ namespace CTMF_Website {
             public void SetTransactionHistoryIDNull() {
                 this[this.tableScheduleMonthForUser.TransactionHistoryIDColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ScheduleMealSetDetailRow[] GetScheduleMealSetDetailRows() {
+                if ((this.Table.ChildRelations["FK_SCHEDULE_MEAL_SET_SCHEDULE2"] == null)) {
+                    return new ScheduleMealSetDetailRow[0];
+                }
+                else {
+                    return ((ScheduleMealSetDetailRow[])(base.GetChildRows(this.Table.ChildRelations["FK_SCHEDULE_MEAL_SET_SCHEDULE2"])));
+                }
+            }
         }
         
         /// <summary>
@@ -13329,6 +13347,17 @@ namespace CTMF_Website {
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_SCHEDULE_MEAL_SET_MEAL_SET2"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ScheduleMonthForUserRow ScheduleMonthForUserRow {
+                get {
+                    return ((ScheduleMonthForUserRow)(this.GetParentRow(this.Table.ParentRelations["FK_SCHEDULE_MEAL_SET_SCHEDULE2"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_SCHEDULE_MEAL_SET_SCHEDULE2"]);
                 }
             }
             
@@ -16504,29 +16533,31 @@ VALUES        (@Date,@ServingTimeID,@IsDayOn,@InsertedDate,@UpdatedBy,@LastUpdat
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = @"SELECT        S.ScheduleID, S.Date, S.IsDayOn, TH.TransactionHistoryID
 FROM            Schedule AS S LEFT OUTER JOIN
-                         TransactionHistory AS TH ON DATEDIFF(DAY, S.Date, TH.InsertedDate) = 0 AND TH.TransactionTypeID = 1 AND TH.Username = @USERNAME
-WHERE        (MONTH(S.Date) = @MONTH) AND (YEAR(S.Date) = @YEAR)
+                         ScheduleMealSetDetail AS SMSD ON SMSD.ScheduleID = S.ScheduleID LEFT OUTER JOIN
+                         TransactionHistory AS TH ON (TH.ScheduleMealSetDetailID = SMSD.ScheduleMealSetDetailID OR
+                         DATEDIFF(DAY, S.Date, TH.InsertedDate) = 0) AND TH.TransactionTypeID = 1 AND TH.Username = @Username
+WHERE        (MONTH(S.Date) = @Month) AND (YEAR(S.Date) = @Year)
 ORDER BY S.Date";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@USERNAME", global::System.Data.SqlDbType.NVarChar, 254, global::System.Data.ParameterDirection.Input, 0, 0, "Username", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MONTH", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 0, 0, "", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@YEAR", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 0, 0, "", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Username", global::System.Data.SqlDbType.NVarChar, 254, global::System.Data.ParameterDirection.Input, 0, 0, "Username", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Month", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 0, 0, "", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Year", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 0, 0, "", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataAccess.ScheduleMonthForUserDataTable GetData(string USERNAME, decimal MONTH, decimal YEAR) {
+        public virtual DataAccess.ScheduleMonthForUserDataTable GetData(string Username, decimal Month, decimal Year) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((USERNAME == null)) {
-                throw new global::System.ArgumentNullException("USERNAME");
+            if ((Username == null)) {
+                throw new global::System.ArgumentNullException("Username");
             }
             else {
-                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(USERNAME));
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(Username));
             }
-            this.Adapter.SelectCommand.Parameters[1].Value = ((decimal)(MONTH));
-            this.Adapter.SelectCommand.Parameters[2].Value = ((decimal)(YEAR));
+            this.Adapter.SelectCommand.Parameters[1].Value = ((decimal)(Month));
+            this.Adapter.SelectCommand.Parameters[2].Value = ((decimal)(Year));
             DataAccess.ScheduleMonthForUserDataTable dataTable = new DataAccess.ScheduleMonthForUserDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -19080,7 +19111,7 @@ WHERE        (Username = @Username)";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[2];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[3];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = @"SELECT        Dish.DishID, Dish.Name, Dish.DishTypeID, DishType.TypeName, Dish.Description, Dish.Image, Dish.InsertedDate, Dish.UpdatedBy, Dish.LastUpdated
@@ -19095,6 +19126,14 @@ FROM            Dish INNER JOIN
 WHERE        (Dish.Name LIKE N'%' + @Name + '%')";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Name", global::System.Data.SqlDbType.NVarChar, 50, global::System.Data.ParameterDirection.Input, 0, 0, "Name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = @"SELECT        Dish.DishID, Dish.Name, Dish.DishTypeID, DishType.TypeName, Dish.Description, Dish.Image, Dish.InsertedDate, Dish.UpdatedBy, Dish.LastUpdated
+FROM            Dish INNER JOIN
+                         DishType ON Dish.DishTypeID = DishType.DishTypeID
+WHERE Dish.DishID = @DishID";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@DishID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "DishID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -19152,6 +19191,18 @@ WHERE        (Dish.Name LIKE N'%' + @Name + '%')";
             else {
                 this.Adapter.SelectCommand.Parameters[0].Value = ((string)(Name));
             }
+            DataAccess.DishInfoDetailDataTable dataTable = new DataAccess.DishInfoDetailDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual DataAccess.DishInfoDetailDataTable GetDataByDishID(int DishID) {
+            this.Adapter.SelectCommand = this.CommandCollection[2];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(DishID));
             DataAccess.DishInfoDetailDataTable dataTable = new DataAccess.DishInfoDetailDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
