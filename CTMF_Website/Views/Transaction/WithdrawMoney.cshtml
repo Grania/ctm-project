@@ -1,0 +1,59 @@
+﻿@model CTMF_Website.Models.WithdrawMoney
+
+@{
+	ViewBag.Title = "WithdrawMoney";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+	$(document).ready(function () {
+		var message = '@(ViewBag.message)';
+		if (message != '') {
+			alert('@Html.Raw(ViewBag.message)');
+		}
+	});
+</script>
+
+<div class="container container-fix" style="width: 75% !important">
+	@using (Html.BeginForm("WithdrawMoney", "Transaction", FormMethod.Post, new { @class = "form-horizontal" }))
+	{
+		<fieldset>
+			<legend class="title">Rút tiền</legend>
+			@Html.AntiForgeryToken()
+			@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.Username, new { @class = "control-label col-md-4" })
+				<div class="col-md-6">
+					@Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-4">
+
+				</div>
+				<div class="col-md-4">@Html.ValidationMessageFor(model => model.Username, String.Empty, new { @style = "color:red" })</div>
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.AmountOfMoney, new { @class = "control-label col-md-4" })
+				<div class="col-md-4">
+					@Html.TextBoxFor(m => m.AmountOfMoney, new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-4">
+
+				</div>
+				<div class="col-md-4">@Html.ValidationMessageFor(model => model.AmountOfMoney, String.Empty, new { @style = "color:red" })</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label"></label>
+				<div class="col-md-2">
+					<input type="submit" class="btn btn-primary" value="Rút tiền">
+				</div>
+				<div class="col-sm-2">
+					<a href="~/Transaction/ListTransaction" class="btn btn-danger">Hủy</a>
+				</div>
+			</div>
+		</fieldset>
+	}
+</div>
