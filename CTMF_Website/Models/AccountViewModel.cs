@@ -123,4 +123,24 @@ namespace CTMF_Website.Models
 		[Display(Name = "Kích hoạt")]
 		public bool isActive { get; set; }
 	}
+
+	public class ChangePassword
+	{
+		[Required(ErrorMessage = "Vui lòng nhập mật khẩu cũ.")]
+		[DataType(DataType.Password)]
+		[Display(Name = "Mật khẩu cũ")]
+		public string OldPassword { get; set; }
+
+		[Required(ErrorMessage = "Vui lòng nhập mật khẩu mới.")]
+		[DataType(DataType.Password)]
+		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0} tối đa {1} ký tự, tối thiểu {2} ký tự")]
+		[RegularExpression(@"^(?![!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`])(?=.*[A-z])(?=.*[0-9])(?=.*?[!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`])[a-zA-Z0-9!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`]+$", ErrorMessage = "Mật khẩu sai định dạng")]
+		[Display(Name = "Mật khẩu mới")]
+		public string Password { get; set; }
+
+		[DataType(DataType.Password)]
+		[Compare("Password", ErrorMessage = "Mật khẩu mới không khớp")]
+		[Display(Name = "Nhập lại mật khẩu mới")]
+		public string ConfirmPassword { get; set; }
+	}
 }
