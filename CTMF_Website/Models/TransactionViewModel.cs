@@ -22,6 +22,18 @@ namespace CTMF_Website.Models
 		public int AmountOfMoney { get; set; }
 	}
 
+	public class WithdrawMoney
+	{
+		[Required(ErrorMessage = "Vui lòng nhập Tên người nộp tiền")]
+		[Display(Name = "Tên người rút tiền")]
+		public string Username { get; set; }
+
+		[Required(ErrorMessage = "Vui lòng nhập số tiền")]
+		[Range(0, int.MaxValue, ErrorMessage = "Vui lòng điền số dương")]
+		[Display(Name = "Số tiền")]
+		public int AmountOfMoney { get; set; }
+	}
+
 	public class EditTransaction
 	{
 		[Display (Name = "Mã lịch sử giao dịch")]
