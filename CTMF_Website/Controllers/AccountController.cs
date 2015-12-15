@@ -35,7 +35,6 @@ namespace CTMF_Website.Controllers
 			UserinfoModel userinfo = new UserinfoModel();
 			DataTable userInfoDataTable = new DataTable();
 			UserInfoDetailTableAdapter userInfoDetailAdapter = new UserInfoDetailTableAdapter();
-			//DataTable userinfoDataTable = userInfoDetailAdapter.GetDataByUsername(username);
 			UserInfoTableAdapter userInfoAdapter = new UserInfoTableAdapter();
 			userInfoDataTable = userInfoAdapter.GetDataByUsername(username);
 			string userTypeName = null;
@@ -155,6 +154,52 @@ namespace CTMF_Website.Controllers
 			Session.Clear();
 
 			return RedirectToAction("HomePage", "Home");
+		}
+
+		[AllowAnonymous]
+		public ActionResult ChangePassword()
+		{
+
+			return View();
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult ChangePassword(ChangePassword model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View();
+			}
+
+			string username = AccountInfo.GetUserName(Request);
+
+			string oldPassword = model.OldPassword;
+			string newPassword = model.Password;
+
+			AccountTableAdapter adapter = new AccountTableAdapter();
+			DataTable dt = adapter.GetDataByUsername(username);
+
+			if (!dt.Rows[0]["PASSWORD"].ToString().Equals(oldPassword))
+			{
+				ModelState.AddModelError("", "Nhập sai mật khẩu cũ.");
+				return View();
+			}
+
+			AccountTableAdapter AccountAdapter = new AccountTableAdapter();
+
+			try
+			{
+				AccountAdapter.ChangePassword(newPassword, username);
+				Log.ActivityLog("Account: " + username + "change password!");
+			}
+			catch(Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+
+			return RedirectToAction("HomePage","Home");
 		}
 
 		[AllowAnonymous]

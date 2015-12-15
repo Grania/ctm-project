@@ -198,7 +198,7 @@ namespace CTMF_Website.Controllers
 			string dishName = model.Dishname;
 			int dishTypeID = model.DishTypeID;
 			string description = model.Description;
-
+			string imgPath = null;
 			string savePath = null;
 
 			DishTableAdapter dishAdapter = new DishTableAdapter();
@@ -217,14 +217,14 @@ namespace CTMF_Website.Controllers
 			{
 				savePath = _sourcePath + dishName.Replace(" ", "_") + ".jpg";
 				var sourcePath = AppDomain.CurrentDomain.BaseDirectory + model.Image;
-				//var destinationPath = HttpContext.Server.MapPath(savePath);
 
 				System.IO.File.Move(sourcePath, savePath);
+				imgPath = "\\Images\\DishImages\\" + dishName.Replace(" ", "_") + ".jpg";
 			}
 
 			try
 			{
-				string imgPath = "\\Images\\DishImages\\" + dishName.Replace(" ", "_") + ".jpg";
+
 				dishAdapter.InsertDish(dishName, dishTypeID, description, imgPath, date, updateBy, date);
 				Log.ActivityLog("Insert into Dish Table: DishName = " + dishName);
 			}
@@ -399,7 +399,8 @@ namespace CTMF_Website.Controllers
 			string description = model.Description;
 
 			DataTable dt = dishAdapter.GetDataByDishID(dishID);
-			string savePath = dt.Rows[0]["Image"].ToString();
+
+			string savePath = "\\Images\\DishImages\\" + dishName.Replace(" ", "_") + ".jpg";
 
 			if (!StringExtensions.EqualsInsensitive(dt.Rows[0]["Name"].ToString(), dishName))
 			{
@@ -413,26 +414,21 @@ namespace CTMF_Website.Controllers
 						return View(model);
 					}
 				}
-				savePath = _sourcePath + dishName.Replace(" ", "_") + ".jpg";
+
+				savePath = "\\Images\\DishImages\\" + dishName.Replace(" ", "_") + ".jpg";
+
 			}
 
 			if (model.Image != null)
 			{
-				if (!StringExtensions.EqualsInsensitive(savePath, model.Image))
+				if (model.Image.Contains("Temp"))
 				{
-					savePath = _sourcePath + dishName.Replace(" ", "_") + ".jpg";
-					var sourcePath = AppDomain.CurrentDomain.BaseDirectory + model.Image;
-
 					string oldImage = dt.Rows[0]["Image"].ToString();
-					if (!string.IsNullOrEmpty(oldImage))
-					{
-						var oldImagePath = AppDomain.CurrentDomain.BaseDirectory + oldImage;
-						if (System.IO.File.Exists(oldImagePath))
-						System.IO.File.Delete(oldImagePath);
-					}
-
-					System.IO.File.Move(sourcePath, savePath);
+					var oldImagePath = AppDomain.CurrentDomain.BaseDirectory + oldImage;
+					System.IO.File.Delete(oldImagePath);
 				}
+
+				System.IO.File.Move(AppDomain.CurrentDomain.BaseDirectory + model.Image, AppDomain.CurrentDomain.BaseDirectory + savePath);
 			}
 			else
 			{
@@ -441,9 +437,29 @@ namespace CTMF_Website.Controllers
 
 			try
 			{
-				string imgPath = "\\Images\\DishImages\\" + dishName.Replace(" ", "_") + ".jpg";
-				dishAdapter.UpdateDish(dishName, dishTypeID, description, imgPath, updateBy, date, dishID);
+				dishAdapter.UpdateDish(dishName, dishTypeID, description, savePath, updateBy, date, dishID);
 				Log.ActivityLog("Update to Dish Table: DishID = " + dishID);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+			}
+
+			return RedirectToAction("ListDish", "Dish");
+		}
+
+		public ActionResult DeleteDish(int dishID)
+		{
+			try
+			{
+				DishTableAdapter DishAdapter = new DishTableAdapter();
+				DataTable DishData = DishAdapter.GetDataByDishID(dishID);
+				int test = DishAdapter.Delete(dishID);
+				if (!string.IsNullOrEmpty(DishData.Rows[0]["Image"].ToString()))
+				{
+					var deleteFilePath = AppDomain.CurrentDomain.BaseDirectory + DishData.Rows[0]["Image"].ToString();
+					System.IO.File.Delete(deleteFilePath);
+				}
 			}
 			catch (Exception ex)
 			{

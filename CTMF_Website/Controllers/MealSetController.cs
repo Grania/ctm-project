@@ -120,7 +120,7 @@ namespace CTMF_Website.Controllers
 			string mealSetName = model.MealSetName;
 			string description = model.Description;
 			bool canEatMore = model.CanEatMore;
-
+			string imgPath = null;
 			string savePath = null;
 
 			MealSetTableAdapter mealSetAdapter = new MealSetTableAdapter();
@@ -140,14 +140,15 @@ namespace CTMF_Website.Controllers
 				savePath = _sourcePath + mealSetName.Replace(" ", "_") + ".jpg";
 				var sourcePath = AppDomain.CurrentDomain.BaseDirectory + model.Image;
 
-				Log.ActivityLog("savePath : " + savePath + " sourcePath :" + sourcePath);
+				//Log.ActivityLog("savePath : " + savePath + " sourcePath :" + sourcePath);
 
 				System.IO.File.Move(sourcePath, savePath);
+				imgPath = "\\Images\\MealSetImages\\" + mealSetName.Replace(" ", "_") + ".jpg";
 			}
 
 			try
 			{
-				string imgPath = "\\Images\\MealSetImages\\" + mealSetName.Replace(" ", "_") + ".jpg";
+				
 				string mealSetID = mealSetAdapter.InsertMealSetScalar(mealSetName, imgPath, description, canEatMore, date, updateBy, date).ToString();
 				int id = int.Parse(mealSetID);
 				XmlSync.SaveMealSetXml(id, mealSetName, canEatMore, date, updateBy, date, null);
@@ -301,7 +302,8 @@ namespace CTMF_Website.Controllers
 			bool canEatMore = model.CanEatMore;
 
 			DataTable dt = mealSetAdapter.GetDataByMealSetID(mealSetID);
-			string savePath = dt.Rows[0].Field<string>("Image");
+
+			string savePath = "\\Images\\MealSetImages\\" + mealSetName.Replace(" ", "_") + ".jpg";
 
 			if (!StringExtensions.EqualsInsensitive(dt.Rows[0]["Name"].ToString(), mealSetName))
 			{
@@ -316,25 +318,19 @@ namespace CTMF_Website.Controllers
 					}
 				}
 
-				savePath = AppDomain.CurrentDomain.BaseDirectory + mealSetName.Replace(" ", "_") + ".jpg";
+				savePath = "\\Images\\MealSetImages\\" + mealSetName.Replace(" ", "_") + ".jpg";
+
 			}
 			if (model.Image != null)
 			{
-				if (!StringExtensions.EqualsInsensitive(savePath, model.Image))
+				if (model.Image.Contains("Temp2"))
 				{
-					savePath = _sourcePath + mealSetName.Replace(" ", "_") + ".jpg";
-					var sourcePath = AppDomain.CurrentDomain.BaseDirectory + model.Image;
-
 					string oldImage = dt.Rows[0]["Image"].ToString();
-					if (!string.IsNullOrEmpty(oldImage))
-					{
-						var oldImagePath = AppDomain.CurrentDomain.BaseDirectory + oldImage;
-						if(System.IO.File.Exists(oldImagePath))
-						System.IO.File.Delete(oldImagePath);
-					}
-
-					System.IO.File.Move(sourcePath, savePath);
+					var oldImagePath = AppDomain.CurrentDomain.BaseDirectory + oldImage;
+					System.IO.File.Delete(oldImagePath);
 				}
+
+				System.IO.File.Move(AppDomain.CurrentDomain.BaseDirectory + model.Image, AppDomain.CurrentDomain.BaseDirectory + savePath);
 			}
 			else
 			{
@@ -343,8 +339,7 @@ namespace CTMF_Website.Controllers
 
 			try
 			{
-				string imgPath = "\\Images\\MealSetImages\\" + mealSetName.Replace(" ", "_") + ".jpg";
-				mealSetAdapter.UpdateMealSet(mealSetName, imgPath, description, canEatMore, updateBy, date, mealSetID);
+				mealSetAdapter.UpdateMealSet(mealSetName, savePath, description, canEatMore, updateBy, date, mealSetID);
 				XmlSync.SaveMealSetXml(mealSetID, mealSetName, canEatMore, date, updateBy, date, null);
 				Log.ActivityLog("Update to MealSet Table: MealSetID = " + mealSetID);
 			}
