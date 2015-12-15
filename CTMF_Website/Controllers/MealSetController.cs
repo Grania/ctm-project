@@ -19,6 +19,8 @@ namespace CTMF_Website.Controllers
 		[AllowAnonymous]
 		public ActionResult ListMealSet(string search, string filter)
 		{
+			ViewBag.successMessage = "";
+
 			ViewBag.notExistMealSet = "";
 
 			MealSetTableAdapter mealSetAdapter = new MealSetTableAdapter();
@@ -501,6 +503,34 @@ namespace CTMF_Website.Controllers
 
 			MealSetDishModel model = new MealSetDishModel();
 			return PartialView("_MealSetDish", model);
+		}
+
+		[HttpPost]
+		public ActionResult DeletemealSet(int mealSetID)
+		{
+			MealSetTableAdapter MealSetAdapter = new MealSetTableAdapter();
+			DataTable MealSetData = MealSetAdapter.GetDataByMealSetID(mealSetID);
+
+			try
+			{
+				int test = MealSetAdapter.Delete(mealSetID);
+
+				if (!string.IsNullOrEmpty(MealSetData.Rows[0]["Image"].ToString()))
+				{
+					var deleteFilePath = AppDomain.CurrentDomain.BaseDirectory + MealSetData.Rows[0]["Image"].ToString();
+					System.IO.File.Delete(deleteFilePath);
+				}
+
+				ViewBag.successMessage = "Xóa thành công suất ăn: " + MealSetData.Rows[0]["Image"].ToString();
+
+			}
+			catch (Exception ex)
+			{
+				ViewBag.successMessage = "Suất ăn: " + MealSetData.Rows[0]["Image"].ToString() + "đang được sử dụng.Xin kiểm tra lại trước khi xóa!";
+				Log.ErrorLog(ex.Message);
+			}
+
+			return RedirectToAction("ListMealSet","MealSet");
 		}
 	}
 }
