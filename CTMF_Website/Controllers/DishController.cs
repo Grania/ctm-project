@@ -15,7 +15,7 @@ namespace CTMF_Website.Controllers
 	{
 		DataTable dishDT = new DataTable();
 
-		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
+		[AllowAnonymous]
 		public ActionResult ViewDish(string search, string filter)
 		{
 			ViewBag.notExistDish = "";
