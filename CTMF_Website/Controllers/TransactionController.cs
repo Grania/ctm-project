@@ -1,4 +1,4 @@
-﻿ using CTMF_Website.DataAccessTableAdapters;
+﻿using CTMF_Website.DataAccessTableAdapters;
 using CTMF_Website.Models;
 using CTMF_Website.Util;
 using System;
@@ -148,6 +148,7 @@ namespace CTMF_Website.Controllers
 			TransactionHistoryListTableAdapter transactionAdapter
 				= new TransactionHistoryListTableAdapter();
 			DataTable transactionDT = new DataTable();
+			ViewBag.error = "";
 
 			string username = Request.QueryString["username"];
 			string transactionType = Request.QueryString["transactionType"];
@@ -170,10 +171,15 @@ namespace CTMF_Website.Controllers
 			}
 
 			DateTime date_;
+			if (String.IsNullOrWhiteSpace(date))
+			{
+				date = null;
+			}
 			if (!DateTime.TryParseExact(date, "dd/MM/yyyy", null
 				, System.Globalization.DateTimeStyles.None
 				, out date_))
 			{
+				ViewBag.error = "Sai định dạng ngày, tháng";
 				date = null;
 			}
 			else
@@ -286,19 +292,123 @@ namespace CTMF_Website.Controllers
 			return View(transactionDT);
 		}
 
-		[Authorize(Roles = ("Manager"))]
-		public ActionResult TransactionHistory()
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
+		public ActionResult TransactionHistory(string transactionType, string date, string page, string amountPerPage)
 		{
+			ViewBag.error = "";
+			string username = AccountInfo.GetUserName(Request);
+
 			TransactionHistoryListTableAdapter transactionAdapter
 				= new TransactionHistoryListTableAdapter();
-			string username = AccountInfo.GetUserName(Request);
+
+			int transactionTypeID;
+			if (!int.TryParse(transactionType, out transactionTypeID))
+			{
+				transactionType = null;
+			}
+
+			DateTime date_;
+			if (string.IsNullOrWhiteSpace(date))
+			{
+				date = null;
+			}
+			else if (!DateTime.TryParseExact(date, "dd/MM/yyyy", null
+				, System.Globalization.DateTimeStyles.None
+				, out date_))
+			{
+				ViewBag.error = "Sai định dạng ngày, tháng";
+				date = null;
+			}
+			else
+			{
+				date = date_.ToString("yyyy-MM-dd");
+			}
+
+			int page_;
+			if (!int.TryParse(page, out page_))
+			{
+				page = null;
+				page_ = 1;
+			}
+
+			int amountPerPage_;
+			if (!int.TryParse(amountPerPage, out amountPerPage_))
+			{
+				amountPerPage = "10";
+				amountPerPage_ = 10;
+			}
+
 			try
 			{
-				transactionDT = transactionAdapter.GetDataByUsername(username);
+				string query = "SELECT * FROM ( SELECT TH.TransactionHistoryID, TH.Username, TH.TransactionTypeID, "
+					+ "TH.Value, TH.TransactionContent, TH.IsAuto, TH.InsertedDate, TT.Name, ROW_NUMBER() OVER "
+					+ "(ORDER BY TH.InsertedDate DESC) AS RowNum FROM TransactionHistory AS TH INNER JOIN "
+					+ "TransactionType AS TT ON TH.TransactionTypeID = TT.TransactionTypeID "
+					+ "WHERE (TH.Username = '" + username + "') ";
+				string conditionQuery = "";
+				string countQuery = "select COUNT(th.TransactionHistoryID) from TransactionHistory TH WHERE  (TH.Username = '" + username + "') ";
+
+				if (transactionType != null || date != null)
+				{
+
+					if (transactionType != null)
+					{
+						conditionQuery += "AND TH.TransactionTypeID = " + transactionType + " ";
+					}
+
+					if (date != null)
+					{
+						conditionQuery += "AND TH.InsertedDate BETWEEN '" + date + " 00:00:000' AND '" + date + " 23:59:59:999' ";
+					}
+				}
+
+				transactionAdapter.Connection.Open();
+
+				SqlCommand countCmd = new SqlCommand(countQuery + conditionQuery, transactionAdapter.Connection);
+				int count = (int)countCmd.ExecuteScalar();
+
+				int maxPage = (count / amountPerPage_);
+				if (count % amountPerPage_ != 0)
+				{
+					maxPage++;
+				}
+
+				ViewBag.maxPage = maxPage;
+				if (page_ > maxPage)
+				{
+					page_ = maxPage;
+				}
+				
+				ViewBag.curPage = page_;
+				ViewBag.amountPerPage = amountPerPage_;
+
+				int minRowNum = ((page_ - 1) * amountPerPage_) + 1;
+				int maxRowNum = page_ * amountPerPage_;
+
+				query += conditionQuery;
+				query += ") AS SOD WHERE SOD.RowNum BETWEEN (" + minRowNum + ") AND (" + maxRowNum + ") ";
+
+				SqlCommand getDataCmd = new SqlCommand(query, transactionAdapter.Connection);
+				SqlDataAdapter getDataAdapter = new SqlDataAdapter(getDataCmd);
+
+				getDataAdapter.Fill(transactionDT);
+
+				DataTable transactionTypeDT = new TransactionTypeTableAdapter().GetData();
+				List<KeyValuePair<int, string>> transactionTypes = new List<KeyValuePair<int, string>>();
+
+				foreach (DataRow row in transactionTypeDT.Rows)
+				{
+					transactionTypes.Add(new KeyValuePair<int, string>(
+						row.Field<int>("TransactionTypeID"),
+						row.Field<string>("Name")));
+				}
+
+				ViewBag.transactionTypes = transactionTypes;
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
+				return View("Error");
 			}
 
 			return View(transactionDT);
