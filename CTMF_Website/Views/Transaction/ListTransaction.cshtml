@@ -79,11 +79,11 @@
 							<input type="hidden" name="amountPerPage" value="@Request.QueryString["amountPerPage"]" />
 						</div>
 
-						<div class="col-md-3">
+						<div class="col-md-3" style="width: 250px;">
 							<input type="text" class="form-control" name="username" placeholder="Tên đăng nhập" value="@Request.QueryString["username"]">
 						</div>
 
-						<div class="col-md-3">
+						<div class="col-md-3" style="width: 250px;">
 							<select class="form-control" id="ddlTransactionType" name="transactionType">
 								<option value="0">Tất cả</option>
 								@foreach (KeyValuePair<int, string> entity in (List<KeyValuePair<int, string>>)ViewBag.transactionTypes)
@@ -100,12 +100,12 @@
 							</select>
 						</div>
 
-						<div class="col-md-2">
+						<div class="col-md-2" style="width: 250px;">
 							<input type="text" class="form-control" name="date" placeholder="Ngày" id="txtDate" value="@Request.QueryString["date"]">
 						</div>
 
 						<div class="col-md-1">
-							<button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+							<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
 						</div>
 					}
 				</div>

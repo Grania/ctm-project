@@ -3,9 +3,26 @@
 @{
 	ViewBag.Title = "WithdrawMoney";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	string withDrawMoney = "";
+
+	try
+	{
+		withDrawMoney = Session["withDrawMoney"].ToString();
+		Session.Remove("withDrawMoney");
+	}
+	catch (Exception ex)
+	{
+		withDrawMoney = "";
+	}
 }
 
 <script>
+	var message = '@Html.Raw(withDrawMoney)';
+	if (message != '') {
+		alert(message);
+	}
+
 	$(document).ready(function () {
 		var message = '@(ViewBag.message)';
 		if (message != '') {

@@ -7,10 +7,27 @@
 
 @{
 	List<SelectListItem> items = (List<SelectListItem>)ViewData["DishType"];
+
+	string deleteDish = "";
+
+	try
+	{
+		deleteDish = Session["deleteDish"].ToString();
+		Session.Remove("deleteDish");
+	}
+	catch (Exception ex)
+	{
+		deleteDish = "";
+	}
 }
 
 
 <script>
+	var message = '@Html.Raw(deleteDish)';
+	if (message != '') {
+		alert(message);
+	}
+
 	$(document).ready(function () {
 		var notExist = '@(ViewBag.notExistDish)';
 		if (notExist != '') {
@@ -22,69 +39,73 @@
 <div class="container container-fix">
 	<fieldset>
 		<legend class="title">Quản lý món ăn</legend>
-			<div class="row" style="margin-bottom:20px;">
-				<div class="col-md-3">
-					<a href="~/Dish/AddDish" class="btn btn-primary">Thêm món ăn mới</a>
-				</div>
+		<div class="row" style="margin-bottom:20px;">
+			<div class="col-md-3">
+				<a href="~/Dish/AddDish" class="btn btn-primary">Thêm món ăn mới</a>
+			</div>
 
-				<div class="col-md-3">
-
-				</div>
-
-				@using (Html.BeginForm("ListDish", "Dish", FormMethod.Get))
-				{
-					<div class="col-md-3">
-						<div id="custom-search-input">
-							<div class="input-group">
-								<input type="text" name="search" class="search-query form-control" placeholder="Tìm kiếm" />
-								<span class="input-group-btn">
-									<button class="btn btn-danger" type="submit">
-										<span class=" glyphicon glyphicon-search"></span>
-									</button>
-								</span>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-3">
-						@Html.DropDownList("filter", new SelectList(items, "Value", "Text"), new { @class = "form-control" })
-					</div>
-				}
+			<div class="col-md-2">
 
 			</div>
-			<table class="table table-bordered table-hover table-condensed">
-				<thead>
-					<tr>
-						<th>STT</th>
-						<th>Tên món ăn</th>
-						<th>Loại món ăn</th>
-						<th>Quản lý</th>
-					</tr>
-				</thead>
-				<tbody>
-					@{
-						int count = 0;
-					}
-					@foreach (System.Data.DataRow row in Model.Rows)
+
+			@using (Html.BeginForm("ListDish", "Dish", FormMethod.Get))
+			{
+				<div class="col-md-3" style="width: 250px;">
+					<div id="custom-search-input">
+						<div class="input-group">
+							<input type="text" name="search" class="search-query form-control" placeholder="Nhập từ khóa..." />
+							<span class="input-group-btn">
+								<button class="btn btn-danger" type="submit">
+									<span class=" glyphicon glyphicon-search"></span>
+								</button>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-3" style="width: 250px;">
+					@Html.DropDownList("filter", new SelectList(items, "Value", "Text"), new { @class = "form-control" })
+				</div>
+
+				<div class="col-md-1">
+					<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+				</div>
+			}
+
+		</div>
+		<table class="table table-bordered table-hover table-condensed">
+			<thead>
+				<tr>
+					<th>STT</th>
+					<th>Tên món ăn</th>
+					<th>Loại món ăn</th>
+					<th>Quản lý</th>
+				</tr>
+			</thead>
+			<tbody>
+				@{
+					int count = 0;
+				}
+				@foreach (System.Data.DataRow row in Model.Rows)
+				{
+					count++;
+					using (Html.BeginForm("DeleteDish", "Dish", new { dishID = @row["DishID"] }, FormMethod.Post, new { id = @row["DishID"] }))
 					{
-						count++;
-						using (Html.BeginForm("DeleteDish", "Dish", new { dishID = @row["DishID"] }, FormMethod.Post, new { id = @row["DishID"] }))
-						{
-							<tr>
-								<td>@count</td>
-								<td>@row["Name"]</td>
-								<td>@row["TypeName"]</td>
-								<td>
-									<div class="">
-										<a href="@Url.Action("DetailDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
-										<a href="@Url.Action("EditDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-										<a href="javascript:document.getElementById('@row["DishID"]').submit()" onclick="return confirm('Bạn có chắc chắn muốn xóa món ăn: @row["Name"]')" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>
-									</div>
-								</td>
-							</tr>
-						}
+						<tr>
+							<td>@count</td>
+							<td>@row["Name"]</td>
+							<td>@row["TypeName"]</td>
+							<td>
+								<div class="">
+									<a href="@Url.Action("DetailDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
+									<a href="@Url.Action("EditDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a href="javascript:document.getElementById('@row["DishID"]').submit()" onclick="return confirm('Bạn có chắc chắn muốn xóa món ăn: @row["Name"]')" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>
+								</div>
+							</td>
+						</tr>
 					}
-				</tbody>
-			</table>
+				}
+			</tbody>
+		</table>
 	</fieldset>
 </div>

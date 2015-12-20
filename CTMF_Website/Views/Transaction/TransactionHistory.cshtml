@@ -59,118 +59,116 @@
 </script>
 <div class="container container-fix">
 	<fieldset>
-		<legend class="table-title">Danh sách giao dịch</legend>
-		<div>
-			<div class="table-body">
-				@using (Html.BeginForm("TransactionHistory", "Transaction", FormMethod.Get))
-				{
-					<div>
-						<input type="hidden" name="amountPerPage" value="@Request.QueryString["amountPerPage"]" />
-					</div>
+		<legend class="title">Danh sách giao dịch</legend>
+		<div class="row" style="margin-bottom: 20px;">
+			@using (Html.BeginForm("TransactionHistory", "Transaction", FormMethod.Get))
+			{
+				<div>
+					<input type="hidden" name="amountPerPage" value="@Request.QueryString["amountPerPage"]" />
+				</div>
 
-					<div class="col-md-3">
-						<select class="form-control" id="ddlTransactionType" name="transactionType">
-							<option value="">Tất cả</option>
-							@foreach (KeyValuePair<int, string> entity in (List<KeyValuePair<int, string>>)ViewBag.transactionTypes)
+				<div class="col-md-1" style="width: 250px;">
+					<select class="form-control" id="ddlTransactionType" name="transactionType">
+						<option value="">Tất cả</option>
+						@foreach (KeyValuePair<int, string> entity in (List<KeyValuePair<int, string>>)ViewBag.transactionTypes)
+						{
+							if (entity.Key.ToString() == Request.QueryString["transactionType"])
 							{
-								if (entity.Key.ToString() == Request.QueryString["transactionType"])
-								{
-									<option value="@entity.Key" selected>@entity.Value</option>
-								}
-								else
-								{
-									<option value="@entity.Key">@entity.Value</option>
-								}
-							}
-						</select>
-					</div>
-
-					<div class="col-md-2">
-						<input type="text" class="form-control" name="date" placeholder="Ngày" id="txtDate" value="@Request.QueryString["date"]">
-					</div>
-
-					<div class="col-md-1">
-						<button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-					</div>
-				}
-				<table class="table table-bordered table-hover table-condensed">
-					<thead>
-						<tr>
-							<th>STT</th>
-							<th>Loại giao dịch</th>
-							<th>Giá trị giao dịch</th>
-							<th>Ngày giao dịch</th>
-						</tr>
-					</thead>
-					<tbody>
-						@{
-							string page = Request.QueryString["page"];
-							string nextUrl, prevUrl;
-							if (String.IsNullOrWhiteSpace(page))
-							{
-								if (Request.QueryString.Count == 0)
-								{
-									nextUrl = Request.Url.ToString() + "?page=2";
-									prevUrl = "#";
-								}
-								else
-								{
-									nextUrl = Request.Url.ToString() + "&page=2";
-									prevUrl = "#";
-								}
+								<option value="@entity.Key" selected>@entity.Value</option>
 							}
 							else
 							{
-								int page_;
-								if (!int.TryParse(page, out page_))
-								{
-									nextUrl = Request.Url.ToString() + "&page=2";
-									prevUrl = "#";
-								}
-								else
-								{
-									nextUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ + 1));
-									prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
+								<option value="@entity.Key">@entity.Value</option>
+							}
+						}
+					</select>
+				</div>
 
-									nextUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ + 1));
-									prevUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ - 1));
-								}
-							}
-						}
-						@foreach (System.Data.DataRow row in Model.Rows)
+				<div class="col-md-1" style="width: 200px;">
+					<input type="text" class="form-control" name="date" placeholder="Ngày" id="txtDate" value="@Request.QueryString["date"]">
+				</div>
+
+				<div class="col-md-1">
+					<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+				</div>
+			}
+		</div>
+		<table class="table table-bordered table-hover table-condensed">
+			<thead>
+				<tr>
+					<th>STT</th>
+					<th>Loại giao dịch</th>
+					<th>Giá trị giao dịch</th>
+					<th>Ngày giao dịch</th>
+				</tr>
+			</thead>
+			<tbody>
+				@{
+					string page = Request.QueryString["page"];
+					string nextUrl, prevUrl;
+					if (String.IsNullOrWhiteSpace(page))
+					{
+						if (Request.QueryString.Count == 0)
 						{
-							string date = ((DateTime)row["InsertedDate"]).ToString("dd/MM/yyyy");
-							<tr>
-								<td>@row["RowNum"]</td>
-								<td>@row["Name"]</td>
-								<td>@row["Value"]</td>
-								<td>@date</td>
-							</tr>
+							nextUrl = Request.Url.ToString() + "?page=2";
+							prevUrl = "#";
 						}
-					</tbody>
-				</table>
+						else
+						{
+							nextUrl = Request.Url.ToString() + "&page=2";
+							prevUrl = "#";
+						}
+					}
+					else
+					{
+						int page_;
+						if (!int.TryParse(page, out page_))
+						{
+							nextUrl = Request.Url.ToString() + "&page=2";
+							prevUrl = "#";
+						}
+						else
+						{
+							nextUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ + 1));
+							prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
+
+							nextUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ + 1));
+							prevUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ - 1));
+						}
+					}
+				}
+				@foreach (System.Data.DataRow row in Model.Rows)
+				{
+					string date = ((DateTime)row["InsertedDate"]).ToString("dd/MM/yyyy");
+					<tr>
+						<td>@row["RowNum"]</td>
+						<td>@row["Name"]</td>
+						<td>@row["Value"]</td>
+						<td>@date</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<div id="footer">
+			<div>
+				<nav>
+					<ul class="pager">
+						@if (maxPage != 0 && curPage != 1)
+						{
+							<li><a href="@prevUrl">Trước</a></li>
+						}
+						@if (curPage != maxPage)
+						{
+							<li><a href="@nextUrl">Sau</a></li>
+						}
+					</ul>
+				</nav>
 			</div>
-			<div id="footer">
-				<div>
-					<nav>
-						<ul class="pager">
-							@if (maxPage != 0 && curPage != 1)
-							{
-								<li><a href="@prevUrl">Trước</a></li>
-							}
-							@if (curPage != maxPage)
-							{
-								<li><a href="@nextUrl">Sau</a></li>
-							}
-						</ul>
-					</nav>
-				</div>
-				<div style="margin-bottom:20px;">
-					Đi đến trang :
-					<select id="ddlPageSelect"></select>
-					/ @maxPage
-					<a class="btn btn-primary" id="btnGo">Đi</a>
-				</div>
+			<div style="margin-bottom:20px;">
+				Đi đến trang :
+				<select id="ddlPageSelect"></select>
+				/ @maxPage
+				<a class="btn btn-primary" id="btnGo">Đi</a>
 			</div>
 		</div>
 	</fieldset>

@@ -48,7 +48,7 @@
 					@Html.TextAreaFor(m => m.Description, new { @class = "form-control", @readonly = "readonly" })
 				</div>
 			</div>
-			<a class="btn btn-warning" style="margin-bottom: 20px;" onclick="javascript:window.history.back()"><span class="glyphicon glyphicon-arrow-left"></span> Quay Lại</a>
+			<a href="@Url.Action("ListDish","Dish")" class="btn btn-warning" style="margin-bottom: 20px;"><span class="glyphicon glyphicon-arrow-left"></span> Quay Lại</a>
 		</fieldset>
 	}
 </div>

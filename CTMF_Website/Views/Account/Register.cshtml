@@ -2,9 +2,27 @@
 @{
 	ViewBag.Title = "Register";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	string register = "";
+
+	try
+	{
+		register = Session["register"].ToString();
+		Session.Remove("register");
+	}
+	catch (Exception ex)
+	{
+		register = "";
+	}
 }
-<style>
-</style>
+
+<script>
+	var message = '@Html.Raw(register)';
+	if (message != '') {
+		alert(message);
+	}
+</script>
+
 <div class="container container-fix">
 	<div @*class="pull-right"*@ style="float: right;width: 250px;margin-top: 40px;">
 		<span style="color:red">* </span><b>: thông tin bắt buộc</b>

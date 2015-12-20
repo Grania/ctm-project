@@ -4,12 +4,6 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>
-	function goBack() {
-		window.history.back();
-	}
-</script>
-
 <div class="container container-fix">
 	@using (Html.BeginForm("DetailTransaction", "Transaction", FormMethod.Post, new { @class = "form-horizontal" }))
 	{
@@ -75,7 +69,7 @@
 			</div>
 			}
 			
-			<a class="btn btn-warning" style="margin-bottom: 20px;" onclick="goBack()"><span class="glyphicon glyphicon-arrow-left"></span> Quay Lại</a>
+			<a href="@Url.Action("ListTransaction","Transaction")" class="btn btn-warning" style="margin-bottom: 20px;"><span class="glyphicon glyphicon-arrow-left"></span> Quay Lại</a>
 		</fieldset>
 	}
 </div>

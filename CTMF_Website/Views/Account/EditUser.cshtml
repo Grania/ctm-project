@@ -10,7 +10,27 @@
 	role.Add(new SelectListItem { Text = "Nhân viên nhà bếp", Value = "2" });
 	role.Add(new SelectListItem { Text = "Quản lý", Value = "3" });
 	role.Add(new SelectListItem { Text = "Quản trị viên", Value = "4" });
+
+	string editUser = "";
+
+	try
+	{
+		editUser = Session["editUser"].ToString();
+		Session.Remove("editUser");
+	}
+	catch (Exception ex)
+	{
+		editUser = "";
+	}
 }
+
+<script>
+	var message = '@Html.Raw(editUser)';
+	if (message != '') {
+		alert(message);
+	}
+</script>
+
 <div class="container container-fix">
 	@using (Html.BeginForm("EditUser", "Account", FormMethod.Post, new { @class = "form-horizontal", @id = "contact_form" }))
 	{

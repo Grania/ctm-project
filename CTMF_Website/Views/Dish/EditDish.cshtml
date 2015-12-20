@@ -6,13 +6,29 @@
 
 @{
 	List<SelectListItem> items = (List<SelectListItem>)ViewData["DishType"];
+
+	string editDish = "";
+
+	try
+	{
+		editDish = Session["editDish"].ToString();
+		Session.Remove("editDish");
+	}
+	catch (Exception ex)
+	{
+		editDish = "";
+	}
 }
 <link href="~/Content/jquery.fileupload.css" rel="stylesheet" />
 <script src="~/Scripts/jquery.ui.widget.js"></script>
 <script src="~/Scripts/jquery.fileupload.js"></script>
-<style>
-</style>
+
 <script>
+	var message = '@Html.Raw(editDish)';
+	if (message != '') {
+		alert(message);
+	}
+
 	$(document).ready(function () {
 		$('#file-upload').fileupload({
 			dataType: 'json',
@@ -93,7 +109,7 @@
 					<button type="submit" class="btn btn-primary">Cập nhật</button>
 				</div>
 				<div class="col-md-2">
-					<a class="btn btn-danger" onclick="javascript:window.history.back()">Hủy</a>
+					<a href="@Url.Action("ListDish","Dish")" class="btn btn-danger">Hủy</a>
 				</div>
 			</div>
 		</fieldset>

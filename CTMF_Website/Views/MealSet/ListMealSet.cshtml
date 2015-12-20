@@ -14,9 +14,25 @@
 	items.Add(new SelectListItem { Text = "Có ăn thêm", Value = "1" });
 	items.Add(new SelectListItem { Text = "Không ăn thêm", Value = "0" });
 
+	string deleteMealSet = "";
+
+	try
+	{
+		deleteMealSet = Session["deleteMealSet"].ToString();
+		Session.Remove("deleteMealSet");
+	}
+	catch (Exception ex)
+	{
+		deleteMealSet = "";
+	}
 }
 
 <script>
+	var message = '@Html.Raw(deleteMealSet)';
+	if (message != '') {
+		alert(message);
+	}
+
 	$(document).ready(function () {
 		var notExist = '@Html.Raw(ViewBag.notExistMealSet)';
 		if (notExist != '') {
@@ -40,17 +56,17 @@
 						<a href="~/MealSet/AddMealSet" class="btn btn-primary">Thêm suất ăn mới</a>
 					</div>
 
-					<div class="col-md-3">
+					<div class="col-md-2">
 
 					</div>
 
 
 					@using (Html.BeginForm("ListMealSet", "MealSet", FormMethod.Get))
 					{
-						<div class="col-md-3">
+						<div class="col-md-3" style="width: 250px;">
 							<div id="custom-search-input">
 								<div class="input-group">
-									<input type="text" name="search" class="search-query form-control" placeholder="Tìm kiếm" />
+									<input type="text" name="search" class="search-query form-control" placeholder="Nhập từ khóa..." />
 									<span class="input-group-btn">
 										<button class="btn btn-danger" type="submit">
 											<span class=" glyphicon glyphicon-search"></span>
@@ -60,8 +76,12 @@
 							</div>
 						</div>
 
-						<div class="col-md-3">
+						<div class="col-md-3" style="width: 250px;">
 							@Html.DropDownList("filter", new SelectList(items, "Value", "Text"), new { @class = "form-control" })
+						</div>
+						
+						<div class="col-md-1">
+							<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
 						</div>
 					}
 

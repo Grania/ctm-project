@@ -6,13 +6,31 @@
 @{
 	List<SelectListItem> items = (List<SelectListItem>)ViewData["DishType"];
 	string checkRunTimes = ViewBag.CheckRunTimes;
+
+
+	string addDish = "";
+
+	try
+	{
+		addDish = Session["addDish"].ToString();
+		Session.Remove("addDish");
+	}
+	catch (Exception ex)
+	{
+		addDish = "";
+	}
 }
 <link href="~/Content/jquery.fileupload.css" rel="stylesheet" />
 <script src="~/Scripts/jquery.ui.widget.js"></script>
 <script src="~/Scripts/jquery.fileupload.js"></script>
-<style>
-</style>
+
+
 <script>
+	var message = '@Html.Raw(addDish)';
+	if (message != '') {
+		alert(message);
+	}
+
 	$(document).ready(function () {
 		$('#file-upload').fileupload({
 			dataType: 'json',
@@ -97,7 +115,7 @@
 					<button type="submit" class="btn btn-primary">Thêm món</button>
 				</div>
 				<div class="col-md-2">
-					<a href="~/Dish/ListDish" class="btn btn-danger">Hủy</a>
+					<a href="@Url.Action("ListDish","Dish")" class="btn btn-danger">Hủy</a>
 				</div>
 			</div>
 		</fieldset>

@@ -35,21 +35,6 @@
 			<div class="table-body">
 				<div style="margin-bottom:20px;">
 					<a href="AddNewServingTime" class="btn btn-primary">Thêm thời gian phục vụ</a>
-					<div class="pull-right">
-						@using (Html.BeginForm("ViewServingTime", "Schedule", FormMethod.Get))
-						{
-							<div id="custom-search-input">
-							<div class="input-group">
-								<input type="text" name="search" class="search-query form-control" placeholder="Tìm kiếm" />
-								<span class="input-group-btn">
-									<button class="btn btn-danger" type="submit">
-										<span class=" glyphicon glyphicon-search"></span>
-									</button>
-								</span>
-							</div>
-							</div>
-						}
-					</div>
 				</div>
 				<table class="table table-bordered table-hover table-condensed">
 					<thead>

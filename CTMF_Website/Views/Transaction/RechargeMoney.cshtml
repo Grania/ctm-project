@@ -3,7 +3,26 @@
 @{
 	ViewBag.Title = "RechargeMoney";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	string rechargeMoney = "";
+
+	try
+	{
+		rechargeMoney = Session["rechargeMoney"].ToString();
+		Session.Remove("rechargeMoney");
+	}
+	catch (Exception ex)
+	{
+		rechargeMoney = "";
+	}
 }
+
+<script>
+	var message = '@Html.Raw(rechargeMoney)';
+	if (message != '') {
+		alert(message);
+	}
+</script>
 
 <div class="container container-fix" style="width: 75% !important">
 	@using (Html.BeginForm("RechargeMoney", "Transaction", FormMethod.Post, new { @class = "form-horizontal" }))

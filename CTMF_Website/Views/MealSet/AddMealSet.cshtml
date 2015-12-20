@@ -5,13 +5,29 @@
 
 @{
 	string checkRunTimes = ViewBag.CheckRunTimes;
+
+	string addMeslSet = "";
+
+	try
+	{
+		addMeslSet = Session["addMeslSet"].ToString();
+		Session.Remove("addMeslSet");
+	}
+	catch (Exception ex)
+	{
+		addMeslSet = "";
+	}
 }
 <link href="~/Content/jquery.fileupload.css" rel="stylesheet" />
 <script src="~/Scripts/jquery.ui.widget.js"></script>
 <script src="~/Scripts/jquery.fileupload.js"></script>
-<style>
-</style>
+
 <script>
+	var message = '@Html.Raw(addMeslSet)';
+	if (message != '') {
+		alert(message);
+	}
+
 	$(document).ready(function () {
 		$('#file-upload').fileupload({
 			dataType: 'json',

@@ -2,14 +2,30 @@
 @model EditMealSetModel
 @{
 	ViewBag.Title = "EditMealSet";
+
+	string editMealSet = "";
+
+	try
+	{
+		editMealSet = Session["editMealSet"].ToString();
+		Session.Remove("editMealSet");
+	}
+	catch (Exception ex)
+	{
+		editMealSet = "";
+	}
 }
 
 <link href="~/Content/jquery.fileupload.css" rel="stylesheet" />
 <script src="~/Scripts/jquery.ui.widget.js"></script>
 <script src="~/Scripts/jquery.fileupload.js"></script>
-<style>
-</style>
+
 <script>
+	var message = '@Html.Raw(editMealSet)';
+	if (message != '') {
+		alert(message);
+	}
+
 	$(document).ready(function () {
 		$('#file-upload').fileupload({
 			dataType: 'json',
@@ -91,7 +107,7 @@
 					<input type="submit" class="btn btn-primary" value="Cập nhật">
 				</div>
 				<div class="col-sm-2">
-					<a class="btn btn-danger" onclick="javascript:window.history.back()">Hủy</a>
+					<a href="@Url.Action("ListMealSet","MealSet")" class="btn btn-danger">Hủy</a>
 				</div>
 			</div>
 		</fieldset>
