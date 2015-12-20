@@ -2,39 +2,69 @@
 @{
 	ViewBag.Title = "AddNewAnnounce";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	string addAnnounce = "";
+
+	try
+	{
+		addAnnounce = Session["addAnnounce"].ToString();
+		Session.Remove("addAnnounce");
+	}
+	catch (Exception ex)
+	{
+		addAnnounce = "";
+	}
 }
 
+<script>
+	var message = '@Html.Raw(addAnnounce)';
+	if (message != '') {
+		alert(message);
+	}
+</script>
 
-<div class="addForm">
-	<h2>Thêm thông tin mới</h2>
-	<div class="container">
-		@using (Html.BeginForm("AddNewAnnounce", "Announce", FormMethod.Post, new { @class = "form-horizontal" }))
-		{
+<div class="container container-fix">
+	@using (Html.BeginForm("AddNewAnnounce", "Announce", FormMethod.Post, new { @class = "form-horizontal" }))
+	{
+		<fieldset>
+			<legend class="title">Đăng tin tức mới</legend>
 			@Html.AntiForgeryToken()
 			@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
 			<div class="form-group">
-				@Html.LabelFor(m => m.title, new { @class = "control-label col-sm-2" })
+				@Html.LabelFor(m => m.title, new { @class = "control-label col-md-4" })
 				<div class="col-sm-5">
 					@Html.TextBoxFor(m => m.title, new { @class = "form-control" })
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2">
+				<div class="col-md-4">
 
 				</div>
-				<div class="col-sm-5">@Html.ValidationMessageFor(model => model.title, String.Empty, new { @style = "color:red" })</div>
+				<div class="col-sm-5">@Html.ValidationMessageFor(m => m.title, String.Empty, new { @style = "color:red" })</div>
 			</div>
+
 			<div class="form-group" style="margin-top: 20px">
-				@Html.LabelFor(m => m.subject, new { @class = "control-label col-sm-2" })
+				@Html.LabelFor(m => m.subject, new { @class = "control-label col-md-4" })
 				<div class="col-sm-5">
 					@Html.TextAreaFor(m => m.subject, new { @class = "form-control" })
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<input type="submit" class="btn btn-danger" value="Thêm mới">
+				<div class="col-md-4">
+
+				</div>
+				<div class="col-sm-5">@Html.ValidationMessageFor(m => m.subject, String.Empty, new { @style = "color:red" })</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-md-4 control-label"></label>
+				<div class="col-md-2">
+					<button type="submit" class="btn btn-primary">Đăng tin</button>
+				</div>
+				<div class="col-md-2">
+					<a href="@Url.Action("ListAnnounce", "Announce")" class="btn btn-danger">Hủy</a>
 				</div>
 			</div>
-		}
-	</div>
+		</fieldset>
+	}
 </div>

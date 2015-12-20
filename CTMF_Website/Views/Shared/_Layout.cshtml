@@ -192,7 +192,7 @@
 						</span>
 					</a>
 				</li>
-				@if (Request.IsAuthenticated && role.Equals("4"))
+				@if (Request.IsAuthenticated && role.Equals("Administrator"))
 				{
 					<li class="has-subnav">
 						<a href="@Url.Action("ListUser", "Account")">
@@ -203,7 +203,7 @@
 						</a>
 					</li>
 				}
-				@if (Request.IsAuthenticated && role.Equals("3"))
+				@if (Request.IsAuthenticated && role.Equals("Manager"))
 				{
 					<li class="dropdown">
 						<a style="cursor: pointer">
@@ -248,7 +248,7 @@
 									</a>
 								</li>
 								<li>
-									<a href="@Url.Action("ViewAnnounce", "Announce")">
+									<a href="@Url.Action("ListAnnounce", "Announce")">
 										<i class="fa fa-2x"></i>
 										<span class="nav-text">
 											Quản lý tin tức

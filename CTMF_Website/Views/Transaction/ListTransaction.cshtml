@@ -64,7 +64,7 @@
 </script>
 <div class="container container-fix">
 	<fieldset>
-		<legend class="table-title">Danh sách giao dịch</legend>
+		<legend class="title">Danh sách giao dịch</legend>
 		<div>
 			<div class="table-body">
 				<div class="row" style="margin-bottom:20px;">
@@ -167,8 +167,6 @@
 								<td>
 									<div>
 										<a href="@Url.Action("DetailTransaction", "Transaction", new { TransID = @row["TransactionHistoryID"] })" class="btn btn-link" title="Chi tiết">Chi tiết</a>
-										@*<a href="@Url.Action("EditTransaction", "Transaction", new {TransID = @row["TransactionHistoryID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>*@
-										@*<button class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></button>*@
 									</div>
 								</td>
 							</tr>

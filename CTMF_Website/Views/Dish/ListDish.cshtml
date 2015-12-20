@@ -22,7 +22,6 @@
 <div class="container container-fix">
 	<fieldset>
 		<legend class="title">Quản lý món ăn</legend>
-		<div class="table-body">
 			<div class="row" style="margin-bottom:20px;">
 				<div class="col-md-3">
 					<a href="~/Dish/AddDish" class="btn btn-primary">Thêm món ăn mới</a>
@@ -80,8 +79,6 @@
 										<a href="@Url.Action("DetailDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-info" title="Chi tiết"><span class="glyphicon glyphicon-info-sign"></span></a>
 										<a href="@Url.Action("EditDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
 										<a href="javascript:document.getElementById('@row["DishID"]').submit()" onclick="return confirm('Bạn có chắc chắn muốn xóa món ăn: @row["Name"]')" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>
-
-										@*<a href="@Url.Action("DeleteDish", "Dish", new {dishID = @row["DishID"] })" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>*@
 									</div>
 								</td>
 							</tr>
@@ -89,16 +86,5 @@
 					}
 				</tbody>
 			</table>
-		</div>
-		@*<div id="footer">
-				<div>
-					<nav>
-						<ul class="pager">
-							<li><a href="#">Previous</a></li>
-							<li><a href="#">Next</a></li>
-						</ul>
-					</nav>
-				</div>
-			</div>*@
 	</fieldset>
 </div>

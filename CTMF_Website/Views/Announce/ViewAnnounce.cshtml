@@ -3,36 +3,49 @@
 	ViewBag.Title = "ViewAnnounce";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Scripts/ekko-lightbox.js"></script>
 @{
 	string title, ID;
 	string role = CTMF_Website.Util.AccountInfo.GetUserRole(Request);
 }
-<div class="container">
-	<div style="width: 85%; margin: auto; background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
+
+<script>
+	$(document).ready(function () {
+		$(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
+			event.preventDefault();
+			$(this).ekkoLightbox();
+		});
+	});
+</script>
+
+<div class="container" style="width: 60%; background-color: #fff; box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5); border-radius: 7px;">
+	<fieldset>
+		<legend class="title">Tin tức</legend>
 		<table class="table table-striped">
 			@foreach (System.Data.DataRow row in Model.Rows)
 			{
-				title = row["Title"].ToString();
-				ID = row["AnnouncementID"].ToString();
+				string date = ((DateTime)row["InsertedDate"]).ToString("dd/MM/yyyy");
 				<tr>
 					<td>
-						@Html.ActionLink(title, "DetailsAnnounce", new { announceID = ID })
+						<button class="btn btn-link" data-toggle="modal" data-target="#announce">@row["Title"]</button>
+
+						<div id="announce" class="modal fade" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title" style="text-align: center; font-weight: bold; font-size: 1.4em; text-transform: uppercase; color: #B00622">@row["Title"]</h4>
+									</div>
+									<div class="modal-body">
+										@row["Subject"]
+									</div>
+								</div>
+							</div>
+						</div>
 					</td>
-					@if (role == "3")
-					{
-						<td>
-							<a href="@Url.Action("EditAnnounce", "Announce", new { announceID = ID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-							<a href="@Url.Action("DeleteAnnounce", "Announce", new { announceID = ID })" class="btn btn-danger" title="Sửa"><span class="glyphicon glyphicon-remove-sign"></span></a>
-						</td>
-					}
-				</tr>
-			}
-			@if (role == "3")
-			{
-				<tr>
-					<a href="AddNewAnnounce" class="btn btn-primary">Thêm thông tin mới</a>
+					<td style="color: #808080"><span class="glyphicon glyphicon-dashboard"></span> @date</td>
 				</tr>
 			}
 		</table>
-	</div>
+	</fieldset>
 </div>
