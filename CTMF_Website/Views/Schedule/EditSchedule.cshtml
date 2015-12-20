@@ -129,20 +129,26 @@
 	}
 </script>
 
-<div class="container" style="background-color: #fff;box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);border-radius: 7px;">
-	<legend class="table-title">Cập nhật lịch ăn</legend>
-	<div>
-		<div class="table-body">
+<div class="container container-fix">
+	<fieldset>
+		<legend class="title">Cập nhật lịch ăn</legend>
+		<div>
 			Hoạt động : @Html.CheckBox("cbIsDayOn", isDayOn)
-			<div id="meal-set-table-div">
-				<table style="width: 100%; border: 1px solid black" id="schedule-meal-set-table">
-					<tr>
-						<td width="5%">Mã</td>
-						<td width="20%">Tên thực đơn</td>
-						<td width="25%">Ảnh minh họa</td>
-						<td width="40%">Mô tả</td>
-						<td width="10%"></td>
-					</tr>
+			<div class="row" id="add-meal-set-table-div" style="float: right;margin-bottom: 20px;">
+				<select class="form-control col-md-1" id="meal-set-ddl" style="width: 250px;"></select> 
+				<div class="col-md-1" id="add-meal-set-btn" onclick="addScheduleMealSet()" ><a class="btn btn-primary">Thêm vào lịch</a></div>
+			</div>
+			<div id="meal-set-table-div" style="margin-bottom: 30px;">
+				<table class="table table-bordered table-hover table-condensed" id="schedule-meal-set-table">
+					<thead>
+						<tr>
+							<th width="5%">Mã</th>
+							<th width="20%">Tên thực đơn</th>
+							<th width="25%">Ảnh minh họa</th>
+							<th width="40%">Mô tả</th>
+							<th width="10%"></th>
+						</tr>
+					</thead>
 					@{
 						char ch = 'A';
 					}
@@ -173,10 +179,6 @@
 					}
 				</table>
 			</div>
-
-			<div id="add-meal-set-table-div">
-				<select id="meal-set-ddl" style="float: left"></select> <div id="add-meal-set-btn" onclick="addScheduleMealSet()"><a class="btn btn-primary">Thêm vào lịch</a></div>
-			</div>
 		</div>
-	</div>
+	</fieldset>
 </div>
