@@ -81,21 +81,29 @@ namespace CTMF_Website.Controllers
 		[Authorize(Roles = ("Manager"))]
 		public ActionResult DetailMealSet(string mealSetID)
 		{
-			int id = int.Parse(mealSetID);
-			MealSetDishInfoTableAdapter mealSetDishInfoAdapter = new MealSetDishInfoTableAdapter();
-			ViewData["listMealSetDish"] = mealSetDishInfoAdapter.GetDataByMealSetID(id);
+			try
+			{
+				int id = int.Parse(mealSetID);
+				MealSetDishInfoTableAdapter mealSetDishInfoAdapter = new MealSetDishInfoTableAdapter();
+				ViewData["listMealSetDish"] = mealSetDishInfoAdapter.GetDataByMealSetID(id);
 
-			MealSetTableAdapter mealSetAdapter = new MealSetTableAdapter();
-			EditMealSetModel model = new EditMealSetModel();
-			DataTable mealSetDT = mealSetAdapter.GetDataByMealSetID(id);
+				MealSetTableAdapter mealSetAdapter = new MealSetTableAdapter();
+				EditMealSetModel model = new EditMealSetModel();
+				DataTable mealSetDT = mealSetAdapter.GetDataByMealSetID(id);
 
-			model.MealSetID = id;
-			model.MealSetName = mealSetDT.Rows[0]["Name"].ToString();
-			model.Description = mealSetDT.Rows[0]["Description"].ToString();
-			model.Image = mealSetDT.Rows[0]["Image"].ToString();
-			model.CanEatMore = (bool)mealSetDT.Rows[0]["CanEatMore"];
+				model.MealSetID = id;
+				model.MealSetName = mealSetDT.Rows[0]["Name"].ToString();
+				model.Description = mealSetDT.Rows[0]["Description"].ToString();
+				model.Image = mealSetDT.Rows[0]["Image"].ToString();
+				model.CanEatMore = (bool)mealSetDT.Rows[0]["CanEatMore"];
 
-			return View(model);
+				return View(model);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				return RedirectToAction("Error", "Error");
+			}
 		}
 
 		[Authorize(Roles = ("Manager"))]
@@ -142,8 +150,6 @@ namespace CTMF_Website.Controllers
 				savePath = _sourcePath + mealSetName.Replace(" ", "_") + ".jpg";
 				var sourcePath = AppDomain.CurrentDomain.BaseDirectory + model.Image;
 
-				//Log.ActivityLog("savePath : " + savePath + " sourcePath :" + sourcePath);
-
 				System.IO.File.Move(sourcePath, savePath);
 				imgPath = "\\Images\\MealSetImages\\" + mealSetName.Replace(" ", "_") + ".jpg";
 			}
@@ -155,20 +161,17 @@ namespace CTMF_Website.Controllers
 				int id = int.Parse(mealSetID);
 				XmlSync.SaveMealSetXml(id, mealSetName, canEatMore, date, updateBy, date, null);
 				Log.ActivityLog("Insert into MealSet Table: MealSetName = " + mealSetName);
+				Session["addMeslSet"] = "Thêm suất ăn thành công!";
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
+				Session["addMeslSet"] = "Thêm suất ăn thất bại!";
 			}
-			return RedirectToAction("ListMealSet", "MealSet");
+			return RedirectToAction("AddMealSet", "MealSet");
 		}
 
 		private const int AvatarScreenWidth = 500;
-
-		//private const string TempFolder = "/Temp2";
-		//private const string MapTempFolder = "~" + TempFolder;
-		//private const string DishImagesPath = "\\Images\\MealSetImages";
-
 		private static readonly string _tempPath = AppDomain.CurrentDomain.BaseDirectory + "\\Temp\\";
 		private static readonly string _sourcePath = AppDomain.CurrentDomain.BaseDirectory + "\\Images\\MealSetImages\\";
 
@@ -224,13 +227,13 @@ namespace CTMF_Website.Controllers
 			}
 
 			var fileName = Path.GetFileName(file.FileName);
-			fileName = SaveTemporaryAvatarFileImage(file, fileName);
+			fileName = SaveTemporaryImageFileImage(file, fileName);
 
 			CleanUpTempFolder(1);
 			return _tempPath + fileName;
 		}
 
-		private static string SaveTemporaryAvatarFileImage(HttpPostedFileBase file, string fileName)
+		private static string SaveTemporaryImageFileImage(HttpPostedFileBase file, string fileName)
 		{
 			var img = new WebImage(file.InputStream);
 			var ratio = img.Height / (double)img.Width;
@@ -273,16 +276,25 @@ namespace CTMF_Website.Controllers
 		[Authorize(Roles = ("Manager"))]
 		public ActionResult EditMealSet(string mealSetID)
 		{
-			int id = int.Parse(mealSetID);
-			EditMealSetModel model = new EditMealSetModel();
-			MealSetTableAdapter mealSetAdapter = new MealSetTableAdapter();
-			DataTable mealSetDT = mealSetAdapter.GetDataByMealSetID(id);
-			model.MealSetID = id;
-			model.MealSetName = mealSetDT.Rows[0]["Name"].ToString();
-			model.Description = mealSetDT.Rows[0]["Description"].ToString();
-			model.Image = mealSetDT.Rows[0]["Image"].ToString();
-			model.CanEatMore = (bool)mealSetDT.Rows[0]["CanEatMore"];
-			return View(model);
+			try
+			{
+				int id = int.Parse(mealSetID);
+
+				EditMealSetModel model = new EditMealSetModel();
+				MealSetTableAdapter mealSetAdapter = new MealSetTableAdapter();
+				DataTable mealSetDT = mealSetAdapter.GetDataByMealSetID(id);
+				model.MealSetID = id;
+				model.MealSetName = mealSetDT.Rows[0]["Name"].ToString();
+				model.Description = mealSetDT.Rows[0]["Description"].ToString();
+				model.Image = mealSetDT.Rows[0]["Image"].ToString();
+				model.CanEatMore = (bool)mealSetDT.Rows[0]["CanEatMore"];
+				return View(model);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				return RedirectToAction("Error", "Error");
+			}
 		}
 
 		[AllowAnonymous]
@@ -345,23 +357,21 @@ namespace CTMF_Website.Controllers
 				mealSetAdapter.UpdateMealSet(mealSetName, savePath, description, canEatMore, updateBy, date, mealSetID);
 				XmlSync.SaveMealSetXml(mealSetID, mealSetName, canEatMore, date, updateBy, date, null);
 				Log.ActivityLog("Update to MealSet Table: MealSetID = " + mealSetID);
+				Session["editMealSet"] = "Cập nhật thành công!";
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
+				Session["editMealSet"] = "Cập nhật thành công!";
 			}
 
-			return RedirectToAction("ListMealSet", "MealSet");
+			return RedirectToAction("EditMealSet", "MealSet", new { @mealSetID = model.MealSetID});
 		}
 
 		[Authorize(Roles = ("Manager"))]
 		public ActionResult AddMealSetDish(string mealSetID, string search, string filter)
 		{
-			Session["maxMealsetDish"] = "";
-			Session["existMealsetDish"] = "";
-
-			ViewBag.notExistDish = "";
-
+			ViewBag.notExistMealSet = "";
 
 			DishTypeTableAdapter dishTypeAdapter = new DishTypeTableAdapter();
 			DataTable dishTypeDT = dishTypeAdapter.GetData();
@@ -422,21 +432,29 @@ namespace CTMF_Website.Controllers
 
 			ViewData["listDish"] = dishDT;
 
-			int id = int.Parse(mealSetID);
-			MealSetDishInfoTableAdapter mealSetDishInfoAdapter = new MealSetDishInfoTableAdapter();
-			ViewData["listMealSetDish"] = mealSetDishInfoAdapter.GetDataByMealSetID(id);
+			try
+			{
+				int id = int.Parse(mealSetID);
+				MealSetDishInfoTableAdapter mealSetDishInfoAdapter = new MealSetDishInfoTableAdapter();
+				ViewData["listMealSetDish"] = mealSetDishInfoAdapter.GetDataByMealSetID(id);
 
-			MealSetTableAdapter mealSetAdapter = new MealSetTableAdapter();
-			EditMealSetModel model = new EditMealSetModel();
-			DataTable mealSetDT = mealSetAdapter.GetDataByMealSetID(id);
+				MealSetTableAdapter mealSetAdapter = new MealSetTableAdapter();
+				EditMealSetModel model = new EditMealSetModel();
+				DataTable mealSetDT = mealSetAdapter.GetDataByMealSetID(id);
 
-			model.MealSetID = id;
-			model.MealSetName = mealSetDT.Rows[0]["Name"].ToString();
-			model.Description = mealSetDT.Rows[0]["Description"].ToString();
-			model.Image = mealSetDT.Rows[0]["Image"].ToString();
-			model.CanEatMore = (bool)mealSetDT.Rows[0]["CanEatMore"];
+				model.MealSetID = id;
+				model.MealSetName = mealSetDT.Rows[0]["Name"].ToString();
+				model.Description = mealSetDT.Rows[0]["Description"].ToString();
+				model.Image = mealSetDT.Rows[0]["Image"].ToString();
+				model.CanEatMore = (bool)mealSetDT.Rows[0]["CanEatMore"];
 
-			return View(model);
+				return View(model);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				return RedirectToAction("Error", "Error");
+			}
 		}
 
 		[Authorize(Roles = ("Manager"))]
@@ -524,13 +542,13 @@ namespace CTMF_Website.Controllers
 					System.IO.File.Delete(deleteFilePath);
 				}
 
-				ViewBag.successMessage = "Xóa thành công suất ăn: " + MealSetData.Rows[0]["Name"].ToString();
+				Session["deleteMealSet"] = "Xóa thành công!";
 
 			}
 			catch (Exception ex)
 			{
-				ViewBag.successMessage = "Suất ăn: " + MealSetData.Rows[0]["Name"].ToString() + "đang được sử dụng.Xin kiểm tra lại trước khi xóa!";
 				Log.ErrorLog(ex.Message);
+				Session["deleteMealSet"] = "Xóa thất bại! Suất ăn đang được sử dụng.";
 			}
 
 			return RedirectToAction("ListMealSet","MealSet");

@@ -258,16 +258,19 @@ namespace CTMF_Website.Controllers
 
 						XmlSync.SaveUserInfoXml(username, name, userType, 0, date, null, null, null, false, false, date, username, date, null);
 						transaction.Commit();
+
+						Session["register"] = "Đăng ký thành công!";
 					}
 					catch (Exception ex)
 					{
 						transaction.Rollback();
 						Log.ErrorLog(ex.Message);
+						Session["register"] = "Đăng ký thất bại!";
 					}
 				}
 			}
 
-			return RedirectToAction("HomePage", "Home");
+			return RedirectToAction("Register", "Account");
 		}
 
 		[Authorize(Roles = "Administrator")]
@@ -460,14 +463,22 @@ namespace CTMF_Website.Controllers
 			UserInfoDetailTableAdapter userinfoAdapter = new UserInfoDetailTableAdapter();
 			DataTable userinfoDataTable = userinfoAdapter.GetDataByUsername(username);
 
-			userInfo.Username = username;
-			userInfo.Name = userinfoDataTable.Rows[0]["Name"].ToString();
-			userInfo.UserTypeID = (string)userinfoDataTable.Rows[0]["TypeShortName"];
-			userInfo.Email = userinfoDataTable.Rows[0]["Email"].ToString();
-			userInfo.Role = (int)userinfoDataTable.Rows[0]["Role"];
-			userInfo.isActive = (bool)userinfoDataTable.Rows[0]["IsActive"];
+			try
+			{
+				userInfo.Username = username;
+				userInfo.Name = userinfoDataTable.Rows[0]["Name"].ToString();
+				userInfo.UserTypeID = (string)userinfoDataTable.Rows[0]["TypeShortName"];
+				userInfo.Email = userinfoDataTable.Rows[0]["Email"].ToString();
+				userInfo.Role = (int)userinfoDataTable.Rows[0]["Role"];
+				userInfo.isActive = (bool)userinfoDataTable.Rows[0]["IsActive"];
 
-			return View(userInfo);
+				return View(userInfo);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				return RedirectToAction("Error", "Error");
+			}
 		}
 
 		[Authorize(Roles = "Administrator")]
@@ -557,15 +568,18 @@ namespace CTMF_Website.Controllers
 					transaction.Commit();
 					XmlSync.SaveUserInfoXml(username, name, userTypeID, amountOfMoney, lastUpdatedMoney, fingerPrintIMG
 						, lastUpdatedFingerPrint, fingerPosition, isCafeteriaStaff, isActive, insertedDate, updateBy, date, null);
+
+					Session["editUser"] = "Cập nhật thành công!";
 				}
 				catch (Exception ex)
 				{
 					transaction.Rollback();
 					Log.ErrorLog(ex.Message);
+					Session["editUser"] = "Cập nhật thất bại!";
 				}
 			}
 
-			return RedirectToAction("ListUser", "Account");
+			return RedirectToAction("EditUser", "Account", new { @username = model.Username});
 		}
 
 		[Authorize(Roles = "Administrator")]

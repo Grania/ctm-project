@@ -141,18 +141,26 @@ namespace CTMF_Website.Controllers
 		[Authorize(Roles = ("Manager"))]
 		public ActionResult DetailDish(string dishID)
 		{
+			try
+			{
+				int id = int.Parse(dishID);
 
-			int id = int.Parse(dishID);
-			DetailDishModel model = new DetailDishModel();
-			DishInfoDetailTableAdapter dishAdapter = new DishInfoDetailTableAdapter();
-			DataTable dishDT = dishAdapter.GetDataByDishID(id);
-			model.DishID = id;
-			model.Dishname = dishDT.Rows[0]["Name"].ToString();
-			model.DishTypeName = dishDT.Rows[0]["TypeName"].ToString();
-			model.Description = dishDT.Rows[0]["Description"].ToString();
-			model.Image = dishDT.Rows[0]["Image"].ToString();
+				DetailDishModel model = new DetailDishModel();
+				DishInfoDetailTableAdapter dishAdapter = new DishInfoDetailTableAdapter();
+				DataTable dishDT = dishAdapter.GetDataByDishID(id);
+				model.DishID = id;
+				model.Dishname = dishDT.Rows[0]["Name"].ToString();
+				model.DishTypeName = dishDT.Rows[0]["TypeName"].ToString();
+				model.Description = dishDT.Rows[0]["Description"].ToString();
+				model.Image = dishDT.Rows[0]["Image"].ToString();
 
-			return View(model);
+				return View(model);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				return RedirectToAction("Error", "Error");
+			}
 		}
 
 		[Authorize(Roles = ("Manager"))]
@@ -227,20 +235,17 @@ namespace CTMF_Website.Controllers
 
 				dishAdapter.InsertDish(dishName, dishTypeID, description, imgPath, date, updateBy, date);
 				Log.ActivityLog("Insert into Dish Table: DishName = " + dishName);
+				Session["addDish"] = "Thêm món ăn thành công!";
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
+				Session["addDish"] = "Thêm món ăn thất bại!";
 			}
-			return RedirectToAction("ListDish", "Dish");
+			return RedirectToAction("AddDish", "Dish");
 		}
 
 		private const int AvatarScreenWidth = 500;
-
-		//private const string TempFolder = "/ctmf/Temp";
-		//private const string MapTempFolder = "~" + TempFolder;
-		//private const string DishImagesPath = "\\Images\\DishImages";
-
 		private static readonly string _tempPath = AppDomain.CurrentDomain.BaseDirectory + "\\Temp\\";
 		private static readonly string _sourcePath = AppDomain.CurrentDomain.BaseDirectory + "\\Images\\DishImages\\";
 
@@ -249,8 +254,6 @@ namespace CTMF_Website.Controllers
 		public JsonResult UploadImage()
 		{
 			HttpPostedFileBase files = Request.Files[0] as HttpPostedFileBase;
-
-			Log.ActivityLog(files == null ? "null" : "deo' null");
 
 			if (files == null)
 			{
@@ -298,13 +301,13 @@ namespace CTMF_Website.Controllers
 			}
 
 			var fileName = Path.GetFileName(file.FileName);
-			fileName = SaveTemporaryAvatarFileImage(file, fileName);
+			fileName = SaveTemporaryImageFileImage(file, fileName);
 
 			CleanUpTempFolder(1);
 			return _tempPath + fileName;
 		}
 
-		private static string SaveTemporaryAvatarFileImage(HttpPostedFileBase file, string fileName)
+		private static string SaveTemporaryImageFileImage(HttpPostedFileBase file, string fileName)
 		{
 			var img = new WebImage(file.InputStream);
 			var ratio = img.Height / (double)img.Width;
@@ -357,17 +360,25 @@ namespace CTMF_Website.Controllers
 			}
 			ViewData["DishType"] = items;
 
-			int id = int.Parse(dishID);
-			EditDishModel model = new EditDishModel();
-			DishTableAdapter dishAdapter = new DishTableAdapter();
-			DataTable dishDT = dishAdapter.GetDataByDishID(id);
-			model.DishID = id;
-			model.Dishname = dishDT.Rows[0]["Name"].ToString();
-			model.DishTypeID = (int)dishDT.Rows[0]["DishTypeID"];
-			model.Description = dishDT.Rows[0]["Description"].ToString();
-			model.Image = dishDT.Rows[0]["Image"].ToString();
-			return View(model);
+			try
+			{
+				int id = int.Parse(dishID);
 
+				EditDishModel model = new EditDishModel();
+				DishTableAdapter dishAdapter = new DishTableAdapter();
+				DataTable dishDT = dishAdapter.GetDataByDishID(id);
+				model.DishID = id;
+				model.Dishname = dishDT.Rows[0]["Name"].ToString();
+				model.DishTypeID = (int)dishDT.Rows[0]["DishTypeID"];
+				model.Description = dishDT.Rows[0]["Description"].ToString();
+				model.Image = dishDT.Rows[0]["Image"].ToString();
+				return View(model);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				return RedirectToAction("Error", "Error");
+			}
 		}
 
 		[Authorize(Roles = ("Manager"))]
@@ -440,13 +451,15 @@ namespace CTMF_Website.Controllers
 			{
 				dishAdapter.UpdateDish(dishName, dishTypeID, description, savePath, updateBy, date, dishID);
 				Log.ActivityLog("Update to Dish Table: DishID = " + dishID);
+				Session["editDish"] = "Cập nhật thành công!";
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
+				Session["editDish"] = "Cập nhật thất bại!";
 			}
 
-			return RedirectToAction("ListDish", "Dish");
+			return RedirectToAction("EditDish", "Dish", new { @dishID = model.DishID});
 		}
 
 		[Authorize(Roles = ("Manager"))]
@@ -462,10 +475,12 @@ namespace CTMF_Website.Controllers
 					var deleteFilePath = AppDomain.CurrentDomain.BaseDirectory + DishData.Rows[0]["Image"].ToString();
 					System.IO.File.Delete(deleteFilePath);
 				}
+				Session["deleteDish"] = "Xóa thành công!";
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
+				Session["deleteDish"] = "Xóa thất bại! Món ăn đang được sử dụng.";
 			}
 
 			return RedirectToAction("ListDish", "Dish");
