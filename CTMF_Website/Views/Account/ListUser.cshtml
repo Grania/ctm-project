@@ -51,7 +51,7 @@
 <link href="~/CSS/table.css" rel="stylesheet" />
 <div class="container container-fix">
 	<fieldset>
-		<legend class="table-title">Quản lý người dùng</legend>
+		<legend class="title">Quản lý người dùng</legend>
 		<div style="width:100%; margin-bottom:20px;">
 			<a href="~/Account/ViewUserType" class="btn btn-default">Quản lý loại người dùng</a>
 		</div>
@@ -60,7 +60,7 @@
 				@using (Html.BeginForm("ListUser", "Account", FormMethod.Get))
 				{
 					<input type="hidden" name="amountPerPage" value="@Request.QueryString["amountPerPage"]" />
-					
+
 					<div class="col-md-2">
 						<input type="text" class="form-control" name="username" placeholder="Tên đăng nhập" style="max-width:300px;" value="@Request.QueryString["username"]">
 					</div>
@@ -69,7 +69,7 @@
 						<input type="text" class="form-control" name="name" placeholder="Tên người dùng" style="max-width:300px;" value="@Request.QueryString["name"]">
 					</div>
 
-					<div class="col-md-2">
+					<div class="col-md-2" style="max-width:250px;">
 						<select class="form-control" id="ddlUserType" name="userType">
 							<option value="">Tất cả</option>
 							@foreach (KeyValuePair<string, string> pair in (List<KeyValuePair<string, string>>)ViewBag.userTypes)
@@ -86,7 +86,7 @@
 						</select>
 					</div>
 
-					<div class="col-md-2">
+					<div class="col-md-2" style="max-width:250px;">
 						<select class="form-control" id="ddlRole" name="role">
 							<option value="">Tất cả</option>
 							@foreach (KeyValuePair<int, string> pair in (List<KeyValuePair<int, string>>)ViewBag.roleList)
@@ -102,7 +102,7 @@
 							}
 						</select>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-2" style="max-width:250px;">
 						<select class="form-control" id="ddlActive" name="active">
 							<option value="">Tất cả</option>
 							<option value="0">Chưa kích hoạt</option>
