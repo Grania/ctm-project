@@ -3,31 +3,6 @@
 	ViewBag.Title = "DetailUser";
 }
 
-<script>
-	function goBack() {
-		window.history.back();
-	}
-</script>
-
-@{
-	string role = "";
-	if (Model.Role.Equals(1))
-	{
-		role = "Khách hàng";
-	}
-	if (Model.Role.Equals(2))
-	{
-		role = "Nhân viên nhà ăn";
-	}
-	if (Model.Role.Equals(3))
-	{
-		role = "Quản lý";
-	}
-	if (Model.Role.Equals(4))
-	{
-		role = "Quản trị viên";
-	}
-}
 <div class="container container-fix">
 	@using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal" }))
 	{
@@ -123,7 +98,7 @@
 					</div>
 				</div>
 			</div>
-			<a class="btn btn-warning" style="margin-bottom: 20px;" onclick="javascript:window.history.back()"><span class="glyphicon glyphicon-arrow-left"></span> Quay Lại</a>
+			<a href="@Url.Action("ListUser","Account")" class="btn btn-warning" style="margin-bottom: 20px;"><span class="glyphicon glyphicon-arrow-left"></span> Quay Lại</a>
 		</fieldset>
 	}
 </div>

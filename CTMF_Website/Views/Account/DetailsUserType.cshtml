@@ -40,7 +40,7 @@
 		<div class="form-group">
 			<div class="col-md-4 control-label">@Html.LabelFor(m => m.description)</div>
 			<div class="col-md-4">
-					@Html.TextBoxFor(m => m.description, new { @class = "form-control", @readonly = "readonly" })
+					@Html.TextAreaFor(m => m.description, new { @class = "form-control", @readonly = "readonly" })
 			</div>
 		</div>
 
@@ -57,7 +57,7 @@
 					@Html.CheckBoxFor(m => m.canEatMore, new { @class = "form-control", @disabled = "disabled" })
 			</div>
 		</div>
-		<a class="btn btn-warning" style="margin-bottom: 20px;" onclick="javascript:window.history.back()"><span class="glyphicon glyphicon-arrow-left"></span> Quay Lại</a>
+		<a href="@Url.Action("ViewUserType", "Account")" class="btn btn-warning" style="margin-bottom: 20px;"><span class="glyphicon glyphicon-arrow-left"></span> Quay Lại</a>
 	</fieldset>
 }
 </div>

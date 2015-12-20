@@ -6,15 +6,22 @@
 <style>
 </style>
 <div class="container container-fix">
+	<div @*class="pull-right"*@ style="float: right;width: 250px;margin-top: 40px;">
+		<span style="color:red">* </span><b>: thông tin bắt buộc</b>
+		<br />
+		<p><b>Tên đăng nhập</b>: chỉ chứa số, chữ. Không được bắt đầu bằng số.</p>
+		<br />
+		<p><b>Mật khẩu</b>: phải chứa số, chữ, ký tự đặc biệt. Không được bắt đầu bằng ký tự đặc biệt</p>
+	</div>
 	@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", @id = "contact_form" }))
 	{
 		<fieldset>
 			<legend class="title">Đăng ký thành viên</legend>
 			@Html.AntiForgeryToken()
 			@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
-			<div class="pull-right">
-				<span style="color:red">* </span><b>: thông tin bắt buộc</b>
-			</div>
+			@*<div class="pull-right">
+					<span style="color:red">* </span><b>: thông tin bắt buộc</b>
+				</div>*@
 
 			<div class="form-group">
 				<label class="col-md-4 control-label">Tên đăng nhập <span style="color:red">*</span></label>
@@ -115,7 +122,6 @@
 					<a href="~/Home/HomePage" class="btn btn-danger">Hủy</a>
 				</div>
 			</div>
-
 		</fieldset>
 	}
 </div>

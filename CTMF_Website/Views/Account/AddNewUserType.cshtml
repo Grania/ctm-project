@@ -1,7 +1,26 @@
 ﻿@model CTMF_Website.Models.UserTypeModel
 @{
 	ViewBag.Title = "AddNewUserType";
+
+	string addUserType = "";
+	
+	try
+	{
+		addUserType = Session["addUserType"].ToString();
+		Session.Remove("addUserType");
+	}
+	catch (Exception ex)
+	{
+		addUserType = "";
+	}
 }
+
+<script>
+	var message = '@Html.Raw(addUserType)';
+	if (message != '') {
+		alert(message);
+	}
+</script>
 
 <div class="container container-fix">
 	@using (Html.BeginForm("AddNewUserType", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
