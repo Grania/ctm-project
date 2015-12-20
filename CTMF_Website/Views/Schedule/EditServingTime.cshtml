@@ -2,7 +2,26 @@
 @{
 	ViewBag.Title = "EditServingTime";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	string editServingTime = "";
+
+	try
+	{
+		editServingTime = Session["editServingTime"].ToString();
+		Session.Remove("editServingTime");
+	}
+	catch (Exception ex)
+	{
+		editServingTime = "";
+	}
 }
+
+<script>
+	var message = '@Html.Raw(editServingTime)';
+	if (message != '') {
+		alert(message);
+	}
+</script>
 
 <div class="container container-fix">
 	@using (Html.BeginForm("EditServingTime", "Schedule", new { servingTimeID = Model.servingTimeID }, FormMethod.Post, new { @class = "form-horizontal" }))
@@ -14,9 +33,22 @@
 			@Html.HiddenFor(m => m.insertDate)
 			@Html.HiddenFor(m => m.lastUpdate)
 			<div class="form-group">
-				@Html.LabelFor(m => m.name, new { @class = "control-label col-md-4" })
+				@Html.LabelFor(m => m.Name, new { @class = "control-label col-md-4" })
 				<div class="col-md-4">
-					@Html.TextBoxFor(m => m.name, new { @class = "form-control" })
+					@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-4">
+
+				</div>
+				<div class="col-md-4">@Html.ValidationMessageFor(model => model.Name, String.Empty, new { @style = "color:red" })</div>
+			</div>
+
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.startTime, new { @class = "control-label col-md-4" })
+				<div class="col-md-4">
+					@Html.TextBoxFor(m => m.startTime, new { @class = "form-control", @placeholder = "HH/MM" })
 				</div>
 			</div>
 			<div class="form-group">
@@ -25,18 +57,20 @@
 				</div>
 				<div class="col-md-4">@Html.ValidationMessageFor(model => model.startTime, String.Empty, new { @style = "color:red" })</div>
 			</div>
-			<div class="form-group" style="margin-top: 20px">
-				@Html.LabelFor(m => m.startTime, new { @class = "control-label col-md-4" })
-				<div class="col-md-4">
-					@Html.TextBoxFor(m => m.startTime, new { @class = "form-control", @placeholder = "HH/MM" })
-				</div>
-			</div>
+
 			<div class="form-group" style="margin-top: 20px">
 				@Html.LabelFor(m => m.endTime, new { @class = "control-label col-md-4" })
 				<div class="col-md-4">
 					@Html.TextBoxFor(m => m.endTime, new { @class = "form-control", @placeholder = "HH/MM" })
 				</div>
 			</div>
+			<div class="form-group">
+				<div class="col-md-4">
+
+				</div>
+				<div class="col-md-4">@Html.ValidationMessageFor(model => model.endTime, String.Empty, new { @style = "color:red" })</div>
+			</div>
+
 			<div class="form-group">
 				<label class="col-md-4 control-label"></label>
 				<div class="col-md-2">

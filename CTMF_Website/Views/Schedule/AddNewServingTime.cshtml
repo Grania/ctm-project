@@ -1,49 +1,83 @@
 ﻿@model CTMF_Website.Models.ServingTimeModel
 @{
-    ViewBag.Title = "AddNewServingTime";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "AddNewServingTime";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	string addServingTime = "";
+
+	try
+	{
+		addServingTime = Session["addServingTime"].ToString();
+		Session.Remove("addServingTime");
+	}
+	catch (Exception ex)
+	{
+		addServingTime = "";
+	}
 }
 
-	<div class="container container-fix">
-		@using (Html.BeginForm("AddNewServingTime", "Schedule", FormMethod.Post, new { @class = "form-horizontal" }))
-{
-	<fieldset>
-		<legend class="title">Thêm thời gian phục vụ</legend>
-		@Html.AntiForgeryToken()
-		@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
-		<div class="form-group">
-			@Html.LabelFor(m => m.name, new { @class = "control-label col-md-4" })
-			<div class="col-md-4">
-				@Html.TextBoxFor(m => m.name, new { @class = "form-control" })
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-md-4">
+<script>
+	var message = '@Html.Raw(addServingTime)';
+	if (message != '') {
+		alert(message);
+	}
+</script>
 
+<div class="container container-fix">
+	@using (Html.BeginForm("AddNewServingTime", "Schedule", FormMethod.Post, new { @class = "form-horizontal" }))
+	{
+		<fieldset>
+			<legend class="title">Thêm thời gian phục vụ</legend>
+			@Html.AntiForgeryToken()
+			@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
+			<div class="form-group">
+				@Html.LabelFor(m => m.Name, new { @class = "control-label col-md-4" })
+				<div class="col-md-4">
+					@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+				</div>
 			</div>
-			<div class="col-md-4">@Html.ValidationMessageFor(model => model.startTime, String.Empty, new { @style = "color:red" })</div>
-		</div>
-		<div class="form-group" style="margin-top: 20px">
-			@Html.LabelFor(m => m.startTime, new { @class = "control-label col-md-4" })
-			<div class="col-md-4">
-				@Html.TextBoxFor(m => m.startTime, new { @class = "form-control", @placeholder = "HH:MM" })
+			<div class="form-group">
+				<div class="col-md-4">
+
+				</div>
+				<div class="col-md-4">@Html.ValidationMessageFor(model => model.Name, String.Empty, new { @style = "color:red" })</div>
 			</div>
-		</div>
-		<div class="form-group" style="margin-top: 20px">
-			@Html.LabelFor(m => m.endTime, new { @class = "control-label col-md-4" })
-			<div class="col-md-4">
-				@Html.TextBoxFor(m => m.endTime, new { @class = "form-control", @placeholder = "HH:MM" })
+
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.startTime, new { @class = "control-label col-md-4" })
+				<div class="col-md-4">
+					@Html.TextBoxFor(m => m.startTime, new { @class = "form-control", @placeholder = "HH:MM" })
+				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-md-4 control-label"></label>
-			<div class="col-md-2">
-				<input type="submit" class="btn btn-primary" value="Thêm mới">
+			<div class="form-group">
+				<div class="col-md-4">
+
+				</div>
+				<div class="col-md-4">@Html.ValidationMessageFor(model => model.startTime, String.Empty, new { @style = "color:red" })</div>
 			</div>
-			<div class="col-sm-2">
-				<a href="~/Schedule/ViewServingTime" class="btn btn-danger">Hủy</a>
+
+			<div class="form-group" style="margin-top: 20px">
+				@Html.LabelFor(m => m.endTime, new { @class = "control-label col-md-4" })
+				<div class="col-md-4">
+					@Html.TextBoxFor(m => m.endTime, new { @class = "form-control", @placeholder = "HH:MM" })
+				</div>
 			</div>
-		</div>
-	</fieldset>
-}
-	</div>
+			<div class="form-group">
+				<div class="col-md-4">
+
+				</div>
+				<div class="col-md-4">@Html.ValidationMessageFor(model => model.endTime, String.Empty, new { @style = "color:red" })</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-md-4 control-label"></label>
+				<div class="col-md-2">
+					<input type="submit" class="btn btn-primary" value="Thêm mới">
+				</div>
+				<div class="col-sm-2">
+					<a href="~/Schedule/ViewServingTime" class="btn btn-danger">Hủy</a>
+				</div>
+			</div>
+		</fieldset>
+	}
+</div>

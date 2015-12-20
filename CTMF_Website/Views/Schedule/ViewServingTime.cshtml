@@ -6,7 +6,26 @@
 @{
 	int count = 0;
 	string ID;
+
+	string deleteServingTime = "";
+
+	try
+	{
+		deleteServingTime = Session["deleteServingTime"].ToString();
+		Session.Remove("deleteServingTime");
+	}
+	catch (Exception ex)
+	{
+		deleteServingTime = "";
+	}
 }
+
+<script>
+	var message = '@Html.Raw(deleteServingTime)';
+	if (message != '') {
+		alert(message);
+	}
+</script>
 
 <link href="~/CSS/table.css" rel="stylesheet" />
 <div class="container container-fix">
@@ -55,7 +74,7 @@
 								<td>
 									<div>
 										<a href="@Url.Action("EditServingTime", "Schedule", new { servingTimeID = ID })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-										<a href="@Url.Action("DeleteServingTime", "Schedule", new { servingTimeID = ID })" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>
+										<a href="@Url.Action("DeleteServingTime", "Schedule", new { servingTimeID = ID })" onclick="return confirm('Bạn có chắc chắn muốn xóa thời gian phục vụ: @row["Name"]')" class="btn btn-danger" title="Xóa"><span class="glyphicon glyphicon-remove-sign"></span></a>
 									</div>
 								</td>
 							</tr>
