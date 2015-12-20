@@ -369,8 +369,10 @@ namespace CTMF_Website.Controllers
 
 				List<UserEatJsonModel> result = new List<UserEatJsonModel>();
 				int Unrecord = 0;
-				foreach(DataRow row in dt.Rows){
-					result.Add(new UserEatJsonModel(){
+				foreach (DataRow row in dt.Rows)
+				{
+					result.Add(new UserEatJsonModel()
+					{
 						ScheduleMealSetDetailID = row.Field<int?>("ScheduleMealSetDetailID")
 					});
 
@@ -380,7 +382,7 @@ namespace CTMF_Website.Controllers
 					}
 				}
 
-				return Json(new { result = result, Unrecord = Unrecord}, JsonRequestBehavior.AllowGet);
+				return Json(new { result = result, Unrecord = Unrecord }, JsonRequestBehavior.AllowGet);
 			}
 			catch (Exception ex)
 			{
@@ -637,30 +639,27 @@ namespace CTMF_Website.Controllers
 			try
 			{
 				dataTable = servingTimeAdapter.GetData();
-				var results = from DataRow myRow in dataTable.Rows
-							  where (int)myRow["ServingTimeID"] != 0
-							  select myRow;
-				return View(results.CopyToDataTable());
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
 			}
+
 			return View(dataTable);
 		}
 
 		[Authorize(Roles = ("Manager"))]
 		public ActionResult EditServingTime(string servingTimeID)
 		{
-			int servingTimeId = Convert.ToInt32(servingTimeID);
 			ServingTimeModel servingTimeModel = new ServingTimeModel();
 			DataTable servingTimeDataTable = new DataTable();
 			ServingTimeTableAdapter servingTimeAdapter = new ServingTimeTableAdapter();
 			try
 			{
+				int servingTimeId = Convert.ToInt32(servingTimeID);
 				servingTimeDataTable = servingTimeAdapter.GetDataByID(servingTimeId);
 				servingTimeModel.servingTimeID = servingTimeDataTable.Rows[0].Field<int>("ServingTimeID");
-				servingTimeModel.name = Convert.ToString(servingTimeDataTable.Rows[0]["Name"]);
+				servingTimeModel.Name = Convert.ToString(servingTimeDataTable.Rows[0]["Name"]);
 				servingTimeModel.startTime = (TimeSpan)servingTimeDataTable.Rows[0]["StartTime"];
 				servingTimeModel.endTime = (TimeSpan)servingTimeDataTable.Rows[0]["EndTime"];
 				servingTimeModel.insertDate = Convert.ToDateTime(servingTimeDataTable.Rows[0]["InsertedDate"]);
@@ -670,10 +669,7 @@ namespace CTMF_Website.Controllers
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
-			}
-			if (servingTimeModel == null)
-			{
-				return RedirectToAction("Error", "ErrorController");
+				return RedirectToAction("Error", "Error");
 			}
 			return View(servingTimeModel);
 		}
@@ -682,27 +678,56 @@ namespace CTMF_Website.Controllers
 		[HttpPost]
 		public ActionResult EditServingTime(ServingTimeModel servingTimeModel, string servingTimeID)
 		{
-			int servingTimeId = Convert.ToInt32(servingTimeID);
-			ServingTimeTableAdapter servingTimeTableAdapter = new ServingTimeTableAdapter();
-			if (servingTimeModel != null)
+			if (!ModelState.IsValid)
 			{
-				try
-				{
-					string name = servingTimeModel.name;
-					TimeSpan startTime = servingTimeModel.startTime;
-					TimeSpan endTime = servingTimeModel.endTime;
-					DateTime insertDate = servingTimeModel.insertDate;
-					DateTime lastUpdate = DateTime.Now;
-
-					servingTimeTableAdapter.UpdateServingTimeByID(name, startTime, endTime, insertDate, lastUpdate, servingTimeId);
-					return RedirectToAction("ViewServingTime", "Schedule");
-				}
-				catch (Exception ex)
-				{
-					Log.ErrorLog(ex.Message);
-				}
+				return View(servingTimeModel);
 			}
-			return RedirectToAction("ViewServingTime", "Schedule");
+
+			ServingTimeTableAdapter servingTimeTableAdapter = new ServingTimeTableAdapter();
+			DataTable servingTimeDT = servingTimeTableAdapter.GetData();
+
+			try
+			{
+				int servingTimeId = Convert.ToInt32(servingTimeID);
+				string name = servingTimeModel.Name;
+				TimeSpan startTime = servingTimeModel.startTime;
+				TimeSpan endTime = servingTimeModel.endTime;
+
+				TimeSpan startTimeDB, endTimeDB;
+
+				if (startTime > endTime)
+				{
+					ModelState.AddModelError("", "Thời gian bắt đầu không được lớn hơn thời gian kết thúc.");
+					return View(servingTimeModel);
+				}
+
+				foreach (System.Data.DataRow row in servingTimeDT.Rows)
+				{
+					if (!(row.Field<int>("ServingTimeID") == servingTimeId))
+					{
+						startTimeDB = row.Field<TimeSpan>("StartTime");
+						endTimeDB = row.Field<TimeSpan>("EndTime");
+
+						if ((startTime >= startTimeDB && startTime <= endTimeDB) || (endTime >= startTimeDB && endTime <= endTimeDB) || (startTime <= startTimeDB && endTime >= endTimeDB))
+						{
+							ModelState.AddModelError("", "Thời gian phục vụ mới trùng với thời gian phục vụ có trước đó. Vui lòng xác nhận lại!");
+							return View(servingTimeModel);
+						}
+					}
+				}
+
+				DateTime insertDate = servingTimeModel.insertDate;
+				DateTime lastUpdate = DateTime.Now;
+
+				servingTimeTableAdapter.UpdateServingTimeByID(name, startTime, endTime, insertDate, lastUpdate, servingTimeId);
+				Session["editServingTime"] = "Cập nhật thành công!";
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				Session["editServingTime"] = "Cập nhật thất bại!";
+			}
+			return RedirectToAction("EditServingTime", "Schedule", new { @servingTimeID = servingTimeID });
 		}
 
 		[Authorize(Roles = ("Manager"))]
@@ -712,13 +737,14 @@ namespace CTMF_Website.Controllers
 			ScheduleTableAdapter scheduleTableAdapter = new ScheduleTableAdapter();
 			try
 			{
-				int servingTimeId = Convert.ToInt32(servingTimeID);
-				//scheduleTableAdapter.DeleteScheduleByServingTimeID(servingTimeId);
-				servingTimeTableAdapter.DeleteServingTimeByID(servingTimeId);
+				int id = Convert.ToInt32(servingTimeID);
+				servingTimeTableAdapter.DeleteServingTimeByID(id);
+				Session["deleteServingTime"] = "Xóa thành công!";
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
+				Session["deleteServingTime"] = "Xóa thất bại! Thời gian phục vụ này đang được sử dụng.";
 			}
 			return RedirectToAction("ViewServingTime", "Schedule");
 		}
@@ -734,24 +760,50 @@ namespace CTMF_Website.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult AddNewServingTime(ServingTimeModel servingTimeModel)
 		{
-			ServingTimeTableAdapter servingTimeDataAdapter = new ServingTimeTableAdapter();
-			if (servingTimeModel != null)
+			if (!ModelState.IsValid)
 			{
-				try
-				{
-					string name = servingTimeModel.name;
-					TimeSpan startTime = servingTimeModel.startTime;
-					TimeSpan endTime = servingTimeModel.endTime;
-					DateTime date = DateTime.Now;
-					servingTimeDataAdapter.Insert(name, startTime, endTime, date, date);
-					return RedirectToAction("ViewServingTime", "Schedule");
-				}
-				catch (Exception ex)
-				{
-					Log.ErrorLog(ex.Message);
-				}
+				return View(servingTimeModel);
 			}
-			return View();
+
+			ServingTimeTableAdapter servingTimeDataAdapter = new ServingTimeTableAdapter();
+			DataTable servingTimeDT = servingTimeDataAdapter.GetData();
+
+			try
+			{
+				string name = servingTimeModel.Name;
+				TimeSpan startTime = servingTimeModel.startTime;
+				TimeSpan endTime = servingTimeModel.endTime;
+
+				TimeSpan startTimeDB, endTimeDB;
+
+				if (startTime > endTime)
+				{
+					ModelState.AddModelError("", "Thời gian bắt đầu không được lớn hơn thời gian kết thúc.");
+					return View(servingTimeModel);
+				}
+
+				foreach (System.Data.DataRow row in servingTimeDT.Rows)
+				{
+					startTimeDB = row.Field<TimeSpan>("StartTime");
+					endTimeDB = row.Field<TimeSpan>("EndTime");
+
+					if ((startTime >= startTimeDB && startTime <= endTimeDB) || (endTime >= startTimeDB && endTime <= endTimeDB) || (startTime <= startTimeDB && endTime >= endTimeDB))
+					{
+						ModelState.AddModelError("", "Thời gian phục vụ mới trùng với thời gian phục vụ có trước đó. Vui lòng xác nhận lại!");
+						return View(servingTimeModel);
+					}
+				}
+
+				DateTime date = DateTime.Now;
+				servingTimeDataAdapter.Insert(name, startTime, endTime, date, date);
+				Session["addServingTime"] = "Thêm mới thành công!";
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				Session["addServingTime"] = "Thêm mới thất bại!";
+			}
+			return RedirectToAction("AddNewServingTime", "Schedule");
 		}
 	}
 }

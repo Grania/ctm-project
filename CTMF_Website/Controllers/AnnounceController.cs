@@ -12,12 +12,6 @@ namespace CTMF_Website.Controllers
 {
 	public class AnnounceController : Controller
 	{
-
-		public ActionResult Index()
-		{
-			return View();
-		}
-
 		[AllowAnonymous]
 		public ActionResult ViewAnnounce()
 		{
@@ -28,34 +22,12 @@ namespace CTMF_Website.Controllers
 		}
 
 		[AllowAnonymous]
-		public ActionResult DetailsAnnounce(string announceID)
+		public ActionResult ListAnnounce()
 		{
-			int announceId = Convert.ToInt32(announceID);
 			AnnouncementTableAdapter announcementAdapter = new AnnouncementTableAdapter();
-			DataTable dt = announcementAdapter.GetDataByAnnounceID(announceId);
-			AnnounceModel announce = new AnnounceModel();
-			try
-			{
-				for (int i = 0; i < dt.Rows.Count; i++)
-				{
-					announce.annoucemenID = Convert.ToInt32(dt.Rows[i]["AnnouncementID"]);
-					announce.title = Convert.ToString(dt.Rows[i]["Title"]);
-					announce.isAuto = Convert.ToBoolean(dt.Rows[i]["IsAuto"]);
-					announce.insertDate = Convert.ToDateTime(dt.Rows[i]["InsertedDate"]);
-					announce.lastUpdate = Convert.ToDateTime(dt.Rows[i]["LastUpdated"]);
-					announce.subject = Convert.ToString(dt.Rows[i]["Subject"]);
-					announce.updateBy = Convert.ToString(dt.Rows[i]["UpdatedBy"]);
-				}
-			}
-			catch (Exception ex)
-			{
-				Log.ErrorLog(ex.Message);
-			}
-			if (announce == null)
-			{
-				return HttpNotFound();
-			}
-			return View(announce);
+			DataTable dt = announcementAdapter.GetData();
+
+			return View(dt);
 		}
 
 		[AllowAnonymous]
@@ -69,51 +41,47 @@ namespace CTMF_Website.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult AddNewAnnounce(AnnounceModel announceModel)
 		{
-			if (announceModel != null)
+			if (!ModelState.IsValid)
 			{
-				try
-				{
-					string updateBy = AccountInfo.GetUserName(Request);
-					AnnouncementTableAdapter announceTableAdapter = new AnnouncementTableAdapter();
-					string title = announceModel.title;
-					string subject = announceModel.subject;
-					Boolean isAuto = false;
-					DateTime date = DateTime.Now;
-					announceTableAdapter.InsertNewAnnounce(title, subject, isAuto, date, updateBy, date);
-					return RedirectToAction("ViewAnnounce", "Announce");
-				}
-				catch (Exception ex)
-				{
-					Log.ErrorLog(ex.Message);
-				}
+				return View(announceModel);
 			}
-				return View(); 
-				
+
+			try
+			{
+				string updateBy = AccountInfo.GetUserName(Request);
+				AnnouncementTableAdapter announceTableAdapter = new AnnouncementTableAdapter();
+				string title = announceModel.title;
+				string subject = announceModel.subject;
+				Boolean isAuto = false;
+				DateTime date = DateTime.Now;
+				announceTableAdapter.InsertNewAnnounce(title, subject, isAuto, date, updateBy, date);
+				Session["addAnnounce"] = "Đăng tin thành công!";
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				Session["addAnnounce"] = "Đăng tin thất bại!";
+			}
+			return RedirectToAction("AddNewAnnounce", "Announce");
 		}
 
 		[AllowAnonymous]
 		public ActionResult EditAnnounce(string announceID)
 		{
 			AnnounceModel announcement = new AnnounceModel();
-			int announceId = Convert.ToInt32(announceID);
 			AnnouncementTableAdapter announcementAdapter = new AnnouncementTableAdapter();
-			DataTable announcementTable = announcementAdapter.GetDataByAnnounceID(announceId);
 			try
 			{
+				int announceId = Convert.ToInt32(announceID);
+				DataTable announcementTable = announcementAdapter.GetDataByAnnounceID(announceId);
 				announcement.annoucemenID = Convert.ToInt32(announcementTable.Rows[0]["AnnouncementID"]);
 				announcement.title = Convert.ToString(announcementTable.Rows[0]["Title"]);
 				announcement.isAuto = Convert.ToBoolean(announcementTable.Rows[0]["IsAuto"]);
-				announcement.insertDate = Convert.ToDateTime(announcementTable.Rows[0]["InsertedDate"]);
-				announcement.lastUpdate = Convert.ToDateTime(announcementTable.Rows[0]["LastUpdated"]);
 				announcement.subject = Convert.ToString(announcementTable.Rows[0]["Subject"]);
-				announcement.updateBy = Convert.ToString(announcementTable.Rows[0]["UpdatedBy"]);
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
-			}
-			if (announcement == null)
-			{
 				return RedirectToAction("Error", "ErrorController");
 			}
 			return View(announcement);
@@ -121,45 +89,45 @@ namespace CTMF_Website.Controllers
 
 		[AllowAnonymous]
 		[HttpPost]
-		public ActionResult EditAnnounce(AnnounceModel announceModel,string announceID)
+		public ActionResult EditAnnounce(AnnounceModel announceModel, string announceID)
 		{
-			int announceId = Convert.ToInt32(announceID);
 			AnnouncementTableAdapter announceTableAdapter = new AnnouncementTableAdapter();
-			if (announceModel != null)
+			try
 			{
-				try
-				{
-					string updateBy = AccountInfo.GetUserName(Request);
-					string title = announceModel.title;
-					string subject = announceModel.subject;
-					Boolean isAuto = false;
-					DateTime date = DateTime.Now;
-					announceTableAdapter.UpdateAnnounce(title, subject, isAuto, date, updateBy, date, announceId);
-					return RedirectToAction("ViewAnnounce", "Announce");
-				}
-				catch (Exception ex)
-				{
-					Log.ErrorLog(ex.Message);
-				}
-			}
-					return RedirectToAction("ViewAnnounce", "Announce");
-			}
-
-		public ActionResult DeleteAnnounce(int announceID)
-		{
-			AnnouncementTableAdapter announceTableAdapter = new AnnouncementTableAdapter();
-			try {
-				announceTableAdapter.DeleteAnnounceByID(announceID);
+				int announceId = Convert.ToInt32(announceID);
+				string updateBy = AccountInfo.GetUserName(Request);
+				string title = announceModel.title;
+				string subject = announceModel.subject;
+				Boolean isAuto = false;
+				DateTime date = DateTime.Now;
+				announceTableAdapter.UpdateAnnounce(title, subject, isAuto, updateBy, date, announceId);
+				Session["editAnnounce"] = "Cập nhật thành công!";
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
+				Session["editAnnounce"] = "Cập nhật thất bại!";
 			}
-			return RedirectToAction("ViewAnnounce", "Announce");
+			return RedirectToAction("EditAnnounce", "Announce", new { @announceID = announceID });
 		}
 
+		public ActionResult DeleteAnnounce(int announceID)
+		{
+			AnnouncementTableAdapter announceTableAdapter = new AnnouncementTableAdapter();
+			try
+			{
+				announceTableAdapter.DeleteAnnounceByID(announceID);
+				Session["deleteAnnounce"] = "Xóa thành công!";
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				Session["deleteAnnounce"] = "Xóa thất bại!";
+			}
+			return RedirectToAction("ListAnnounce", "Announce");
 		}
 
 	}
+}
 
 

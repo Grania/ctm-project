@@ -15,7 +15,7 @@ namespace CTMF_Website.Controllers
 	public class AccountController : Controller
 	{
 		[AllowAnonymous]
-		public ActionResult Login( )
+		public ActionResult Login()
 		{
 			return View();
 		}
@@ -180,12 +180,12 @@ namespace CTMF_Website.Controllers
 				AccountAdapter.ChangePassword(newPassword, username);
 				Log.ActivityLog("Account: " + username + "change password!");
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
 			}
 
-			return RedirectToAction("HomePage","Home");
+			return RedirectToAction("HomePage", "Home");
 		}
 
 		[AllowAnonymous]
@@ -325,7 +325,7 @@ namespace CTMF_Website.Controllers
 					+ "UserType.CanEatMore, UserInfo.IsActive, ROW_NUMBER() OVER (order by UserInfo.InsertedDate DESC) AS RowNum "
 					+ "FROM UserInfo INNER JOIN Account ON UserInfo.Username = Account.Username INNER JOIN "
 					+ "UserType ON UserInfo.TypeShortName = UserType.TypeShortName ";
-				string countQuery = "SELECT COUNT(UserInfo.Username) FROM UserInfo INNER JOIN Account " 
+				string countQuery = "SELECT COUNT(UserInfo.Username) FROM UserInfo INNER JOIN Account "
 					+ "ON UserInfo.Username = Account.Username ";
 				string conditionQuery = "";
 
@@ -336,17 +336,17 @@ namespace CTMF_Website.Controllers
 
 					if (username != null)
 					{
-						conditionQuery += "UserInfo.Username like '%"+username+"%' ";
+						conditionQuery += "UserInfo.Username like '%" + username + "%' ";
 						isFirst = true;
 					}
 
-					if(name != null)
+					if (name != null)
 					{
 						if (isFirst)
 						{
 							conditionQuery += "AND ";
 						}
-						conditionQuery += "UserInfo.Name like N'%"+name+"%' ";
+						conditionQuery += "UserInfo.Name like N'%" + name + "%' ";
 						isFirst = true;
 					}
 
@@ -383,7 +383,7 @@ namespace CTMF_Website.Controllers
 				int minRowNum = ((page_ - 1) * amountPerPage_) + 1;
 				int maxRowNum = page_ * amountPerPage_;
 				query += conditionQuery;
-				query += ") AS UI WHERE UI.RowNum BETWEEN "+minRowNum+" AND "+maxRowNum+" ";
+				query += ") AS UI WHERE UI.RowNum BETWEEN " + minRowNum + " AND " + maxRowNum + " ";
 
 				SqlCommand countCmd = new SqlCommand(countQuery + conditionQuery, userInfoAdapter.Connection);
 				SqlCommand getDataCmd = new SqlCommand(query, userInfoAdapter.Connection);
@@ -604,10 +604,6 @@ namespace CTMF_Website.Controllers
 			try
 			{
 				dataTable = userTypeTableAdapter.GetData();
-				var results = from DataRow myRow in dataTable.Rows
-							  where (string)myRow["TypeShortName"] != null
-							  select myRow;
-				return View(results.CopyToDataTable());
 			}
 			catch (Exception ex)
 			{
@@ -643,7 +639,7 @@ namespace CTMF_Website.Controllers
 			return View(userTypeModel);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = "Administrator")]
 		public ActionResult EditUserType(string typeShortName)
 		{
 			UserTypeModel userTypeModel = new UserTypeModel();
@@ -666,16 +662,14 @@ namespace CTMF_Website.Controllers
 			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
-			}
-			if (userTypeModel == null)
-			{
-				return RedirectToAction("Error", "ErrorController");
+				return RedirectToAction("Error", "Error");
 			}
 			return View(userTypeModel);
 		}
 
 		[Authorize(Roles = "Administrator")]
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult EditUserType(UserTypeModel userTypeModel, string typeShortName)
 		{
 			if (!ModelState.IsValid)
@@ -684,28 +678,33 @@ namespace CTMF_Website.Controllers
 			}
 
 			UserTypeTableAdapter userTypeTableAdapter = new UserTypeTableAdapter();
-			if (userTypeModel != null)
+			try
 			{
-				try
+				string typeName = userTypeModel.typeName;
+				int mealValue = userTypeModel.mealValue;
+				int? moreMealValue = 0;
+
+				if (!string.IsNullOrEmpty(userTypeModel.moreMealValue.ToString()))
 				{
-					string typeName = userTypeModel.typeName;
-					int mealValue = userTypeModel.mealValue;
-					int? moreMealValue = userTypeModel.moreMealValue;
-					string description = userTypeModel.description;
-					Boolean canDebt = userTypeModel.canDebt;
-					Boolean canEatMore = userTypeModel.canEatMore;
-					DateTime insertDate = userTypeModel.insertedDate;
-					DateTime lastUpdate = DateTime.Now;
-					string updateBy = AccountInfo.GetUserName(Request);
-					int test = userTypeTableAdapter.UpdateUserTypeByTypeShortName(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, insertDate, updateBy, lastUpdate, typeShortName);
-					XmlSync.SaveUserTypeXml(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, insertDate, updateBy, lastUpdate, null);
+					moreMealValue = userTypeModel.moreMealValue;
 				}
-				catch (Exception ex)
-				{
-					Log.ErrorLog(ex.Message);
-				}
+
+				string description = userTypeModel.description;
+				Boolean canDebt = userTypeModel.canDebt;
+				Boolean canEatMore = userTypeModel.canEatMore;
+				DateTime insertDate = userTypeModel.insertedDate;
+				DateTime lastUpdate = DateTime.Now;
+				string updateBy = AccountInfo.GetUserName(Request);
+				userTypeTableAdapter.UpdateUserTypeByTypeShortName(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, insertDate, updateBy, lastUpdate, typeShortName);
+				XmlSync.SaveUserTypeXml(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, insertDate, updateBy, lastUpdate, null);
+				Session["editUserType"] = "Cập nhật thành công!";
 			}
-			return RedirectToAction("ViewUserType", "Account");
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				Session["editUserType"] = "Cập nhật thất bại!";
+			}
+			return RedirectToAction("EditUserType", "Account", new { @typeShortName = typeShortName });
 		}
 
 		[Authorize(Roles = "Administrator")]
@@ -719,30 +718,59 @@ namespace CTMF_Website.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult AddNewUserType(UserTypeModel userTypeModel)
 		{
-			UserTypeTableAdapter userTypeTableAdapter = new UserTypeTableAdapter();
-			if (userTypeModel != null)
+			if (!ModelState.IsValid)
 			{
-				try
-				{
-					string typeShortName = userTypeModel.typeShortName;
-					string typeName = userTypeModel.typeName;
-					int mealValue = userTypeModel.mealValue;
-					int? moreMealValue = userTypeModel.moreMealValue;
-					string description = userTypeModel.description;
-					Boolean canDebt = userTypeModel.canDebt;
-					Boolean canEatMore = userTypeModel.canEatMore;
-					DateTime date = DateTime.Now;
-					string updateBy = AccountInfo.GetUserName(Request);
-					int test = userTypeTableAdapter.InsertNewUserType(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, date, updateBy, date);
-					XmlSync.SaveUserTypeXml(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, date, updateBy, date, null);
-					return RedirectToAction("ViewUserType", "Account");
-				}
-				catch (Exception ex)
-				{
-					Log.ErrorLog(ex.Message);
-				}
+				return View(userTypeModel);
 			}
-			return View();
+
+			UserTypeTableAdapter userTypeTableAdapter = new UserTypeTableAdapter();
+
+			try
+			{
+				string typeShortName = userTypeModel.typeShortName;
+				string typeName = userTypeModel.typeName;
+				int mealValue = userTypeModel.mealValue;
+				int? moreMealValue = 0;
+
+				if (!string.IsNullOrEmpty(userTypeModel.moreMealValue.ToString()))
+				{
+					moreMealValue = userTypeModel.moreMealValue;
+				}
+
+				string description = userTypeModel.description;
+				Boolean canDebt = userTypeModel.canDebt;
+				Boolean canEatMore = userTypeModel.canEatMore;
+				DateTime date = DateTime.Now;
+				string updateBy = AccountInfo.GetUserName(Request);
+				userTypeTableAdapter.InsertNewUserType(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, date, updateBy, date);
+				XmlSync.SaveUserTypeXml(typeShortName, typeName, mealValue, moreMealValue, description, canDebt, canEatMore, date, updateBy, date, null);
+				Session["addUserType"] = "Thêm mới thành công!";
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				Session["addUserType"] = "Thêm mới thất bại!";
+			}
+			return RedirectToAction("AddNewUserType", "Account");
+		}
+
+		[Authorize(Roles = "Administrator")]
+		public ActionResult DeleteUserType(string typeShortName)
+		{
+			UserTypeTableAdapter userTypeTableAdapter = new UserTypeTableAdapter();
+
+			try
+			{
+				userTypeTableAdapter.Delete(typeShortName);
+				Session["deleteUserType"] = "Xóa thành công!";
+			}
+			catch(Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				Session["deleteUserType"] = "Xóa thất bại! Loại người dùng này đang được sử dụng.";
+			}
+
+			return RedirectToAction("ViewUserType","Account");
 		}
 	}
 }
