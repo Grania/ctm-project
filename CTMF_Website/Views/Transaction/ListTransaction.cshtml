@@ -5,7 +5,6 @@
 	int maxPage = ViewBag.maxPage;
 	int curPage = ViewBag.curPage;
 	int amountPerPage = ViewBag.amountPerPage;
-
 }
 
 <link href="~/CSS/table.css" rel="stylesheet" />
@@ -35,7 +34,7 @@
 		$('#btnGo').click(function () {
 			var page = $('#ddlPageSelect').val();
 
-			var selectedPage = getParameterByName('page');
+			var selectedPage = '@(Request.QueryString["page"])';
 			var curHref = window.location.href;
 
 			if (selectedPage == '') {
@@ -54,13 +53,6 @@
 			window.location.href = curHref;
 		});
 	});
-
-	function getParameterByName(name) {
-		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-			results = regex.exec(location.search);
-		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-	}
 </script>
 <div class="container container-fix">
 	<fieldset>
@@ -147,11 +139,16 @@
 								}
 								else
 								{
-									nextUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ + 1));
-									prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
-
-									nextUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ + 1));
-									prevUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ - 1));
+									if (Request.Url.ToString().Contains("&page=" + page))
+									{
+										nextUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ + 1));
+										prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
+									}
+									else
+									{
+										nextUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ + 1));
+										prevUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ - 1));
+									}
 								}
 							}
 						}

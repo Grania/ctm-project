@@ -155,11 +155,16 @@
 						}
 						else
 						{
-							nextUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ + 1));
-							prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
-
-							nextUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ + 1));
-							prevUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ - 1));
+							if (Request.Url.ToString().Contains("&page=" + page))
+							{
+								nextUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ + 1));
+								prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
+							}
+							else
+							{
+								nextUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ + 1));
+								prevUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ - 1));
+							}
 						}
 					}
 				}

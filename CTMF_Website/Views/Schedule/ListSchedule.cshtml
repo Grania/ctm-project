@@ -1,6 +1,10 @@
 ﻿@model CTMF_Website.Models.ScheduleJsonModel
 @{
 	ViewBag.Title = "ListSchedule";
+
+	int toDayDay = DateTime.Now.Day;
+	int toDayMonth = DateTime.Now.Month;
+	int toDayYear = DateTime.Now.Year;
 }
 
 <style>
@@ -122,6 +126,38 @@
 
 							var label = 65;
 							var schedule = result.result;
+
+							var nowDay = '@(toDayDay)';
+							nowDay = parseInt(nowDay)
+							var nowMonth = '@(toDayMonth)';
+							nowMonth = parseInt(nowMonth);
+							var nowYear = '@(toDayYear)';
+							nowYear = parseInt(nowYear);
+
+							var canUpdate = false;
+							if (_selectedYear > nowYear) {
+								canUpdate = true;
+							}
+							else if (_selectedYear == nowYear) {
+								if (_selectedMonth > nowMonth) {
+									canUpdate = true;
+								} else if (_selectedMonth == nowMonth) {
+									if (_selectedDay >= nowDay) {
+										canUpdate = true;
+									}
+								}
+							}
+
+							if (canUpdate) {
+								$('.btn-update-schedule').css('display', 'inline-block');
+							} else {
+								$('.btn-update-schedule').css('display', 'none');
+							}
+
+							if (schedule == null) {
+								return;
+							}
+
 							for (j = 0; j < schedule.length; j++) {
 								var $table = $('#serving-time-table-' + schedule[j].ServingTimeID);
 
@@ -179,17 +215,17 @@
 						'id': 'date-detail-header-' + servingTime[j].ServingTimeID
 					});
 
-					var $span = $('<span></span>').css({
-						'font-size': '25px'
-					}).attr('class', 'span-eating-time').text(servingTime[j].Name + " Thời gian:" + servingTime[j].StartTimeStr
-						+ (servingTime[j].EndTimeStr == null ? "" : "-" + servingTime[j].EndTimeStr));
-
 					var $addDiv = $('<div></div>').attr('value', servingTime[j].ServingTimeID)
 						.css({
 							float: 'right'
 						})
-						.append('<a class="btn btn-primary">Cập nhật lịch</a>')
+						.append('<a class="btn btn-primary btn-update-schedule">Cập nhật lịch</a>')
 					setAddDivEvent($addDiv);
+
+					var $span = $('<span></span>').css({
+						'font-size': '25px'
+					}).attr('class', 'span-eating-time').text(servingTime[j].Name + " Thời gian:" + servingTime[j].StartTimeStr
+						+ (servingTime[j].EndTimeStr == null ? "" : "-" + servingTime[j].EndTimeStr));
 
 					var $table = $('<table></table>').css({
 						width: '100%',
