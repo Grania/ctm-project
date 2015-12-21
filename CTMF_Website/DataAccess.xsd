@@ -2940,10 +2940,6 @@ FROM            Feedback</CommandText>
       <xs:selector xpath=".//mstns:DebtCustomer" />
       <xs:field xpath="mstns:Username" />
     </xs:unique>
-    <xs:unique name="UserEat_Constraint1" msdata:ConstraintName="Constraint1">
-      <xs:selector xpath=".//mstns:UserEat" />
-      <xs:field xpath="mstns:ScheduleMealSetDetailID" />
-    </xs:unique>
     <xs:unique name="Feedback_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:Feedback" />
       <xs:field xpath="mstns:FeedbackID" />
@@ -2980,7 +2976,6 @@ FROM            Feedback</CommandText>
       <msdata:Relationship name="FK_MEAL_DISH_MEAL2" msdata:parent="MealSetEatTime" msdata:child="MealSetDishDetail" msdata:parentkey="MealSetID" msdata:childkey="MeatSetID" msprop:Generator_UserChildTable="MealSetDishDetail" msprop:Generator_ChildPropName="GetMealSetDishDetailRows" msprop:Generator_UserRelationName="FK_MEAL_DISH_MEAL2" msprop:Generator_RelationVarName="relationFK_MEAL_DISH_MEAL2" msprop:Generator_UserParentTable="MealSetEatTime" msprop:Generator_ParentPropName="MealSetEatTimeRow" />
       <msdata:Relationship name="FK_MEAL_DISH_DISH2" msdata:parent="DishEatTime" msdata:child="MealSetDishDetail" msdata:parentkey="DishID" msdata:childkey="DishID" msprop:Generator_UserChildTable="MealSetDishDetail" msprop:Generator_ChildPropName="GetMealSetDishDetailRows" msprop:Generator_UserRelationName="FK_MEAL_DISH_DISH2" msprop:Generator_RelationVarName="relationFK_MEAL_DISH_DISH2" msprop:Generator_UserParentTable="DishEatTime" msprop:Generator_ParentPropName="DishEatTimeRow" />
       <msdata:Relationship name="FK_ACCOUNT_USER_INFO1" msdata:parent="UserInfo" msdata:child="DebtCustomer" msdata:parentkey="Username" msdata:childkey="Username" msprop:Generator_UserChildTable="DebtCustomer" msprop:Generator_ChildPropName="GetDebtCustomerRows" msprop:Generator_UserRelationName="FK_ACCOUNT_USER_INFO1" msprop:Generator_ParentPropName="UserInfoRow" msprop:Generator_RelationVarName="relationFK_ACCOUNT_USER_INFO1" msprop:Generator_UserParentTable="UserInfo" />
-      <msdata:Relationship name="FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1" msdata:parent="UserEat" msdata:child="TransactionHistory" msdata:parentkey="ScheduleMealSetDetailID" msdata:childkey="ScheduleMealSetDetailID" msprop:Generator_UserChildTable="TransactionHistory" msprop:Generator_ChildPropName="GetTransactionHistoryRows" msprop:Generator_UserRelationName="FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1" msprop:Generator_ParentPropName="UserEatRow" msprop:Generator_RelationVarName="relationFK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1" msprop:Generator_UserParentTable="UserEat" />
       <msdata:Relationship name="FK_SCHEDULE_MEAL_SET_SCHEDULE2" msdata:parent="ScheduleMonthForUser" msdata:child="ScheduleMealSetDetail" msdata:parentkey="ScheduleID" msdata:childkey="ScheduleID" msprop:Generator_UserChildTable="ScheduleMealSetDetail" msprop:Generator_ChildPropName="GetScheduleMealSetDetailRows" msprop:Generator_UserRelationName="FK_SCHEDULE_MEAL_SET_SCHEDULE2" msprop:Generator_ParentPropName="ScheduleMonthForUserRow" msprop:Generator_RelationVarName="relationFK_SCHEDULE_MEAL_SET_SCHEDULE2" msprop:Generator_UserParentTable="ScheduleMonthForUser" />
       <msdata:Relationship name="FK_FEEDBACK_USER_INFO" msdata:parent="UserInfo" msdata:child="Feedback" msdata:parentkey="Username" msdata:childkey="UpdatedBy" msprop:Generator_UserChildTable="Feedback" msprop:Generator_ChildPropName="GetFeedbackRows" msprop:Generator_UserRelationName="FK_FEEDBACK_USER_INFO" msprop:Generator_ParentPropName="UserInfoRow" msprop:Generator_RelationVarName="relationFK_FEEDBACK_USER_INFO" msprop:Generator_UserParentTable="UserInfo" />
     </xs:appinfo>
