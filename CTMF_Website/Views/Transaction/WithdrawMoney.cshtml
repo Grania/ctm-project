@@ -16,7 +16,9 @@
 		withDrawMoney = "";
 	}
 }
-
+<link href="~/CSS/table.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/CSS/jquery-ui.css" />
+<script src="~/Scripts/jquery-ui.js"></script>
 <script>
 	var message = '@Html.Raw(withDrawMoney)';
 	if (message != '') {
@@ -28,6 +30,25 @@
 		if (message != '') {
 			alert('@Html.Raw(ViewBag.message)');
 		}
+
+		var usernameList;
+
+		$.ajax({
+			url: '@Url.Action("GetUsernameList", "Account")',
+			async: false,
+			success: function (data) {
+				if (data == 'error') {
+					alert('Có lỗi khi lấy dữ liệu.');
+					return false;
+				}
+
+				usernameList = data.result;
+			}
+		});
+
+		$('#Username').autocomplete({
+			source: usernameList
+		});
 	});
 </script>
 
