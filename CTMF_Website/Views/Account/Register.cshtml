@@ -15,31 +15,35 @@
 		register = "";
 	}
 }
-
+<script src="~/Scripts/md5.js"></script>
 <script>
 	var message = '@Html.Raw(register)';
 	if (message != '') {
 		alert(message);
 	}
+
+	function GeneratePwd() {
+		if ($("#id_register_password").val() !== "" && $("#id_register_password_confirmation").val() !== "") {
+			$("#id_register_password").val(hex_md5($("#id_register_password").val()));
+			$("#id_register_password_confirmation").val(hex_md5($("#id_register_password_confirmation").val()));
+		}
+		return true;
+	}
 </script>
 
 <div class="container container-fix">
-	<div @*class="pull-right"*@ style="float: right;width: 250px;margin-top: 40px;">
+	<div style="float: right;width: 250px;margin-top: 40px;">
 		<span style="color:red">* </span><b>: thông tin bắt buộc</b>
 		<br />
 		<p><b>Tên đăng nhập</b>: chỉ chứa số, chữ. Không được bắt đầu bằng số.</p>
-		<br />
-		<p><b>Mật khẩu</b>: phải chứa số, chữ, ký tự đặc biệt. Không được bắt đầu bằng ký tự đặc biệt</p>
 	</div>
 	@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", @id = "contact_form" }))
 	{
+		@*<form class="form-horizontal" role="form" method="post" id="register-form-inner" onsubmit="return GeneratePwd()" action="/Account/Register">*@
 		<fieldset>
 			<legend class="title">Đăng ký thành viên</legend>
 			@Html.AntiForgeryToken()
 			@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
-			@*<div class="pull-right">
-					<span style="color:red">* </span><b>: thông tin bắt buộc</b>
-				</div>*@
 
 			<div class="form-group">
 				<label class="col-md-4 control-label">Tên đăng nhập <span style="color:red">*</span></label>
@@ -64,7 +68,7 @@
 				<div class="col-md-4 inputGroupContainer">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-						@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Mật khẩu" })
+						@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Mật khẩu", @id = "id_register_password" })
 					</div>
 				</div>
 			</div>
@@ -82,7 +86,7 @@
 				<div class="col-md-4 inputGroupContainer">
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-						@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Nhập lại mật khẩu" })
+						@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Nhập lại mật khẩu", @id = "id_register_password_confirmation" })
 					</div>
 				</div>
 			</div>
@@ -134,12 +138,13 @@
 			<div class="form-group">
 				<label class="col-md-4 control-label"></label>
 				<div class="col-md-2">
-					<button type="submit" class="btn btn-warning">Đăng ký <span class="glyphicon glyphicon-send"></span></button>
+					<button type="submit" id="register-submit" class="btn btn-warning">Đăng ký <span class="glyphicon glyphicon-send"></span></button>
 				</div>
 				<div class="col-md-2">
 					<a href="~/Home/HomePage" class="btn btn-danger">Hủy</a>
 				</div>
 			</div>
 		</fieldset>
+		@*</form>*@
 	}
 </div>

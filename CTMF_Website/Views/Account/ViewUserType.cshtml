@@ -53,10 +53,11 @@
 			<tbody>
 				@foreach (System.Data.DataRow row in Model.Rows)
 				{
-					count++;
+					
 					_typeShortName = row["TypeShortName"].ToString();
 					if (!_typeShortName.Equals("DF"))
 					{
+						count++;
 						<tr>
 							<td>@(count)</td>
 							<td>@row["TypeName"]</td>

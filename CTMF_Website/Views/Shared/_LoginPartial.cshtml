@@ -20,8 +20,9 @@
 				<h4 class="modal-title" style="text-align: center; font-weight: bold; font-size: 1.4em; text-transform: uppercase; color: #B00622">Đăng Nhập</h4>
 			</div>
 			<div class="modal-body">
-				@using (Html.BeginForm("Login", "Account", new { onsubmit = "return GeneratePwdLogin();" }, FormMethod.Post))
+				@using (Html.BeginForm("Login", "Account", FormMethod.Post))
 				{
+					@*<form onsubmit="return GeneratePwdLogin()" role="form" method="post" action="/Account/Login">*@
 					@Html.AntiForgeryToken()
 					@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
 					<div style="width:300px;margin:0px auto">
@@ -41,7 +42,7 @@
 								@Html.LabelFor(m => m.Password)
 							</div>
 							<div>
-								@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Mật khẩu", id = "id_login_password" })
+								@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Mật khẩu", @id = "id_login_password" })
 							</div>
 							<div>
 								@Html.ValidationMessageFor(m => m.Password, String.Empty, new { @style = "color:red" })
@@ -62,16 +63,9 @@
 							<input class="btn btn-primary" value="Đăng nhập" type="submit">
 						</div>
 					</div>
+					@*</form>*@
 				}
 			</div>
 		</div>
 	</div>
 </div>
-
-@*<script>
-		$(document).ready(function () {
-			$("#login").modal({
-				backdrop: 'static',
-			});
-		});
-	</script>*@
