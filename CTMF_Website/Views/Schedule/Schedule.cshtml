@@ -6,6 +6,16 @@
 		width: 20px;
 		border: 1px solid black;
 	}
+
+	.span-day-off {
+		margin-left: 10px;
+		color: red;
+	}
+
+	.span-day-on {
+		margin-left: 10px;
+		color: black;
+	}
 </style>
 <script src="~/Scripts/ekko-lightbox.js"></script>
 <link rel="stylesheet" href="~/CSS/Schedule.css" />
@@ -425,17 +435,23 @@
 
 						$('.serving-time-table tr').empty();
 						$('.span-day-off').empty();
+						$('.span-day-on').remove();
 						$('#unrecord-span').remove();
 
 						if (unrecord != 0) {
 							$('.date-detail-header').first().before($('<span></span>').attr('id', 'unrecord-span').css({'font-size': '18px'}).text('Không được ghi nhận vào bữa:' + unrecord));
 						}
 
-
 						var label = 65;
 						var schedule = data.result;
 						for (j = 0; j < schedule.length; j++) {
 							var $table = $('#serving-time-table-' + schedule[j].ServingTimeID);
+							var $header = $('#date-detail-header-' + schedule[j].ServingTimeID);
+
+							if ($header.children('span').children('#day-status').length == 0 && schedule[j].IsDayOn) {
+								var $span = $('<span></span>').text('(Hoạt động)').attr({ 'class': 'span-day-on', 'id': 'day-status' });
+								$header.children('.span-eating-time').append($span);
+							}
 
 							if (schedule[j].MealSetID != null) {
 								var $tr = $('<tr></tr>');
@@ -474,9 +490,7 @@
 								$table.append($tr);
 							}
 							else if (!schedule[j].IsDayOn) {
-								var $header = $('#date-detail-header-' + schedule[j].ServingTimeID);
-
-								var $span = $('<span></span>').text('(Nghỉ)').attr('class', 'span-day-off');
+								var $span = $('<span></span>').text('(Nghỉ)').attr({ 'class': 'span-day-off', 'id': 'day-status' });
 								$header.children('.span-eating-time').append($span);
 							}
 						}
