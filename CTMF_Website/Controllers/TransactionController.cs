@@ -353,7 +353,6 @@ namespace CTMF_Website.Controllers
 
 				if (transactionType != null || date != null)
 				{
-
 					if (transactionType != null)
 					{
 						conditionQuery += "AND TH.TransactionTypeID = " + transactionType + " ";
