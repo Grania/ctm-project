@@ -468,3 +468,29 @@ footer {
 	width: 100%;
 	background: rgba(192, 192, 192, 0.7);
 }
+
+
+.thumbnail {
+		padding: 0 0 15px 0;
+		border: none;
+		border-radius: 0;
+	}
+
+		.thumbnail p {
+			color: #555;
+		}
+
+	#add-mealSet-Dish {
+		margin-top: 10px;
+		padding: 10px 20px;
+		background-color: #1473D1;
+		color: #f1f1f1;
+		border-radius: 0;
+		transition: .2s;
+	}
+
+		#add-mealSet-Dish:hover, #add-mealSet-Dish:focus {
+			border: 1px solid #1473D1;
+			background-color: #fff;
+			color: #000;
+		}
