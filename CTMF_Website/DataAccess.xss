@@ -13,8 +13,8 @@
     <Shape ID="DesignTable:Announcement" ZOrder="33" X="486" Y="-12" Height="54" Width="158" AdapterExpanded="false" DataTableExpanded="false" OldAdapterHeight="84" OldDataTableHeight="40" SplitterPosition="24" />
     <Shape ID="DesignTable:TransactionHistory" ZOrder="10" X="60" Y="7" Height="54" Width="300" AdapterExpanded="false" DataTableExpanded="false" OldAdapterHeight="121" OldDataTableHeight="216" SplitterPosition="24" />
     <Shape ID="DesignTable:UserInfo" ZOrder="22" X="792" Y="60" Height="54" Width="300" AdapterExpanded="false" DataTableExpanded="false" OldAdapterHeight="215" OldDataTableHeight="273" SplitterPosition="24" />
-    <Shape ID="DesignTable:Account" ZOrder="24" X="924" Y="279" Height="55" Width="300" AdapterExpanded="false" DataTableExpanded="false" OldAdapterHeight="101" OldDataTableHeight="102" SplitterPosition="25" />
-    <Shape ID="DesignTable:DishInfoDetail" ZOrder="1" X="745" Y="-87" Height="343" Width="228" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="24" OldDataTableHeight="24" SplitterPosition="254" />
+    <Shape ID="DesignTable:Account" ZOrder="24" X="924" Y="279" Height="55" Width="300" AdapterExpanded="false" DataTableExpanded="false" OldAdapterHeight="120" OldDataTableHeight="102" SplitterPosition="25" />
+    <Shape ID="DesignTable:DishInfoDetail" ZOrder="1" X="745" Y="-87" Height="54" Width="228" AdapterExpanded="false" DataTableExpanded="false" OldAdapterHeight="83" OldDataTableHeight="254" SplitterPosition="24" />
     <Shape ID="DesignTable:UserType" ZOrder="37" X="940" Y="-42" Height="54" Width="204" AdapterExpanded="false" DataTableExpanded="false" OldAdapterHeight="178" OldDataTableHeight="216" SplitterPosition="24" />
     <Shape ID="DesignTable:TransactionType" ZOrder="28" X="102" Y="131" Height="54" Width="240" AdapterExpanded="false" DataTableExpanded="false" OldAdapterHeight="159" OldDataTableHeight="178" SplitterPosition="24" />
     <Shape ID="DesignTable:TransactionHistoryList" ZOrder="21" X="417" Y="248" Height="54" Width="286" AdapterExpanded="false" DataTableExpanded="false" OldAdapterHeight="102" OldDataTableHeight="178" SplitterPosition="24" />

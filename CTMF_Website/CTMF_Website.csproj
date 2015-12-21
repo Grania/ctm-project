@@ -269,7 +269,6 @@
     <Content Include="Views\Account\UserInfo.cshtml" />
     <Content Include="Views\Account\ViewUserType.cshtml" />
     <Content Include="Views\Announce\AddNewAnnounce.cshtml" />
-    <Content Include="Views\Announce\Details.cshtml" />
     <Content Include="Views\Announce\DetailsAnnounce.cshtml" />
     <Content Include="Views\Announce\EditAnnounce.cshtml" />
     <Content Include="Views\Dish\AddDish.cshtml" />
@@ -285,6 +284,11 @@
     <Content Include="Views\Schedule\ListSchedule.cshtml" />
     <Content Include="Views\Report\Report.cshtml" />
     <Content Include="Views\Schedule\GetMealSetModal.cshtml" />
+    <Content Include="Views\Transaction\WithdrawMoney.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Announce\ListAnnounce.cshtml" />
+    <Content Include="Views\MealSet\DetailMealSet.cshtml" />
+    <Content Include="Views\Dish\DetailDish.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\log\" />
