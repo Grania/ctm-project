@@ -475,13 +475,13 @@ namespace CTMF_Website.Controllers
 				int test = mealSetDishDT.Rows.Count;
 				if (mealSetDishDT.Rows.Count >= 6)
 				{
-					Session["maxMealsetDish"] = "Số lượng món ăn trong suất ăn đã đầy. Bỏ món ăn bạn ko cần để có thể thêm món mới!";
+					Session["maxMealsetDish"] = "Số lượng món ăn trong suất ăn đã đầy. Bỏ món ăn ko cần để có thể thêm món mới!";
 					return PartialView("_MealSetDish", model);
 				}
 				mealSetDishDT = mealSetDishAdapter.GetDataByMealsetDish(mealset, dish);
 				if (mealSetDishDT.Rows.Count != 0)
 				{
-					Session["existMealsetDish"] = "Món ăn đã được thêm trước đó. Bạn vui lòng chọn món ăn khác!";
+					Session["existMealsetDish"] = "Món ăn đã được thêm trước đó. Vui lòng chọn món ăn khác!";
 					return PartialView("_MealSetDish", model);
 				}
 				mealSetDishAdapter.InsertMealSetDish(mealset,dish);

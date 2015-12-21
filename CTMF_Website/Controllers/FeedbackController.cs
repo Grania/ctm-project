@@ -32,6 +32,7 @@ namespace CTMF_Website.Controllers
 			return Json(message, JsonRequestBehavior.AllowGet);
 		}
 
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult ListFeedback()
 		{
 			DataTable feedbackDT = new DataTable();
