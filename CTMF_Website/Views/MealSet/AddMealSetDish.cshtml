@@ -13,37 +13,15 @@
 
 	string max = (string)(Session["maxMealsetDish"]);
 	string exist = (string)(Session["existMealsetDish"]);
+
+	Session.Remove("maxMealsetDish");
+	Session.Remove("existMealsetDish");
 }
 
 <script src="~/Scripts/ekko-lightbox.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 
-<style>
-	.thumbnail {
-		padding: 0 0 15px 0;
-		border: none;
-		border-radius: 0;
-	}
 
-		.thumbnail p {
-			color: #555;
-		}
-
-	#add-mealSet-Dish {
-		margin-top: 10px;
-		padding: 10px 20px;
-		background-color: #1473D1;
-		color: #f1f1f1;
-		border-radius: 0;
-		transition: .2s;
-	}
-
-		#add-mealSet-Dish:hover, #add-mealSet-Dish:focus {
-			border: 1px solid #1473D1;
-			background-color: #fff;
-			color: #000;
-		}
-</style>
 <script>
 	$(document).ready(function () {
 		setRemoveEvent();
@@ -62,6 +40,17 @@
 				$(this).parent().parent().remove();
 			}
 		});
+	}
+
+	function check() {
+		var maxMessage = '@Html.Raw(max)';
+		var existMessage = '@Html.Raw(exist)';
+		if (maxMessage != '') {
+			alert(maxMessage);
+		}
+		if (existMessage != '') {
+			alert(existMessage);
+		}
 	}
 
 	$(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
@@ -173,7 +162,7 @@
 							HttpMethod = "GET",
 							UpdateTargetId = "mealset-dish",
 							InsertionMode = InsertionMode.InsertAfter,
-							OnSuccess = "setRemoveEvent()"
+							OnSuccess = "setRemoveEvent(); check();"
 						},
 					new { @class = "btn", @id = "add-mealSet-Dish" })
 							</div>
