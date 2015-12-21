@@ -20,6 +20,11 @@
 		color: red;
 	}
 
+	.span-day-on {
+		margin-left: 10px;
+		color: black;
+	}
+
 	.ctmf-select-day {
 		cursor: pointer;
 	}
@@ -122,7 +127,8 @@
 							}
 
 							$('.serving-time-table tr').empty();
-							$('.span-day-off').empty();
+							$('.span-day-off').remove();
+							$('.span-day-on').remove();
 
 							var label = 65;
 							var schedule = result.result;
@@ -160,6 +166,12 @@
 
 							for (j = 0; j < schedule.length; j++) {
 								var $table = $('#serving-time-table-' + schedule[j].ServingTimeID);
+								var $header = $('#date-detail-header-' + schedule[j].ServingTimeID);
+
+								if ($header.children('span').children('#day-status').length == 0 && schedule[j].IsDayOn) {
+									var $span = $('<span></span>').text('(Hoạt động)').attr({ 'class': 'span-day-on', 'id': 'day-status' });
+									$header.children('.span-eating-time').append($span);
+								}
 
 								if (schedule[j].MealSetID != null) {
 									var $tr = $('<tr></tr>');
@@ -183,11 +195,8 @@
 									$table.append($tr);
 								}
 								else if (!schedule[j].IsDayOn) {
-									var $header = $('#date-detail-header-' + schedule[j].ServingTimeID);
-
-									var $span = $('<span></span>').text('(Nghỉ)').attr('class', 'span-day-off');
+									var $span = $('<span></span>').text('(Nghỉ)').attr({ 'class': 'span-day-off', 'id': 'day-status' });
 									$header.children('.span-eating-time').append($span);
-									//$table.append('<tr><td></td><td></td><td><h2>Nghỉ</h2></td><td></td></tr>')
 								}
 							}
 						}
