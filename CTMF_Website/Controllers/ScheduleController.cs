@@ -664,7 +664,6 @@ namespace CTMF_Website.Controllers
 				servingTimeModel.endTime = (TimeSpan)servingTimeDataTable.Rows[0]["EndTime"];
 				servingTimeModel.insertDate = Convert.ToDateTime(servingTimeDataTable.Rows[0]["InsertedDate"]);
 				servingTimeModel.lastUpdate = Convert.ToDateTime(servingTimeDataTable.Rows[0]["LastUpdated"]);
-
 			}
 			catch (Exception ex)
 			{
@@ -692,7 +691,15 @@ namespace CTMF_Website.Controllers
 				string name = servingTimeModel.Name;
 				TimeSpan startTime = servingTimeModel.startTime;
 				TimeSpan endTime = servingTimeModel.endTime;
+				if (startTime.Days > 0)
+				{
+					startTime = TimeSpan.FromHours(startTime.Days);
+				}
 
+				if (endTime.Days > 0)
+				{
+					endTime = TimeSpan.FromHours(endTime.Days);
+				}
 				TimeSpan startTimeDB, endTimeDB;
 
 				if (startTime > endTime)
@@ -774,6 +781,16 @@ namespace CTMF_Website.Controllers
 				TimeSpan startTime = servingTimeModel.startTime;
 				TimeSpan endTime = servingTimeModel.endTime;
 
+				if (startTime.Days > 0)
+				{
+					startTime = TimeSpan.FromHours(startTime.Days);
+				}
+
+				if (endTime.Days > 0)
+				{
+					endTime = TimeSpan.FromHours(endTime.Days);
+				}
+
 				TimeSpan startTimeDB, endTimeDB;
 
 				if (startTime > endTime)
@@ -793,7 +810,6 @@ namespace CTMF_Website.Controllers
 						return View(servingTimeModel);
 					}
 				}
-
 				DateTime date = DateTime.Now;
 				servingTimeDataAdapter.Insert(name, startTime, endTime, date, date);
 				Session["addServingTime"] = "Thêm mới thành công!";
@@ -803,7 +819,7 @@ namespace CTMF_Website.Controllers
 				Log.ErrorLog(ex.Message);
 				Session["addServingTime"] = "Thêm mới thất bại!";
 			}
-			return RedirectToAction("AddNewServingTime", "Schedule");
+			return RedirectToAction("ViewServingTime", "Schedule");
 		}
 	}
 }
