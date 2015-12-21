@@ -16,6 +16,32 @@
 	<script>
 		$(document).ready(function () {
 			$(".dropdown-toggle").dropdown();
+
+			$('.dropdown-menu').on({
+				"click": function (e) {
+					e.stopPropagation();
+				}
+			});
+
+			$('#submit-feedback').click(function () {
+				var content = $('#feedback-content').val();
+				var message = '@Html.Raw("Vui lòng điền nội dung phản hồi!")';
+
+				if (content == '') {
+					alert(message);
+				}
+				else {
+					$.ajax({
+						url: '@Url.Action("Feedback", "Feedback")',
+						data: { content: content },
+						tranditional: true,
+						success: function (result) {
+							$('#feedback-content').val() = "";
+							alert(result);
+						}
+					});
+				}
+			});
 		});
 
 		$(function () {
@@ -234,8 +260,14 @@
 				<p>&copy; Nhóm phát triển CTMF</p>
 			</div>
 
-			<div style="float: right;">
-				<p class="btn btn-link">&#60; Gửi thông tin phản hồi &#62;</p>
+			<div class="btn-group dropup" style="float: right;">
+				<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Gửi thông tin phản hồi</button>
+
+				<div class="dropdown-menu" role="menu" style="width: 210px;">
+					<textarea id="feedback-content" class="form-control" style="width: 200px; height: 160px; resize: none;margin-left:4px;"></textarea>
+
+					<button id="submit-feedback" class="btn btn-default" style="margin-top: 10px; margin-left: 50px;">Gửi phản hồi</button>
+				</div>
 			</div>
 		</div>
 	</footer>

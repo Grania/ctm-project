@@ -83,109 +83,111 @@
 		<div style="width:100%; margin-bottom:20px;">
 			<a href="@Url.Action("AddNewAnnounce", "Announce")" class="btn btn-primary">Đăng tin tức mới</a>
 		</div>
-		@using (Html.BeginForm("ListAnnounce", "Announce", FormMethod.Get))
-		{
-			<div>
-				<input type="hidden" name="amountPerPage" value="@Request.QueryString["amountPerPage"]" />
-			</div>
+		<div class="row" style="margin-bottom: 20px;">
+			@using (Html.BeginForm("ListAnnounce", "Announce", FormMethod.Get))
+			{
+				<div>
+					<input type="hidden" name="amountPerPage" value="@Request.QueryString["amountPerPage"]" />
+				</div>
 
-			<div class="col-md-3" style="width: 250px;">
-				<input type="text" class="form-control" name="title" placeholder="Tên thông báo" value="@Request.QueryString["title"]">
-			</div>
+				<div class="col-md-3" style="width: 250px;">
+					<input type="text" class="form-control" name="title" placeholder="Tên thông báo" value="@Request.QueryString["title"]">
+				</div>
 
-			<div class="col-md-2" style="width: 250px;">
-				<input type="text" class="form-control" name="date" placeholder="Ngày" id="txtDate" value="@Request.QueryString["date"]">
-			</div>
+				<div class="col-md-2" style="width: 250px;">
+					<input type="text" class="form-control" name="date" placeholder="Ngày" id="txtDate" value="@Request.QueryString["date"]">
+				</div>
 
-			<div class="col-md-1">
-				<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+				<div class="col-md-1">
+					<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+				</div>
+			}
 			</div>
-		}
-		<table class="table table-bordered table-hover table-condensed">
-			<thead>
-				<tr>
-					<th>STT</th>
-					<th>Tiêu đề thông tin</th>
-					<th>Thời gian đăng tin</th>
-					<th>Thời gian cập nhật</th>
-					<th>Quản lý</th>
-				</tr>
-			</thead>
-			@{
-				string page = Request.QueryString["page"];
-				string nextUrl, prevUrl;
-				if (String.IsNullOrWhiteSpace(page))
-				{
-					if (Request.QueryString.Count == 0)
+			<table class="table table-bordered table-hover table-condensed">
+				<thead>
+					<tr>
+						<th>STT</th>
+						<th>Tiêu đề thông tin</th>
+						<th>Thời gian đăng tin</th>
+						<th>Thời gian cập nhật</th>
+						<th>Quản lý</th>
+					</tr>
+				</thead>
+				@{
+					string page = Request.QueryString["page"];
+					string nextUrl, prevUrl;
+					if (String.IsNullOrWhiteSpace(page))
 					{
-						nextUrl = Request.Url.ToString() + "?page=2";
-						prevUrl = "#";
-					}
-					else
-					{
-						nextUrl = Request.Url.ToString() + "&page=2";
-						prevUrl = "#";
-					}
-				}
-				else
-				{
-					int page_;
-					if (!int.TryParse(page, out page_))
-					{
-						nextUrl = Request.Url.ToString() + "&page=2";
-						prevUrl = "#";
-					}
-					else
-					{
-						if (Request.Url.ToString().Contains("&page=" + page))
+						if (Request.QueryString.Count == 0)
 						{
-							nextUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ + 1));
-							prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
+							nextUrl = Request.Url.ToString() + "?page=2";
+							prevUrl = "#";
 						}
 						else
 						{
-							nextUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ + 1));
-							prevUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ - 1));
+							nextUrl = Request.Url.ToString() + "&page=2";
+							prevUrl = "#";
+						}
+					}
+					else
+					{
+						int page_;
+						if (!int.TryParse(page, out page_))
+						{
+							nextUrl = Request.Url.ToString() + "&page=2";
+							prevUrl = "#";
+						}
+						else
+						{
+							if (Request.Url.ToString().Contains("&page=" + page))
+							{
+								nextUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ + 1));
+								prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
+							}
+							else
+							{
+								nextUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ + 1));
+								prevUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ - 1));
+							}
 						}
 					}
 				}
-			}
-			@foreach (System.Data.DataRow row in Model.Rows)
-			{
-				<tr>
-					<td>@row["RowNum"]</td>
-					<td>@row["Title"]</td>
-					<td>@(((DateTime)row["InsertedDate"]).ToString("dd/MM/yyyy"))</td>
-					<td>@(((DateTime)row["LastUpdated"]).ToString("dd/MM/yyyy"))</td>
-					<td>
-						<a href="@Url.Action("EditAnnounce", "Announce", new { @announceID = row["AnnouncementID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
-						<a href="@Url.Action("DeleteAnnounce", "Announce", new { @announceID = row["AnnouncementID"] })" onclick="return confirm('Bạn có chắc chắn muốn xóa tin tức: @row["Title"]')" class="btn btn-danger" title="Sửa"><span class="glyphicon glyphicon-remove-sign"></span></a>
-					</td>
-				</tr>
-			}
-		</table>
-		<div id="footer">
-			<div>
-				<nav>
-					<ul class="pager">
-						@if (maxPage != 0 && curPage != 1)
-						{
-							<li><a href="@prevUrl">Trước</a></li>
-						}
-						@if (curPage != maxPage)
-						{
-							<li><a href="@nextUrl">Sau</a></li>
-						}
-					</ul>
-				</nav>
+				@foreach (System.Data.DataRow row in Model.Rows)
+				{
+					<tr>
+						<td>@row["RowNum"]</td>
+						<td>@row["Title"]</td>
+						<td>@(((DateTime)row["InsertedDate"]).ToString("dd/MM/yyyy"))</td>
+						<td>@(((DateTime)row["LastUpdated"]).ToString("dd/MM/yyyy"))</td>
+						<td>
+							<a href="@Url.Action("EditAnnounce", "Announce", new { @announceID = row["AnnouncementID"] })" class="btn btn-primary" title="Sửa"><span class="glyphicon glyphicon-pencil"></span></a>
+							<a href="@Url.Action("DeleteAnnounce", "Announce", new { @announceID = row["AnnouncementID"] })" onclick="return confirm('Bạn có chắc chắn muốn xóa tin tức: @row["Title"]')" class="btn btn-danger" title="Sửa"><span class="glyphicon glyphicon-remove-sign"></span></a>
+						</td>
+					</tr>
+				}
+			</table>
+			<div id="footer">
+				<div>
+					<nav>
+						<ul class="pager">
+							@if (maxPage != 0 && curPage != 1)
+							{
+								<li><a href="@prevUrl">Trước</a></li>
+							}
+							@if (curPage != maxPage)
+							{
+								<li><a href="@nextUrl">Sau</a></li>
+							}
+						</ul>
+					</nav>
+				</div>
+				<div style="margin-bottom:20px;">
+					Đi đến trang :
+					<select id="ddlPageSelect"></select>
+					/ @maxPage
+					<a class="btn btn-primary" id="btnGo">Đi</a>
+				</div>
 			</div>
-			<div style="margin-bottom:20px;">
-				Đi đến trang :
-				<select id="ddlPageSelect"></select>
-				/ @maxPage
-				<a class="btn btn-primary" id="btnGo">Đi</a>
-			</div>
-		</div>
 
-	</fieldset>
+</fieldset>
 </div>
