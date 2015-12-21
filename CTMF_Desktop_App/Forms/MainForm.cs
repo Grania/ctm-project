@@ -14,6 +14,7 @@ namespace CTMF_Desktop_App.Forms
 		internal static Home homeForm;
 		internal static AccountManage accountManageForm;
 		internal static SettingManage settingManageForm;
+		internal static TransactionView transactionViewForm;
 
 		public MainForm(string username_, DateTime loginTime_)
 		{
@@ -39,6 +40,11 @@ namespace CTMF_Desktop_App.Forms
 			settingManageForm.TopLevel = false;
 			this.pnlSettingManage.Controls.Add(settingManageForm);
 			settingManageForm.Show();
+
+			transactionViewForm = new TransactionView();
+			transactionViewForm.TopLevel = false;
+			this.pnlTransactionView.Controls.Add(transactionViewForm);
+			transactionViewForm.Show();
 		}
 
 		private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -58,6 +64,12 @@ namespace CTMF_Desktop_App.Forms
 			accountManageForm.Width = this.pnlAccountManager.Width;
 		}
 
+		private void pnlTransactionView_SizeChanged(object sender, EventArgs e)
+		{
+			transactionViewForm.Height = this.pnlTransactionView.Height;
+			transactionViewForm.Width = this.pnlTransactionView.Width;
+		}
+
 		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			TabPage selectedTab = tabControl.SelectedTab;
@@ -66,9 +78,13 @@ namespace CTMF_Desktop_App.Forms
 			{
 				accountManageForm.LoadForm();
 			}
-			if (selectedTab == settingManageTab)
+			else if (selectedTab == settingManageTab)
 			{
 				pnlSettingManage.Focus();
+			}
+			else if (selectedTab == transactionViewTab)
+			{
+				transactionViewForm.LoadFrom();
 			}
 		}
 	}

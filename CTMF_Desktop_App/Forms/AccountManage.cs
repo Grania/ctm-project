@@ -117,6 +117,8 @@ namespace CTMF_Desktop_App.Forms
 					MessageBox.Show("Không thể kết nối tới máy quét.");
 					return;
 				}
+
+				btnStopDevice.Enabled = true;
 			}
 
 			string username = dataGridView.SelectedRows[0].Cells["Username"].Value.ToString();
@@ -307,6 +309,14 @@ namespace CTMF_Desktop_App.Forms
 			_isLoaded = false;
 			customerDT = null;
 			LoadForm();
+		}
+
+		private void btnStopDevice_Click(object sender, EventArgs e)
+		{
+			DeviceControl.PSCloseDevice();
+			_scannerPortNumber = -1;
+
+			btnStopDevice.Enabled = false;
 		}
 	}
 }

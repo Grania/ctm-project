@@ -119,7 +119,7 @@ namespace CTMF_Desktop_App
 			Log.ActivityLog("-----------------------End sync transaction-----------------------");
 		}
 
-		internal static string PayForFood(Customer customer, bool eatMoreFlag, int? scheduleMealSetDetailID)
+		internal static Bill PayForFood(Customer customer, bool eatMoreFlag, int? scheduleMealSetDetailID, string mealSetName)
 		{
 			UserInfoTableAdapter userInfoTA = new UserInfoTableAdapter();
 
@@ -144,9 +144,11 @@ namespace CTMF_Desktop_App
 			int curMoney = sumOfMoney.Value + amountOfMoney;
 
 			int payMoney = customer.MealValue;
+			bool isEatMore = false;
 			if (customer.CanEatMore && eatMoreFlag && customer.MoreMealValue != null)
 			{
 				payMoney += customer.MoreMealValue.Value;
+				isEatMore = true;
 			}
 
 			int remainMoney = curMoney - payMoney;
@@ -154,19 +156,33 @@ namespace CTMF_Desktop_App
 			{
 				if (!customer.CanDebt)
 				{
-					return "TK da het tien";
+					return new Bill()
+					{
+						alert = "TK da het tien",
+						isSuccess = false
+					};
 				}
 			}
 
 			DateTime insertedDate = DateTime.Now;
-			string TransactionHistoryIDStr = transactionHistoryTA.InsertScalar(customer.Username, 1, (-1) * payMoney, "Ăn"
+			string transactionContent = isEatMore ? "Ăn thêm + " + customer.MoreMealValue.Value : "Ăn";
+
+			string TransactionHistoryIDStr = transactionHistoryTA.InsertScalar(customer.Username, 1, (-1) * payMoney, transactionContent
 				, scheduleMealSetDetailID, true, insertedDate, CTMF_Desktop_App.Forms.MainForm.username, insertedDate).ToString();
 
 			int TransactionHistoryID = int.Parse(TransactionHistoryIDStr);
-			XmlSync.SaveTransactionHistoryXml(TransactionHistoryID, customer.Username, 1, (-1) * payMoney, "Ăn"
+			XmlSync.SaveTransactionHistoryXml(TransactionHistoryID, customer.Username, 1, (-1) * payMoney, transactionContent
 				, scheduleMealSetDetailID, true, insertedDate, CTMF_Desktop_App.Forms.MainForm.username, insertedDate);
 
-			return "Con lai:" + remainMoney;
+			return new Bill()
+			{
+				username = customer.Username,
+				transactionContent = transactionContent,
+				mealSetName = mealSetName,
+				insertedDate = insertedDate,
+				isSuccess = true,
+				alert = "Con lai:" + remainMoney
+			};
 		}
 	}
 }

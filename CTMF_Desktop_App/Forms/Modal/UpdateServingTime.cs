@@ -78,15 +78,24 @@ namespace CTMF_Desktop_App.Forms.Modal
 				return;
 			}
 
-			int? scheduleID = new ScheduleTableAdapter().GetIDFromDateAndServingTime(now.Date, servingTimeID);
-			if (scheduleID == null)
+			DataTable schedule = new ScheduleTableAdapter().GetDataByDateAndServingTime(now.Date, servingTimeID);
+			if (schedule.Rows.Count != 1)
 			{
 				this._scheduleID = null;
 				MessageBox.Show("Không tìm thấy lịch ăn cho bữa ăn này.");
+				btnOk.Enabled = false;
+				return;
+			}
+			else if (!schedule.Rows[0].Field<bool>("IsDayOn"))
+			{
+				this._scheduleID = null;
+				MessageBox.Show("Bữa ăn này đang được đặt là nghỉ.");
+				btnOk.Enabled = false;
 				return;
 			}
 
-			this._scheduleID = scheduleID;
+			//this._scheduleID = scheduleID;
+			this._scheduleID = schedule.Rows[0].Field<int>("ScheduleID");
 
 			dataGridView.ColumnCount = 2;
 			dataGridView.Columns[0].Name = "Mã suất";
@@ -97,7 +106,7 @@ namespace CTMF_Desktop_App.Forms.Modal
 			try
 			{
 				MealSetInScheduleDetailTableAdapter mealSetInScheduleDetailTA = new MealSetInScheduleDetailTableAdapter();
-				DataTable dt = mealSetInScheduleDetailTA.GetDataByScheduleID(scheduleID.Value);
+				DataTable dt = mealSetInScheduleDetailTA.GetDataByScheduleID(this._scheduleID.Value);
 
 				if (dt.Rows.Count == 0)
 				{
@@ -121,6 +130,7 @@ namespace CTMF_Desktop_App.Forms.Modal
 			{
 				MessageBox.Show("Có lỗi khi lấy dữ liệu.");
 				Log.ErrorLog(ex.Message);
+				btnOk.Enabled = false;
 			}
 
 			btnOk.Enabled = true;

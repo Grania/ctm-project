@@ -44,6 +44,7 @@
 			this.cbSendToServer = new System.Windows.Forms.CheckBox();
 			this.bwSend = new System.ComponentModel.BackgroundWorker();
 			this.lblSendReport = new System.Windows.Forms.Label();
+			this.btnStopDevice = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
 			this.SuspendLayout();
@@ -189,7 +190,7 @@
 			// btnUpdateFingerPrint
 			// 
 			this.btnUpdateFingerPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnUpdateFingerPrint.Location = new System.Drawing.Point(12, 563);
+			this.btnUpdateFingerPrint.Location = new System.Drawing.Point(145, 564);
 			this.btnUpdateFingerPrint.Name = "btnUpdateFingerPrint";
 			this.btnUpdateFingerPrint.Size = new System.Drawing.Size(108, 23);
 			this.btnUpdateFingerPrint.TabIndex = 3;
@@ -202,7 +203,7 @@
 			this.cbSendToServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.cbSendToServer.AutoSize = true;
-			this.cbSendToServer.Location = new System.Drawing.Point(126, 567);
+			this.cbSendToServer.Location = new System.Drawing.Point(259, 568);
 			this.cbSendToServer.Name = "cbSendToServer";
 			this.cbSendToServer.Size = new System.Drawing.Size(91, 17);
 			this.cbSendToServer.TabIndex = 4;
@@ -219,11 +220,23 @@
 			this.lblSendReport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblSendReport.AutoSize = true;
-			this.lblSendReport.Location = new System.Drawing.Point(223, 568);
+			this.lblSendReport.Location = new System.Drawing.Point(356, 569);
 			this.lblSendReport.Name = "lblSendReport";
 			this.lblSendReport.Size = new System.Drawing.Size(74, 13);
 			this.lblSendReport.TabIndex = 5;
 			this.lblSendReport.Text = "lblSendReport";
+			// 
+			// btnStopDevice
+			// 
+			this.btnStopDevice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnStopDevice.Enabled = false;
+			this.btnStopDevice.Location = new System.Drawing.Point(12, 564);
+			this.btnStopDevice.Name = "btnStopDevice";
+			this.btnStopDevice.Size = new System.Drawing.Size(128, 23);
+			this.btnStopDevice.TabIndex = 6;
+			this.btnStopDevice.Text = "Dừng sử dụng máy quét";
+			this.btnStopDevice.UseVisualStyleBackColor = true;
+			this.btnStopDevice.Click += new System.EventHandler(this.btnStopDevice_Click);
 			// 
 			// AccountManage
 			// 
@@ -231,6 +244,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.ClientSize = new System.Drawing.Size(1000, 597);
+			this.Controls.Add(this.btnStopDevice);
 			this.Controls.Add(this.lblSendReport);
 			this.Controls.Add(this.cbSendToServer);
 			this.Controls.Add(this.btnUpdateFingerPrint);
@@ -266,6 +280,7 @@
 		private System.Windows.Forms.CheckBox cbSendToServer;
 		private System.ComponentModel.BackgroundWorker bwSend;
 		private System.Windows.Forms.Label lblSendReport;
+		private System.Windows.Forms.Button btnStopDevice;
 
 
 	}

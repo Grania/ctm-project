@@ -35,7 +35,7 @@
 			this.lblTransactionCount = new System.Windows.Forms.Label();
 			this.lblLoginTime = new System.Windows.Forms.Label();
 			this.lblDeviceCount = new System.Windows.Forms.Label();
-			this.lblTransactionToServerCout = new System.Windows.Forms.Label();
+			this.lblTransactionToServerCount = new System.Windows.Forms.Label();
 			this.lblFingerPrintCount = new System.Windows.Forms.Label();
 			this.lblUserCount = new System.Windows.Forms.Label();
 			this.lblUsername = new System.Windows.Forms.Label();
@@ -53,9 +53,13 @@
 			this.dgvScheduleMealSet = new System.Windows.Forms.DataGridView();
 			this.label10 = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
+			this.pnlHiddenEatingInfo = new System.Windows.Forms.Panel();
+			this.label11 = new System.Windows.Forms.Label();
+			this.btnSetServingTime = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvScheduleMealSet)).BeginInit();
+			this.pnlHiddenEatingInfo.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnAddDevice
@@ -98,7 +102,7 @@
 			this.groupBox1.Controls.Add(this.lblTransactionCount);
 			this.groupBox1.Controls.Add(this.lblLoginTime);
 			this.groupBox1.Controls.Add(this.lblDeviceCount);
-			this.groupBox1.Controls.Add(this.lblTransactionToServerCout);
+			this.groupBox1.Controls.Add(this.lblTransactionToServerCount);
 			this.groupBox1.Controls.Add(this.lblFingerPrintCount);
 			this.groupBox1.Controls.Add(this.lblUserCount);
 			this.groupBox1.Controls.Add(this.lblUsername);
@@ -145,12 +149,12 @@
 			// 
 			// lblTransactionToServerCout
 			// 
-			this.lblTransactionToServerCout.AutoSize = true;
-			this.lblTransactionToServerCout.Location = new System.Drawing.Point(238, 192);
-			this.lblTransactionToServerCout.Name = "lblTransactionToServerCout";
-			this.lblTransactionToServerCout.Size = new System.Drawing.Size(139, 13);
-			this.lblTransactionToServerCout.TabIndex = 10;
-			this.lblTransactionToServerCout.Text = "lblTransactionToServerCout";
+			this.lblTransactionToServerCount.AutoSize = true;
+			this.lblTransactionToServerCount.Location = new System.Drawing.Point(238, 192);
+			this.lblTransactionToServerCount.Name = "lblTransactionToServerCout";
+			this.lblTransactionToServerCount.Size = new System.Drawing.Size(139, 13);
+			this.lblTransactionToServerCount.TabIndex = 10;
+			this.lblTransactionToServerCount.Text = "lblTransactionToServerCout";
 			// 
 			// lblFingerPrintCount
 			// 
@@ -256,6 +260,7 @@
 			// 
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox2.Controls.Add(this.pnlHiddenEatingInfo);
 			this.groupBox2.Controls.Add(this.lblServingTime);
 			this.groupBox2.Controls.Add(this.lblDate);
 			this.groupBox2.Controls.Add(this.dgvScheduleMealSet);
@@ -317,6 +322,38 @@
 			this.label9.TabIndex = 0;
 			this.label9.Text = "Ngày :";
 			// 
+			// pnlHiddenEatingInfo
+			// 
+			this.pnlHiddenEatingInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlHiddenEatingInfo.Controls.Add(this.btnSetServingTime);
+			this.pnlHiddenEatingInfo.Controls.Add(this.label11);
+			this.pnlHiddenEatingInfo.Location = new System.Drawing.Point(6, 19);
+			this.pnlHiddenEatingInfo.Name = "pnlHiddenEatingInfo";
+			this.pnlHiddenEatingInfo.Size = new System.Drawing.Size(413, 307);
+			this.pnlHiddenEatingInfo.TabIndex = 12;
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+			this.label11.Location = new System.Drawing.Point(96, 83);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(230, 25);
+			this.label11.TabIndex = 0;
+			this.label11.Text = "Chưa có thông tin bữa ăn";
+			// 
+			// btnSetServingTime
+			// 
+			this.btnSetServingTime.Location = new System.Drawing.Point(140, 111);
+			this.btnSetServingTime.Name = "btnSetServingTime";
+			this.btnSetServingTime.Size = new System.Drawing.Size(141, 23);
+			this.btnSetServingTime.TabIndex = 1;
+			this.btnSetServingTime.Text = "Thiết đặt thông tin bữa ăn";
+			this.btnSetServingTime.UseVisualStyleBackColor = true;
+			this.btnSetServingTime.Click += new System.EventHandler(this.btnSetServingTime_Click);
+			// 
 			// Home
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -337,6 +374,8 @@
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvScheduleMealSet)).EndInit();
+			this.pnlHiddenEatingInfo.ResumeLayout(false);
+			this.pnlHiddenEatingInfo.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -359,7 +398,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label lblLoginTime;
         private System.Windows.Forms.Label lblDeviceCount;
-        private System.Windows.Forms.Label lblTransactionToServerCout;
+        private System.Windows.Forms.Label lblTransactionToServerCount;
         private System.Windows.Forms.Label lblFingerPrintCount;
         private System.Windows.Forms.Label lblUserCount;
         private System.Windows.Forms.Label lblUsername;
@@ -369,6 +408,9 @@
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label lblServingTime;
 		private System.Windows.Forms.Label lblDate;
+		private System.Windows.Forms.Panel pnlHiddenEatingInfo;
+		private System.Windows.Forms.Button btnSetServingTime;
+		private System.Windows.Forms.Label label11;
 
 
 	}

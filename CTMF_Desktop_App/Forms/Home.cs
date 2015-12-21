@@ -168,6 +168,22 @@ namespace CTMF_Desktop_App.Forms
 
 			bool canEatMore = cbxMealSet.Text.Contains("(Có ăn thêm)");
 			device.canEatMore = canEatMore;
+
+			if (cbxMealSet.SelectedValue.ToString() == "0")
+			{
+				device.mealSetName = null;
+			}
+			else
+			{
+				string mealSetName = cbxMealSet.Text;
+				mealSetName = mealSetName.Substring(2, mealSetName.Length - 2);
+				if (canEatMore)
+				{
+					mealSetName = mealSetName.Substring(0, mealSetName.Length - 12);
+				}
+				device.mealSetName = mealSetName;
+			}
+
 			int scheduleMealSetDetailID = int.Parse(cbxMealSet.SelectedValue.ToString());
 			if (scheduleMealSetDetailID > 0)
 			{
@@ -189,6 +205,7 @@ namespace CTMF_Desktop_App.Forms
 				((Button)sender).Text = "Dừng lại";
 				lblStatus.ForeColor = Color.Red;
 				lblStatus.Text = "Đang hoạt động";
+				cbxMealSet.Enabled = false;
 			}
 			else if (device.backgroundWokder.IsBusy)
 			{
@@ -197,6 +214,7 @@ namespace CTMF_Desktop_App.Forms
 				((Button)sender).Text = "Tiếp tục";
 				lblStatus.ForeColor = Color.Green;
 				lblStatus.Text = "Nghỉ";
+				cbxMealSet.Enabled = true;
 			}
 			else
 			{
@@ -205,6 +223,58 @@ namespace CTMF_Desktop_App.Forms
 				((Button)sender).Text = "Dừng lại";
 				lblStatus.ForeColor = Color.Red;
 				lblStatus.Text = "Đang hoạt động";
+				cbxMealSet.Enabled = false;
+			}
+		}
+
+		private void btnRemove_Click(object sender, EventArgs e)
+		{
+			if (bwLoadFingerPrints.IsBusy)
+			{
+				MessageBox.Show("Xin hãy đợi hệ thống tại xong ảnh.");
+				return;
+			}
+
+			Panel devicePanel = ((Button)sender).Parent as Panel;
+			DeviceModel device = null;
+
+			foreach (Control con in devicePanel.Controls)
+			{
+				if (con is Label)
+				{
+					if (con.Name == "DeviceName")
+					{
+						string name = con.Text;
+
+						foreach (DeviceModel d in devices)
+						{
+							if (d.name == name)
+							{
+								device = d;
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			if (device.backgroundWokder == null || !device.backgroundWokder.IsBusy)
+			{
+				device.Close();
+				devices.Remove(device);
+				devicePanel.Dispose();
+			}
+			else
+			{
+				DialogResult dialogResult = MessageBox.Show("Thiết bị đang hoạt động, bạn muốn ngừng ?", "Loại bỏ thiết bị", MessageBoxButtons.YesNo);
+				if (dialogResult == DialogResult.Yes)
+				{
+					device.backgroundWokder.CancelAsync();
+
+					device.Close();
+					devices.Remove(device);
+					devicePanel.Dispose();
+				}
 			}
 		}
 
@@ -253,18 +323,42 @@ namespace CTMF_Desktop_App.Forms
 					if (matchCus == null)
 					{
 						DeviceControl.setLCDText(device.serial, "Khong tim thay\nvan tay phu hop");
+						Thread.Sleep(500);
+						DeviceControl.setLED(device.serial, 1, true);
 						Thread.Sleep(1500);
+						DeviceControl.setLED(device.serial, 1, false);
 					}
 					else
 					{
-						string alert = DataAccess.PayForFood(matchCus, device.eatMoreFlag, device.scheduleMealSetDetailID);
+						Bill bill = DataAccess.PayForFood(matchCus, device.eatMoreFlag, device.scheduleMealSetDetailID, device.mealSetName);
 
 						DeviceControl.setLCDText(device.serial, matchCus.TypetShortName + ":" + matchCus.Username
-							+ "\n" + alert);
+							+ "\n" + bill.alert);
 
 						device.eatMoreFlag = false;
 
+						MainForm.transactionViewForm.AddRow(bill);
+
+						if (bill.isSuccess)
+						{
+							IncreaseTransactinCount();
+							DeviceControl.setLED(device.serial, 2, true);
+						}
+						else
+						{
+							DeviceControl.setLED(device.serial, 1, true);
+						}
+
 						Thread.Sleep(1500);
+
+						if (bill.isSuccess)
+						{
+							DeviceControl.setLED(device.serial, 2, false);
+						}
+						else
+						{
+							DeviceControl.setLED(device.serial, 1, false);
+						}
 					}
 				}
 			}
@@ -412,6 +506,7 @@ namespace CTMF_Desktop_App.Forms
 				btnRemove.Location = new Point(devicePanel.Size.Width - 120, 50);
 				btnRemove.Size = new Size(100, 25);
 				btnRemove.UseVisualStyleBackColor = true;
+				btnRemove.Click += new EventHandler(btnRemove_Click);
 
 				devicePanel.Controls.Add(lblDevicePanelStatusLabel);
 				devicePanel.Controls.Add(lblDevicePanelStatus);
@@ -426,12 +521,14 @@ namespace CTMF_Desktop_App.Forms
 
 				pnlDeviceList.Add(devicePanel);
 				flpnlDevices.Controls.Add(devicePanel);
+
+				lblDeviceCount.Text = devices.Count.ToString();
 			}
 		}
 
 		private void bwLoadFingerPrints_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			MessageBox.Show("Done");
+			MessageBox.Show("Tải ảnh thành công.");
 
 			lastUpdatedFingerPrintDB = XmlSync.GetLastSync();
 
@@ -590,15 +687,17 @@ namespace CTMF_Desktop_App.Forms
 
 						if (lastUpdatedFingerPrint > lastUpdatedFingerPrintDB)
 						{
-							Fingerprint fp = new Fingerprint();
-							MemoryStream ms = new MemoryStream(row.Field<byte[]>("FingerPrintIMG"));
-							Image returnImage = Image.FromStream(ms);
-							fp.AsBitmap = (Bitmap)returnImage;
+							if (found)
+							{
+								Fingerprint fp = new Fingerprint();
+								MemoryStream ms = new MemoryStream(row.Field<byte[]>("FingerPrintIMG"));
+								Image returnImage = Image.FromStream(ms);
+								fp.AsBitmap = (Bitmap)returnImage;
 
-							fingerPrintDB[index].Fingerprints = new List<Fingerprint>();
-							fingerPrintDB[index].Fingerprints.Add(fp);
-							afis.Extract(fingerPrintDB[index]);
-
+								fingerPrintDB[index].Fingerprints = new List<Fingerprint>();
+								fingerPrintDB[index].Fingerprints.Add(fp);
+								afis.Extract(fingerPrintDB[index]);
+							}
 						}
 					}
 				}
@@ -615,20 +714,23 @@ namespace CTMF_Desktop_App.Forms
 			lblUserCount.Text = userCount;
 			lblFingerPrintCount.Text = fingerPrintCount;
 			lblTransactionCount.Text = transactionCount;
-			lblTransactionToServerCout.Text = transactionToServerCount;
+			lblTransactionToServerCount.Text = transactionToServerCount;
 		}
 
 		private void lblUpdateServingTime_Click(object sender, EventArgs e)
 		{
-			using (var form = new UpdateServingTime(scheduleID))
+			if (!(sender is Button && (Button)sender == btnSetServingTime))
 			{
-				form.ShowDialog();
-
-				if (scheduleID != form.scheduleID)
+				using (var form = new UpdateServingTime(scheduleID))
 				{
-					scheduleID = form.scheduleID;
-				}
-			};
+					form.ShowDialog();
+
+					if (scheduleID != form.scheduleID)
+					{
+						scheduleID = form.scheduleID;
+					}
+				};
+			}
 
 			if (scheduleID == null)
 			{
@@ -647,17 +749,26 @@ namespace CTMF_Desktop_App.Forms
 			try
 			{
 				MealSetInScheduleDetailTableAdapter mealSetInScheduleDetailTA = new MealSetInScheduleDetailTableAdapter();
-				DataTable dt = mealSetInScheduleDetailTA.GetDataByScheduleID(scheduleID.Value);
+				DataTable mealSetInScheduleDetailDT = mealSetInScheduleDetailTA.GetDataByScheduleID(scheduleID.Value);
+				DataTable scheduleDT = new ScheduleTableAdapter().GetDataByID(scheduleID.Value);
+
+				if (scheduleDT.Rows.Count != 0)
+				{
+					lblDate.Text = scheduleDT.Rows[0].Field<DateTime>("Date").ToString("dd/MM/yyyy");
+
+					string servingTimeString = new ServingTimeTableAdapter().GetStringByID(scheduleDT.Rows[0].Field<int>("ServingTimeID"));
+					lblServingTime.Text = servingTimeString;
+				}
 
 				dgvScheduleMealSet.Rows.Clear();
 
 				usingMealSetList = new List<KeyValuePair<int, string>>();
 
-				if (dt.Rows.Count != 0)
+				if (mealSetInScheduleDetailDT.Rows.Count != 0)
 				{
 					usingMealSetList.Add(new KeyValuePair<int, string>(0, "<<Không có>>"));
 
-					foreach (DataRow row in dt.Rows)
+					foreach (DataRow row in mealSetInScheduleDetailDT.Rows)
 					{
 						string name = row.Field<string>("Name");
 						int scheduleMealSetDetailID = row.Field<int>("ScheduleMealSetDetailID");
@@ -700,6 +811,45 @@ namespace CTMF_Desktop_App.Forms
 					}
 				}
 			}
+		}
+
+		private void btnSetServingTime_Click(object sender, EventArgs e)
+		{
+			using (var form = new UpdateServingTime(scheduleID))
+			{
+				form.ShowDialog();
+
+				if (scheduleID != form.scheduleID)
+				{
+					scheduleID = form.scheduleID;
+				}
+			};
+
+			if (scheduleID == null)
+			{
+				return;
+			}
+
+			lblUpdateServingTime_Click(btnSetServingTime, e);
+			pnlHiddenEatingInfo.Dispose();
+		}
+
+		public void SetTransactionToServer(int num)
+		{
+			lblTransactionToServerCount.Invoke((MethodInvoker)delegate
+			{
+				lblTransactionToServerCount.Text = num.ToString();
+			});
+		}
+
+		public void IncreaseTransactinCount()
+		{
+			lblTransactionCount.Invoke((MethodInvoker)delegate
+			{
+				int count = int.Parse(lblTransactionToServerCount.Text);
+				count++;
+				lblTransactionCount.Text = count.ToString();
+			});
 		}
 	}
 }

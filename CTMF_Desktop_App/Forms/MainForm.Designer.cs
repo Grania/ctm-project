@@ -40,11 +40,14 @@
 			this.pnlAccountManager = new System.Windows.Forms.Panel();
 			this.settingManageTab = new System.Windows.Forms.TabPage();
 			this.pnlSettingManage = new System.Windows.Forms.Panel();
+			this.transactionViewTab = new System.Windows.Forms.TabPage();
+			this.pnlTransactionView = new System.Windows.Forms.Panel();
 			this.statusStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.homeTab.SuspendLayout();
 			this.accountManageTab.SuspendLayout();
 			this.settingManageTab.SuspendLayout();
+			this.transactionViewTab.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// toolStripStatusLabel1
@@ -70,9 +73,7 @@
 			this.imageList.Images.SetKeyName(0, "home.png");
 			this.imageList.Images.SetKeyName(1, "account.png");
 			this.imageList.Images.SetKeyName(2, "FEZ-04-128.png");
-			this.imageList.Images.SetKeyName(3, "6045658cb8c73ad98963005a99c73661-arrow.png");
-			this.imageList.Images.SetKeyName(4, "Fingerprint-13.png");
-			this.imageList.Images.SetKeyName(5, "fecb8369.png");
+			this.imageList.Images.SetKeyName(3, "transaction-icon-16215.png");
 			// 
 			// tabControl
 			// 
@@ -82,6 +83,7 @@
 			this.tabControl.Controls.Add(this.homeTab);
 			this.tabControl.Controls.Add(this.accountManageTab);
 			this.tabControl.Controls.Add(this.settingManageTab);
+			this.tabControl.Controls.Add(this.transactionViewTab);
 			this.tabControl.ImageList = this.imageList;
 			this.tabControl.ItemSize = new System.Drawing.Size(100, 100);
 			this.tabControl.Location = new System.Drawing.Point(0, 0);
@@ -156,6 +158,27 @@
 			this.pnlSettingManage.Size = new System.Drawing.Size(1000, 597);
 			this.pnlSettingManage.TabIndex = 0;
 			// 
+			// transactionViewTab
+			// 
+			this.transactionViewTab.Controls.Add(this.pnlTransactionView);
+			this.transactionViewTab.ImageIndex = 3;
+			this.transactionViewTab.Location = new System.Drawing.Point(4, 104);
+			this.transactionViewTab.Name = "transactionViewTab";
+			this.transactionViewTab.Size = new System.Drawing.Size(1000, 597);
+			this.transactionViewTab.TabIndex = 3;
+			this.transactionViewTab.UseVisualStyleBackColor = true;
+			// 
+			// pnlTransactionView
+			// 
+			this.pnlTransactionView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlTransactionView.Location = new System.Drawing.Point(0, 0);
+			this.pnlTransactionView.Name = "pnlTransactionView";
+			this.pnlTransactionView.Size = new System.Drawing.Size(1000, 597);
+			this.pnlTransactionView.TabIndex = 0;
+			this.pnlTransactionView.SizeChanged += new System.EventHandler(this.pnlTransactionView_SizeChanged);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -173,6 +196,7 @@
 			this.homeTab.ResumeLayout(false);
 			this.accountManageTab.ResumeLayout(false);
 			this.settingManageTab.ResumeLayout(false);
+			this.transactionViewTab.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -190,5 +214,7 @@
 		private System.Windows.Forms.Panel pnlAccountManager;
 		private System.Windows.Forms.TabPage settingManageTab;
 		private System.Windows.Forms.Panel pnlSettingManage;
+		private System.Windows.Forms.TabPage transactionViewTab;
+		private System.Windows.Forms.Panel pnlTransactionView;
 	}
 }

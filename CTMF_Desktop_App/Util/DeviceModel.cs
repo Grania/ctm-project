@@ -22,6 +22,7 @@ namespace CTMF_Desktop_App.Util
 
 		public char mealSetLabel { get; set; }
 		public int? scheduleMealSetDetailID { get; set; }
+		public string mealSetName { get;set; }
 
 		public DeviceModel()
 		{
@@ -53,6 +54,11 @@ namespace CTMF_Desktop_App.Util
 		public static void SetCount(int count)
 		{
 			_count = count;
+		}
+
+		public void Close()
+		{
+			DeviceControl.close(serial);
 		}
 	}
 }

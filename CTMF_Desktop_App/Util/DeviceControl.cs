@@ -24,7 +24,7 @@ namespace CTMF_Desktop_App.Util
 
 		const string synoDllPath = "SynoAPI.dll";
 		[DllImport(synoDllPath)]
-		public static extern bool PSOpenDevice(int nDeviceType, int nPortNum, int nPortPara, int nPackageSize = 2);
+		internal static extern bool PSOpenDevice(int nDeviceType, int nPortNum, int nPortPara, int nPackageSize = 2);
 
 		[DllImport(synoDllPath)]
 		public static extern bool PSCloseDevice();
