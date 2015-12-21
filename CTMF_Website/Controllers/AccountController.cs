@@ -580,7 +580,7 @@ namespace CTMF_Website.Controllers
 				}
 			}
 
-			return RedirectToAction("EditUser", "Account", new { @username = model.Username});
+			return RedirectToAction("EditUser", "Account", new { @username = model.Username });
 		}
 
 		[Authorize(Roles = "Administrator")]
@@ -779,13 +779,45 @@ namespace CTMF_Website.Controllers
 				userTypeTableAdapter.Delete(typeShortName);
 				Session["deleteUserType"] = "Xóa thành công!";
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Log.ErrorLog(ex.Message);
 				Session["deleteUserType"] = "Xóa thất bại! Loại người dùng này đang được sử dụng.";
 			}
 
-			return RedirectToAction("ViewUserType","Account");
+			return RedirectToAction("ViewUserType", "Account");
+		}
+
+		[Authorize(Roles = "Administrator, Manager")]
+		public JsonResult GetUsernameList()
+		{
+			string query = "SELECT Username FROM UserInfo";
+
+			UserInfoTableAdapter userInfoTA = new UserInfoTableAdapter();
+			userInfoTA.Connection.Open();
+
+			SqlCommand getDataCmd = new SqlCommand(query, userInfoTA.Connection);
+			SqlDataAdapter adapter = new SqlDataAdapter(getDataCmd);
+
+			DataTable dt = new DataTable();
+
+			try
+			{
+				adapter.Fill(dt);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorLog(ex.Message);
+				return Json("error", JsonRequestBehavior.AllowGet);
+			}
+
+			List<string> usernameList = new List<string>();
+			foreach (DataRow row in dt.Rows)
+			{
+				usernameList.Add(row.Field<string>("Username"));
+			}
+
+			return Json(new { result = usernameList }, JsonRequestBehavior.AllowGet);
 		}
 	}
 }
