@@ -346,7 +346,7 @@ namespace CTMF_Website.Util
 							SaveUserInfoXml(userInfoRow.Field<string>("Username"), userInfoRow.Field<string>("Name"), userInfoRow.Field<string>("TypeShortName")
 								, userInfoRow.Field<int>("AmountOfMoney"), userInfoRow.Field<DateTime>("LastUpdatedMoney"), fingerPrintIMG
 								, lastUpdatedFingerPrint, fingerPosition, userInfoRow.Field<bool>("IsCafeteriaStaff")
-								,true, userInfoRow.Field<DateTime>("InsertedDate"), userInfoRow.Field<string>("UpdatedBy")
+								, true, userInfoRow.Field<DateTime>("InsertedDate"), userInfoRow.Field<string>("UpdatedBy")
 								, userInfoRow.Field<DateTime>("LastUpdated"), ignoreSyncID);
 						}
 					}
@@ -772,6 +772,35 @@ namespace CTMF_Website.Util
 					dataSetEl.Descendants("TransactionHistory").Where(d => d.Element("TransactionHistoryID").Value == transactionHistoryID.ToString()).Remove();
 
 					dataSetEl.Add(transactionHistory);
+
+					dataSetXDoc.Save(_path + xmlDataEl.Value);
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+		}
+
+		#endregion
+
+		#region delete to xml
+
+		internal static void DeleteScheduleMealSetDetailXml(int scheduleMealSetDetailID)
+		{
+			try
+			{
+				XDocument xDoc = XDocument.Load(_configFilePath);
+
+				List<XElement> xmlDataEls = xDoc.Element("Clients")
+					.Descendants("Client").Descendants("XmlData").Where(x => x.Attribute("Current").Value == "1").ToList();
+
+				foreach (XElement xmlDataEl in xmlDataEls)
+				{
+					XDocument dataSetXDoc = XDocument.Load(_path + xmlDataEl.Value);
+					XElement dataSetEl = dataSetXDoc.Element("NewDataSet");
+
+					dataSetEl.Descendants("ScheduleMealSetDetail").Where(d => d.Element("ScheduleMealSetDetailID").Value == scheduleMealSetDetailID.ToString()).Remove();
 
 					dataSetXDoc.Save(_path + xmlDataEl.Value);
 				}
