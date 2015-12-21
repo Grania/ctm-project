@@ -12,6 +12,9 @@ namespace CTMF_Website.Models
 		[DataType(DataType.Password)]
 		[Display(Name = "Mật khẩu")]
 		public string Password { get; set; }
+
+		[Display(Name = "Nhớ tài khoản")]
+		public bool Remember { get; set; }
 	}
 
 	public class RegisterModel
