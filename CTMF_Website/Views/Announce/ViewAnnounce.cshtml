@@ -1,19 +1,66 @@
 ﻿@model System.Data.DataTable
 @{
 	ViewBag.Title = "ViewAnnounce";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	int maxPage = ViewBag.maxPage;
+	int curPage = ViewBag.curPage;
+	int amountPerPage = ViewBag.amountPerPage;
 }
 <script src="~/Scripts/ekko-lightbox.js"></script>
-@{
-	string title, ID;
-	string role = CTMF_Website.Util.AccountInfo.GetUserRole(Request);
-}
-
+<link href="~/CSS/table.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/CSS/jquery-ui.css" />
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/datepicker-vi-VN.js"></script>
 <script>
 	$(document).ready(function () {
 		$(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
 			event.preventDefault();
 			$(this).ekkoLightbox();
+		});
+
+		var maxPage = '@(maxPage)';
+		maxPage = parseInt(maxPage);
+		var curPage = '@(Request.QueryString["page"])';
+
+		var error = '@Html.Raw(ViewBag.error)';
+		if (error != '') {
+			alert(error);
+		}
+
+		for (i = 1; i <= maxPage; i++) {
+			if (curPage == i) {
+				$('#ddlPageSelect').append($('<option></option>').attr({ 'value': i, 'selected': 'selected' }).text(i));
+			} else {
+				$('#ddlPageSelect').append($('<option></option>').attr('value', i).text(i));
+			}
+		}
+
+		$('#txtDate').datepicker({
+			"option": $.datepicker.regional['vn-VN'],
+			changeMonth: true,
+			changeYear: true
+		});
+
+		$('#btnGo').click(function () {
+			var page = $('#ddlPageSelect').val();
+
+			var selectedPage = '@(Request.QueryString["page"])';
+			var curHref = window.location.href;
+
+			if (selectedPage == '') {
+				var queryCount = '@(Request.QueryString.Count)';
+				if (queryCount == 0) {
+					curHref += '?page=' + page;
+				} else {
+					curHref += '&page=' + page;
+				}
+			}
+			else {
+				curHref = curHref.replace('&page=' + selectedPage, '&page=' + page);
+				curHref = curHref.replace('?page=' + selectedPage, '?page=' + page);
+			}
+
+			window.location.href = curHref;
 		});
 	});
 </script>
@@ -21,7 +68,64 @@
 <div class="container" style="width: 60%; background-color: #fff; box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5); border-radius: 7px;">
 	<fieldset>
 		<legend class="title">Tin tức</legend>
+		@using (Html.BeginForm("ViewAnnounce", "Announce", FormMethod.Get))
+		{
+			<div>
+				<input type="hidden" name="amountPerPage" value="@Request.QueryString["amountPerPage"]" />
+			</div>
+
+			<div class="col-md-3" style="width: 250px;">
+				<input type="text" class="form-control" name="title" placeholder="Tên thông báo" value="@Request.QueryString["title"]">
+			</div>
+
+			<div class="col-md-2" style="width: 250px;">
+				<input type="text" class="form-control" name="date" placeholder="Ngày" id="txtDate" value="@Request.QueryString["date"]">
+			</div>
+
+			<div class="col-md-1">
+				<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+			</div>
+		}
 		<table class="table table-striped">
+			@{
+				string page = Request.QueryString["page"];
+				string nextUrl, prevUrl;
+				if (String.IsNullOrWhiteSpace(page))
+				{
+					if (Request.QueryString.Count == 0)
+					{
+						nextUrl = Request.Url.ToString() + "?page=2";
+						prevUrl = "#";
+					}
+					else
+					{
+						nextUrl = Request.Url.ToString() + "&page=2";
+						prevUrl = "#";
+					}
+				}
+				else
+				{
+					int page_;
+					if (!int.TryParse(page, out page_))
+					{
+						nextUrl = Request.Url.ToString() + "&page=2";
+						prevUrl = "#";
+					}
+					else
+					{
+						if (Request.Url.ToString().Contains("&page=" + page))
+						{
+							nextUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ + 1));
+							prevUrl = Request.Url.ToString().Replace("&page=" + page, "&page=" + (page_ - 1));
+						}
+						else
+						{
+							nextUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ + 1));
+							prevUrl = Request.Url.ToString().Replace("?page=" + page, "?page=" + (page_ - 1));
+						}
+					}
+				}
+			}
 			@foreach (System.Data.DataRow row in Model.Rows)
 			{
 				string date = ((DateTime)row["InsertedDate"]).ToString("dd/MM/yyyy");
@@ -47,5 +151,27 @@
 				</tr>
 			}
 		</table>
+		<div id="footer">
+			<div>
+				<nav>
+					<ul class="pager">
+						@if (maxPage != 0 && curPage != 1)
+						{
+							<li><a href="@prevUrl">Trước</a></li>
+						}
+						@if (curPage != maxPage)
+						{
+							<li><a href="@nextUrl">Sau</a></li>
+						}
+					</ul>
+				</nav>
+			</div>
+			<div style="margin-bottom:20px;">
+				Đi đến trang :
+				<select id="ddlPageSelect"></select>
+				/ @maxPage
+				<a class="btn btn-primary" id="btnGo">Đi</a>
+			</div>
+		</div>
 	</fieldset>
 </div>
