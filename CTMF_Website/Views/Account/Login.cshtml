@@ -52,12 +52,8 @@
 						</div>
 						<div class="row" style="margin-bottom:10px">
 							<div class="col-sm-6">
-								<label><input type="checkbox"> Nhớ tài khoản</label>
-							</div>
-							<div class="col-sm-6 radio-right">
-								<p>
-									<a href="" title="Quên mật khẩu">Quên mật khẩu</a>
-								</p>
+								@Html.CheckBoxFor(m => m.Remember)
+								@Html.LabelFor(m => m.Remember)
 							</div>
 						</div>
 						<div class="row">

@@ -11,11 +11,11 @@
 	List<SelectListItem> items = ViewData["DishType"] as List<SelectListItem>;
 
 
-	string max = (string)(Session["maxMealsetDish"]);
-	string exist = (string)(Session["existMealsetDish"]);
+	//string max = (string)(Session["maxMealsetDish"]);
+	//string exist = (string)(Session["existMealsetDish"]);
 
-	Session.Remove("maxMealsetDish");
-	Session.Remove("existMealsetDish");
+	//Session.Remove("maxMealsetDish");
+	//Session.Remove("existMealsetDish");
 }
 
 <script src="~/Scripts/ekko-lightbox.js"></script>
@@ -25,6 +25,7 @@
 <script>
 	$(document).ready(function () {
 		setRemoveEvent();
+		check();
 
 		var notExist = '@(ViewBag.notExistMealSet)';
 		if (notExist != '') {
@@ -43,8 +44,8 @@
 	}
 
 	function check() {
-		var maxMessage = '@Html.Raw(max)';
-		var existMessage = '@Html.Raw(exist)';
+		var maxMessage = '@Html.Raw((string)(Session["maxMealsetDish"]))';
+		var existMessage = '@Html.Raw((string)(Session["existMealsetDish"]))';
 		if (maxMessage != '') {
 			alert(maxMessage);
 		}
