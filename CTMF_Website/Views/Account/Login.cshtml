@@ -4,6 +4,15 @@
 	ViewBag.Title = "Login";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Scripts/md5.js"></script>
+<script>
+	function GeneratePwdLogin() {
+		if ($("#id_login_password").val() !== "") {
+			$("#id_login_password").val(hex_md5($("#id_login_password").val()));
+		}
+		return true;
+	}
+</script>
 
 <div id="login" class="modal fade" role="dialog">
 	<div class="modal-dialog" style="width:400px">
@@ -13,7 +22,7 @@
 				<h4 class="modal-title" style="text-align: center; font-weight: bold; font-size: 1.4em; text-transform: uppercase; color: #B00622">Đăng Nhập</h4>
 			</div>
 			<div class="modal-body">
-				@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { ReturnUrl = ViewBag.ReturnUrl }))
+				@using (Html.BeginForm("Login", "Account", new { onsubmit = "return GeneratePwdLogin();" }, FormMethod.Post ))
 				{
 					@Html.AntiForgeryToken()
 					@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
@@ -34,7 +43,7 @@
 								@Html.LabelFor(m => m.Password)
 							</div>
 							<div>
-								@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Mật khẩu" })
+								@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Mật khẩu", id = "id_login_password" })
 							</div>
 							<div>
 								@Html.ValidationMessageFor(m => m.Password, String.Empty, new { @style = "color:red" })

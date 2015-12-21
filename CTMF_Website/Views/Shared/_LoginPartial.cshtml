@@ -1,8 +1,17 @@
 ﻿@model CTMF_Website.Models.LoginViewModel
+<script src="~/Scripts/md5.js"></script>
+<script>
+	function GeneratePwdLogin() {
+		if ($("#id_login_password").val() !== "") {
+			$("#id_login_password").val(hex_md5($("#id_login_password").val()));
+		}
+		return true;
+	}
+</script>
 
 <a href="@Url.Action("Register", "Account")" id="signup" class="btn btn-default"> <span class="glyphicon glyphicon-user"></span> Đăng ký</a>
 <button id="signin" class="btn btn-default" data-toggle="modal" data-target="#login"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</button>
-	
+
 <div id="login" class="modal fade" role="dialog">
 	<div class="modal-dialog" style="width:400px">
 		<div class="modal-content">
@@ -11,7 +20,7 @@
 				<h4 class="modal-title" style="text-align: center; font-weight: bold; font-size: 1.4em; text-transform: uppercase; color: #B00622">Đăng Nhập</h4>
 			</div>
 			<div class="modal-body">
-				@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { ReturnUrl = ViewBag.ReturnUrl }))
+				@using (Html.BeginForm("Login", "Account", new { onsubmit = "return GeneratePwdLogin();" }, FormMethod.Post))
 				{
 					@Html.AntiForgeryToken()
 					@Html.ValidationSummary(true, String.Empty, new { @style = "color:red" })
@@ -32,7 +41,7 @@
 								@Html.LabelFor(m => m.Password)
 							</div>
 							<div>
-								@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Mật khẩu" })
+								@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Mật khẩu", id = "id_login_password" })
 							</div>
 							<div>
 								@Html.ValidationMessageFor(m => m.Password, String.Empty, new { @style = "color:red" })
@@ -40,7 +49,8 @@
 						</div>
 						<div class="row" style="margin-bottom:10px">
 							<div class="col-sm-6">
-								<label><input type="checkbox"> Nhớ tài khoản</label>
+								@Html.CheckBoxFor(m => m.Remember)
+								@Html.LabelFor(m => m.Remember)
 							</div>
 							<div class="col-sm-6 radio-right">
 								<p>
@@ -59,9 +69,9 @@
 </div>
 
 @*<script>
-	$(document).ready(function () {
-		$("#login").modal({
-			backdrop: 'static',
+		$(document).ready(function () {
+			$("#login").modal({
+				backdrop: 'static',
+			});
 		});
-	});
-</script>*@
+	</script>*@
