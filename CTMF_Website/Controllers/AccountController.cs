@@ -79,11 +79,12 @@ namespace CTMF_Website.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return View();
+				return View(model);
 			}
 
 			string username = model.Username;
 			string password = model.Password;
+			bool remember = model.Remember;
 
 			AccountTableAdapter adapter = new AccountTableAdapter();
 			DataTable dt = adapter.GetDataByUsername(username);

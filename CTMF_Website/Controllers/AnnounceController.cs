@@ -21,7 +21,7 @@ namespace CTMF_Website.Controllers
 			return View(dt);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult ListAnnounce()
 		{
 			AnnouncementTableAdapter announcementAdapter = new AnnouncementTableAdapter();
@@ -30,13 +30,13 @@ namespace CTMF_Website.Controllers
 			return View(dt);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult AddNewAnnounce()
 		{
 			return View();
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddNewAnnounce(AnnounceModel announceModel)
@@ -65,7 +65,7 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("AddNewAnnounce", "Announce");
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult EditAnnounce(string announceID)
 		{
 			AnnounceModel announcement = new AnnounceModel();
@@ -87,7 +87,7 @@ namespace CTMF_Website.Controllers
 			return View(announcement);
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Manager"))]
 		[HttpPost]
 		public ActionResult EditAnnounce(AnnounceModel announceModel, string announceID)
 		{
@@ -111,6 +111,7 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("EditAnnounce", "Announce", new { @announceID = announceID });
 		}
 
+		[Authorize(Roles = ("Manager"))]
 		public ActionResult DeleteAnnounce(int announceID)
 		{
 			AnnouncementTableAdapter announceTableAdapter = new AnnouncementTableAdapter();
