@@ -109,7 +109,7 @@ namespace CTMF_Website.Controllers
 				username,
 				DateTime.Now,
 				DateTime.Now.AddMilliseconds(20),
-				false,
+				remember,
 				role
 				);
 				HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
@@ -143,7 +143,7 @@ namespace CTMF_Website.Controllers
 			return RedirectToAction("HomePage", "Home");
 		}
 
-		[AllowAnonymous]
+		[Authorize(Roles = ("Customer, Cafeteria Staff, Manager, Administrator"))]
 		public ActionResult ChangePassword()
 		{
 
