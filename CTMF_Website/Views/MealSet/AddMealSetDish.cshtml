@@ -9,7 +9,7 @@
 	System.Data.DataTable listDish = ViewData["listDish"] as System.Data.DataTable;
 	System.Data.DataTable listMealSetDish = ViewData["listMealSetDish"] as System.Data.DataTable;
 	List<SelectListItem> items = ViewData["DishType"] as List<SelectListItem>;
-	
+
 
 	string max = (string)(Session["maxMealsetDish"]);
 	string exist = (string)(Session["existMealsetDish"]);
@@ -52,7 +52,7 @@
 		if (notExist != '') {
 			alert('@Html.Raw(ViewBag.notExistMealSet)');
 		}
-	})
+	});
 
 	function setRemoveEvent() {
 		$('.remove-meal-set-dish').unbind();
@@ -64,10 +64,9 @@
 		});
 	}
 
-		$(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
-			event.preventDefault();
-			$(this).ekkoLightbox();
-		});
+	$(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
+		event.preventDefault();
+		$(this).ekkoLightbox();
 	});
 </script>
 <div class="container" style="width: 85% !important">
@@ -127,19 +126,19 @@
 				<table style="margin-bottom: 10px;">
 					<tr>
 						<td>
-								<div id="custom-search-input">
-									<div class="input-group">
-										<input type="text" name="search" class="search-query form-control" placeholder="Nhập từ khóa..." />
-										<span class="input-group-btn">
-											<button class="btn btn-danger" type="submit">
-												<span class=" glyphicon glyphicon-search"></span>
-											</button>
-										</span>
-									</div>
+							<div id="custom-search-input">
+								<div class="input-group">
+									<input type="text" name="search" class="search-query form-control" placeholder="Nhập từ khóa..." />
+									<span class="input-group-btn">
+										<button class="btn btn-danger" type="submit">
+											<span class=" glyphicon glyphicon-search"></span>
+										</button>
+									</span>
 								</div>
+							</div>
 						</td>
 						<td>
-								@Html.DropDownList("filter", new SelectList(items, "Value", "Text"), new { @class = "form-control" })
+							@Html.DropDownList("filter", new SelectList(items, "Value", "Text"), new { @class = "form-control" })
 						</td>
 					</tr>
 				</table>
