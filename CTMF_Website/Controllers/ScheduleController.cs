@@ -364,8 +364,9 @@ namespace CTMF_Website.Controllers
 			{
 				DateTime selectedDate = DateTime.Parse(selectedYear + "-" + selectedMonth + "-" + selectedDay);
 				DateTime endDate = selectedDate.AddDays(1).AddTicks(-1);
+				string username = AccountInfo.GetUserName(Request);
 
-				DataTable dt = new UserEatTableAdapter().GetData(AccountInfo.GetUserName(Request), selectedDate, selectedDate, endDate);
+				DataTable dt = new UserEatTableAdapter().GetData(username, selectedDate, selectedDate, endDate);
 
 				List<UserEatJsonModel> result = new List<UserEatJsonModel>();
 				int Unrecord = 0;
@@ -563,6 +564,8 @@ namespace CTMF_Website.Controllers
 					Log.ErrorLog("Can't find ScheduleMealSetDetail with [ScheduleMealSetDetailID] = " + scheduleMealSetDetailID);
 					return Json("error", JsonRequestBehavior.AllowGet);
 				}
+
+				XmlSync.DeleteScheduleMealSetDetailXml(scheduleMealSetDetailID);
 
 				return Json(new { result = "done" }, JsonRequestBehavior.AllowGet);
 			}

@@ -108,14 +108,21 @@ namespace CTMF_Website.Controllers
 				1,
 				username,
 				DateTime.Now,
-				DateTime.Now.AddMilliseconds(20),
+				DateTime.Now.AddDays(20),
 				remember,
 				role
 				);
 				HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
 				string cookieName = FormsAuthentication.FormsCookieName;
 				string cookieValue = FormsAuthentication.Encrypt(ticket);
-				HttpContext.Response.Cookies.Set(new HttpCookie(cookieName, cookieValue));
+				cookie.Path = FormsAuthentication.FormsCookiePath;
+
+				if (remember)
+				{
+					cookie.Expires = ticket.Expiration;
+				}
+
+				HttpContext.Response.Cookies.Set(cookie);
 			}
 			catch (Exception ex)
 			{
