@@ -1,7 +1,26 @@
 ﻿@{
 	ViewBag.Title = "HomePage";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	string register = "";
+
+	try
+	{
+		register = Session["register"].ToString();
+		Session.Remove("register");
+	}
+	catch (Exception ex)
+	{
+		register = "";
+	}
 }
+
+<script>
+	var message = '@Html.Raw(register)';
+	if (message != '') {
+		alert(message);
+	}
+</script>
 <div class="container" style="width: 90% !important">
 	<div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">
 
