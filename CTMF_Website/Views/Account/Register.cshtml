@@ -2,25 +2,9 @@
 @{
 	ViewBag.Title = "Register";
 	Layout = "~/Views/Shared/_Layout.cshtml";
-
-	string register = "";
-
-	try
-	{
-		register = Session["register"].ToString();
-		Session.Remove("register");
-	}
-	catch (Exception ex)
-	{
-		register = "";
-	}
 }
 <script src="~/Scripts/md5.js"></script>
 <script>
-	var message = '@Html.Raw(register)';
-	if (message != '') {
-		alert(message);
-	}
 
 	function GeneratePwd() {
 		if ($("#id_register_password").val() !== "" && $("#id_register_password_confirmation").val() !== "") {
