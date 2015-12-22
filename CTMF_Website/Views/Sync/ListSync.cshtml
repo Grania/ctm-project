@@ -1,0 +1,67 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "ListSync";
+
+	int count = 0;
+
+	string deleteSync = "";
+
+	try
+	{
+		deleteSync = Session["ListSyncMessage"].ToString();
+		Session.Remove("ListSyncMessage");
+	}
+	catch (Exception ex)
+	{
+		deleteSync = "";
+	}
+}
+<link href="~/CSS/table.css" rel="stylesheet" />
+<script type="text/javascript">
+	var message = '@Html.Raw(deleteSync)';
+	if (message != '') {
+		alert(message);
+	}
+</script>
+<div class="container container-fix">
+	<fieldset>
+		<legend class="title">Quản lý đồng bộ hóa</legend>
+		<div>
+			<div class="table-body">
+				<table class="table table-bordered table-hover table-condensed">
+					<thead>
+						<tr>
+							<th>STT</th>
+							<th>Mã số đồng bộ hóa</th>
+							<th>Lần đồng bộ hóa cuối cùng</th>
+							<th>Quản lý</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (System.Data.DataRow row in Model.Rows)
+						{
+							count++;
+							<tr>
+								<td>@count</td>
+								<td>@row["SyncID"]</td>
+								<td>@(((DateTime)row["LastSync"]).ToString("dd/MM/yyyy hh:mm:ss"))</td>
+								<td>
+									<div>
+										<a href="@Url.Action("DeleteSync", "Sync", new { syncID = @row["SyncID"] })" onclick="return confirm('Việc xóa đồng bộ hóa này sẽ làm cho server \nkhông thể nhận được các dữ liệu chưa đươc cập nhật\nBạn có muốn xóa việc đồng bộ hóa \ncho ID: @row["SyncID"] không ?')" class="btn btn-primary delete-sync">Xóa</a>
+									</div>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+			<div id="footer">
+				<div>
+					<nav>
+						<ul class="pager"></ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+</div>

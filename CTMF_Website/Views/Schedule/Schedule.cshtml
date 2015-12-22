@@ -441,7 +441,9 @@
 							$('.date-detail-header').first().before($('<span></span>').attr('id', 'unrecord-span').css({'font-size': '18px'}).text('Không được ghi nhận vào bữa:' + unrecord));
 						}
 
-						var label = 65;
+						//var label = 65;
+						var labels = new Array();
+
 						var schedule = data.result;
 						for (j = 0; j < schedule.length; j++) {
 							var $table = $('#serving-time-table-' + schedule[j].ServingTimeID);
@@ -454,7 +456,7 @@
 
 							if (schedule[j].MealSetID != null) {
 								var $tr = $('<tr></tr>');
-								$tr.append($('<td></td>').text(String.fromCharCode(label)));
+								$tr.append($('<td></td>').text(String.fromCharCode(getLabel(labels, schedule[j].ServingTimeID))));
 
 								var found = false;
 								for (index = 0; index < listScheduleMealSetID.length; index++) {
@@ -483,8 +485,6 @@
 								$tr.append($('<td></td>').append($a));
 
 								$tr.append($('<td></td>').text(schedule[j].Description));
-
-								label++;
 
 								$table.append($tr);
 							}
@@ -616,6 +616,31 @@
 				$divDateDetail.addClass('is-filled');
 			}
 		});
+	}
+
+	function getLabel(labels, servingTimeID) {
+		var found = false;
+		var index;
+		for (i = 0; i < labels.length; i++) {
+			if (labels[i].servingTimeID == servingTimeID) {
+				index = i;
+				found = true;
+				break;
+			}
+		}
+
+		if (!found) {
+			var label = {
+				servingTimeID: servingTimeID,
+				label: 65
+			}
+			labels.push(label);
+			return 65;
+		}
+		else {
+			labels[index].label++;
+			return labels[index].label;
+		}
 	}
 </script>
 <link href="~/CSS/table.css" rel="stylesheet" />

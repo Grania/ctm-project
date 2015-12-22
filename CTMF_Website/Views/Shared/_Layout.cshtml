@@ -177,6 +177,15 @@
 							</span>
 						</a>
 					</li>
+					
+					<li class="has-subnav">
+						<a href="@Url.Action("ListSync", "Sync")">
+							<i class="fa fa-2x"><span class="glyphicon glyphicon-refresh"></span></i>
+							<span class="nav-text">
+								Quản lý đồng bộ hóa
+							</span>
+						</a>
+					</li>
 				}
 				@if (Request.IsAuthenticated && role.Equals("Manager"))
 				{

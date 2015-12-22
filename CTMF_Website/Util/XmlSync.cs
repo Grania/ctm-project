@@ -221,6 +221,28 @@ namespace CTMF_Website.Util
 			return true;
 		}
 
+		internal static DataTable GetListSync()
+		{
+			DataTable dt = new DataTable();
+
+			XDocument xDoc = XDocument.Load(_configFilePath);
+			List<XElement> xElList = xDoc.Element("Clients").Descendants("Client").ToList();
+
+			dt.Columns.Add("SyncID", typeof(string));
+			dt.Columns.Add("LastSync", typeof(DateTime));
+
+			foreach (XElement ele in xElList)
+			{
+				DataRow row = dt.NewRow();
+				row[0] = ele.Attribute("SyncID").Value;
+				row[1] = DateTime.Parse(ele.Attribute("LastSync").Value);
+
+				dt.Rows.Add(row);
+			}
+
+			return dt;
+		}
+
 		//return list xml file to sync from server
 		internal static string RequestSync(string syncID, string filenames)
 		{
@@ -380,6 +402,16 @@ namespace CTMF_Website.Util
 
 						if (insertedDate > lastSync)
 						{
+							if (scheduleMealSetDetailID != null)
+							{
+								int? check = new ScheduleMealSetDetailTableAdapter().CheckID(scheduleMealSetDetailID.Value);
+
+								if (check == null)
+								{
+									scheduleMealSetDetailID = null;
+								}
+							}
+
 							transactionHistoryTA.Insert(username, transactionTypeID, value, transactionContent, scheduleMealSetDetailID,
 								isAuto, insertedDate, updatedBy, lastUpdated);
 

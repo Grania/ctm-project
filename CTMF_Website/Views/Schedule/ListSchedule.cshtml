@@ -130,7 +130,8 @@
 							$('.span-day-off').remove();
 							$('.span-day-on').remove();
 
-							var label = 65;
+							//var label = 65;
+							var labels = new Array();
 							var schedule = result.result;
 
 							var nowDay = '@(toDayDay)';
@@ -175,7 +176,7 @@
 
 								if (schedule[j].MealSetID != null) {
 									var $tr = $('<tr></tr>');
-									$tr.append($('<td></td>').text(String.fromCharCode(label)))
+									$tr.append($('<td></td>').text(String.fromCharCode(getLabel(labels, schedule[j].ServingTimeID))))
 										.append($('<td></td>').text(schedule[j].Name));
 
 									if (schedule[j].Image == null) {
@@ -189,8 +190,6 @@
 									}
 
 									$tr.append($('<td></td>').text(schedule[j].Description));
-
-									label++;
 
 									$table.append($tr);
 								}
@@ -357,6 +356,31 @@
 			var number = ch.charCodeAt(0);
 			number = number - 33;
 			return 'Có lịch cho ' + number + ' suất';
+		}
+	}
+
+	function getLabel(labels, servingTimeID) {
+		var found = false;
+		var index;
+		for (i = 0; i < labels.length; i++) {
+			if (labels[i].servingTimeID == servingTimeID) {
+				index = i;
+				found = true;
+				break;
+			}
+		}
+
+		if (!found) {
+			var label = {
+				servingTimeID: servingTimeID,
+				label: 65
+			}
+			labels.push(label);
+			return 65;
+		}
+		else {
+			labels[index].label++;
+			return labels[index].label;
 		}
 	}
 </script>
