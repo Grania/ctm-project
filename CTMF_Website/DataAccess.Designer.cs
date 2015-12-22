@@ -76,6 +76,8 @@ namespace CTMF_Website {
         
         private UserEatDataTable tableUserEat;
         
+        private FeedbackDataTable tableFeedback;
+        
         private global::System.Data.DataRelation relationFK_DISH_USER_INFO;
         
         private global::System.Data.DataRelation relationFK_EATING_DATE_USER_INFO;
@@ -134,9 +136,9 @@ namespace CTMF_Website {
         
         private global::System.Data.DataRelation relationFK_ACCOUNT_USER_INFO1;
         
-        private global::System.Data.DataRelation relationFK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1;
-        
         private global::System.Data.DataRelation relationFK_SCHEDULE_MEAL_SET_SCHEDULE2;
+        
+        private global::System.Data.DataRelation relationFK_FEEDBACK_USER_INFO;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -243,6 +245,9 @@ namespace CTMF_Website {
                 }
                 if ((ds.Tables["UserEat"] != null)) {
                     base.Tables.Add(new UserEatDataTable(ds.Tables["UserEat"]));
+                }
+                if ((ds.Tables["Feedback"] != null)) {
+                    base.Tables.Add(new FeedbackDataTable(ds.Tables["Feedback"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -524,6 +529,16 @@ namespace CTMF_Website {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public FeedbackDataTable Feedback {
+            get {
+                return this.tableFeedback;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -666,6 +681,9 @@ namespace CTMF_Website {
                 }
                 if ((ds.Tables["UserEat"] != null)) {
                     base.Tables.Add(new UserEatDataTable(ds.Tables["UserEat"]));
+                }
+                if ((ds.Tables["Feedback"] != null)) {
+                    base.Tables.Add(new FeedbackDataTable(ds.Tables["Feedback"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -856,6 +874,12 @@ namespace CTMF_Website {
                     this.tableUserEat.InitVars();
                 }
             }
+            this.tableFeedback = ((FeedbackDataTable)(base.Tables["Feedback"]));
+            if ((initTable == true)) {
+                if ((this.tableFeedback != null)) {
+                    this.tableFeedback.InitVars();
+                }
+            }
             this.relationFK_DISH_USER_INFO = this.Relations["FK_DISH_USER_INFO"];
             this.relationFK_EATING_DATE_USER_INFO = this.Relations["FK_EATING_DATE_USER_INFO"];
             this.relationFK_ANNOUNCEMENT_USER_INFO = this.Relations["FK_ANNOUNCEMENT_USER_INFO"];
@@ -885,8 +909,8 @@ namespace CTMF_Website {
             this.relationFK_MEAL_DISH_MEAL2 = this.Relations["FK_MEAL_DISH_MEAL2"];
             this.relationFK_MEAL_DISH_DISH2 = this.Relations["FK_MEAL_DISH_DISH2"];
             this.relationFK_ACCOUNT_USER_INFO1 = this.Relations["FK_ACCOUNT_USER_INFO1"];
-            this.relationFK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1 = this.Relations["FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1"];
             this.relationFK_SCHEDULE_MEAL_SET_SCHEDULE2 = this.Relations["FK_SCHEDULE_MEAL_SET_SCHEDULE2"];
+            this.relationFK_FEEDBACK_USER_INFO = this.Relations["FK_FEEDBACK_USER_INFO"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -949,6 +973,8 @@ namespace CTMF_Website {
             base.Tables.Add(this.tableDebtCustomer);
             this.tableUserEat = new UserEatDataTable();
             base.Tables.Add(this.tableUserEat);
+            this.tableFeedback = new FeedbackDataTable();
+            base.Tables.Add(this.tableFeedback);
             this.relationFK_DISH_USER_INFO = new global::System.Data.DataRelation("FK_DISH_USER_INFO", new global::System.Data.DataColumn[] {
                         this.tableUserInfo.UsernameColumn}, new global::System.Data.DataColumn[] {
                         this.tableDish.UpdatedByColumn}, false);
@@ -1065,14 +1091,14 @@ namespace CTMF_Website {
                         this.tableUserInfo.UsernameColumn}, new global::System.Data.DataColumn[] {
                         this.tableDebtCustomer.UsernameColumn}, false);
             this.Relations.Add(this.relationFK_ACCOUNT_USER_INFO1);
-            this.relationFK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1 = new global::System.Data.DataRelation("FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1", new global::System.Data.DataColumn[] {
-                        this.tableUserEat.ScheduleMealSetDetailIDColumn}, new global::System.Data.DataColumn[] {
-                        this.tableTransactionHistory.ScheduleMealSetDetailIDColumn}, false);
-            this.Relations.Add(this.relationFK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1);
             this.relationFK_SCHEDULE_MEAL_SET_SCHEDULE2 = new global::System.Data.DataRelation("FK_SCHEDULE_MEAL_SET_SCHEDULE2", new global::System.Data.DataColumn[] {
                         this.tableScheduleMonthForUser.ScheduleIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableScheduleMealSetDetail.ScheduleIDColumn}, false);
             this.Relations.Add(this.relationFK_SCHEDULE_MEAL_SET_SCHEDULE2);
+            this.relationFK_FEEDBACK_USER_INFO = new global::System.Data.DataRelation("FK_FEEDBACK_USER_INFO", new global::System.Data.DataColumn[] {
+                        this.tableUserInfo.UsernameColumn}, new global::System.Data.DataColumn[] {
+                        this.tableFeedback.UpdatedByColumn}, false);
+            this.Relations.Add(this.relationFK_FEEDBACK_USER_INFO);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1233,6 +1259,12 @@ namespace CTMF_Website {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private bool ShouldSerializeFeedback() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
@@ -1363,6 +1395,9 @@ namespace CTMF_Website {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public delegate void UserEatRowChangeEventHandler(object sender, UserEatRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public delegate void FeedbackRowChangeEventHandler(object sender, FeedbackRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -10400,13 +10435,10 @@ namespace CTMF_Website {
                 base.Columns.Add(this.columnScheduleMealSetDetailID);
                 this.columnInsertedDate = new global::System.Data.DataColumn("InsertedDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnInsertedDate);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnScheduleMealSetDetailID}, false));
                 this.columnScheduleMealSetDetailID.AutoIncrement = true;
                 this.columnScheduleMealSetDetailID.AutoIncrementSeed = -1;
                 this.columnScheduleMealSetDetailID.AutoIncrementStep = -1;
                 this.columnScheduleMealSetDetailID.ReadOnly = true;
-                this.columnScheduleMealSetDetailID.Unique = true;
                 this.columnInsertedDate.AllowDBNull = false;
             }
             
@@ -10494,6 +10526,318 @@ namespace CTMF_Website {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "UserEatDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class FeedbackDataTable : global::System.Data.TypedTableBase<FeedbackRow> {
+            
+            private global::System.Data.DataColumn columnFeedbackID;
+            
+            private global::System.Data.DataColumn columnComment;
+            
+            private global::System.Data.DataColumn columnInsertedDate;
+            
+            private global::System.Data.DataColumn columnUpdatedBy;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public FeedbackDataTable() {
+                this.TableName = "Feedback";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal FeedbackDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected FeedbackDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn FeedbackIDColumn {
+                get {
+                    return this.columnFeedbackID;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn CommentColumn {
+                get {
+                    return this.columnComment;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn InsertedDateColumn {
+                get {
+                    return this.columnInsertedDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn UpdatedByColumn {
+                get {
+                    return this.columnUpdatedBy;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public FeedbackRow this[int index] {
+                get {
+                    return ((FeedbackRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event FeedbackRowChangeEventHandler FeedbackRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event FeedbackRowChangeEventHandler FeedbackRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event FeedbackRowChangeEventHandler FeedbackRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event FeedbackRowChangeEventHandler FeedbackRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void AddFeedbackRow(FeedbackRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public FeedbackRow AddFeedbackRow(string Comment, System.DateTime InsertedDate, UserInfoRow parentUserInfoRowByFK_FEEDBACK_USER_INFO) {
+                FeedbackRow rowFeedbackRow = ((FeedbackRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        Comment,
+                        InsertedDate,
+                        null};
+                if ((parentUserInfoRowByFK_FEEDBACK_USER_INFO != null)) {
+                    columnValuesArray[3] = parentUserInfoRowByFK_FEEDBACK_USER_INFO[0];
+                }
+                rowFeedbackRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowFeedbackRow);
+                return rowFeedbackRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public FeedbackRow FindByFeedbackID(int FeedbackID) {
+                return ((FeedbackRow)(this.Rows.Find(new object[] {
+                            FeedbackID})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                FeedbackDataTable cln = ((FeedbackDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new FeedbackDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal void InitVars() {
+                this.columnFeedbackID = base.Columns["FeedbackID"];
+                this.columnComment = base.Columns["Comment"];
+                this.columnInsertedDate = base.Columns["InsertedDate"];
+                this.columnUpdatedBy = base.Columns["UpdatedBy"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            private void InitClass() {
+                this.columnFeedbackID = new global::System.Data.DataColumn("FeedbackID", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFeedbackID);
+                this.columnComment = new global::System.Data.DataColumn("Comment", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnComment);
+                this.columnInsertedDate = new global::System.Data.DataColumn("InsertedDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnInsertedDate);
+                this.columnUpdatedBy = new global::System.Data.DataColumn("UpdatedBy", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUpdatedBy);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnFeedbackID}, true));
+                this.columnFeedbackID.AutoIncrement = true;
+                this.columnFeedbackID.AutoIncrementSeed = -1;
+                this.columnFeedbackID.AutoIncrementStep = -1;
+                this.columnFeedbackID.AllowDBNull = false;
+                this.columnFeedbackID.ReadOnly = true;
+                this.columnFeedbackID.Unique = true;
+                this.columnComment.AllowDBNull = false;
+                this.columnComment.MaxLength = 500;
+                this.columnInsertedDate.AllowDBNull = false;
+                this.columnUpdatedBy.AllowDBNull = false;
+                this.columnUpdatedBy.MaxLength = 254;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public FeedbackRow NewFeedbackRow() {
+                return ((FeedbackRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new FeedbackRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(FeedbackRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.FeedbackRowChanged != null)) {
+                    this.FeedbackRowChanged(this, new FeedbackRowChangeEvent(((FeedbackRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.FeedbackRowChanging != null)) {
+                    this.FeedbackRowChanging(this, new FeedbackRowChangeEvent(((FeedbackRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.FeedbackRowDeleted != null)) {
+                    this.FeedbackRowDeleted(this, new FeedbackRowChangeEvent(((FeedbackRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.FeedbackRowDeleting != null)) {
+                    this.FeedbackRowDeleting(this, new FeedbackRowChangeEvent(((FeedbackRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void RemoveFeedbackRow(FeedbackRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                DataAccess ds = new DataAccess();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "FeedbackDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -11550,17 +11894,6 @@ namespace CTMF_Website {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public UserEatRow UserEatRow {
-                get {
-                    return ((UserEatRow)(this.GetParentRow(this.Table.ParentRelations["FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsScheduleMealSetDetailIDNull() {
                 return this.IsNull(this.tableTransactionHistory.ScheduleMealSetDetailIDColumn);
             }
@@ -11972,6 +12305,17 @@ namespace CTMF_Website {
                 }
                 else {
                     return ((DebtCustomerRow[])(base.GetChildRows(this.Table.ChildRelations["FK_ACCOUNT_USER_INFO1"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public FeedbackRow[] GetFeedbackRows() {
+                if ((this.Table.ChildRelations["FK_FEEDBACK_USER_INFO"] == null)) {
+                    return new FeedbackRow[0];
+                }
+                else {
+                    return ((FeedbackRow[])(base.GetChildRows(this.Table.ChildRelations["FK_FEEDBACK_USER_INFO"])));
                 }
             }
         }
@@ -14435,15 +14779,74 @@ namespace CTMF_Website {
             public void SetScheduleMealSetDetailIDNull() {
                 this[this.tableUserEat.ScheduleMealSetDetailIDColumn] = global::System.Convert.DBNull;
             }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class FeedbackRow : global::System.Data.DataRow {
+            
+            private FeedbackDataTable tableFeedback;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TransactionHistoryRow[] GetTransactionHistoryRows() {
-                if ((this.Table.ChildRelations["FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1"] == null)) {
-                    return new TransactionHistoryRow[0];
+            internal FeedbackRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableFeedback = ((FeedbackDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public int FeedbackID {
+                get {
+                    return ((int)(this[this.tableFeedback.FeedbackIDColumn]));
                 }
-                else {
-                    return ((TransactionHistoryRow[])(base.GetChildRows(this.Table.ChildRelations["FK_TRANSACTION_HISTORY_SCHEDULE_MEAL_SET1"])));
+                set {
+                    this[this.tableFeedback.FeedbackIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Comment {
+                get {
+                    return ((string)(this[this.tableFeedback.CommentColumn]));
+                }
+                set {
+                    this[this.tableFeedback.CommentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public System.DateTime InsertedDate {
+                get {
+                    return ((global::System.DateTime)(this[this.tableFeedback.InsertedDateColumn]));
+                }
+                set {
+                    this[this.tableFeedback.InsertedDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string UpdatedBy {
+                get {
+                    return ((string)(this[this.tableFeedback.UpdatedByColumn]));
+                }
+                set {
+                    this[this.tableFeedback.UpdatedByColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public UserInfoRow UserInfoRow {
+                get {
+                    return ((UserInfoRow)(this.GetParentRow(this.Table.ParentRelations["FK_FEEDBACK_USER_INFO"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_FEEDBACK_USER_INFO"]);
                 }
             }
         }
@@ -15318,6 +15721,40 @@ namespace CTMF_Website {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public UserEatRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public class FeedbackRowChangeEvent : global::System.EventArgs {
+            
+            private FeedbackRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public FeedbackRowChangeEvent(FeedbackRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public FeedbackRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -22074,7 +22511,7 @@ VALUES        (@Name,@Image,@Description,@CanEatMore,@InsertedDate,@UpdatedBy,@L
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[5];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[6];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT        ScheduleMealSetDetailID, MealSetID, ScheduleID, InsertedDate, LastU" +
@@ -22082,36 +22519,42 @@ VALUES        (@Name,@Image,@Description,@CanEatMore,@InsertedDate,@UpdatedBy,@L
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT InsertedDate, LastUpdated, MealSetID, ScheduleID, ScheduleMealSetDetailID " +
-                "FROM ScheduleMealSetDetail WHERE (LastUpdated > @FromDate) AND (LastUpdated <= @" +
-                "ToDate)";
+            this._commandCollection[1].CommandText = "SELECT        ScheduleMealSetDetailID\r\nFROM            ScheduleMealSetDetail\r\nWHE" +
+                "RE        (ScheduleMealSetDetailID = @ScheduleMealSetDetailID)";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FromDate", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ToDate", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScheduleMealSetDetailID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ScheduleMealSetDetailID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[2].Connection = this.Connection;
             this._commandCollection[2].CommandText = "SELECT InsertedDate, LastUpdated, MealSetID, ScheduleID, ScheduleMealSetDetailID " +
-                "FROM ScheduleMealSetDetail WHERE (MealSetID = @MealSetID) AND (ScheduleID = @Sch" +
-                "eduleID)";
+                "FROM ScheduleMealSetDetail WHERE (LastUpdated > @FromDate) AND (LastUpdated <= @" +
+                "ToDate)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MealSetID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "MealSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScheduleID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ScheduleID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FromDate", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ToDate", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[3] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[3].Connection = this.Connection;
             this._commandCollection[3].CommandText = "SELECT InsertedDate, LastUpdated, MealSetID, ScheduleID, ScheduleMealSetDetailID " +
-                "FROM ScheduleMealSetDetail WHERE (ScheduleID = @ScheduleID)";
+                "FROM ScheduleMealSetDetail WHERE (MealSetID = @MealSetID) AND (ScheduleID = @Sch" +
+                "eduleID)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MealSetID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "MealSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScheduleID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ScheduleID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[4] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "INSERT INTO [ScheduleMealSetDetail] ([MealSetID], [ScheduleID], [InsertedDate], [" +
+            this._commandCollection[4].CommandText = "SELECT InsertedDate, LastUpdated, MealSetID, ScheduleID, ScheduleMealSetDetailID " +
+                "FROM ScheduleMealSetDetail WHERE (ScheduleID = @ScheduleID)";
+            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScheduleID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ScheduleID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[5] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[5].Connection = this.Connection;
+            this._commandCollection[5].CommandText = "INSERT INTO [ScheduleMealSetDetail] ([MealSetID], [ScheduleID], [InsertedDate], [" +
                 "LastUpdated]) VALUES (@MealSetID, @ScheduleID, @InsertedDate, @LastUpdated)\r\n   " +
                 "                          SELECT        @@IDENTITY";
-            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MealSetID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MealSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScheduleID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ScheduleID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@InsertedDate", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "InsertedDate", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[4].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LastUpdated", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[5].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MealSetID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MealSetID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[5].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScheduleID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ScheduleID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[5].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@InsertedDate", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "InsertedDate", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[5].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LastUpdated", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -22130,7 +22573,7 @@ VALUES        (@Name,@Image,@Description,@CanEatMore,@InsertedDate,@UpdatedBy,@L
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual DataAccess.ScheduleMealSetDetailDataTable GetDataByDate(System.DateTime FromDate, System.DateTime ToDate) {
-            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand = this.CommandCollection[2];
             this.Adapter.SelectCommand.Parameters[0].Value = ((System.DateTime)(FromDate));
             this.Adapter.SelectCommand.Parameters[1].Value = ((System.DateTime)(ToDate));
             DataAccess.ScheduleMealSetDetailDataTable dataTable = new DataAccess.ScheduleMealSetDetailDataTable();
@@ -22143,7 +22586,7 @@ VALUES        (@Name,@Image,@Description,@CanEatMore,@InsertedDate,@UpdatedBy,@L
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual DataAccess.ScheduleMealSetDetailDataTable GetDataByMealSetIDScheduleID(int MealSetID, int ScheduleID) {
-            this.Adapter.SelectCommand = this.CommandCollection[2];
+            this.Adapter.SelectCommand = this.CommandCollection[3];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(MealSetID));
             this.Adapter.SelectCommand.Parameters[1].Value = ((int)(ScheduleID));
             DataAccess.ScheduleMealSetDetailDataTable dataTable = new DataAccess.ScheduleMealSetDetailDataTable();
@@ -22156,7 +22599,7 @@ VALUES        (@Name,@Image,@Description,@CanEatMore,@InsertedDate,@UpdatedBy,@L
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
         public virtual DataAccess.ScheduleMealSetDetailDataTable GetDataByScheduleID(int ScheduleID) {
-            this.Adapter.SelectCommand = this.CommandCollection[3];
+            this.Adapter.SelectCommand = this.CommandCollection[4];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(ScheduleID));
             DataAccess.ScheduleMealSetDetailDataTable dataTable = new DataAccess.ScheduleMealSetDetailDataTable();
             this.Adapter.Fill(dataTable);
@@ -22268,9 +22711,38 @@ VALUES        (@Name,@Image,@Description,@CanEatMore,@InsertedDate,@UpdatedBy,@L
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual global::System.Nullable<int> CheckID(int ScheduleMealSetDetailID) {
+            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[1];
+            command.Parameters[0].Value = ((int)(ScheduleMealSetDetailID));
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            object returnValue;
+            try {
+                returnValue = command.ExecuteScalar();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            if (((returnValue == null) 
+                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
+                return new global::System.Nullable<int>();
+            }
+            else {
+                return new global::System.Nullable<int>(((int)(returnValue)));
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
         public virtual object InsertScalar(int MealSetID, int ScheduleID, System.DateTime InsertedDate, System.DateTime LastUpdated) {
-            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[4];
+            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[5];
             command.Parameters[0].Value = ((int)(MealSetID));
             command.Parameters[1].Value = ((int)(ScheduleID));
             command.Parameters[2].Value = ((System.DateTime)(InsertedDate));
@@ -24138,6 +24610,306 @@ and (
     }
     
     /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class FeedbackTableAdapter : global::System.ComponentModel.Component {
+        
+        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
+        
+        private global::System.Data.SqlClient.SqlConnection _connection;
+        
+        private global::System.Data.SqlClient.SqlTransaction _transaction;
+        
+        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public FeedbackTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        internal global::System.Data.SqlClient.SqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        internal global::System.Data.SqlClient.SqlTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "Feedback";
+            tableMapping.ColumnMappings.Add("FeedbackID", "FeedbackID");
+            tableMapping.ColumnMappings.Add("Comment", "Comment");
+            tableMapping.ColumnMappings.Add("InsertedDate", "InsertedDate");
+            tableMapping.ColumnMappings.Add("UpdatedBy", "UpdatedBy");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM [Feedback] WHERE (([FeedbackID] = @Original_FeedbackID))";
+            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FeedbackID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FeedbackID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [Feedback] ([Comment], [InsertedDate], [UpdatedBy]) VALUES (@Comment," +
+                " @InsertedDate, @UpdatedBy)";
+            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Comment", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Comment", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@InsertedDate", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "InsertedDate", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UpdatedBy", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "UpdatedBy", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = "UPDATE [Feedback] SET [Comment] = @Comment, [InsertedDate] = @InsertedDate, [Upda" +
+                "tedBy] = @UpdatedBy WHERE (([FeedbackID] = @Original_FeedbackID))";
+            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Comment", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Comment", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@InsertedDate", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "InsertedDate", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UpdatedBy", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "UpdatedBy", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FeedbackID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FeedbackID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::System.Data.SqlClient.SqlConnection();
+            this._connection.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["CTMFConnectionString"].ConnectionString;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT        FeedbackID, Comment, InsertedDate, UpdatedBy\r\nFROM            Feedb" +
+                "ack";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual DataAccess.FeedbackDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            DataAccess.FeedbackDataTable dataTable = new DataAccess.FeedbackDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataAccess.FeedbackDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataAccess dataSet) {
+            return this.Adapter.Update(dataSet, "Feedback");
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new global::System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
+        public virtual int Delete(int Original_FeedbackID) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_FeedbackID));
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
+            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.DeleteCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.DeleteCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
+        public virtual int Insert(string Comment, System.DateTime InsertedDate, string UpdatedBy) {
+            if ((Comment == null)) {
+                throw new global::System.ArgumentNullException("Comment");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(Comment));
+            }
+            this.Adapter.InsertCommand.Parameters[1].Value = ((System.DateTime)(InsertedDate));
+            if ((UpdatedBy == null)) {
+                throw new global::System.ArgumentNullException("UpdatedBy");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(UpdatedBy));
+            }
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
+            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.InsertCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.InsertCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(string Comment, System.DateTime InsertedDate, string UpdatedBy, int Original_FeedbackID) {
+            if ((Comment == null)) {
+                throw new global::System.ArgumentNullException("Comment");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(Comment));
+            }
+            this.Adapter.UpdateCommand.Parameters[1].Value = ((System.DateTime)(InsertedDate));
+            if ((UpdatedBy == null)) {
+                throw new global::System.ArgumentNullException("UpdatedBy");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(UpdatedBy));
+            }
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(Original_FeedbackID));
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
+            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.UpdateCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.UpdateCommand.Connection.Close();
+                }
+            }
+        }
+    }
+    
+    /// <summary>
     ///TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -24174,6 +24946,8 @@ and (
         private ScheduleMealSetDetailTableAdapter _scheduleMealSetDetailTableAdapter;
         
         private MealSetDishDetailTableAdapter _mealSetDishDetailTableAdapter;
+        
+        private FeedbackTableAdapter _feedbackTableAdapter;
         
         private bool _backupDataSetBeforeUpdate;
         
@@ -24374,6 +25148,20 @@ and (
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
+            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
+            "a", "System.Drawing.Design.UITypeEditor")]
+        public FeedbackTableAdapter FeedbackTableAdapter {
+            get {
+                return this._feedbackTableAdapter;
+            }
+            set {
+                this._feedbackTableAdapter = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public bool BackupDataSetBeforeUpdate {
             get {
                 return this._backupDataSetBeforeUpdate;
@@ -24443,6 +25231,10 @@ and (
                             && (this._mealSetDishDetailTableAdapter.Connection != null))) {
                     return this._mealSetDishDetailTableAdapter.Connection;
                 }
+                if (((this._feedbackTableAdapter != null) 
+                            && (this._feedbackTableAdapter.Connection != null))) {
+                    return this._feedbackTableAdapter.Connection;
+                }
                 return null;
             }
             set {
@@ -24495,6 +25287,9 @@ and (
                 if ((this._mealSetDishDetailTableAdapter != null)) {
                     count = (count + 1);
                 }
+                if ((this._feedbackTableAdapter != null)) {
+                    count = (count + 1);
+                }
                 return count;
             }
         }
@@ -24515,21 +25310,21 @@ and (
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._userInfoTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.UserInfo.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._userInfoTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             if ((this._servingTimeTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.ServingTime.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
                     result = (result + this._servingTimeTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._userInfoTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.UserInfo.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._userInfoTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -24560,21 +25355,21 @@ and (
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._dishTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.Dish.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._dishTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             if ((this._scheduleMealSetDetailTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.ScheduleMealSetDetail.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
                     result = (result + this._scheduleMealSetDetailTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._dishTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.Dish.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._dishTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -24623,6 +25418,15 @@ and (
                     allChangedRows.AddRange(updatedRows);
                 }
             }
+            if ((this._feedbackTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.Feedback.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._feedbackTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
             return result;
         }
         
@@ -24641,19 +25445,19 @@ and (
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._userInfoTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.UserInfo.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._userInfoTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             if ((this._servingTimeTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.ServingTime.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
                     result = (result + this._servingTimeTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._userInfoTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.UserInfo.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._userInfoTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -24681,19 +25485,19 @@ and (
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._dishTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.Dish.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._dishTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             if ((this._scheduleMealSetDetailTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.ScheduleMealSetDetail.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
                     result = (result + this._scheduleMealSetDetailTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._dishTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.Dish.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._dishTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -24737,6 +25541,14 @@ and (
                     allAddedRows.AddRange(addedRows);
                 }
             }
+            if ((this._feedbackTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.Feedback.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._feedbackTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
             return result;
         }
         
@@ -24747,6 +25559,14 @@ and (
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private int UpdateDeletedRows(DataAccess dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
+            if ((this._feedbackTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.Feedback.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._feedbackTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
             if ((this._announcementTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.Announcement.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
@@ -24787,19 +25607,19 @@ and (
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._scheduleMealSetDetailTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.ScheduleMealSetDetail.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._scheduleMealSetDetailTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
             if ((this._dishTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.Dish.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._dishTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._scheduleMealSetDetailTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.ScheduleMealSetDetail.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._scheduleMealSetDetailTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -24827,19 +25647,19 @@ and (
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._servingTimeTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.ServingTime.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._servingTimeTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
             if ((this._userInfoTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.UserInfo.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._userInfoTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._servingTimeTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.ServingTime.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._servingTimeTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -24952,6 +25772,11 @@ and (
             }
             if (((this._mealSetDishDetailTableAdapter != null) 
                         && (this.MatchTableAdapterConnection(this._mealSetDishDetailTableAdapter.Connection) == false))) {
+                throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
+                        "tring.");
+            }
+            if (((this._feedbackTableAdapter != null) 
+                        && (this.MatchTableAdapterConnection(this._feedbackTableAdapter.Connection) == false))) {
                 throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
                         "tring.");
             }
@@ -25104,6 +25929,15 @@ and (
                         adaptersWithAcceptChangesDuringUpdate.Add(this._mealSetDishDetailTableAdapter.Adapter);
                     }
                 }
+                if ((this._feedbackTableAdapter != null)) {
+                    revertConnections.Add(this._feedbackTableAdapter, this._feedbackTableAdapter.Connection);
+                    this._feedbackTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
+                    this._feedbackTableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
+                    if (this._feedbackTableAdapter.Adapter.AcceptChangesDuringUpdate) {
+                        this._feedbackTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
+                        adaptersWithAcceptChangesDuringUpdate.Add(this._feedbackTableAdapter.Adapter);
+                    }
+                }
                 // 
                 //---- Perform updates -----------
                 //
@@ -25213,6 +26047,10 @@ and (
                 if ((this._mealSetDishDetailTableAdapter != null)) {
                     this._mealSetDishDetailTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._mealSetDishDetailTableAdapter]));
                     this._mealSetDishDetailTableAdapter.Transaction = null;
+                }
+                if ((this._feedbackTableAdapter != null)) {
+                    this._feedbackTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._feedbackTableAdapter]));
+                    this._feedbackTableAdapter.Transaction = null;
                 }
                 if ((0 < adaptersWithAcceptChangesDuringUpdate.Count)) {
                     global::System.Data.Common.DataAdapter[] adapters = new System.Data.Common.DataAdapter[adaptersWithAcceptChangesDuringUpdate.Count];
