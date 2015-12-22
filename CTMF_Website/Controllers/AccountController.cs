@@ -278,7 +278,7 @@ namespace CTMF_Website.Controllers
 				}
 			}
 
-			return RedirectToAction("Register", "Account");
+			return RedirectToAction("HomePage", "Home");
 		}
 
 		[Authorize(Roles = "Administrator")]
