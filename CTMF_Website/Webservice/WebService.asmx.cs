@@ -97,11 +97,11 @@ namespace CTMF_Website.Webservice
 
 				userInfoTA.Update(row.Field<string>("Username"), row.Field<string>("Name"), row.Field<string>("TypeShortName")
 					, row.Field<int>("AmountOfMoney"), row.Field<DateTime>("LastUpdatedMoney"), image, lastUpdatedFingerPrint
-					, fingerPosition, row.Field<bool>("IsCafeteriaStaff"), row.Field<bool>("IsActive"), row.Field<DateTime>("InsertedDate")
+					, fingerPosition, row.Field<bool>("IsCafeteriaStaff"), true, row.Field<DateTime>("InsertedDate")
 					, row.Field<string>("UpdatedBy"), row.Field<DateTime>("LastUpdated"), username);
 				XmlSync.SaveUserInfoXml(row.Field<string>("Username"), row.Field<string>("Name"), row.Field<string>("TypeShortName")
 					, row.Field<int>("AmountOfMoney"), row.Field<DateTime>("LastUpdatedMoney"), image, lastUpdatedFingerPrint
-					, fingerPosition, row.Field<bool>("IsCafeteriaStaff"), row.Field<bool>("IsActive"), row.Field<DateTime>("InsertedDate")
+					, fingerPosition, row.Field<bool>("IsCafeteriaStaff"), true, row.Field<DateTime>("InsertedDate")
 					, row.Field<string>("UpdatedBy"), row.Field<DateTime>("LastUpdated"), ignoreSyncID);
 				return true;
 			}
