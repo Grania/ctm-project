@@ -28,7 +28,7 @@ namespace CTMF_Website.Models
 		[Required(ErrorMessage = "Vui lòng nhập mật khẩu.")]
 		[DataType(DataType.Password)]
 		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0} tối đa {1} ký tự, tối thiểu {2} ký tự")]
-		[RegularExpression(@"^(?![!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`])(?=.*[A-z])(?=.*[0-9])(?=.*?[!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`])[a-zA-Z0-9!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`]+$", ErrorMessage = "Mật khẩu sai định dạng")]
+		//[RegularExpression(@"^(?![!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`])(?=.*[A-z])(?=.*[0-9])(?=.*?[!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`])[a-zA-Z0-9!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`]+$", ErrorMessage = "Mật khẩu sai định dạng")]
 		[Display(Name = "Mật khẩu")]
 		public string Password { get; set; }
 
@@ -137,7 +137,7 @@ namespace CTMF_Website.Models
 		[Required(ErrorMessage = "Vui lòng nhập mật khẩu mới.")]
 		[DataType(DataType.Password)]
 		[StringLength(20, MinimumLength = 6, ErrorMessage = "{0} tối đa {1} ký tự, tối thiểu {2} ký tự")]
-		[RegularExpression(@"^(?![!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`])(?=.*[A-z])(?=.*[0-9])(?=.*?[!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`])[a-zA-Z0-9!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`]+$", ErrorMessage = "Mật khẩu sai định dạng")]
+		//[RegularExpression(@"^(?![!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`])(?=.*[A-z])(?=.*[0-9])(?=.*?[!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`])[a-zA-Z0-9!@#$%\^&*\(\)\-_+=;:'""\/\[\]{},.<>|`]+$", ErrorMessage = "Mật khẩu sai định dạng")]
 		[Display(Name = "Mật khẩu mới")]
 		public string Password { get; set; }
 
